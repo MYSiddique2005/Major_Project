@@ -1,0 +1,16 @@
+# IntelliERP backend - Phase 2 (PostgreSQL persistence; still no LLM dependencies by design)
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+pydantic-settings>=2.3
+PyJWT>=2.8
+bcrypt>=4.1
+
+# Persistence
+SQLAlchemy>=2.0
+alembic>=1.13
+psycopg[binary]>=3.2
+
+# Testing
+pytest>=8.0
+httpx2>=2.0  # HTTP client used by FastAPI TestClient
