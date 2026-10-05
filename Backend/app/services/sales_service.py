@@ -1,5 +1,5 @@
 from app.core.exceptions import NotFoundError
-from app.models.entities import SalesOrder
+from app.models.entities import Product, SalesOrder
 from app.models.enums import SalesStatus
 from app.repositories.base import ProductRepository, SalesRepository
 from app.schemas.sales import SalesOrderResponse, SalesStats
@@ -11,8 +11,8 @@ class SalesService:
         self._sales = sales
         self._products = products
 
-    def _to_response(self, order: SalesOrder) -> SalesOrderResponse:
-        product = self._products.get(order.product_id)
+    def _to_response(self, order: SalesOrder, product: Product | None = None) -> SalesOrderResponse:
+        product = product or self._products.get(order.product_id)
         return SalesOrderResponse(
             **order.model_dump(),
             product_name=product.name if product else "Unknown product",
@@ -23,14 +23,14 @@ class SalesService:
     def list_orders(
         self, search: str | None = None, status: SalesStatus | None = None, product_id: str | None = None
     ) -> list[SalesOrderResponse]:
-        orders = (self._to_response(o) for o in self._sales.list())
-        result = [
-            o
-            for o in orders
-            if (status is None or o.status == status)
-            and (product_id is None or o.product_id == product_id)
-            and matches_search(search, o.id, o.customer, o.product_name, o.sku)
-        ]
+        # Products are read once, not once per order.
+        products = {p.id: p for p in self._products.list()}
+        orders = (
+            self._to_response(o, products.get(o.product_id))
+            for o in self._sales.list()
+            if (status is None or o.status == status) and (product_id is None or o.product_id == product_id)
+        )
+        result = [o for o in orders if matches_search(search, o.id, o.customer, o.product_name, o.sku)]
         return sorted(result, key=lambda o: (o.order_date, o.id), reverse=True)
 
     def get_order(self, order_id: str) -> SalesOrderResponse:

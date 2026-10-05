@@ -84,3 +84,37 @@ def test_failed_login_audit_is_committed(client):
 def test_database_constraints_reject_invalid_data(client, statement):
     with _session() as session, pytest.raises(IntegrityError):
         session.execute(text(statement))
+
+
+def test_dataset_loader_moves_history_to_today(client, auth):
+    from datetime import date
+
+    from app.db.load_dataset import DEFAULT_DATA_DIR, load
+    from app.db.models import PurchaseOrderModel, SalesOrderModel
+    from app.db.seed import clear
+
+    if not DEFAULT_DATA_DIR.exists():
+        pytest.skip("Data/processed/erp has not been built")
+
+    today = date.today()
+    with _session() as session:
+        clear(session)
+        counts = load(session, DEFAULT_DATA_DIR, months=1, today=today)
+        session.commit()
+        order_dates = session.scalars(select(SalesOrderModel.order_date)).all()
+        open_orders = session.scalars(
+            select(PurchaseOrderModel).where(PurchaseOrderModel.actual_delivery.is_(None))
+        ).all()
+
+    assert counts["products"] == 227 and counts["suppliers"] == 7
+    assert max(order_dates) == today and (today - min(order_dates)).days < 31
+    assert open_orders and all(po.status == "Ordered" for po in open_orders)
+
+    headers = auth("admin")
+    assert client.get(f"{API}/dashboard/summary", headers=headers).json()["total_orders"] == counts["sales_orders"]
+    assert len(client.get(f"{API}/analytics/stock-risk", headers=headers).json()) == 227
+    # New purchase orders continue after the loaded IDs.
+    draft = client.post(
+        f"{API}/procurement", json={"supplier_id": "S004", "product_id": "P100", "quantity": 12}, headers=auth("procurement")
+    )
+    assert draft.status_code == 201, draft.text

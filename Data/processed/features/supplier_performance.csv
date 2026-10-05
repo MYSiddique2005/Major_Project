@@ -1,0 +1,14 @@
+supplier_id,supplier_name,supplier_category,country,payment_days,products_supplied,purchase_orders,first_order_date,last_order_date,purchase_order_lines,units_ordered,units_received,order_value,open_lines,avg_delivery_days,max_delivery_days,avg_days_late,on_time_rate_pct,stated_lead_time_days,fill_rate_pct,overdue_lines,status
+S001,A Datum Corporation,Novelty Goods Supplier,United States,14,8,88,2016-01-02,2016-05-27,205,139044,138804,700539.0,0,2.75,6.0,0.17,93.66,3.0,99.8,0,Active
+S002,"Contoso, Ltd.",Novelty Goods Supplier,United States,7,3,231,2013-01-14,2016-05-26,251,17270,17088,94985.0,0,2.4,10.0,0.62,84.46,2.0,98.9,0,Active
+S003,Consolidated Messenger,Courier Services Supplier,United States,30,0,0,,,0,0,0,,0,,,,,,,0,Inactive
+S004,"Fabrikam, Inc.",Clothing Supplier,United States,30,74,1908,2013-01-04,2016-05-31,6106,2845972,2821369,26185762.0,39,9.98,16.0,0.13,93.84,10.24,99.1,0,Active
+S005,Graphic Design Institute,Novelty Goods Supplier,United States,14,42,1005,2013-01-05,2016-05-31,3485,244411,241641,1099849.5,25,11.95,19.0,0.32,90.2,12.0,98.9,0,Active
+S006,Humongous Insurance,Insurance Services Supplier,United States,14,0,0,,,0,0,0,,0,,,,,,,0,Inactive
+S007,"Litware, Inc.",Packaging Supplier,United States,30,67,1338,2013-01-05,2016-05-31,5526,5874733,5760512,49989439.1,70,15.34,29.0,1.28,74.67,14.36,98.1,1,Active
+S008,Lucerne Publishing,Novelty Goods Supplier,United States,30,0,0,,,0,0,0,,0,,,,,,,0,Inactive
+S009,Nod Publishers,Novelty Goods Supplier,United States,7,0,0,,,0,0,0,,0,,,,,,,0,Inactive
+S010,Northwind Electric Cars,Toy Supplier,United States,30,18,784,2013-01-08,2016-05-31,1496,104752,102393,8788255.0,24,15.13,28.0,1.43,75.27,14.0,97.7,7,Active
+S011,Trey Research,Marketing Services Supplier,United States,7,0,0,,,0,0,0,,0,,,,,,,0,Inactive
+S012,The Phone Company,Novelty Goods Supplier,United States,30,15,709,2013-01-11,2016-05-31,1235,137569,136327,2452659.0,15,13.73,19.0,0.09,95.25,14.0,99.1,0,Active
+S013,Woodgrove Bank,Financial Services Supplier,United States,7,0,0,,,0,0,0,,0,,,,,,,0,Inactive

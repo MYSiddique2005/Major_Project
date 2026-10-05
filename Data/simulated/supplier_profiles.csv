@@ -1,0 +1,8 @@
+supplier_id,supplier_name,on_time_probability,mean_delay_days_when_late,short_delivery_rate,note
+1,A Datum Corporation,0.9,3.0,0.02,
+2,"Contoso, Ltd.",0.85,4.0,0.08,
+4,"Fabrikam, Inc.",0.93,2.0,0.02,
+5,Graphic Design Institute,0.88,3.0,0.03,
+7,"Litware, Inc.",0.8,5.0,0.05,on_time_probability 0.62 from 2015-07-01
+10,Northwind Electric Cars,0.75,6.0,0.04,
+12,The Phone Company,0.96,2.0,0.01,

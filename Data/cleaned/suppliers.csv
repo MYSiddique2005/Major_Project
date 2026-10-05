@@ -1,0 +1,14 @@
+supplier_id,supplier_name,supplier_category,contact_name,contact_email,phone,website,delivery_method,city,state_province,country,postal_code,payment_days
+1,A Datum Corporation,Novelty Goods Supplier,Reio Kabin,reio@adatum.com,(847) 555-0100,http://www.adatum.com,Road Freight,Zionsville,Indiana,United States,46077,14
+2,"Contoso, Ltd.",Novelty Goods Supplier,Hanna Mihhailov,hannam@contoso.com,(360) 555-0100,http://www.contoso.com,Refrigerated Road Freight,Greenbank,Washington,United States,98253,7
+3,Consolidated Messenger,Courier Services Supplier,Kerstin Parn,kerstin@consolidatedmessenger.com,(415) 555-0100,http://www.consolidatedmessenger.com,,San Francisco,California,United States,94101,30
+4,"Fabrikam, Inc.",Clothing Supplier,Bill Lawson,billl@fabrikam.com,(203) 555-0104,http://www.fabrikam.com,Road Freight,Lakeview Heights,Kentucky,United States,40351,30
+5,Graphic Design Institute,Novelty Goods Supplier,Penny Buck,pennyb@graphicdesigninstitute.com,(406) 555-0105,http://www.graphicdesigninstitute.com,Refrigerated Air Freight,Lanagan,Missouri,United States,64847,14
+6,Humongous Insurance,Insurance Services Supplier,Madelaine Cartier,madelainec@humongousinsurance.com,(423) 555-0105,http://www.humongousinsurance.com,,Lancing,Tennessee,United States,37770,14
+7,"Litware, Inc.",Packaging Supplier,Elias Myllari,eliasm@litwareinc.com,(209) 555-0108,http://www.litwareinc.com,Courier,Mokelumne Hill,California,United States,95245,30
+8,Lucerne Publishing,Novelty Goods Supplier,Prem Prabhu,premp@lucernepublishing.com,(423) 555-0103,http://www.lucernepublishing.com,Refrigerated Air Freight,Jonesborough,Tennessee,United States,37659,30
+9,Nod Publishers,Novelty Goods Supplier,Marcos Costa,marcosc@nodpublishers.com,(252) 555-0100,http://www.nodpublishers.com,Refrigerated Air Freight,Elizabeth City,North Carolina,United States,27906,7
+10,Northwind Electric Cars,Toy Supplier,Eliza Soderberg,elizas@northwindelectriccars.com,(201) 555-0105,http://www.northwindelectriccars.com,Air Freight,Crandon Lakes,New Jersey,United States,07860,30
+11,Trey Research,Marketing Services Supplier,Donald Jones,donaldj@treyresearch.net,(605) 555-0103,http://www.treyresearch.net,,Kadoka,South Dakota,United States,57543,7
+12,The Phone Company,Novelty Goods Supplier,Hai Dam,haid@thephone-company.com,(218) 555-0105,http://www.thephone-company.com,Road Freight,Karlstad,Minnesota,United States,56732,30
+13,Woodgrove Bank,Financial Services Supplier,Hubert Helms,huberth@woodgrovebank.com,(415) 555-0103,http://www.woodgrovebank.com,,San Francisco,California,United States,94101,7

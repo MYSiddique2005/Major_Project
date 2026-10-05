@@ -67,6 +67,7 @@ Major_Project/
 │       ├── services/          api.ts + one service per backend module
 │       ├── context/           AuthContext, ToastContext
 │       ├── hooks/  types/  utils/
+├── Data/                      Wide World Importers dataset: raw, cleaned, simulated, processed (see Data/README.md)
 └── LLM/                       empty; reserved for a later phase
 ```
 
@@ -112,7 +113,14 @@ alembic upgrade head
 python -m app.db.seed
 ```
 
-To run without PostgreSQL at all, put `DATA_BACKEND=memory` in `Backend/.env`.
+`python -m app.db.seed` loads the small hand-written demo data. To load the Wide World Importers
+dataset instead (see [Dataset](#dataset)):
+
+```bash
+python -m app.db.load_dataset --reset    # replaces all rows; --months N sets the history (default 12, 0 = all)
+```
+
+To run without PostgreSQL at all, put `DATA_BACKEND=memory` in `Backend/.env` (demo data only).
 
 ### 2. Backend
 
@@ -146,6 +154,7 @@ npm run dev
 | Create a migration after changing `app/db/models.py` | `alembic revision --autogenerate -m "describe change"` then review the file |
 | Check models and database agree | `alembic check` |
 | Wipe all rows and reload the demo data | `python -m app.db.seed --reset` |
+| Wipe all rows and load the dataset | `python -m app.db.load_dataset --reset` |
 
 ### Tests
 
@@ -206,6 +215,21 @@ Dates are generated relative to the day the data is seeded, and the analytics lo
 weeks, so re-seed (`python -m app.db.seed --reset`) if a PostgreSQL database was seeded long ago or
 before Phase 3 (which enlarged the sales history).
 
+## Dataset
+
+`Data/` holds a larger dataset built from Microsoft's Wide World Importers sample ERP database (MIT
+licence): 227 products, 7 goods suppliers, 663 customers and 231,412 sales order lines from 2013 to
+2016. Products, suppliers, customers, prices, costs and all sales are source records. **Purchase orders,
+deliveries and stock levels are simulated** from the real sales with a reorder-point policy and
+assumed supplier reliability, because the source's own supply-side records were not usable; report
+supply-side results as simulated. `Data/README.md` describes the pipeline, the model and the limits.
+
+`python -m app.db.load_dataset --reset` loads it into PostgreSQL: all products, suppliers and stock,
+plus the most recent 12 months of sales (about 72,700 lines) and purchase orders (about 5,400 lines).
+Dates are moved forward so the last day of the data is the day it is loaded; reload if it was loaded
+long ago. Approvals and audit logs start empty, and the demo accounts are unchanged. The in-memory
+backend and the tests keep using the demo data described above.
+
 ## Analytics (Phase 3)
 
 All calculations are deterministic and live in `Backend/app/analytics/` as pure functions; each module's
@@ -243,8 +267,9 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 - No user management UI; the Settings page is read-only.
 - Purchase orders stop at Approved/Rejected. Ordered and Delivered exist only in seed data.
 - A user who may approve can approve their own purchase order (no separation of duties yet).
-- Lists are filtered and joined in Python after loading the table, and paginated in the browser. This
-  is fine at demo scale; larger data would need SQL-level filtering and pagination.
+- Lists are filtered and joined in Python after loading the table, and paginated in the browser. With
+  12 months of the dataset loaded, sales endpoints take just under a second and the sales list is an
+  18 MB response; loading more history would need SQL-level filtering and pagination.
 - Two people deciding the same approval at the same instant are not guarded by row locks.
 - Timestamps are stored without a time zone (server local time).
 - Analytics: demand is assumed constant in projections; forecasts are simple statistical methods with

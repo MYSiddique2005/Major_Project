@@ -1,0 +1,443 @@
+product_id,category
+1,Computing Novelties
+1,Novelty Items
+1,USB Novelties
+2,Computing Novelties
+2,Novelty Items
+2,USB Novelties
+3,Computing Novelties
+3,Novelty Items
+4,Computing Novelties
+4,Novelty Items
+4,USB Novelties
+5,Computing Novelties
+5,Novelty Items
+5,USB Novelties
+6,Computing Novelties
+6,Novelty Items
+6,USB Novelties
+7,Computing Novelties
+7,Novelty Items
+7,USB Novelties
+8,Computing Novelties
+8,Novelty Items
+8,USB Novelties
+9,Computing Novelties
+9,Novelty Items
+9,USB Novelties
+10,Computing Novelties
+10,Novelty Items
+10,USB Novelties
+11,Computing Novelties
+11,Novelty Items
+11,USB Novelties
+12,Computing Novelties
+12,Novelty Items
+12,USB Novelties
+13,Computing Novelties
+13,Novelty Items
+13,USB Novelties
+14,Computing Novelties
+14,Novelty Items
+14,USB Novelties
+15,Computing Novelties
+15,Novelty Items
+15,USB Novelties
+16,Computing Novelties
+16,Mugs
+16,Novelty Items
+17,Computing Novelties
+17,Mugs
+17,Novelty Items
+18,Computing Novelties
+18,Mugs
+18,Novelty Items
+19,Computing Novelties
+19,Mugs
+19,Novelty Items
+20,Computing Novelties
+20,Mugs
+20,Novelty Items
+21,Computing Novelties
+21,Mugs
+21,Novelty Items
+22,Computing Novelties
+22,Mugs
+22,Novelty Items
+23,Computing Novelties
+23,Mugs
+23,Novelty Items
+24,Computing Novelties
+24,Mugs
+24,Novelty Items
+25,Computing Novelties
+25,Mugs
+25,Novelty Items
+26,Computing Novelties
+26,Mugs
+26,Novelty Items
+27,Computing Novelties
+27,Mugs
+27,Novelty Items
+28,Computing Novelties
+28,Mugs
+28,Novelty Items
+29,Computing Novelties
+29,Mugs
+29,Novelty Items
+30,Computing Novelties
+30,Mugs
+30,Novelty Items
+31,Computing Novelties
+31,Mugs
+31,Novelty Items
+32,Computing Novelties
+32,Mugs
+32,Novelty Items
+33,Computing Novelties
+33,Mugs
+33,Novelty Items
+34,Computing Novelties
+34,Mugs
+34,Novelty Items
+35,Computing Novelties
+35,Mugs
+35,Novelty Items
+36,Computing Novelties
+36,Mugs
+36,Novelty Items
+37,Computing Novelties
+37,Mugs
+37,Novelty Items
+38,Computing Novelties
+38,Mugs
+38,Novelty Items
+39,Computing Novelties
+39,Mugs
+39,Novelty Items
+40,Computing Novelties
+40,Mugs
+40,Novelty Items
+41,Computing Novelties
+41,Mugs
+41,Novelty Items
+42,Computing Novelties
+42,Mugs
+42,Novelty Items
+43,Computing Novelties
+43,Mugs
+43,Novelty Items
+44,Computing Novelties
+44,Mugs
+44,Novelty Items
+45,Computing Novelties
+45,Mugs
+45,Novelty Items
+46,Computing Novelties
+46,Mugs
+46,Novelty Items
+47,Computing Novelties
+47,Mugs
+47,Novelty Items
+48,Computing Novelties
+48,Mugs
+48,Novelty Items
+49,Computing Novelties
+49,Mugs
+49,Novelty Items
+50,Computing Novelties
+50,Mugs
+50,Novelty Items
+51,Computing Novelties
+51,Mugs
+51,Novelty Items
+52,Computing Novelties
+52,Mugs
+52,Novelty Items
+53,Computing Novelties
+53,Mugs
+53,Novelty Items
+54,Computing Novelties
+54,Mugs
+54,Novelty Items
+55,Computing Novelties
+55,Mugs
+55,Novelty Items
+56,Computing Novelties
+56,Mugs
+56,Novelty Items
+57,Computing Novelties
+57,Mugs
+57,Novelty Items
+58,Novelty Items
+58,Toys
+59,Novelty Items
+59,Toys
+60,Novelty Items
+60,Toys
+61,Novelty Items
+61,Toys
+62,Novelty Items
+62,Toys
+63,Novelty Items
+63,Toys
+64,Novelty Items
+64,Toys
+65,Novelty Items
+65,Toys
+66,Novelty Items
+66,Toys
+67,Novelty Items
+67,Toys
+68,Novelty Items
+68,Toys
+69,Novelty Items
+69,Toys
+70,Novelty Items
+70,Toys
+71,Novelty Items
+71,Toys
+72,Novelty Items
+72,Toys
+73,Novelty Items
+73,Toys
+74,Novelty Items
+74,Toys
+75,Novelty Items
+75,Toys
+76,Clothing
+76,Computing Novelties
+76,T-Shirts
+77,Clothing
+77,Computing Novelties
+77,T-Shirts
+78,Clothing
+78,Computing Novelties
+78,T-Shirts
+79,Clothing
+79,Computing Novelties
+79,T-Shirts
+80,Clothing
+80,Computing Novelties
+80,T-Shirts
+81,Clothing
+81,Computing Novelties
+81,T-Shirts
+82,Clothing
+82,Computing Novelties
+82,T-Shirts
+83,Clothing
+83,Computing Novelties
+83,T-Shirts
+84,Clothing
+84,Computing Novelties
+84,T-Shirts
+85,Clothing
+85,Computing Novelties
+85,T-Shirts
+86,Clothing
+86,Computing Novelties
+86,T-Shirts
+87,Clothing
+87,Computing Novelties
+87,T-Shirts
+88,Clothing
+88,Computing Novelties
+88,T-Shirts
+89,Clothing
+89,Computing Novelties
+89,T-Shirts
+90,Clothing
+90,Computing Novelties
+90,T-Shirts
+91,Clothing
+91,Computing Novelties
+91,T-Shirts
+92,Clothing
+92,Computing Novelties
+92,T-Shirts
+93,Clothing
+93,Computing Novelties
+93,T-Shirts
+94,Clothing
+94,Computing Novelties
+94,T-Shirts
+95,Clothing
+95,Computing Novelties
+95,T-Shirts
+96,Clothing
+96,Computing Novelties
+96,T-Shirts
+97,Clothing
+97,Computing Novelties
+97,T-Shirts
+98,Clothing
+98,Computing Novelties
+98,T-Shirts
+99,Clothing
+99,Computing Novelties
+99,T-Shirts
+100,Clothing
+100,Computing Novelties
+100,T-Shirts
+101,Clothing
+101,Computing Novelties
+101,T-Shirts
+102,Clothing
+103,Clothing
+104,Clothing
+105,Clothing
+106,Clothing
+107,Clothing
+108,Clothing
+109,Clothing
+110,Clothing
+111,Clothing
+112,Clothing
+113,Clothing
+114,Clothing
+115,Clothing
+116,Clothing
+117,Clothing
+118,Clothing
+118,Furry Footwear
+119,Clothing
+119,Furry Footwear
+120,Clothing
+120,Furry Footwear
+121,Clothing
+121,Furry Footwear
+122,Clothing
+122,Furry Footwear
+123,Clothing
+123,Furry Footwear
+124,Clothing
+124,Furry Footwear
+125,Clothing
+125,Furry Footwear
+126,Clothing
+126,Furry Footwear
+127,Clothing
+127,Furry Footwear
+128,Clothing
+128,Furry Footwear
+129,Clothing
+129,Furry Footwear
+130,Clothing
+130,Furry Footwear
+131,Clothing
+131,Furry Footwear
+132,Clothing
+132,Furry Footwear
+133,Clothing
+133,Furry Footwear
+134,Clothing
+134,Furry Footwear
+135,Clothing
+135,Furry Footwear
+136,Clothing
+136,Furry Footwear
+137,Clothing
+137,Furry Footwear
+138,Clothing
+138,Furry Footwear
+139,Clothing
+139,Furry Footwear
+140,Clothing
+140,Furry Footwear
+141,Clothing
+141,Furry Footwear
+142,Clothing
+142,Novelty Items
+143,Clothing
+143,Novelty Items
+144,Clothing
+144,Novelty Items
+145,Clothing
+145,Novelty Items
+146,Clothing
+146,Novelty Items
+147,Clothing
+147,Novelty Items
+148,Clothing
+148,Novelty Items
+149,Clothing
+149,Novelty Items
+150,Toys
+151,Toys
+152,Toys
+153,Packaging Materials
+154,Packaging Materials
+155,Packaging Materials
+156,Packaging Materials
+157,Packaging Materials
+158,Packaging Materials
+159,Packaging Materials
+160,Packaging Materials
+161,Packaging Materials
+162,Packaging Materials
+163,Packaging Materials
+164,Packaging Materials
+165,Packaging Materials
+166,Packaging Materials
+167,Packaging Materials
+168,Packaging Materials
+169,Packaging Materials
+170,Packaging Materials
+171,Packaging Materials
+172,Packaging Materials
+173,Packaging Materials
+174,Packaging Materials
+175,Packaging Materials
+176,Packaging Materials
+177,Packaging Materials
+178,Packaging Materials
+179,Packaging Materials
+180,Packaging Materials
+181,Packaging Materials
+182,Packaging Materials
+183,Packaging Materials
+184,Packaging Materials
+185,Packaging Materials
+186,Packaging Materials
+187,Packaging Materials
+188,Packaging Materials
+189,Packaging Materials
+190,Packaging Materials
+191,Packaging Materials
+192,Packaging Materials
+193,Packaging Materials
+194,Packaging Materials
+195,Packaging Materials
+196,Packaging Materials
+197,Packaging Materials
+198,Packaging Materials
+199,Packaging Materials
+200,Packaging Materials
+201,Packaging Materials
+202,Packaging Materials
+203,Packaging Materials
+204,Packaging Materials
+205,Packaging Materials
+206,Packaging Materials
+207,Packaging Materials
+208,Packaging Materials
+209,Packaging Materials
+210,Packaging Materials
+211,Packaging Materials
+212,Packaging Materials
+213,Packaging Materials
+214,Packaging Materials
+215,Packaging Materials
+216,Packaging Materials
+217,Packaging Materials
+218,Packaging Materials
+219,Packaging Materials
+220,Novelty Items
+221,Novelty Items
+222,Novelty Items
+223,Novelty Items
+224,Novelty Items
+225,Novelty Items
+226,Novelty Items
+227,Novelty Items

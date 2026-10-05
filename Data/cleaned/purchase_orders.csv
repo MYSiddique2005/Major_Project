@@ -1,0 +1,2075 @@
+purchase_order_id,supplier_id,order_date,expected_delivery_date,delivery_method,ordered_by,supplier_reference,is_finalized
+1,2,2013-01-01,2013-01-15,Refrigerated Road Freight,Kayla Woodcock,B2084020,True
+2,4,2013-01-01,2013-01-15,Road Freight,Kayla Woodcock,293092,True
+3,5,2013-01-01,2013-01-15,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+4,7,2013-01-01,2013-01-15,Courier,Kayla Woodcock,BC0280982,True
+5,10,2013-01-01,2013-01-15,Air Freight,Kayla Woodcock,ML0300202,True
+6,12,2013-01-01,2013-01-15,Road Freight,Kayla Woodcock,237408032,True
+7,4,2013-01-02,2013-01-22,Road Freight,Kayla Woodcock,293092,True
+8,5,2013-01-02,2013-01-22,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+9,7,2013-01-02,2013-01-22,Courier,Kayla Woodcock,BC0280982,True
+10,10,2013-01-02,2013-01-22,Air Freight,Kayla Woodcock,ML0300202,True
+11,12,2013-01-02,2013-01-22,Road Freight,Kayla Woodcock,237408032,True
+12,4,2013-01-03,2013-01-23,Road Freight,Kayla Woodcock,293092,True
+13,5,2013-01-03,2013-01-23,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+14,7,2013-01-03,2013-01-23,Courier,Kayla Woodcock,BC0280982,True
+15,10,2013-01-03,2013-01-23,Air Freight,Kayla Woodcock,ML0300202,True
+16,12,2013-01-03,2013-01-23,Road Freight,Kayla Woodcock,237408032,True
+17,4,2013-01-04,2013-01-18,Road Freight,Kayla Woodcock,293092,True
+18,5,2013-01-04,2013-01-18,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+19,7,2013-01-04,2013-01-18,Courier,Kayla Woodcock,BC0280982,True
+20,10,2013-01-04,2013-01-18,Air Freight,Kayla Woodcock,ML0300202,True
+21,4,2013-01-05,2013-01-25,Road Freight,Kayla Woodcock,293092,True
+22,5,2013-01-05,2013-01-25,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+23,7,2013-01-05,2013-01-25,Courier,Kayla Woodcock,BC0280982,True
+24,10,2013-01-05,2013-01-25,Air Freight,Kayla Woodcock,ML0300202,True
+25,12,2013-01-05,2013-01-25,Road Freight,Kayla Woodcock,237408032,True
+26,4,2013-01-07,2013-01-27,Road Freight,Kayla Woodcock,293092,True
+27,5,2013-01-07,2013-01-27,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+28,7,2013-01-07,2013-01-27,Courier,Kayla Woodcock,BC0280982,True
+29,10,2013-01-07,2013-01-27,Air Freight,Kayla Woodcock,ML0300202,True
+30,12,2013-01-07,2013-01-27,Road Freight,Kayla Woodcock,237408032,True
+31,7,2013-01-08,2013-01-28,Courier,Kayla Woodcock,BC0280982,True
+32,4,2013-01-09,2013-01-29,Road Freight,Kayla Woodcock,293092,True
+33,5,2013-01-09,2013-01-29,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+34,7,2013-01-09,2013-01-29,Courier,Kayla Woodcock,BC0280982,True
+35,10,2013-01-09,2013-01-29,Air Freight,Kayla Woodcock,ML0300202,True
+36,4,2013-01-10,2013-01-30,Road Freight,Kayla Woodcock,293092,True
+37,5,2013-01-10,2013-01-30,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+38,7,2013-01-10,2013-01-30,Courier,Kayla Woodcock,BC0280982,True
+39,4,2013-01-11,2013-01-23,Road Freight,Kayla Woodcock,293092,True
+40,5,2013-01-11,2013-01-23,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+41,4,2013-01-12,2013-02-01,Road Freight,Kayla Woodcock,293092,True
+42,7,2013-01-12,2013-02-01,Courier,Kayla Woodcock,BC0280982,True
+43,4,2013-01-14,2013-02-03,Road Freight,Kayla Woodcock,293092,True
+44,5,2013-01-14,2013-02-03,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+45,7,2013-01-14,2013-02-03,Courier,Kayla Woodcock,BC0280982,True
+46,10,2013-01-14,2013-02-03,Air Freight,Kayla Woodcock,ML0300202,True
+47,4,2013-01-15,2013-01-29,Road Freight,Kayla Woodcock,293092,True
+48,5,2013-01-15,2013-01-29,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+49,10,2013-01-15,2013-01-29,Air Freight,Kayla Woodcock,ML0300202,True
+50,4,2013-01-16,2013-01-23,Road Freight,Kayla Woodcock,293092,True
+51,4,2013-01-17,2013-01-24,Road Freight,Kayla Woodcock,293092,True
+52,4,2013-01-18,2013-01-30,Road Freight,Kayla Woodcock,293092,True
+53,5,2013-01-18,2013-01-30,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+54,4,2013-01-19,2013-01-31,Road Freight,Kayla Woodcock,293092,True
+55,5,2013-01-19,2013-01-31,Refrigerated Air Freight,Kayla Woodcock,08803922,True
+56,4,2013-01-21,2013-01-28,Road Freight,Kayla Woodcock,293092,True
+57,4,2013-01-22,2013-01-29,Road Freight,Kayla Woodcock,293092,True
+58,4,2013-01-23,2013-01-30,Road Freight,Kayla Woodcock,293092,True
+59,4,2013-01-24,2013-01-31,Road Freight,Kayla Woodcock,293092,True
+60,4,2013-01-25,2013-02-01,Road Freight,Kayla Woodcock,293092,True
+61,4,2013-01-26,2013-02-09,Road Freight,Kayla Woodcock,293092,True
+62,10,2013-01-26,2013-02-09,Air Freight,Kayla Woodcock,ML0300202,True
+63,4,2013-01-28,2013-02-17,Road Freight,Kayla Woodcock,293092,True
+64,7,2013-01-28,2013-02-17,Courier,Kayla Woodcock,BC0280982,True
+65,4,2013-01-29,2013-02-18,Road Freight,Kayla Woodcock,293092,True
+66,7,2013-01-29,2013-02-18,Courier,Kayla Woodcock,BC0280982,True
+67,4,2013-01-30,2013-02-06,Road Freight,Kayla Woodcock,293092,True
+68,4,2013-01-31,2013-02-07,Road Freight,Kayla Woodcock,293092,True
+69,4,2013-02-01,2013-02-08,Road Freight,Kayla Woodcock,293092,True
+70,4,2013-02-02,2013-02-09,Road Freight,Kayla Woodcock,293092,True
+71,4,2013-02-04,2013-02-11,Road Freight,Kayla Woodcock,293092,True
+72,4,2013-02-05,2013-02-12,Road Freight,Kayla Woodcock,293092,True
+73,4,2013-02-06,2013-02-13,Road Freight,Kayla Woodcock,293092,True
+74,4,2013-02-07,2013-02-14,Road Freight,Kayla Woodcock,293092,True
+75,4,2013-02-08,2013-02-15,Road Freight,Kayla Woodcock,293092,True
+76,4,2013-02-09,2013-02-16,Road Freight,Kayla Woodcock,293092,True
+77,4,2013-02-11,2013-02-18,Road Freight,Kayla Woodcock,293092,True
+78,4,2013-02-12,2013-02-19,Road Freight,Kayla Woodcock,293092,True
+79,4,2013-02-13,2013-03-05,Road Freight,Kayla Woodcock,293092,True
+80,7,2013-02-13,2013-03-05,Courier,Kayla Woodcock,BC0280982,True
+81,4,2013-02-14,2013-03-06,Road Freight,Kayla Woodcock,293092,True
+82,7,2013-02-14,2013-03-06,Courier,Kayla Woodcock,BC0280982,True
+83,4,2013-02-15,2013-03-07,Road Freight,Kayla Woodcock,293092,True
+84,7,2013-02-15,2013-03-07,Courier,Kayla Woodcock,BC0280982,True
+85,4,2013-02-16,2013-02-23,Road Freight,Kayla Woodcock,293092,True
+86,4,2013-02-18,2013-03-10,Road Freight,Kayla Woodcock,293092,True
+87,7,2013-02-18,2013-03-10,Courier,Kayla Woodcock,BC0280982,True
+88,4,2013-02-19,2013-03-11,Road Freight,Kayla Woodcock,293092,True
+89,7,2013-02-19,2013-03-11,Courier,Kayla Woodcock,BC0280982,True
+90,4,2013-02-20,2013-03-12,Road Freight,Kayla Woodcock,293092,True
+91,7,2013-02-20,2013-03-12,Courier,Kayla Woodcock,BC0280982,True
+92,4,2013-02-21,2013-03-13,Road Freight,Kayla Woodcock,293092,True
+93,7,2013-02-21,2013-03-13,Courier,Kayla Woodcock,BC0280982,True
+94,4,2013-02-22,2013-03-14,Road Freight,Kayla Woodcock,293092,True
+95,7,2013-02-22,2013-03-14,Courier,Kayla Woodcock,BC0280982,True
+96,4,2013-02-23,2013-03-15,Road Freight,Kayla Woodcock,293092,True
+97,7,2013-02-23,2013-03-15,Courier,Kayla Woodcock,BC0280982,True
+98,4,2013-02-25,2013-03-17,Road Freight,Kayla Woodcock,293092,True
+99,7,2013-02-25,2013-03-17,Courier,Kayla Woodcock,BC0280982,True
+100,4,2013-02-26,2013-03-18,Road Freight,Kayla Woodcock,293092,True
+101,7,2013-02-26,2013-03-18,Courier,Kayla Woodcock,BC0280982,True
+102,4,2013-02-27,2013-03-19,Road Freight,Kayla Woodcock,293092,True
+103,7,2013-02-27,2013-03-19,Courier,Kayla Woodcock,BC0280982,True
+104,4,2013-02-28,2013-03-20,Road Freight,Kayla Woodcock,293092,True
+105,7,2013-02-28,2013-03-20,Courier,Kayla Woodcock,BC0280982,True
+106,4,2013-03-01,2013-03-21,Road Freight,Kayla Woodcock,293092,True
+107,7,2013-03-01,2013-03-21,Courier,Kayla Woodcock,BC0280982,True
+108,4,2013-03-02,2013-03-09,Road Freight,Kayla Woodcock,293092,True
+109,4,2013-03-04,2013-03-24,Road Freight,Kayla Woodcock,293092,True
+110,7,2013-03-04,2013-03-24,Courier,Kayla Woodcock,BC0280982,True
+111,4,2013-03-05,2013-03-25,Road Freight,Kayla Woodcock,293092,True
+112,7,2013-03-05,2013-03-25,Courier,Kayla Woodcock,BC0280982,True
+113,4,2013-03-06,2013-03-26,Road Freight,Kayla Woodcock,293092,True
+114,7,2013-03-06,2013-03-26,Courier,Kayla Woodcock,BC0280982,True
+115,4,2013-03-07,2013-03-27,Road Freight,Kayla Woodcock,293092,True
+116,7,2013-03-07,2013-03-27,Courier,Kayla Woodcock,BC0280982,True
+117,4,2013-03-08,2013-03-28,Road Freight,Kayla Woodcock,293092,True
+118,7,2013-03-08,2013-03-28,Courier,Kayla Woodcock,BC0280982,True
+119,4,2013-03-09,2013-03-16,Road Freight,Kayla Woodcock,293092,True
+120,4,2013-03-11,2013-03-31,Road Freight,Kayla Woodcock,293092,True
+121,7,2013-03-11,2013-03-31,Courier,Kayla Woodcock,BC0280982,True
+122,4,2013-03-12,2013-04-01,Road Freight,Kayla Woodcock,293092,True
+123,7,2013-03-12,2013-04-01,Courier,Kayla Woodcock,BC0280982,True
+124,4,2013-03-13,2013-04-02,Road Freight,Kayla Woodcock,293092,True
+125,7,2013-03-13,2013-04-02,Courier,Kayla Woodcock,BC0280982,True
+126,4,2013-03-14,2013-04-03,Road Freight,Kayla Woodcock,293092,True
+127,7,2013-03-14,2013-04-03,Courier,Kayla Woodcock,BC0280982,True
+128,4,2013-03-15,2013-04-04,Road Freight,Kayla Woodcock,293092,True
+129,7,2013-03-15,2013-04-04,Courier,Kayla Woodcock,BC0280982,True
+130,4,2013-03-16,2013-03-23,Road Freight,Kayla Woodcock,293092,True
+131,4,2013-03-18,2013-04-07,Road Freight,Kayla Woodcock,293092,True
+132,7,2013-03-18,2013-04-07,Courier,Kayla Woodcock,BC0280982,True
+133,4,2013-03-19,2013-04-08,Road Freight,Kayla Woodcock,293092,True
+134,7,2013-03-19,2013-04-08,Courier,Kayla Woodcock,BC0280982,True
+135,4,2013-03-20,2013-04-09,Road Freight,Kayla Woodcock,293092,True
+136,7,2013-03-20,2013-04-09,Courier,Kayla Woodcock,BC0280982,True
+137,4,2013-03-21,2013-04-10,Road Freight,Kayla Woodcock,293092,True
+138,7,2013-03-21,2013-04-10,Courier,Kayla Woodcock,BC0280982,True
+139,4,2013-03-22,2013-04-11,Road Freight,Kayla Woodcock,293092,True
+140,7,2013-03-22,2013-04-11,Courier,Kayla Woodcock,BC0280982,True
+141,7,2013-03-23,2013-04-12,Courier,Kayla Woodcock,BC0280982,True
+142,4,2013-03-25,2013-04-14,Road Freight,Kayla Woodcock,293092,True
+143,7,2013-03-25,2013-04-14,Courier,Kayla Woodcock,BC0280982,True
+144,4,2013-03-26,2013-04-15,Road Freight,Kayla Woodcock,293092,True
+145,7,2013-03-26,2013-04-15,Courier,Kayla Woodcock,BC0280982,True
+146,4,2013-03-27,2013-04-16,Road Freight,Kayla Woodcock,293092,True
+147,7,2013-03-27,2013-04-16,Courier,Kayla Woodcock,BC0280982,True
+148,4,2013-03-28,2013-04-17,Road Freight,Kayla Woodcock,293092,True
+149,7,2013-03-28,2013-04-17,Courier,Kayla Woodcock,BC0280982,True
+150,4,2013-03-29,2013-04-18,Road Freight,Kayla Woodcock,293092,True
+151,7,2013-03-29,2013-04-18,Courier,Kayla Woodcock,BC0280982,True
+152,4,2013-03-30,2013-04-06,Road Freight,Kayla Woodcock,293092,True
+153,4,2013-04-01,2013-04-21,Road Freight,Kayla Woodcock,293092,True
+154,7,2013-04-01,2013-04-21,Courier,Kayla Woodcock,BC0280982,True
+155,4,2013-04-02,2013-04-22,Road Freight,Kayla Woodcock,293092,True
+156,7,2013-04-02,2013-04-22,Courier,Kayla Woodcock,BC0280982,True
+157,4,2013-04-03,2013-04-23,Road Freight,Kayla Woodcock,293092,True
+158,7,2013-04-03,2013-04-23,Courier,Kayla Woodcock,BC0280982,True
+159,4,2013-04-04,2013-04-24,Road Freight,Kayla Woodcock,293092,True
+160,7,2013-04-04,2013-04-24,Courier,Kayla Woodcock,BC0280982,True
+161,4,2013-04-05,2013-04-25,Road Freight,Kayla Woodcock,293092,True
+162,7,2013-04-05,2013-04-25,Courier,Kayla Woodcock,BC0280982,True
+163,4,2013-04-06,2013-04-26,Road Freight,Kayla Woodcock,293092,True
+164,7,2013-04-06,2013-04-26,Courier,Kayla Woodcock,BC0280982,True
+165,4,2013-04-08,2013-04-28,Road Freight,Kayla Woodcock,293092,True
+166,7,2013-04-08,2013-04-28,Courier,Kayla Woodcock,BC0280982,True
+167,4,2013-04-09,2013-04-29,Road Freight,Kayla Woodcock,293092,True
+168,7,2013-04-09,2013-04-29,Courier,Kayla Woodcock,BC0280982,True
+169,4,2013-04-10,2013-04-30,Road Freight,Kayla Woodcock,293092,True
+170,7,2013-04-10,2013-04-30,Courier,Kayla Woodcock,BC0280982,True
+171,4,2013-04-11,2013-05-01,Road Freight,Kayla Woodcock,293092,True
+172,7,2013-04-11,2013-05-01,Courier,Kayla Woodcock,BC0280982,True
+173,4,2013-04-12,2013-05-02,Road Freight,Kayla Woodcock,293092,True
+174,7,2013-04-12,2013-05-02,Courier,Kayla Woodcock,BC0280982,True
+175,4,2013-04-13,2013-04-20,Road Freight,Kayla Woodcock,293092,True
+176,4,2013-04-15,2013-05-05,Road Freight,Kayla Woodcock,293092,True
+177,7,2013-04-15,2013-05-05,Courier,Kayla Woodcock,BC0280982,True
+178,4,2013-04-16,2013-05-06,Road Freight,Kayla Woodcock,293092,True
+179,7,2013-04-16,2013-05-06,Courier,Kayla Woodcock,BC0280982,True
+180,4,2013-04-17,2013-05-07,Road Freight,Kayla Woodcock,293092,True
+181,7,2013-04-17,2013-05-07,Courier,Kayla Woodcock,BC0280982,True
+182,4,2013-04-18,2013-05-08,Road Freight,Kayla Woodcock,293092,True
+183,7,2013-04-18,2013-05-08,Courier,Kayla Woodcock,BC0280982,True
+184,4,2013-04-19,2013-05-09,Road Freight,Kayla Woodcock,293092,True
+185,7,2013-04-19,2013-05-09,Courier,Kayla Woodcock,BC0280982,True
+186,4,2013-04-20,2013-05-04,Road Freight,Kayla Woodcock,293092,True
+187,7,2013-04-20,2013-05-04,Courier,Kayla Woodcock,BC0280982,True
+188,4,2013-04-22,2013-05-12,Road Freight,Kayla Woodcock,293092,True
+189,7,2013-04-22,2013-05-12,Courier,Kayla Woodcock,BC0280982,True
+190,4,2013-04-23,2013-05-13,Road Freight,Kayla Woodcock,293092,True
+191,7,2013-04-23,2013-05-13,Courier,Kayla Woodcock,BC0280982,True
+192,4,2013-04-24,2013-05-14,Road Freight,Kayla Woodcock,293092,True
+193,7,2013-04-24,2013-05-14,Courier,Kayla Woodcock,BC0280982,True
+194,4,2013-04-25,2013-05-15,Road Freight,Kayla Woodcock,293092,True
+195,7,2013-04-25,2013-05-15,Courier,Kayla Woodcock,BC0280982,True
+196,4,2013-04-26,2013-05-16,Road Freight,Kayla Woodcock,293092,True
+197,7,2013-04-26,2013-05-16,Courier,Kayla Woodcock,BC0280982,True
+198,4,2013-04-27,2013-05-11,Road Freight,Kayla Woodcock,293092,True
+199,7,2013-04-27,2013-05-11,Courier,Kayla Woodcock,BC0280982,True
+200,4,2013-04-29,2013-05-19,Road Freight,Kayla Woodcock,293092,True
+201,7,2013-04-29,2013-05-19,Courier,Kayla Woodcock,BC0280982,True
+202,4,2013-04-30,2013-05-20,Road Freight,Kayla Woodcock,293092,True
+203,7,2013-04-30,2013-05-20,Courier,Kayla Woodcock,BC0280982,True
+204,4,2013-05-01,2013-05-21,Road Freight,Kayla Woodcock,293092,True
+205,7,2013-05-01,2013-05-21,Courier,Kayla Woodcock,BC0280982,True
+206,4,2013-05-02,2013-05-22,Road Freight,Kayla Woodcock,293092,True
+207,7,2013-05-02,2013-05-22,Courier,Kayla Woodcock,BC0280982,True
+208,4,2013-05-03,2013-05-23,Road Freight,Kayla Woodcock,293092,True
+209,7,2013-05-03,2013-05-23,Courier,Kayla Woodcock,BC0280982,True
+210,4,2013-05-04,2013-05-11,Road Freight,Kayla Woodcock,293092,True
+211,4,2013-05-06,2013-05-26,Road Freight,Kayla Woodcock,293092,True
+212,7,2013-05-06,2013-05-26,Courier,Kayla Woodcock,BC0280982,True
+213,4,2013-05-07,2013-05-27,Road Freight,Kayla Woodcock,293092,True
+214,7,2013-05-07,2013-05-27,Courier,Kayla Woodcock,BC0280982,True
+215,4,2013-05-08,2013-05-28,Road Freight,Kayla Woodcock,293092,True
+216,7,2013-05-08,2013-05-28,Courier,Kayla Woodcock,BC0280982,True
+217,4,2013-05-09,2013-05-29,Road Freight,Kayla Woodcock,293092,True
+218,7,2013-05-09,2013-05-29,Courier,Kayla Woodcock,BC0280982,True
+219,4,2013-05-10,2013-05-30,Road Freight,Kayla Woodcock,293092,True
+220,7,2013-05-10,2013-05-30,Courier,Kayla Woodcock,BC0280982,True
+221,4,2013-05-11,2013-05-18,Road Freight,Kayla Woodcock,293092,True
+222,4,2013-05-13,2013-06-02,Road Freight,Kayla Woodcock,293092,True
+223,7,2013-05-13,2013-06-02,Courier,Kayla Woodcock,BC0280982,True
+224,4,2013-05-14,2013-06-03,Road Freight,Kayla Woodcock,293092,True
+225,7,2013-05-14,2013-06-03,Courier,Kayla Woodcock,BC0280982,True
+226,4,2013-05-15,2013-06-04,Road Freight,Kayla Woodcock,293092,True
+227,7,2013-05-15,2013-06-04,Courier,Kayla Woodcock,BC0280982,True
+228,4,2013-05-16,2013-06-05,Road Freight,Kayla Woodcock,293092,True
+229,7,2013-05-16,2013-06-05,Courier,Kayla Woodcock,BC0280982,True
+230,4,2013-05-17,2013-06-06,Road Freight,Kayla Woodcock,293092,True
+231,7,2013-05-17,2013-06-06,Courier,Kayla Woodcock,BC0280982,True
+232,4,2013-05-18,2013-06-07,Road Freight,Kayla Woodcock,293092,True
+233,7,2013-05-18,2013-06-07,Courier,Kayla Woodcock,BC0280982,True
+234,4,2013-05-20,2013-06-09,Road Freight,Kayla Woodcock,293092,True
+235,7,2013-05-20,2013-06-09,Courier,Kayla Woodcock,BC0280982,True
+236,4,2013-05-21,2013-06-10,Road Freight,Kayla Woodcock,293092,True
+237,7,2013-05-21,2013-06-10,Courier,Kayla Woodcock,BC0280982,True
+238,4,2013-05-22,2013-06-11,Road Freight,Kayla Woodcock,293092,True
+239,7,2013-05-22,2013-06-11,Courier,Kayla Woodcock,BC0280982,True
+240,4,2013-05-23,2013-06-12,Road Freight,Kayla Woodcock,293092,True
+241,7,2013-05-23,2013-06-12,Courier,Kayla Woodcock,BC0280982,True
+242,4,2013-05-24,2013-06-13,Road Freight,Kayla Woodcock,293092,True
+243,7,2013-05-24,2013-06-13,Courier,Kayla Woodcock,BC0280982,True
+244,4,2013-05-25,2013-06-08,Road Freight,Kayla Woodcock,293092,True
+245,7,2013-05-25,2013-06-08,Courier,Kayla Woodcock,BC0280982,True
+246,4,2013-05-27,2013-06-16,Road Freight,Kayla Woodcock,293092,True
+247,7,2013-05-27,2013-06-16,Courier,Kayla Woodcock,BC0280982,True
+248,4,2013-05-28,2013-06-17,Road Freight,Kayla Woodcock,293092,True
+249,7,2013-05-28,2013-06-17,Courier,Kayla Woodcock,BC0280982,True
+250,4,2013-05-29,2013-06-18,Road Freight,Kayla Woodcock,293092,True
+251,7,2013-05-29,2013-06-18,Courier,Kayla Woodcock,BC0280982,True
+252,4,2013-05-30,2013-06-19,Road Freight,Kayla Woodcock,293092,True
+253,7,2013-05-30,2013-06-19,Courier,Kayla Woodcock,BC0280982,True
+254,4,2013-05-31,2013-06-20,Road Freight,Kayla Woodcock,293092,True
+255,7,2013-05-31,2013-06-20,Courier,Kayla Woodcock,BC0280982,True
+256,4,2013-06-01,2013-06-08,Road Freight,Kayla Woodcock,293092,True
+257,4,2013-06-03,2013-06-23,Road Freight,Kayla Woodcock,293092,True
+258,7,2013-06-03,2013-06-23,Courier,Kayla Woodcock,BC0280982,True
+259,4,2013-06-04,2013-06-24,Road Freight,Kayla Woodcock,293092,True
+260,7,2013-06-04,2013-06-24,Courier,Kayla Woodcock,BC0280982,True
+261,4,2013-06-05,2013-06-25,Road Freight,Kayla Woodcock,293092,True
+262,7,2013-06-05,2013-06-25,Courier,Kayla Woodcock,BC0280982,True
+263,4,2013-06-06,2013-06-26,Road Freight,Kayla Woodcock,293092,True
+264,7,2013-06-06,2013-06-26,Courier,Kayla Woodcock,BC0280982,True
+265,4,2013-06-07,2013-06-27,Road Freight,Kayla Woodcock,293092,True
+266,7,2013-06-07,2013-06-27,Courier,Kayla Woodcock,BC0280982,True
+267,4,2013-06-08,2013-06-22,Road Freight,Kayla Woodcock,293092,True
+268,7,2013-06-08,2013-06-22,Courier,Kayla Woodcock,BC0280982,True
+269,4,2013-06-10,2013-06-30,Road Freight,Kayla Woodcock,293092,True
+270,7,2013-06-10,2013-06-30,Courier,Kayla Woodcock,BC0280982,True
+271,4,2013-06-11,2013-07-01,Road Freight,Kayla Woodcock,293092,True
+272,7,2013-06-11,2013-07-01,Courier,Kayla Woodcock,BC0280982,True
+273,4,2013-06-12,2013-07-02,Road Freight,Kayla Woodcock,293092,True
+274,7,2013-06-12,2013-07-02,Courier,Kayla Woodcock,BC0280982,True
+275,4,2013-06-13,2013-07-03,Road Freight,Kayla Woodcock,293092,True
+276,7,2013-06-13,2013-07-03,Courier,Kayla Woodcock,BC0280982,True
+277,4,2013-06-14,2013-07-04,Road Freight,Kayla Woodcock,293092,True
+278,7,2013-06-14,2013-07-04,Courier,Kayla Woodcock,BC0280982,True
+279,4,2013-06-15,2013-06-29,Road Freight,Kayla Woodcock,293092,True
+280,7,2013-06-15,2013-06-29,Courier,Kayla Woodcock,BC0280982,True
+281,4,2013-06-17,2013-07-07,Road Freight,Kayla Woodcock,293092,True
+282,7,2013-06-17,2013-07-07,Courier,Kayla Woodcock,BC0280982,True
+283,4,2013-06-18,2013-07-08,Road Freight,Kayla Woodcock,293092,True
+284,7,2013-06-18,2013-07-08,Courier,Kayla Woodcock,BC0280982,True
+285,4,2013-06-19,2013-07-09,Road Freight,Kayla Woodcock,293092,True
+286,7,2013-06-19,2013-07-09,Courier,Kayla Woodcock,BC0280982,True
+287,4,2013-06-20,2013-07-10,Road Freight,Kayla Woodcock,293092,True
+288,7,2013-06-20,2013-07-10,Courier,Kayla Woodcock,BC0280982,True
+289,4,2013-06-21,2013-07-11,Road Freight,Kayla Woodcock,293092,True
+290,7,2013-06-21,2013-07-11,Courier,Kayla Woodcock,BC0280982,True
+291,4,2013-06-22,2013-07-06,Road Freight,Kayla Woodcock,293092,True
+292,7,2013-06-22,2013-07-06,Courier,Kayla Woodcock,BC0280982,True
+293,4,2013-06-24,2013-07-14,Road Freight,Kayla Woodcock,293092,True
+294,7,2013-06-24,2013-07-14,Courier,Kayla Woodcock,BC0280982,True
+295,4,2013-06-25,2013-07-15,Road Freight,Kayla Woodcock,293092,True
+296,7,2013-06-25,2013-07-15,Courier,Kayla Woodcock,BC0280982,True
+297,4,2013-06-26,2013-07-16,Road Freight,Kayla Woodcock,293092,True
+298,7,2013-06-26,2013-07-16,Courier,Kayla Woodcock,BC0280982,True
+299,4,2013-06-27,2013-07-17,Road Freight,Kayla Woodcock,293092,True
+300,7,2013-06-27,2013-07-17,Courier,Kayla Woodcock,BC0280982,True
+301,4,2013-06-28,2013-07-18,Road Freight,Kayla Woodcock,293092,True
+302,7,2013-06-28,2013-07-18,Courier,Kayla Woodcock,BC0280982,True
+303,4,2013-06-29,2013-07-13,Road Freight,Kayla Woodcock,293092,True
+304,7,2013-06-29,2013-07-13,Courier,Kayla Woodcock,BC0280982,True
+305,4,2013-07-01,2013-07-21,Road Freight,Kayla Woodcock,293092,True
+306,7,2013-07-01,2013-07-21,Courier,Kayla Woodcock,BC0280982,True
+307,4,2013-07-02,2013-07-22,Road Freight,Kayla Woodcock,293092,True
+308,7,2013-07-02,2013-07-22,Courier,Kayla Woodcock,BC0280982,True
+309,4,2013-07-03,2013-07-23,Road Freight,Kayla Woodcock,293092,True
+310,7,2013-07-03,2013-07-23,Courier,Kayla Woodcock,BC0280982,True
+311,4,2013-07-04,2013-07-24,Road Freight,Kayla Woodcock,293092,True
+312,7,2013-07-04,2013-07-24,Courier,Kayla Woodcock,BC0280982,True
+313,4,2013-07-05,2013-07-25,Road Freight,Kayla Woodcock,293092,True
+314,7,2013-07-05,2013-07-25,Courier,Kayla Woodcock,BC0280982,True
+315,4,2013-07-06,2013-07-20,Road Freight,Kayla Woodcock,293092,True
+316,7,2013-07-06,2013-07-20,Courier,Kayla Woodcock,BC0280982,True
+317,4,2013-07-08,2013-07-28,Road Freight,Kayla Woodcock,293092,True
+318,7,2013-07-08,2013-07-28,Courier,Kayla Woodcock,BC0280982,True
+319,4,2013-07-09,2013-07-29,Road Freight,Kayla Woodcock,293092,True
+320,7,2013-07-09,2013-07-29,Courier,Kayla Woodcock,BC0280982,True
+321,4,2013-07-10,2013-07-30,Road Freight,Kayla Woodcock,293092,True
+322,7,2013-07-10,2013-07-30,Courier,Kayla Woodcock,BC0280982,True
+323,4,2013-07-11,2013-07-31,Road Freight,Kayla Woodcock,293092,True
+324,7,2013-07-11,2013-07-31,Courier,Kayla Woodcock,BC0280982,True
+325,4,2013-07-12,2013-08-01,Road Freight,Kayla Woodcock,293092,True
+326,7,2013-07-12,2013-08-01,Courier,Kayla Woodcock,BC0280982,True
+327,4,2013-07-13,2013-07-27,Road Freight,Kayla Woodcock,293092,True
+328,7,2013-07-13,2013-07-27,Courier,Kayla Woodcock,BC0280982,True
+329,4,2013-07-15,2013-08-04,Road Freight,Kayla Woodcock,293092,True
+330,7,2013-07-15,2013-08-04,Courier,Kayla Woodcock,BC0280982,True
+331,4,2013-07-16,2013-08-05,Road Freight,Kayla Woodcock,293092,True
+332,7,2013-07-16,2013-08-05,Courier,Kayla Woodcock,BC0280982,True
+333,4,2013-07-17,2013-08-06,Road Freight,Kayla Woodcock,293092,True
+334,7,2013-07-17,2013-08-06,Courier,Kayla Woodcock,BC0280982,True
+335,4,2013-07-18,2013-08-07,Road Freight,Kayla Woodcock,293092,True
+336,7,2013-07-18,2013-08-07,Courier,Kayla Woodcock,BC0280982,True
+337,4,2013-07-19,2013-08-08,Road Freight,Kayla Woodcock,293092,True
+338,7,2013-07-19,2013-08-08,Courier,Kayla Woodcock,BC0280982,True
+339,4,2013-07-20,2013-07-27,Road Freight,Kayla Woodcock,293092,True
+340,4,2013-07-22,2013-08-11,Road Freight,Kayla Woodcock,293092,True
+341,7,2013-07-22,2013-08-11,Courier,Kayla Woodcock,BC0280982,True
+342,4,2013-07-23,2013-08-12,Road Freight,Kayla Woodcock,293092,True
+343,7,2013-07-23,2013-08-12,Courier,Kayla Woodcock,BC0280982,True
+344,4,2013-07-24,2013-08-13,Road Freight,Kayla Woodcock,293092,True
+345,7,2013-07-24,2013-08-13,Courier,Kayla Woodcock,BC0280982,True
+346,4,2013-07-25,2013-08-14,Road Freight,Kayla Woodcock,293092,True
+347,7,2013-07-25,2013-08-14,Courier,Kayla Woodcock,BC0280982,True
+348,4,2013-07-26,2013-08-15,Road Freight,Kayla Woodcock,293092,True
+349,7,2013-07-26,2013-08-15,Courier,Kayla Woodcock,BC0280982,True
+350,4,2013-07-27,2013-08-03,Road Freight,Kayla Woodcock,293092,True
+351,4,2013-07-29,2013-08-18,Road Freight,Kayla Woodcock,293092,True
+352,7,2013-07-29,2013-08-18,Courier,Kayla Woodcock,BC0280982,True
+353,4,2013-07-30,2013-08-19,Road Freight,Kayla Woodcock,293092,True
+354,7,2013-07-30,2013-08-19,Courier,Kayla Woodcock,BC0280982,True
+355,4,2013-07-31,2013-08-20,Road Freight,Kayla Woodcock,293092,True
+356,7,2013-07-31,2013-08-20,Courier,Kayla Woodcock,BC0280982,True
+357,4,2013-08-01,2013-08-21,Road Freight,Kayla Woodcock,293092,True
+358,7,2013-08-01,2013-08-21,Courier,Kayla Woodcock,BC0280982,True
+359,4,2013-08-02,2013-08-22,Road Freight,Kayla Woodcock,293092,True
+360,7,2013-08-02,2013-08-22,Courier,Kayla Woodcock,BC0280982,True
+361,4,2013-08-03,2013-08-23,Road Freight,Kayla Woodcock,293092,True
+362,7,2013-08-03,2013-08-23,Courier,Kayla Woodcock,BC0280982,True
+363,4,2013-08-05,2013-08-25,Road Freight,Kayla Woodcock,293092,True
+364,7,2013-08-05,2013-08-25,Courier,Kayla Woodcock,BC0280982,True
+365,4,2013-08-06,2013-08-26,Road Freight,Kayla Woodcock,293092,True
+366,7,2013-08-06,2013-08-26,Courier,Kayla Woodcock,BC0280982,True
+367,4,2013-08-07,2013-08-27,Road Freight,Kayla Woodcock,293092,True
+368,7,2013-08-07,2013-08-27,Courier,Kayla Woodcock,BC0280982,True
+369,4,2013-08-08,2013-08-28,Road Freight,Kayla Woodcock,293092,True
+370,7,2013-08-08,2013-08-28,Courier,Kayla Woodcock,BC0280982,True
+371,4,2013-08-09,2013-08-29,Road Freight,Kayla Woodcock,293092,True
+372,7,2013-08-09,2013-08-29,Courier,Kayla Woodcock,BC0280982,True
+373,4,2013-08-10,2013-08-24,Road Freight,Kayla Woodcock,293092,True
+374,7,2013-08-10,2013-08-24,Courier,Kayla Woodcock,BC0280982,True
+375,4,2013-08-12,2013-09-01,Road Freight,Kayla Woodcock,293092,True
+376,7,2013-08-12,2013-09-01,Courier,Kayla Woodcock,BC0280982,True
+377,4,2013-08-13,2013-09-02,Road Freight,Kayla Woodcock,293092,True
+378,7,2013-08-13,2013-09-02,Courier,Kayla Woodcock,BC0280982,True
+379,4,2013-08-14,2013-09-03,Road Freight,Kayla Woodcock,293092,True
+380,7,2013-08-14,2013-09-03,Courier,Kayla Woodcock,BC0280982,True
+381,4,2013-08-15,2013-09-04,Road Freight,Kayla Woodcock,293092,True
+382,7,2013-08-15,2013-09-04,Courier,Kayla Woodcock,BC0280982,True
+383,4,2013-08-16,2013-09-05,Road Freight,Kayla Woodcock,293092,True
+384,7,2013-08-16,2013-09-05,Courier,Kayla Woodcock,BC0280982,True
+385,4,2013-08-17,2013-09-06,Road Freight,Kayla Woodcock,293092,True
+386,7,2013-08-17,2013-09-06,Courier,Kayla Woodcock,BC0280982,True
+387,4,2013-08-19,2013-09-08,Road Freight,Kayla Woodcock,293092,True
+388,7,2013-08-19,2013-09-08,Courier,Kayla Woodcock,BC0280982,True
+389,4,2013-08-20,2013-09-09,Road Freight,Kayla Woodcock,293092,True
+390,7,2013-08-20,2013-09-09,Courier,Kayla Woodcock,BC0280982,True
+391,4,2013-08-21,2013-09-10,Road Freight,Kayla Woodcock,293092,True
+392,7,2013-08-21,2013-09-10,Courier,Kayla Woodcock,BC0280982,True
+393,4,2013-08-22,2013-09-11,Road Freight,Kayla Woodcock,293092,True
+394,7,2013-08-22,2013-09-11,Courier,Kayla Woodcock,BC0280982,True
+395,4,2013-08-23,2013-09-12,Road Freight,Kayla Woodcock,293092,True
+396,7,2013-08-23,2013-09-12,Courier,Kayla Woodcock,BC0280982,True
+397,4,2013-08-24,2013-09-13,Road Freight,Kayla Woodcock,293092,True
+398,7,2013-08-24,2013-09-13,Courier,Kayla Woodcock,BC0280982,True
+399,4,2013-08-26,2013-09-15,Road Freight,Kayla Woodcock,293092,True
+400,7,2013-08-26,2013-09-15,Courier,Kayla Woodcock,BC0280982,True
+401,4,2013-08-27,2013-09-16,Road Freight,Kayla Woodcock,293092,True
+402,7,2013-08-27,2013-09-16,Courier,Kayla Woodcock,BC0280982,True
+403,4,2013-08-28,2013-09-17,Road Freight,Kayla Woodcock,293092,True
+404,7,2013-08-28,2013-09-17,Courier,Kayla Woodcock,BC0280982,True
+405,4,2013-08-29,2013-09-18,Road Freight,Kayla Woodcock,293092,True
+406,7,2013-08-29,2013-09-18,Courier,Kayla Woodcock,BC0280982,True
+407,4,2013-08-30,2013-09-19,Road Freight,Kayla Woodcock,293092,True
+408,7,2013-08-30,2013-09-19,Courier,Kayla Woodcock,BC0280982,True
+409,4,2013-08-31,2013-09-20,Road Freight,Kayla Woodcock,293092,True
+410,7,2013-08-31,2013-09-20,Courier,Kayla Woodcock,BC0280982,True
+411,4,2013-09-02,2013-09-22,Road Freight,Kayla Woodcock,293092,True
+412,7,2013-09-02,2013-09-22,Courier,Kayla Woodcock,BC0280982,True
+413,4,2013-09-03,2013-09-23,Road Freight,Kayla Woodcock,293092,True
+414,7,2013-09-03,2013-09-23,Courier,Kayla Woodcock,BC0280982,True
+415,4,2013-09-04,2013-09-24,Road Freight,Kayla Woodcock,293092,True
+416,7,2013-09-04,2013-09-24,Courier,Kayla Woodcock,BC0280982,True
+417,4,2013-09-05,2013-09-25,Road Freight,Kayla Woodcock,293092,True
+418,7,2013-09-05,2013-09-25,Courier,Kayla Woodcock,BC0280982,True
+419,4,2013-09-06,2013-09-26,Road Freight,Kayla Woodcock,293092,True
+420,7,2013-09-06,2013-09-26,Courier,Kayla Woodcock,BC0280982,True
+421,4,2013-09-07,2013-09-14,Road Freight,Kayla Woodcock,293092,True
+422,4,2013-09-09,2013-09-29,Road Freight,Kayla Woodcock,293092,True
+423,7,2013-09-09,2013-09-29,Courier,Kayla Woodcock,BC0280982,True
+424,4,2013-09-10,2013-09-30,Road Freight,Kayla Woodcock,293092,True
+425,7,2013-09-10,2013-09-30,Courier,Kayla Woodcock,BC0280982,True
+426,4,2013-09-11,2013-10-01,Road Freight,Kayla Woodcock,293092,True
+427,7,2013-09-11,2013-10-01,Courier,Kayla Woodcock,BC0280982,True
+428,4,2013-09-12,2013-10-02,Road Freight,Kayla Woodcock,293092,True
+429,7,2013-09-12,2013-10-02,Courier,Kayla Woodcock,BC0280982,True
+430,4,2013-09-13,2013-10-03,Road Freight,Kayla Woodcock,293092,True
+431,7,2013-09-13,2013-10-03,Courier,Kayla Woodcock,BC0280982,True
+432,4,2013-09-14,2013-09-21,Road Freight,Kayla Woodcock,293092,True
+433,4,2013-09-16,2013-10-06,Road Freight,Kayla Woodcock,293092,True
+434,7,2013-09-16,2013-10-06,Courier,Kayla Woodcock,BC0280982,True
+435,4,2013-09-17,2013-10-07,Road Freight,Kayla Woodcock,293092,True
+436,7,2013-09-17,2013-10-07,Courier,Kayla Woodcock,BC0280982,True
+437,4,2013-09-18,2013-10-08,Road Freight,Kayla Woodcock,293092,True
+438,7,2013-09-18,2013-10-08,Courier,Kayla Woodcock,BC0280982,True
+439,4,2013-09-19,2013-10-09,Road Freight,Kayla Woodcock,293092,True
+440,7,2013-09-19,2013-10-09,Courier,Kayla Woodcock,BC0280982,True
+441,4,2013-09-20,2013-10-10,Road Freight,Kayla Woodcock,293092,True
+442,7,2013-09-20,2013-10-10,Courier,Kayla Woodcock,BC0280982,True
+443,4,2013-09-21,2013-09-28,Road Freight,Kayla Woodcock,293092,True
+444,4,2013-09-23,2013-10-13,Road Freight,Kayla Woodcock,293092,True
+445,7,2013-09-23,2013-10-13,Courier,Kayla Woodcock,BC0280982,True
+446,4,2013-09-24,2013-10-14,Road Freight,Kayla Woodcock,293092,True
+447,7,2013-09-24,2013-10-14,Courier,Kayla Woodcock,BC0280982,True
+448,4,2013-09-25,2013-10-15,Road Freight,Kayla Woodcock,293092,True
+449,7,2013-09-25,2013-10-15,Courier,Kayla Woodcock,BC0280982,True
+450,4,2013-09-26,2013-10-16,Road Freight,Kayla Woodcock,293092,True
+451,7,2013-09-26,2013-10-16,Courier,Kayla Woodcock,BC0280982,True
+452,4,2013-09-27,2013-10-17,Road Freight,Kayla Woodcock,293092,True
+453,7,2013-09-27,2013-10-17,Courier,Kayla Woodcock,BC0280982,True
+454,7,2013-09-28,2013-10-18,Courier,Kayla Woodcock,BC0280982,True
+455,4,2013-09-30,2013-10-20,Road Freight,Kayla Woodcock,293092,True
+456,7,2013-09-30,2013-10-20,Courier,Kayla Woodcock,BC0280982,True
+457,4,2013-10-01,2013-10-21,Road Freight,Kayla Woodcock,293092,True
+458,7,2013-10-01,2013-10-21,Courier,Kayla Woodcock,BC0280982,True
+459,4,2013-10-02,2013-10-22,Road Freight,Kayla Woodcock,293092,True
+460,7,2013-10-02,2013-10-22,Courier,Kayla Woodcock,BC0280982,True
+461,4,2013-10-03,2013-10-23,Road Freight,Kayla Woodcock,293092,True
+462,7,2013-10-03,2013-10-23,Courier,Kayla Woodcock,BC0280982,True
+463,4,2013-10-04,2013-10-24,Road Freight,Kayla Woodcock,293092,True
+464,7,2013-10-04,2013-10-24,Courier,Kayla Woodcock,BC0280982,True
+465,4,2013-10-05,2013-10-25,Road Freight,Kayla Woodcock,293092,True
+466,7,2013-10-05,2013-10-25,Courier,Kayla Woodcock,BC0280982,True
+467,4,2013-10-07,2013-10-27,Road Freight,Kayla Woodcock,293092,True
+468,7,2013-10-07,2013-10-27,Courier,Kayla Woodcock,BC0280982,True
+469,4,2013-10-08,2013-10-28,Road Freight,Kayla Woodcock,293092,True
+470,7,2013-10-08,2013-10-28,Courier,Kayla Woodcock,BC0280982,True
+471,4,2013-10-09,2013-10-29,Road Freight,Kayla Woodcock,293092,True
+472,7,2013-10-09,2013-10-29,Courier,Kayla Woodcock,BC0280982,True
+473,4,2013-10-10,2013-10-30,Road Freight,Kayla Woodcock,293092,True
+474,7,2013-10-10,2013-10-30,Courier,Kayla Woodcock,BC0280982,True
+475,4,2013-10-11,2013-10-31,Road Freight,Kayla Woodcock,293092,True
+476,7,2013-10-11,2013-10-31,Courier,Kayla Woodcock,BC0280982,True
+477,4,2013-10-12,2013-10-19,Road Freight,Kayla Woodcock,293092,True
+478,4,2013-10-14,2013-11-03,Road Freight,Kayla Woodcock,293092,True
+479,7,2013-10-14,2013-11-03,Courier,Kayla Woodcock,BC0280982,True
+480,4,2013-10-15,2013-11-04,Road Freight,Kayla Woodcock,293092,True
+481,7,2013-10-15,2013-11-04,Courier,Kayla Woodcock,BC0280982,True
+482,4,2013-10-16,2013-11-05,Road Freight,Kayla Woodcock,293092,True
+483,7,2013-10-16,2013-11-05,Courier,Kayla Woodcock,BC0280982,True
+484,4,2013-10-17,2013-11-06,Road Freight,Kayla Woodcock,293092,True
+485,7,2013-10-17,2013-11-06,Courier,Kayla Woodcock,BC0280982,True
+486,4,2013-10-18,2013-11-07,Road Freight,Kayla Woodcock,293092,True
+487,7,2013-10-18,2013-11-07,Courier,Kayla Woodcock,BC0280982,True
+488,4,2013-10-19,2013-11-08,Road Freight,Kayla Woodcock,293092,True
+489,7,2013-10-19,2013-11-08,Courier,Kayla Woodcock,BC0280982,True
+490,4,2013-10-21,2013-11-10,Road Freight,Kayla Woodcock,293092,True
+491,7,2013-10-21,2013-11-10,Courier,Kayla Woodcock,BC0280982,True
+492,4,2013-10-22,2013-11-11,Road Freight,Kayla Woodcock,293092,True
+493,7,2013-10-22,2013-11-11,Courier,Kayla Woodcock,BC0280982,True
+494,4,2013-10-23,2013-11-12,Road Freight,Kayla Woodcock,293092,True
+495,7,2013-10-23,2013-11-12,Courier,Kayla Woodcock,BC0280982,True
+496,4,2013-10-24,2013-11-13,Road Freight,Kayla Woodcock,293092,True
+497,7,2013-10-24,2013-11-13,Courier,Kayla Woodcock,BC0280982,True
+498,4,2013-10-25,2013-11-14,Road Freight,Kayla Woodcock,293092,True
+499,7,2013-10-25,2013-11-14,Courier,Kayla Woodcock,BC0280982,True
+500,4,2013-10-26,2013-11-15,Road Freight,Kayla Woodcock,293092,True
+501,7,2013-10-26,2013-11-15,Courier,Kayla Woodcock,BC0280982,True
+502,4,2013-10-28,2013-11-17,Road Freight,Kayla Woodcock,293092,True
+503,7,2013-10-28,2013-11-17,Courier,Kayla Woodcock,BC0280982,True
+504,4,2013-10-29,2013-11-18,Road Freight,Kayla Woodcock,293092,True
+505,7,2013-10-29,2013-11-18,Courier,Kayla Woodcock,BC0280982,True
+506,4,2013-10-30,2013-11-19,Road Freight,Kayla Woodcock,293092,True
+507,7,2013-10-30,2013-11-19,Courier,Kayla Woodcock,BC0280982,True
+508,4,2013-10-31,2013-11-20,Road Freight,Kayla Woodcock,293092,True
+509,7,2013-10-31,2013-11-20,Courier,Kayla Woodcock,BC0280982,True
+510,4,2013-11-01,2013-11-21,Road Freight,Kayla Woodcock,293092,True
+511,7,2013-11-01,2013-11-21,Courier,Kayla Woodcock,BC0280982,True
+512,4,2013-11-02,2013-11-22,Road Freight,Kayla Woodcock,293092,True
+513,7,2013-11-02,2013-11-22,Courier,Kayla Woodcock,BC0280982,True
+514,4,2013-11-04,2013-11-24,Road Freight,Kayla Woodcock,293092,True
+515,7,2013-11-04,2013-11-24,Courier,Kayla Woodcock,BC0280982,True
+516,4,2013-11-05,2013-11-25,Road Freight,Kayla Woodcock,293092,True
+517,7,2013-11-05,2013-11-25,Courier,Kayla Woodcock,BC0280982,True
+518,4,2013-11-06,2013-11-26,Road Freight,Kayla Woodcock,293092,True
+519,7,2013-11-06,2013-11-26,Courier,Kayla Woodcock,BC0280982,True
+520,4,2013-11-07,2013-11-27,Road Freight,Kayla Woodcock,293092,True
+521,7,2013-11-07,2013-11-27,Courier,Kayla Woodcock,BC0280982,True
+522,4,2013-11-08,2013-11-28,Road Freight,Kayla Woodcock,293092,True
+523,7,2013-11-08,2013-11-28,Courier,Kayla Woodcock,BC0280982,True
+524,4,2013-11-09,2013-11-16,Road Freight,Kayla Woodcock,293092,True
+525,4,2013-11-11,2013-12-01,Road Freight,Kayla Woodcock,293092,True
+526,7,2013-11-11,2013-12-01,Courier,Kayla Woodcock,BC0280982,True
+527,4,2013-11-12,2013-12-02,Road Freight,Kayla Woodcock,293092,True
+528,7,2013-11-12,2013-12-02,Courier,Kayla Woodcock,BC0280982,True
+529,4,2013-11-13,2013-12-03,Road Freight,Kayla Woodcock,293092,True
+530,7,2013-11-13,2013-12-03,Courier,Kayla Woodcock,BC0280982,True
+531,4,2013-11-14,2013-12-04,Road Freight,Kayla Woodcock,293092,True
+532,7,2013-11-14,2013-12-04,Courier,Kayla Woodcock,BC0280982,True
+533,4,2013-11-15,2013-12-05,Road Freight,Kayla Woodcock,293092,True
+534,7,2013-11-15,2013-12-05,Courier,Kayla Woodcock,BC0280982,True
+535,4,2013-11-16,2013-11-23,Road Freight,Kayla Woodcock,293092,True
+536,4,2013-11-18,2013-12-08,Road Freight,Kayla Woodcock,293092,True
+537,7,2013-11-18,2013-12-08,Courier,Kayla Woodcock,BC0280982,True
+538,4,2013-11-19,2013-12-09,Road Freight,Kayla Woodcock,293092,True
+539,7,2013-11-19,2013-12-09,Courier,Kayla Woodcock,BC0280982,True
+540,4,2013-11-20,2013-12-10,Road Freight,Kayla Woodcock,293092,True
+541,7,2013-11-20,2013-12-10,Courier,Kayla Woodcock,BC0280982,True
+542,4,2013-11-21,2013-12-11,Road Freight,Kayla Woodcock,293092,True
+543,7,2013-11-21,2013-12-11,Courier,Kayla Woodcock,BC0280982,True
+544,4,2013-11-22,2013-12-12,Road Freight,Kayla Woodcock,293092,True
+545,7,2013-11-22,2013-12-12,Courier,Kayla Woodcock,BC0280982,True
+546,4,2013-11-23,2013-11-30,Road Freight,Kayla Woodcock,293092,True
+547,4,2013-11-25,2013-12-15,Road Freight,Kayla Woodcock,293092,True
+548,7,2013-11-25,2013-12-15,Courier,Kayla Woodcock,BC0280982,True
+549,4,2013-11-26,2013-12-16,Road Freight,Kayla Woodcock,293092,True
+550,7,2013-11-26,2013-12-16,Courier,Kayla Woodcock,BC0280982,True
+551,4,2013-11-27,2013-12-17,Road Freight,Kayla Woodcock,293092,True
+552,7,2013-11-27,2013-12-17,Courier,Kayla Woodcock,BC0280982,True
+553,4,2013-11-28,2013-12-18,Road Freight,Kayla Woodcock,293092,True
+554,7,2013-11-28,2013-12-18,Courier,Kayla Woodcock,BC0280982,True
+555,4,2013-11-29,2013-12-19,Road Freight,Kayla Woodcock,293092,True
+556,7,2013-11-29,2013-12-19,Courier,Kayla Woodcock,BC0280982,True
+557,4,2013-11-30,2013-12-07,Road Freight,Kayla Woodcock,293092,True
+558,4,2013-12-02,2013-12-22,Road Freight,Kayla Woodcock,293092,True
+559,7,2013-12-02,2013-12-22,Courier,Kayla Woodcock,BC0280982,True
+560,4,2013-12-03,2013-12-23,Road Freight,Kayla Woodcock,293092,True
+561,7,2013-12-03,2013-12-23,Courier,Kayla Woodcock,BC0280982,True
+562,4,2013-12-04,2013-12-24,Road Freight,Kayla Woodcock,293092,True
+563,7,2013-12-04,2013-12-24,Courier,Kayla Woodcock,BC0280982,True
+564,4,2013-12-05,2013-12-25,Road Freight,Kayla Woodcock,293092,True
+565,7,2013-12-05,2013-12-25,Courier,Kayla Woodcock,BC0280982,True
+566,4,2013-12-06,2013-12-26,Road Freight,Kayla Woodcock,293092,True
+567,7,2013-12-06,2013-12-26,Courier,Kayla Woodcock,BC0280982,True
+568,4,2013-12-09,2013-12-29,Road Freight,Kayla Woodcock,293092,True
+569,7,2013-12-09,2013-12-29,Courier,Kayla Woodcock,BC0280982,True
+570,4,2013-12-10,2013-12-30,Road Freight,Kayla Woodcock,293092,True
+571,7,2013-12-10,2013-12-30,Courier,Kayla Woodcock,BC0280982,True
+572,4,2013-12-11,2013-12-31,Road Freight,Kayla Woodcock,293092,True
+573,7,2013-12-11,2013-12-31,Courier,Kayla Woodcock,BC0280982,True
+574,4,2013-12-12,2014-01-01,Road Freight,Kayla Woodcock,293092,True
+575,7,2013-12-12,2014-01-01,Courier,Kayla Woodcock,BC0280982,True
+576,4,2013-12-13,2014-01-02,Road Freight,Kayla Woodcock,293092,True
+577,7,2013-12-13,2014-01-02,Courier,Kayla Woodcock,BC0280982,True
+578,4,2013-12-14,2013-12-21,Road Freight,Kayla Woodcock,293092,True
+579,4,2013-12-16,2014-01-05,Road Freight,Kayla Woodcock,293092,True
+580,7,2013-12-16,2014-01-05,Courier,Kayla Woodcock,BC0280982,True
+581,4,2013-12-17,2014-01-06,Road Freight,Kayla Woodcock,293092,True
+582,7,2013-12-17,2014-01-06,Courier,Kayla Woodcock,BC0280982,True
+583,4,2013-12-18,2014-01-07,Road Freight,Kayla Woodcock,293092,True
+584,7,2013-12-18,2014-01-07,Courier,Kayla Woodcock,BC0280982,True
+585,4,2013-12-19,2014-01-08,Road Freight,Kayla Woodcock,293092,True
+586,7,2013-12-19,2014-01-08,Courier,Kayla Woodcock,BC0280982,True
+587,4,2013-12-20,2014-01-09,Road Freight,Kayla Woodcock,293092,True
+588,7,2013-12-20,2014-01-09,Courier,Kayla Woodcock,BC0280982,True
+589,4,2013-12-21,2014-01-10,Road Freight,Kayla Woodcock,293092,True
+590,7,2013-12-21,2014-01-10,Courier,Kayla Woodcock,BC0280982,True
+591,4,2013-12-23,2014-01-12,Road Freight,Kayla Woodcock,293092,True
+592,7,2013-12-23,2014-01-12,Courier,Kayla Woodcock,BC0280982,True
+593,4,2013-12-24,2014-01-13,Road Freight,Kayla Woodcock,293092,True
+594,7,2013-12-24,2014-01-13,Courier,Kayla Woodcock,BC0280982,True
+595,4,2013-12-25,2014-01-14,Road Freight,Kayla Woodcock,293092,True
+596,7,2013-12-25,2014-01-14,Courier,Kayla Woodcock,BC0280982,True
+597,4,2013-12-26,2014-01-15,Road Freight,Kayla Woodcock,293092,True
+598,7,2013-12-26,2014-01-15,Courier,Kayla Woodcock,BC0280982,True
+599,4,2013-12-27,2014-01-16,Road Freight,Kayla Woodcock,293092,True
+600,7,2013-12-27,2014-01-16,Courier,Kayla Woodcock,BC0280982,True
+601,4,2013-12-28,2014-01-04,Road Freight,Kayla Woodcock,293092,True
+602,4,2013-12-30,2014-01-19,Road Freight,Kayla Woodcock,293092,True
+603,7,2013-12-30,2014-01-19,Courier,Kayla Woodcock,BC0280982,True
+604,4,2013-12-31,2014-01-20,Road Freight,Kayla Woodcock,293092,True
+605,7,2013-12-31,2014-01-20,Courier,Kayla Woodcock,BC0280982,True
+606,4,2014-01-01,2014-01-21,Road Freight,Kayla Woodcock,293092,True
+607,7,2014-01-01,2014-01-21,Courier,Kayla Woodcock,BC0280982,True
+608,4,2014-01-02,2014-01-22,Road Freight,Kayla Woodcock,293092,True
+609,7,2014-01-02,2014-01-22,Courier,Kayla Woodcock,BC0280982,True
+610,4,2014-01-03,2014-01-23,Road Freight,Kayla Woodcock,293092,True
+611,7,2014-01-03,2014-01-23,Courier,Kayla Woodcock,BC0280982,True
+612,4,2014-01-04,2014-01-11,Road Freight,Kayla Woodcock,293092,True
+613,4,2014-01-06,2014-01-26,Road Freight,Kayla Woodcock,293092,True
+614,7,2014-01-06,2014-01-26,Courier,Kayla Woodcock,BC0280982,True
+615,4,2014-01-07,2014-01-27,Road Freight,Kayla Woodcock,293092,True
+616,7,2014-01-07,2014-01-27,Courier,Kayla Woodcock,BC0280982,True
+617,4,2014-01-08,2014-01-28,Road Freight,Kayla Woodcock,293092,True
+618,7,2014-01-08,2014-01-28,Courier,Kayla Woodcock,BC0280982,True
+619,4,2014-01-09,2014-01-29,Road Freight,Kayla Woodcock,293092,True
+620,7,2014-01-09,2014-01-29,Courier,Kayla Woodcock,BC0280982,True
+621,4,2014-01-10,2014-01-30,Road Freight,Kayla Woodcock,293092,True
+622,7,2014-01-10,2014-01-30,Courier,Kayla Woodcock,BC0280982,True
+623,4,2014-01-11,2014-01-18,Road Freight,Kayla Woodcock,293092,True
+624,4,2014-01-13,2014-02-02,Road Freight,Kayla Woodcock,293092,True
+625,7,2014-01-13,2014-02-02,Courier,Kayla Woodcock,BC0280982,True
+626,4,2014-01-14,2014-02-03,Road Freight,Kayla Woodcock,293092,True
+627,7,2014-01-14,2014-02-03,Courier,Kayla Woodcock,BC0280982,True
+628,4,2014-01-15,2014-02-04,Road Freight,Kayla Woodcock,293092,True
+629,7,2014-01-15,2014-02-04,Courier,Kayla Woodcock,BC0280982,True
+630,4,2014-01-16,2014-02-05,Road Freight,Kayla Woodcock,293092,True
+631,7,2014-01-16,2014-02-05,Courier,Kayla Woodcock,BC0280982,True
+632,4,2014-01-17,2014-02-06,Road Freight,Kayla Woodcock,293092,True
+633,7,2014-01-17,2014-02-06,Courier,Kayla Woodcock,BC0280982,True
+634,4,2014-01-18,2014-02-07,Road Freight,Kayla Woodcock,293092,True
+635,7,2014-01-18,2014-02-07,Courier,Kayla Woodcock,BC0280982,True
+636,4,2014-01-20,2014-02-09,Road Freight,Kayla Woodcock,293092,True
+637,7,2014-01-20,2014-02-09,Courier,Kayla Woodcock,BC0280982,True
+638,4,2014-01-21,2014-02-10,Road Freight,Kayla Woodcock,293092,True
+639,7,2014-01-21,2014-02-10,Courier,Kayla Woodcock,BC0280982,True
+640,4,2014-01-22,2014-02-11,Road Freight,Kayla Woodcock,293092,True
+641,7,2014-01-22,2014-02-11,Courier,Kayla Woodcock,BC0280982,True
+642,4,2014-01-23,2014-02-12,Road Freight,Kayla Woodcock,293092,True
+643,7,2014-01-23,2014-02-12,Courier,Kayla Woodcock,BC0280982,True
+644,4,2014-01-24,2014-02-13,Road Freight,Kayla Woodcock,293092,True
+645,7,2014-01-24,2014-02-13,Courier,Kayla Woodcock,BC0280982,True
+646,7,2014-01-25,2014-02-14,Courier,Kayla Woodcock,BC0280982,True
+647,4,2014-01-27,2014-02-16,Road Freight,Kayla Woodcock,293092,True
+648,7,2014-01-27,2014-02-16,Courier,Kayla Woodcock,BC0280982,True
+649,4,2014-01-28,2014-02-17,Road Freight,Kayla Woodcock,293092,True
+650,7,2014-01-28,2014-02-17,Courier,Kayla Woodcock,BC0280982,True
+651,4,2014-01-29,2014-02-18,Road Freight,Kayla Woodcock,293092,True
+652,7,2014-01-29,2014-02-18,Courier,Kayla Woodcock,BC0280982,True
+653,4,2014-01-30,2014-02-19,Road Freight,Kayla Woodcock,293092,True
+654,7,2014-01-30,2014-02-19,Courier,Kayla Woodcock,BC0280982,True
+655,4,2014-01-31,2014-02-20,Road Freight,Kayla Woodcock,293092,True
+656,7,2014-01-31,2014-02-20,Courier,Kayla Woodcock,BC0280982,True
+657,4,2014-02-01,2014-02-15,Road Freight,Kayla Woodcock,293092,True
+658,7,2014-02-01,2014-02-15,Courier,Kayla Woodcock,BC0280982,True
+659,4,2014-02-03,2014-02-23,Road Freight,Kayla Woodcock,293092,True
+660,7,2014-02-03,2014-02-23,Courier,Kayla Woodcock,BC0280982,True
+661,4,2014-02-04,2014-02-24,Road Freight,Kayla Woodcock,293092,True
+662,7,2014-02-04,2014-02-24,Courier,Kayla Woodcock,BC0280982,True
+663,4,2014-02-05,2014-02-25,Road Freight,Kayla Woodcock,293092,True
+664,7,2014-02-05,2014-02-25,Courier,Kayla Woodcock,BC0280982,True
+665,4,2014-02-06,2014-02-26,Road Freight,Kayla Woodcock,293092,True
+666,7,2014-02-06,2014-02-26,Courier,Kayla Woodcock,BC0280982,True
+667,4,2014-02-07,2014-02-27,Road Freight,Kayla Woodcock,293092,True
+668,7,2014-02-07,2014-02-27,Courier,Kayla Woodcock,BC0280982,True
+669,4,2014-02-08,2014-02-28,Road Freight,Kayla Woodcock,293092,True
+670,7,2014-02-08,2014-02-28,Courier,Kayla Woodcock,BC0280982,True
+671,4,2014-02-10,2014-03-02,Road Freight,Kayla Woodcock,293092,True
+672,7,2014-02-10,2014-03-02,Courier,Kayla Woodcock,BC0280982,True
+673,4,2014-02-11,2014-03-03,Road Freight,Kayla Woodcock,293092,True
+674,7,2014-02-11,2014-03-03,Courier,Kayla Woodcock,BC0280982,True
+675,4,2014-02-12,2014-03-04,Road Freight,Kayla Woodcock,293092,True
+676,7,2014-02-12,2014-03-04,Courier,Kayla Woodcock,BC0280982,True
+677,4,2014-02-13,2014-03-05,Road Freight,Kayla Woodcock,293092,True
+678,7,2014-02-13,2014-03-05,Courier,Kayla Woodcock,BC0280982,True
+679,4,2014-02-14,2014-03-06,Road Freight,Kayla Woodcock,293092,True
+680,7,2014-02-14,2014-03-06,Courier,Kayla Woodcock,BC0280982,True
+681,4,2014-02-15,2014-02-22,Road Freight,Kayla Woodcock,293092,True
+682,4,2014-02-17,2014-03-09,Road Freight,Kayla Woodcock,293092,True
+683,7,2014-02-17,2014-03-09,Courier,Kayla Woodcock,BC0280982,True
+684,4,2014-02-18,2014-03-10,Road Freight,Kayla Woodcock,293092,True
+685,7,2014-02-18,2014-03-10,Courier,Kayla Woodcock,BC0280982,True
+686,4,2014-02-19,2014-03-11,Road Freight,Kayla Woodcock,293092,True
+687,7,2014-02-19,2014-03-11,Courier,Kayla Woodcock,BC0280982,True
+688,4,2014-02-20,2014-03-12,Road Freight,Kayla Woodcock,293092,True
+689,7,2014-02-20,2014-03-12,Courier,Kayla Woodcock,BC0280982,True
+690,4,2014-02-21,2014-03-13,Road Freight,Kayla Woodcock,293092,True
+691,7,2014-02-21,2014-03-13,Courier,Kayla Woodcock,BC0280982,True
+692,4,2014-02-22,2014-03-14,Road Freight,Kayla Woodcock,293092,True
+693,7,2014-02-22,2014-03-14,Courier,Kayla Woodcock,BC0280982,True
+694,4,2014-02-24,2014-03-16,Road Freight,Kayla Woodcock,293092,True
+695,7,2014-02-24,2014-03-16,Courier,Kayla Woodcock,BC0280982,True
+696,4,2014-02-25,2014-03-17,Road Freight,Kayla Woodcock,293092,True
+697,7,2014-02-25,2014-03-17,Courier,Kayla Woodcock,BC0280982,True
+698,4,2014-02-26,2014-03-18,Road Freight,Kayla Woodcock,293092,True
+699,7,2014-02-26,2014-03-18,Courier,Kayla Woodcock,BC0280982,True
+700,4,2014-02-27,2014-03-19,Road Freight,Kayla Woodcock,293092,True
+701,7,2014-02-27,2014-03-19,Courier,Kayla Woodcock,BC0280982,True
+702,4,2014-02-28,2014-03-20,Road Freight,Kayla Woodcock,293092,True
+703,7,2014-02-28,2014-03-20,Courier,Kayla Woodcock,BC0280982,True
+704,4,2014-03-01,2014-03-21,Road Freight,Kayla Woodcock,293092,True
+705,7,2014-03-01,2014-03-21,Courier,Kayla Woodcock,BC0280982,True
+706,4,2014-03-03,2014-03-23,Road Freight,Kayla Woodcock,293092,True
+707,7,2014-03-03,2014-03-23,Courier,Kayla Woodcock,BC0280982,True
+708,4,2014-03-04,2014-03-24,Road Freight,Kayla Woodcock,293092,True
+709,7,2014-03-04,2014-03-24,Courier,Kayla Woodcock,BC0280982,True
+710,4,2014-03-05,2014-03-25,Road Freight,Kayla Woodcock,293092,True
+711,7,2014-03-05,2014-03-25,Courier,Kayla Woodcock,BC0280982,True
+712,4,2014-03-06,2014-03-26,Road Freight,Kayla Woodcock,293092,True
+713,7,2014-03-06,2014-03-26,Courier,Kayla Woodcock,BC0280982,True
+714,4,2014-03-07,2014-03-27,Road Freight,Kayla Woodcock,293092,True
+715,7,2014-03-07,2014-03-27,Courier,Kayla Woodcock,BC0280982,True
+716,4,2014-03-08,2014-03-15,Road Freight,Kayla Woodcock,293092,True
+717,4,2014-03-10,2014-03-30,Road Freight,Kayla Woodcock,293092,True
+718,7,2014-03-10,2014-03-30,Courier,Kayla Woodcock,BC0280982,True
+719,4,2014-03-11,2014-03-31,Road Freight,Kayla Woodcock,293092,True
+720,7,2014-03-11,2014-03-31,Courier,Kayla Woodcock,BC0280982,True
+721,4,2014-03-12,2014-04-01,Road Freight,Kayla Woodcock,293092,True
+722,7,2014-03-12,2014-04-01,Courier,Kayla Woodcock,BC0280982,True
+723,4,2014-03-13,2014-04-02,Road Freight,Kayla Woodcock,293092,True
+724,7,2014-03-13,2014-04-02,Courier,Kayla Woodcock,BC0280982,True
+725,4,2014-03-14,2014-04-03,Road Freight,Kayla Woodcock,293092,True
+726,7,2014-03-14,2014-04-03,Courier,Kayla Woodcock,BC0280982,True
+727,4,2014-03-15,2014-04-04,Road Freight,Kayla Woodcock,293092,True
+728,7,2014-03-15,2014-04-04,Courier,Kayla Woodcock,BC0280982,True
+729,4,2014-03-17,2014-04-06,Road Freight,Kayla Woodcock,293092,True
+730,7,2014-03-17,2014-04-06,Courier,Kayla Woodcock,BC0280982,True
+731,4,2014-03-18,2014-04-07,Road Freight,Kayla Woodcock,293092,True
+732,7,2014-03-18,2014-04-07,Courier,Kayla Woodcock,BC0280982,True
+733,4,2014-03-19,2014-04-08,Road Freight,Kayla Woodcock,293092,True
+734,7,2014-03-19,2014-04-08,Courier,Kayla Woodcock,BC0280982,True
+735,4,2014-03-20,2014-04-09,Road Freight,Kayla Woodcock,293092,True
+736,7,2014-03-20,2014-04-09,Courier,Kayla Woodcock,BC0280982,True
+737,4,2014-03-21,2014-04-10,Road Freight,Kayla Woodcock,293092,True
+738,7,2014-03-21,2014-04-10,Courier,Kayla Woodcock,BC0280982,True
+739,4,2014-03-22,2014-04-05,Road Freight,Kayla Woodcock,293092,True
+740,7,2014-03-22,2014-04-05,Courier,Kayla Woodcock,BC0280982,True
+741,4,2014-03-24,2014-04-13,Road Freight,Kayla Woodcock,293092,True
+742,7,2014-03-24,2014-04-13,Courier,Kayla Woodcock,BC0280982,True
+743,4,2014-03-25,2014-04-14,Road Freight,Kayla Woodcock,293092,True
+744,7,2014-03-25,2014-04-14,Courier,Kayla Woodcock,BC0280982,True
+745,4,2014-03-26,2014-04-15,Road Freight,Kayla Woodcock,293092,True
+746,7,2014-03-26,2014-04-15,Courier,Kayla Woodcock,BC0280982,True
+747,4,2014-03-27,2014-04-16,Road Freight,Kayla Woodcock,293092,True
+748,7,2014-03-27,2014-04-16,Courier,Kayla Woodcock,BC0280982,True
+749,4,2014-03-28,2014-04-17,Road Freight,Kayla Woodcock,293092,True
+750,7,2014-03-28,2014-04-17,Courier,Kayla Woodcock,BC0280982,True
+751,4,2014-03-29,2014-04-05,Road Freight,Kayla Woodcock,293092,True
+752,4,2014-03-31,2014-04-20,Road Freight,Kayla Woodcock,293092,True
+753,7,2014-03-31,2014-04-20,Courier,Kayla Woodcock,BC0280982,True
+754,4,2014-04-01,2014-04-21,Road Freight,Kayla Woodcock,293092,True
+755,7,2014-04-01,2014-04-21,Courier,Kayla Woodcock,BC0280982,True
+756,4,2014-04-02,2014-04-22,Road Freight,Kayla Woodcock,293092,True
+757,7,2014-04-02,2014-04-22,Courier,Kayla Woodcock,BC0280982,True
+758,4,2014-04-03,2014-04-23,Road Freight,Kayla Woodcock,293092,True
+759,7,2014-04-03,2014-04-23,Courier,Kayla Woodcock,BC0280982,True
+760,4,2014-04-04,2014-04-24,Road Freight,Kayla Woodcock,293092,True
+761,7,2014-04-04,2014-04-24,Courier,Kayla Woodcock,BC0280982,True
+762,4,2014-04-05,2014-04-25,Road Freight,Kayla Woodcock,293092,True
+763,7,2014-04-05,2014-04-25,Courier,Kayla Woodcock,BC0280982,True
+764,4,2014-04-07,2014-04-27,Road Freight,Kayla Woodcock,293092,True
+765,7,2014-04-07,2014-04-27,Courier,Kayla Woodcock,BC0280982,True
+766,4,2014-04-08,2014-04-28,Road Freight,Kayla Woodcock,293092,True
+767,7,2014-04-08,2014-04-28,Courier,Kayla Woodcock,BC0280982,True
+768,4,2014-04-09,2014-04-29,Road Freight,Kayla Woodcock,293092,True
+769,7,2014-04-09,2014-04-29,Courier,Kayla Woodcock,BC0280982,True
+770,4,2014-04-10,2014-04-30,Road Freight,Kayla Woodcock,293092,True
+771,7,2014-04-10,2014-04-30,Courier,Kayla Woodcock,BC0280982,True
+772,4,2014-04-11,2014-05-01,Road Freight,Kayla Woodcock,293092,True
+773,7,2014-04-11,2014-05-01,Courier,Kayla Woodcock,BC0280982,True
+774,4,2014-04-12,2014-04-26,Road Freight,Kayla Woodcock,293092,True
+775,7,2014-04-12,2014-04-26,Courier,Kayla Woodcock,BC0280982,True
+776,4,2014-04-14,2014-05-04,Road Freight,Kayla Woodcock,293092,True
+777,7,2014-04-14,2014-05-04,Courier,Kayla Woodcock,BC0280982,True
+778,4,2014-04-15,2014-05-05,Road Freight,Kayla Woodcock,293092,True
+779,7,2014-04-15,2014-05-05,Courier,Kayla Woodcock,BC0280982,True
+780,4,2014-04-16,2014-05-06,Road Freight,Kayla Woodcock,293092,True
+781,7,2014-04-16,2014-05-06,Courier,Kayla Woodcock,BC0280982,True
+782,4,2014-04-17,2014-05-07,Road Freight,Kayla Woodcock,293092,True
+783,7,2014-04-17,2014-05-07,Courier,Kayla Woodcock,BC0280982,True
+784,4,2014-04-18,2014-05-08,Road Freight,Kayla Woodcock,293092,True
+785,7,2014-04-18,2014-05-08,Courier,Kayla Woodcock,BC0280982,True
+786,4,2014-04-19,2014-04-26,Road Freight,Kayla Woodcock,293092,True
+787,4,2014-04-21,2014-05-11,Road Freight,Kayla Woodcock,293092,True
+788,7,2014-04-21,2014-05-11,Courier,Kayla Woodcock,BC0280982,True
+789,4,2014-04-22,2014-05-12,Road Freight,Kayla Woodcock,293092,True
+790,7,2014-04-22,2014-05-12,Courier,Kayla Woodcock,BC0280982,True
+791,4,2014-04-23,2014-05-13,Road Freight,Kayla Woodcock,293092,True
+792,7,2014-04-23,2014-05-13,Courier,Kayla Woodcock,BC0280982,True
+793,4,2014-04-24,2014-05-14,Road Freight,Kayla Woodcock,293092,True
+794,7,2014-04-24,2014-05-14,Courier,Kayla Woodcock,BC0280982,True
+795,4,2014-04-25,2014-05-15,Road Freight,Kayla Woodcock,293092,True
+796,7,2014-04-25,2014-05-15,Courier,Kayla Woodcock,BC0280982,True
+797,4,2014-04-26,2014-05-16,Road Freight,Kayla Woodcock,293092,True
+798,7,2014-04-26,2014-05-16,Courier,Kayla Woodcock,BC0280982,True
+799,4,2014-04-28,2014-05-18,Road Freight,Kayla Woodcock,293092,True
+800,7,2014-04-28,2014-05-18,Courier,Kayla Woodcock,BC0280982,True
+801,4,2014-04-29,2014-05-19,Road Freight,Kayla Woodcock,293092,True
+802,7,2014-04-29,2014-05-19,Courier,Kayla Woodcock,BC0280982,True
+803,4,2014-04-30,2014-05-20,Road Freight,Kayla Woodcock,293092,True
+804,7,2014-04-30,2014-05-20,Courier,Kayla Woodcock,BC0280982,True
+805,4,2014-05-01,2014-05-21,Road Freight,Kayla Woodcock,293092,True
+806,7,2014-05-01,2014-05-21,Courier,Kayla Woodcock,BC0280982,True
+807,4,2014-05-02,2014-05-22,Road Freight,Kayla Woodcock,293092,True
+808,7,2014-05-02,2014-05-22,Courier,Kayla Woodcock,BC0280982,True
+809,4,2014-05-03,2014-05-23,Road Freight,Kayla Woodcock,293092,True
+810,7,2014-05-03,2014-05-23,Courier,Kayla Woodcock,BC0280982,True
+811,4,2014-05-05,2014-05-25,Road Freight,Kayla Woodcock,293092,True
+812,7,2014-05-05,2014-05-25,Courier,Kayla Woodcock,BC0280982,True
+813,4,2014-05-06,2014-05-26,Road Freight,Kayla Woodcock,293092,True
+814,7,2014-05-06,2014-05-26,Courier,Kayla Woodcock,BC0280982,True
+815,4,2014-05-07,2014-05-27,Road Freight,Kayla Woodcock,293092,True
+816,7,2014-05-07,2014-05-27,Courier,Kayla Woodcock,BC0280982,True
+817,4,2014-05-08,2014-05-28,Road Freight,Kayla Woodcock,293092,True
+818,7,2014-05-08,2014-05-28,Courier,Kayla Woodcock,BC0280982,True
+819,4,2014-05-09,2014-05-29,Road Freight,Kayla Woodcock,293092,True
+820,7,2014-05-09,2014-05-29,Courier,Kayla Woodcock,BC0280982,True
+821,4,2014-05-12,2014-06-01,Road Freight,Kayla Woodcock,293092,True
+822,7,2014-05-12,2014-06-01,Courier,Kayla Woodcock,BC0280982,True
+823,4,2014-05-13,2014-06-02,Road Freight,Kayla Woodcock,293092,True
+824,7,2014-05-13,2014-06-02,Courier,Kayla Woodcock,BC0280982,True
+825,4,2014-05-14,2014-06-03,Road Freight,Kayla Woodcock,293092,True
+826,7,2014-05-14,2014-06-03,Courier,Kayla Woodcock,BC0280982,True
+827,4,2014-05-15,2014-06-04,Road Freight,Kayla Woodcock,293092,True
+828,7,2014-05-15,2014-06-04,Courier,Kayla Woodcock,BC0280982,True
+829,4,2014-05-16,2014-06-05,Road Freight,Kayla Woodcock,293092,True
+830,7,2014-05-16,2014-06-05,Courier,Kayla Woodcock,BC0280982,True
+831,4,2014-05-17,2014-05-31,Road Freight,Kayla Woodcock,293092,True
+832,7,2014-05-17,2014-05-31,Courier,Kayla Woodcock,BC0280982,True
+833,4,2014-05-19,2014-06-08,Road Freight,Kayla Woodcock,293092,True
+834,7,2014-05-19,2014-06-08,Courier,Kayla Woodcock,BC0280982,True
+835,4,2014-05-20,2014-06-09,Road Freight,Kayla Woodcock,293092,True
+836,7,2014-05-20,2014-06-09,Courier,Kayla Woodcock,BC0280982,True
+837,4,2014-05-21,2014-06-10,Road Freight,Kayla Woodcock,293092,True
+838,7,2014-05-21,2014-06-10,Courier,Kayla Woodcock,BC0280982,True
+839,4,2014-05-22,2014-06-11,Road Freight,Kayla Woodcock,293092,True
+840,7,2014-05-22,2014-06-11,Courier,Kayla Woodcock,BC0280982,True
+841,4,2014-05-23,2014-06-12,Road Freight,Kayla Woodcock,293092,True
+842,7,2014-05-23,2014-06-12,Courier,Kayla Woodcock,BC0280982,True
+843,4,2014-05-24,2014-05-31,Road Freight,Kayla Woodcock,293092,True
+844,4,2014-05-26,2014-06-15,Road Freight,Kayla Woodcock,293092,True
+845,7,2014-05-26,2014-06-15,Courier,Kayla Woodcock,BC0280982,True
+846,4,2014-05-27,2014-06-16,Road Freight,Kayla Woodcock,293092,True
+847,7,2014-05-27,2014-06-16,Courier,Kayla Woodcock,BC0280982,True
+848,4,2014-05-28,2014-06-17,Road Freight,Kayla Woodcock,293092,True
+849,7,2014-05-28,2014-06-17,Courier,Kayla Woodcock,BC0280982,True
+850,4,2014-05-29,2014-06-18,Road Freight,Kayla Woodcock,293092,True
+851,7,2014-05-29,2014-06-18,Courier,Kayla Woodcock,BC0280982,True
+852,4,2014-05-30,2014-06-19,Road Freight,Kayla Woodcock,293092,True
+853,7,2014-05-30,2014-06-19,Courier,Kayla Woodcock,BC0280982,True
+854,4,2014-05-31,2014-06-14,Road Freight,Kayla Woodcock,293092,True
+855,7,2014-05-31,2014-06-14,Courier,Kayla Woodcock,BC0280982,True
+856,4,2014-06-02,2014-06-22,Road Freight,Kayla Woodcock,293092,True
+857,7,2014-06-02,2014-06-22,Courier,Kayla Woodcock,BC0280982,True
+858,4,2014-06-03,2014-06-23,Road Freight,Kayla Woodcock,293092,True
+859,7,2014-06-03,2014-06-23,Courier,Kayla Woodcock,BC0280982,True
+860,4,2014-06-04,2014-06-24,Road Freight,Kayla Woodcock,293092,True
+861,7,2014-06-04,2014-06-24,Courier,Kayla Woodcock,BC0280982,True
+862,4,2014-06-05,2014-06-25,Road Freight,Kayla Woodcock,293092,True
+863,7,2014-06-05,2014-06-25,Courier,Kayla Woodcock,BC0280982,True
+864,4,2014-06-06,2014-06-26,Road Freight,Kayla Woodcock,293092,True
+865,7,2014-06-06,2014-06-26,Courier,Kayla Woodcock,BC0280982,True
+866,4,2014-06-07,2014-06-14,Road Freight,Kayla Woodcock,293092,True
+867,4,2014-06-09,2014-06-29,Road Freight,Kayla Woodcock,293092,True
+868,7,2014-06-09,2014-06-29,Courier,Kayla Woodcock,BC0280982,True
+869,4,2014-06-10,2014-06-30,Road Freight,Kayla Woodcock,293092,True
+870,7,2014-06-10,2014-06-30,Courier,Kayla Woodcock,BC0280982,True
+871,4,2014-06-11,2014-07-01,Road Freight,Kayla Woodcock,293092,True
+872,7,2014-06-11,2014-07-01,Courier,Kayla Woodcock,BC0280982,True
+873,4,2014-06-12,2014-07-02,Road Freight,Kayla Woodcock,293092,True
+874,7,2014-06-12,2014-07-02,Courier,Kayla Woodcock,BC0280982,True
+875,4,2014-06-13,2014-07-03,Road Freight,Kayla Woodcock,293092,True
+876,7,2014-06-13,2014-07-03,Courier,Kayla Woodcock,BC0280982,True
+877,4,2014-06-14,2014-07-04,Road Freight,Kayla Woodcock,293092,True
+878,7,2014-06-14,2014-07-04,Courier,Kayla Woodcock,BC0280982,True
+879,4,2014-06-16,2014-07-06,Road Freight,Kayla Woodcock,293092,True
+880,7,2014-06-16,2014-07-06,Courier,Kayla Woodcock,BC0280982,True
+881,4,2014-06-17,2014-07-07,Road Freight,Kayla Woodcock,293092,True
+882,7,2014-06-17,2014-07-07,Courier,Kayla Woodcock,BC0280982,True
+883,4,2014-06-18,2014-07-08,Road Freight,Kayla Woodcock,293092,True
+884,7,2014-06-18,2014-07-08,Courier,Kayla Woodcock,BC0280982,True
+885,4,2014-06-19,2014-07-09,Road Freight,Kayla Woodcock,293092,True
+886,7,2014-06-19,2014-07-09,Courier,Kayla Woodcock,BC0280982,True
+887,4,2014-06-20,2014-07-10,Road Freight,Kayla Woodcock,293092,True
+888,7,2014-06-20,2014-07-10,Courier,Kayla Woodcock,BC0280982,True
+889,7,2014-06-21,2014-07-05,Courier,Kayla Woodcock,BC0280982,True
+890,4,2014-06-23,2014-07-13,Road Freight,Kayla Woodcock,293092,True
+891,7,2014-06-23,2014-07-13,Courier,Kayla Woodcock,BC0280982,True
+892,4,2014-06-24,2014-07-14,Road Freight,Kayla Woodcock,293092,True
+893,7,2014-06-24,2014-07-14,Courier,Kayla Woodcock,BC0280982,True
+894,4,2014-06-25,2014-07-15,Road Freight,Kayla Woodcock,293092,True
+895,7,2014-06-25,2014-07-15,Courier,Kayla Woodcock,BC0280982,True
+896,4,2014-06-26,2014-07-16,Road Freight,Kayla Woodcock,293092,True
+897,7,2014-06-26,2014-07-16,Courier,Kayla Woodcock,BC0280982,True
+898,4,2014-06-27,2014-07-17,Road Freight,Kayla Woodcock,293092,True
+899,7,2014-06-27,2014-07-17,Courier,Kayla Woodcock,BC0280982,True
+900,4,2014-06-28,2014-07-05,Road Freight,Kayla Woodcock,293092,True
+901,4,2014-06-30,2014-07-20,Road Freight,Kayla Woodcock,293092,True
+902,7,2014-06-30,2014-07-20,Courier,Kayla Woodcock,BC0280982,True
+903,4,2014-07-01,2014-07-21,Road Freight,Kayla Woodcock,293092,True
+904,7,2014-07-01,2014-07-21,Courier,Kayla Woodcock,BC0280982,True
+905,4,2014-07-02,2014-07-22,Road Freight,Kayla Woodcock,293092,True
+906,7,2014-07-02,2014-07-22,Courier,Kayla Woodcock,BC0280982,True
+907,4,2014-07-03,2014-07-23,Road Freight,Kayla Woodcock,293092,True
+908,7,2014-07-03,2014-07-23,Courier,Kayla Woodcock,BC0280982,True
+909,4,2014-07-04,2014-07-24,Road Freight,Kayla Woodcock,293092,True
+910,7,2014-07-04,2014-07-24,Courier,Kayla Woodcock,BC0280982,True
+911,4,2014-07-05,2014-07-12,Road Freight,Kayla Woodcock,293092,True
+912,4,2014-07-07,2014-07-27,Road Freight,Kayla Woodcock,293092,True
+913,7,2014-07-07,2014-07-27,Courier,Kayla Woodcock,BC0280982,True
+914,4,2014-07-08,2014-07-28,Road Freight,Kayla Woodcock,293092,True
+915,7,2014-07-08,2014-07-28,Courier,Kayla Woodcock,BC0280982,True
+916,4,2014-07-09,2014-07-29,Road Freight,Kayla Woodcock,293092,True
+917,7,2014-07-09,2014-07-29,Courier,Kayla Woodcock,BC0280982,True
+918,4,2014-07-10,2014-07-30,Road Freight,Kayla Woodcock,293092,True
+919,7,2014-07-10,2014-07-30,Courier,Kayla Woodcock,BC0280982,True
+920,4,2014-07-11,2014-07-31,Road Freight,Kayla Woodcock,293092,True
+921,7,2014-07-11,2014-07-31,Courier,Kayla Woodcock,BC0280982,True
+922,4,2014-07-12,2014-07-19,Road Freight,Kayla Woodcock,293092,True
+923,4,2014-07-14,2014-08-03,Road Freight,Kayla Woodcock,293092,True
+924,7,2014-07-14,2014-08-03,Courier,Kayla Woodcock,BC0280982,True
+925,4,2014-07-15,2014-08-04,Road Freight,Kayla Woodcock,293092,True
+926,7,2014-07-15,2014-08-04,Courier,Kayla Woodcock,BC0280982,True
+927,4,2014-07-16,2014-08-05,Road Freight,Kayla Woodcock,293092,True
+928,7,2014-07-16,2014-08-05,Courier,Kayla Woodcock,BC0280982,True
+929,4,2014-07-17,2014-08-06,Road Freight,Kayla Woodcock,293092,True
+930,7,2014-07-17,2014-08-06,Courier,Kayla Woodcock,BC0280982,True
+931,4,2014-07-18,2014-08-07,Road Freight,Kayla Woodcock,293092,True
+932,7,2014-07-18,2014-08-07,Courier,Kayla Woodcock,BC0280982,True
+933,4,2014-07-19,2014-07-26,Road Freight,Kayla Woodcock,293092,True
+934,4,2014-07-21,2014-08-10,Road Freight,Kayla Woodcock,293092,True
+935,7,2014-07-21,2014-08-10,Courier,Kayla Woodcock,BC0280982,True
+936,4,2014-07-22,2014-08-11,Road Freight,Kayla Woodcock,293092,True
+937,7,2014-07-22,2014-08-11,Courier,Kayla Woodcock,BC0280982,True
+938,4,2014-07-23,2014-08-12,Road Freight,Kayla Woodcock,293092,True
+939,7,2014-07-23,2014-08-12,Courier,Kayla Woodcock,BC0280982,True
+940,4,2014-07-24,2014-08-13,Road Freight,Kayla Woodcock,293092,True
+941,7,2014-07-24,2014-08-13,Courier,Kayla Woodcock,BC0280982,True
+942,4,2014-07-25,2014-08-14,Road Freight,Kayla Woodcock,293092,True
+943,7,2014-07-25,2014-08-14,Courier,Kayla Woodcock,BC0280982,True
+944,4,2014-07-26,2014-08-09,Road Freight,Kayla Woodcock,293092,True
+945,7,2014-07-26,2014-08-09,Courier,Kayla Woodcock,BC0280982,True
+946,4,2014-07-28,2014-08-17,Road Freight,Kayla Woodcock,293092,True
+947,7,2014-07-28,2014-08-17,Courier,Kayla Woodcock,BC0280982,True
+948,4,2014-07-29,2014-08-18,Road Freight,Kayla Woodcock,293092,True
+949,7,2014-07-29,2014-08-18,Courier,Kayla Woodcock,BC0280982,True
+950,4,2014-07-30,2014-08-19,Road Freight,Kayla Woodcock,293092,True
+951,7,2014-07-30,2014-08-19,Courier,Kayla Woodcock,BC0280982,True
+952,4,2014-07-31,2014-08-20,Road Freight,Kayla Woodcock,293092,True
+953,7,2014-07-31,2014-08-20,Courier,Kayla Woodcock,BC0280982,True
+954,4,2014-08-01,2014-08-21,Road Freight,Kayla Woodcock,293092,True
+955,7,2014-08-01,2014-08-21,Courier,Kayla Woodcock,BC0280982,True
+956,4,2014-08-04,2014-08-24,Road Freight,Kayla Woodcock,293092,True
+957,7,2014-08-04,2014-08-24,Courier,Kayla Woodcock,BC0280982,True
+958,4,2014-08-05,2014-08-25,Road Freight,Kayla Woodcock,293092,True
+959,7,2014-08-05,2014-08-25,Courier,Kayla Woodcock,BC0280982,True
+960,4,2014-08-06,2014-08-26,Road Freight,Kayla Woodcock,293092,True
+961,7,2014-08-06,2014-08-26,Courier,Kayla Woodcock,BC0280982,True
+962,4,2014-08-07,2014-08-27,Road Freight,Kayla Woodcock,293092,True
+963,7,2014-08-07,2014-08-27,Courier,Kayla Woodcock,BC0280982,True
+964,4,2014-08-08,2014-08-28,Road Freight,Kayla Woodcock,293092,True
+965,7,2014-08-08,2014-08-28,Courier,Kayla Woodcock,BC0280982,True
+966,4,2014-08-09,2014-08-29,Road Freight,Kayla Woodcock,293092,True
+967,7,2014-08-09,2014-08-29,Courier,Kayla Woodcock,BC0280982,True
+968,4,2014-08-11,2014-08-31,Road Freight,Kayla Woodcock,293092,True
+969,7,2014-08-11,2014-08-31,Courier,Kayla Woodcock,BC0280982,True
+970,4,2014-08-12,2014-09-01,Road Freight,Kayla Woodcock,293092,True
+971,7,2014-08-12,2014-09-01,Courier,Kayla Woodcock,BC0280982,True
+972,4,2014-08-13,2014-09-02,Road Freight,Kayla Woodcock,293092,True
+973,7,2014-08-13,2014-09-02,Courier,Kayla Woodcock,BC0280982,True
+974,4,2014-08-14,2014-09-03,Road Freight,Kayla Woodcock,293092,True
+975,7,2014-08-14,2014-09-03,Courier,Kayla Woodcock,BC0280982,True
+976,4,2014-08-15,2014-09-04,Road Freight,Kayla Woodcock,293092,True
+977,7,2014-08-15,2014-09-04,Courier,Kayla Woodcock,BC0280982,True
+978,4,2014-08-16,2014-08-30,Road Freight,Kayla Woodcock,293092,True
+979,7,2014-08-16,2014-08-30,Courier,Kayla Woodcock,BC0280982,True
+980,4,2014-08-18,2014-09-07,Road Freight,Kayla Woodcock,293092,True
+981,7,2014-08-18,2014-09-07,Courier,Kayla Woodcock,BC0280982,True
+982,4,2014-08-19,2014-09-08,Road Freight,Kayla Woodcock,293092,True
+983,7,2014-08-19,2014-09-08,Courier,Kayla Woodcock,BC0280982,True
+984,4,2014-08-20,2014-09-09,Road Freight,Kayla Woodcock,293092,True
+985,7,2014-08-20,2014-09-09,Courier,Kayla Woodcock,BC0280982,True
+986,4,2014-08-21,2014-09-10,Road Freight,Kayla Woodcock,293092,True
+987,7,2014-08-21,2014-09-10,Courier,Kayla Woodcock,BC0280982,True
+988,4,2014-08-22,2014-09-11,Road Freight,Kayla Woodcock,293092,True
+989,7,2014-08-22,2014-09-11,Courier,Kayla Woodcock,BC0280982,True
+990,4,2014-08-23,2014-09-12,Road Freight,Kayla Woodcock,293092,True
+991,7,2014-08-23,2014-09-12,Courier,Kayla Woodcock,BC0280982,True
+992,4,2014-08-25,2014-09-14,Road Freight,Kayla Woodcock,293092,True
+993,7,2014-08-25,2014-09-14,Courier,Kayla Woodcock,BC0280982,True
+994,4,2014-08-26,2014-09-15,Road Freight,Kayla Woodcock,293092,True
+995,7,2014-08-26,2014-09-15,Courier,Kayla Woodcock,BC0280982,True
+996,4,2014-08-27,2014-09-16,Road Freight,Kayla Woodcock,293092,True
+997,7,2014-08-27,2014-09-16,Courier,Kayla Woodcock,BC0280982,True
+998,4,2014-08-28,2014-09-17,Road Freight,Kayla Woodcock,293092,True
+999,7,2014-08-28,2014-09-17,Courier,Kayla Woodcock,BC0280982,True
+1000,4,2014-08-29,2014-09-18,Road Freight,Kayla Woodcock,293092,True
+1001,7,2014-08-29,2014-09-18,Courier,Kayla Woodcock,BC0280982,True
+1002,4,2014-08-30,2014-09-06,Road Freight,Kayla Woodcock,293092,True
+1003,4,2014-09-01,2014-09-21,Road Freight,Kayla Woodcock,293092,True
+1004,7,2014-09-01,2014-09-21,Courier,Kayla Woodcock,BC0280982,True
+1005,4,2014-09-02,2014-09-22,Road Freight,Kayla Woodcock,293092,True
+1006,7,2014-09-02,2014-09-22,Courier,Kayla Woodcock,BC0280982,True
+1007,4,2014-09-03,2014-09-23,Road Freight,Kayla Woodcock,293092,True
+1008,7,2014-09-03,2014-09-23,Courier,Kayla Woodcock,BC0280982,True
+1009,4,2014-09-04,2014-09-24,Road Freight,Kayla Woodcock,293092,True
+1010,7,2014-09-04,2014-09-24,Courier,Kayla Woodcock,BC0280982,True
+1011,4,2014-09-05,2014-09-25,Road Freight,Kayla Woodcock,293092,True
+1012,7,2014-09-05,2014-09-25,Courier,Kayla Woodcock,BC0280982,True
+1013,4,2014-09-06,2014-09-13,Road Freight,Kayla Woodcock,293092,True
+1014,4,2014-09-08,2014-09-28,Road Freight,Kayla Woodcock,293092,True
+1015,7,2014-09-08,2014-09-28,Courier,Kayla Woodcock,BC0280982,True
+1016,4,2014-09-09,2014-09-29,Road Freight,Kayla Woodcock,293092,True
+1017,7,2014-09-09,2014-09-29,Courier,Kayla Woodcock,BC0280982,True
+1018,4,2014-09-10,2014-09-30,Road Freight,Kayla Woodcock,293092,True
+1019,7,2014-09-10,2014-09-30,Courier,Kayla Woodcock,BC0280982,True
+1020,4,2014-09-11,2014-10-01,Road Freight,Kayla Woodcock,293092,True
+1021,7,2014-09-11,2014-10-01,Courier,Kayla Woodcock,BC0280982,True
+1022,4,2014-09-12,2014-10-02,Road Freight,Kayla Woodcock,293092,True
+1023,7,2014-09-12,2014-10-02,Courier,Kayla Woodcock,BC0280982,True
+1024,4,2014-09-13,2014-10-03,Road Freight,Kayla Woodcock,293092,True
+1025,7,2014-09-13,2014-10-03,Courier,Kayla Woodcock,BC0280982,True
+1026,4,2014-09-15,2014-10-05,Road Freight,Kayla Woodcock,293092,True
+1027,7,2014-09-15,2014-10-05,Courier,Kayla Woodcock,BC0280982,True
+1028,4,2014-09-16,2014-10-06,Road Freight,Kayla Woodcock,293092,True
+1029,7,2014-09-16,2014-10-06,Courier,Kayla Woodcock,BC0280982,True
+1030,4,2014-09-17,2014-10-07,Road Freight,Kayla Woodcock,293092,True
+1031,7,2014-09-17,2014-10-07,Courier,Kayla Woodcock,BC0280982,True
+1032,4,2014-09-18,2014-10-08,Road Freight,Kayla Woodcock,293092,True
+1033,7,2014-09-18,2014-10-08,Courier,Kayla Woodcock,BC0280982,True
+1034,4,2014-09-19,2014-10-09,Road Freight,Kayla Woodcock,293092,True
+1035,7,2014-09-19,2014-10-09,Courier,Kayla Woodcock,BC0280982,True
+1036,4,2014-09-20,2014-09-27,Road Freight,Kayla Woodcock,293092,True
+1037,4,2014-09-22,2014-10-12,Road Freight,Kayla Woodcock,293092,True
+1038,7,2014-09-22,2014-10-12,Courier,Kayla Woodcock,BC0280982,True
+1039,4,2014-09-23,2014-10-13,Road Freight,Kayla Woodcock,293092,True
+1040,7,2014-09-23,2014-10-13,Courier,Kayla Woodcock,BC0280982,True
+1041,4,2014-09-24,2014-10-14,Road Freight,Kayla Woodcock,293092,True
+1042,7,2014-09-24,2014-10-14,Courier,Kayla Woodcock,BC0280982,True
+1043,4,2014-09-25,2014-10-15,Road Freight,Kayla Woodcock,293092,True
+1044,7,2014-09-25,2014-10-15,Courier,Kayla Woodcock,BC0280982,True
+1045,4,2014-09-26,2014-10-16,Road Freight,Kayla Woodcock,293092,True
+1046,7,2014-09-26,2014-10-16,Courier,Kayla Woodcock,BC0280982,True
+1047,4,2014-09-27,2014-10-11,Road Freight,Kayla Woodcock,293092,True
+1048,7,2014-09-27,2014-10-11,Courier,Kayla Woodcock,BC0280982,True
+1049,4,2014-09-29,2014-10-19,Road Freight,Kayla Woodcock,293092,True
+1050,7,2014-09-29,2014-10-19,Courier,Kayla Woodcock,BC0280982,True
+1051,4,2014-09-30,2014-10-20,Road Freight,Kayla Woodcock,293092,True
+1052,7,2014-09-30,2014-10-20,Courier,Kayla Woodcock,BC0280982,True
+1053,4,2014-10-01,2014-10-21,Road Freight,Kayla Woodcock,293092,True
+1054,7,2014-10-01,2014-10-21,Courier,Kayla Woodcock,BC0280982,True
+1055,4,2014-10-02,2014-10-22,Road Freight,Kayla Woodcock,293092,True
+1056,7,2014-10-02,2014-10-22,Courier,Kayla Woodcock,BC0280982,True
+1057,4,2014-10-03,2014-10-23,Road Freight,Kayla Woodcock,293092,True
+1058,7,2014-10-03,2014-10-23,Courier,Kayla Woodcock,BC0280982,True
+1059,4,2014-10-04,2014-10-24,Road Freight,Kayla Woodcock,293092,True
+1060,7,2014-10-04,2014-10-24,Courier,Kayla Woodcock,BC0280982,True
+1061,4,2014-10-06,2014-10-26,Road Freight,Kayla Woodcock,293092,True
+1062,7,2014-10-06,2014-10-26,Courier,Kayla Woodcock,BC0280982,True
+1063,4,2014-10-07,2014-10-27,Road Freight,Kayla Woodcock,293092,True
+1064,7,2014-10-07,2014-10-27,Courier,Kayla Woodcock,BC0280982,True
+1065,4,2014-10-08,2014-10-28,Road Freight,Kayla Woodcock,293092,True
+1066,7,2014-10-08,2014-10-28,Courier,Kayla Woodcock,BC0280982,True
+1067,4,2014-10-09,2014-10-29,Road Freight,Kayla Woodcock,293092,True
+1068,7,2014-10-09,2014-10-29,Courier,Kayla Woodcock,BC0280982,True
+1069,4,2014-10-10,2014-10-30,Road Freight,Kayla Woodcock,293092,True
+1070,7,2014-10-10,2014-10-30,Courier,Kayla Woodcock,BC0280982,True
+1071,4,2014-10-11,2014-10-25,Road Freight,Kayla Woodcock,293092,True
+1072,7,2014-10-11,2014-10-25,Courier,Kayla Woodcock,BC0280982,True
+1073,4,2014-10-13,2014-11-02,Road Freight,Kayla Woodcock,293092,True
+1074,7,2014-10-13,2014-11-02,Courier,Kayla Woodcock,BC0280982,True
+1075,4,2014-10-14,2014-11-03,Road Freight,Kayla Woodcock,293092,True
+1076,7,2014-10-14,2014-11-03,Courier,Kayla Woodcock,BC0280982,True
+1077,4,2014-10-15,2014-11-04,Road Freight,Kayla Woodcock,293092,True
+1078,7,2014-10-15,2014-11-04,Courier,Kayla Woodcock,BC0280982,True
+1079,4,2014-10-16,2014-11-05,Road Freight,Kayla Woodcock,293092,True
+1080,7,2014-10-16,2014-11-05,Courier,Kayla Woodcock,BC0280982,True
+1081,4,2014-10-17,2014-11-06,Road Freight,Kayla Woodcock,293092,True
+1082,7,2014-10-17,2014-11-06,Courier,Kayla Woodcock,BC0280982,True
+1083,4,2014-10-18,2014-11-07,Road Freight,Kayla Woodcock,293092,True
+1084,7,2014-10-18,2014-11-07,Courier,Kayla Woodcock,BC0280982,True
+1085,4,2014-10-20,2014-11-09,Road Freight,Kayla Woodcock,293092,True
+1086,7,2014-10-20,2014-11-09,Courier,Kayla Woodcock,BC0280982,True
+1087,4,2014-10-21,2014-11-10,Road Freight,Kayla Woodcock,293092,True
+1088,7,2014-10-21,2014-11-10,Courier,Kayla Woodcock,BC0280982,True
+1089,4,2014-10-22,2014-11-11,Road Freight,Kayla Woodcock,293092,True
+1090,7,2014-10-22,2014-11-11,Courier,Kayla Woodcock,BC0280982,True
+1091,4,2014-10-23,2014-11-12,Road Freight,Kayla Woodcock,293092,True
+1092,7,2014-10-23,2014-11-12,Courier,Kayla Woodcock,BC0280982,True
+1093,4,2014-10-24,2014-11-13,Road Freight,Kayla Woodcock,293092,True
+1094,7,2014-10-24,2014-11-13,Courier,Kayla Woodcock,BC0280982,True
+1095,4,2014-10-25,2014-11-14,Road Freight,Kayla Woodcock,293092,True
+1096,7,2014-10-25,2014-11-14,Courier,Kayla Woodcock,BC0280982,True
+1097,4,2014-10-27,2014-11-16,Road Freight,Kayla Woodcock,293092,True
+1098,7,2014-10-27,2014-11-16,Courier,Kayla Woodcock,BC0280982,True
+1099,4,2014-10-28,2014-11-17,Road Freight,Kayla Woodcock,293092,True
+1100,7,2014-10-28,2014-11-17,Courier,Kayla Woodcock,BC0280982,True
+1101,4,2014-10-29,2014-11-18,Road Freight,Kayla Woodcock,293092,True
+1102,7,2014-10-29,2014-11-18,Courier,Kayla Woodcock,BC0280982,True
+1103,4,2014-10-30,2014-11-19,Road Freight,Kayla Woodcock,293092,True
+1104,7,2014-10-30,2014-11-19,Courier,Kayla Woodcock,BC0280982,True
+1105,4,2014-10-31,2014-11-20,Road Freight,Kayla Woodcock,293092,True
+1106,7,2014-10-31,2014-11-20,Courier,Kayla Woodcock,BC0280982,True
+1107,4,2014-11-01,2014-11-21,Road Freight,Kayla Woodcock,293092,True
+1108,7,2014-11-01,2014-11-21,Courier,Kayla Woodcock,BC0280982,True
+1109,4,2014-11-03,2014-11-23,Road Freight,Kayla Woodcock,293092,True
+1110,7,2014-11-03,2014-11-23,Courier,Kayla Woodcock,BC0280982,True
+1111,4,2014-11-04,2014-11-24,Road Freight,Kayla Woodcock,293092,True
+1112,7,2014-11-04,2014-11-24,Courier,Kayla Woodcock,BC0280982,True
+1113,4,2014-11-05,2014-11-25,Road Freight,Kayla Woodcock,293092,True
+1114,7,2014-11-05,2014-11-25,Courier,Kayla Woodcock,BC0280982,True
+1115,4,2014-11-06,2014-11-26,Road Freight,Kayla Woodcock,293092,True
+1116,7,2014-11-06,2014-11-26,Courier,Kayla Woodcock,BC0280982,True
+1117,4,2014-11-07,2014-11-27,Road Freight,Kayla Woodcock,293092,True
+1118,7,2014-11-07,2014-11-27,Courier,Kayla Woodcock,BC0280982,True
+1119,4,2014-11-08,2014-11-28,Road Freight,Kayla Woodcock,293092,True
+1120,7,2014-11-08,2014-11-28,Courier,Kayla Woodcock,BC0280982,True
+1121,4,2014-11-10,2014-11-30,Road Freight,Kayla Woodcock,293092,True
+1122,7,2014-11-10,2014-11-30,Courier,Kayla Woodcock,BC0280982,True
+1123,4,2014-11-11,2014-12-01,Road Freight,Kayla Woodcock,293092,True
+1124,7,2014-11-11,2014-12-01,Courier,Kayla Woodcock,BC0280982,True
+1125,4,2014-11-12,2014-12-02,Road Freight,Kayla Woodcock,293092,True
+1126,7,2014-11-12,2014-12-02,Courier,Kayla Woodcock,BC0280982,True
+1127,4,2014-11-13,2014-12-03,Road Freight,Kayla Woodcock,293092,True
+1128,7,2014-11-13,2014-12-03,Courier,Kayla Woodcock,BC0280982,True
+1129,4,2014-11-14,2014-12-04,Road Freight,Kayla Woodcock,293092,True
+1130,7,2014-11-14,2014-12-04,Courier,Kayla Woodcock,BC0280982,True
+1131,4,2014-11-15,2014-12-05,Road Freight,Kayla Woodcock,293092,True
+1132,7,2014-11-15,2014-12-05,Courier,Kayla Woodcock,BC0280982,True
+1133,4,2014-11-17,2014-12-07,Road Freight,Kayla Woodcock,293092,True
+1134,7,2014-11-17,2014-12-07,Courier,Kayla Woodcock,BC0280982,True
+1135,4,2014-11-18,2014-12-08,Road Freight,Kayla Woodcock,293092,True
+1136,7,2014-11-18,2014-12-08,Courier,Kayla Woodcock,BC0280982,True
+1137,4,2014-11-19,2014-12-09,Road Freight,Kayla Woodcock,293092,True
+1138,7,2014-11-19,2014-12-09,Courier,Kayla Woodcock,BC0280982,True
+1139,4,2014-11-20,2014-12-10,Road Freight,Kayla Woodcock,293092,True
+1140,7,2014-11-20,2014-12-10,Courier,Kayla Woodcock,BC0280982,True
+1141,4,2014-11-21,2014-12-11,Road Freight,Kayla Woodcock,293092,True
+1142,7,2014-11-21,2014-12-11,Courier,Kayla Woodcock,BC0280982,True
+1143,4,2014-11-22,2014-12-12,Road Freight,Kayla Woodcock,293092,True
+1144,7,2014-11-22,2014-12-12,Courier,Kayla Woodcock,BC0280982,True
+1145,4,2014-11-24,2014-12-14,Road Freight,Kayla Woodcock,293092,True
+1146,7,2014-11-24,2014-12-14,Courier,Kayla Woodcock,BC0280982,True
+1147,4,2014-11-25,2014-12-15,Road Freight,Kayla Woodcock,293092,True
+1148,7,2014-11-25,2014-12-15,Courier,Kayla Woodcock,BC0280982,True
+1149,4,2014-11-26,2014-12-16,Road Freight,Kayla Woodcock,293092,True
+1150,7,2014-11-26,2014-12-16,Courier,Kayla Woodcock,BC0280982,True
+1151,4,2014-11-27,2014-12-17,Road Freight,Kayla Woodcock,293092,True
+1152,7,2014-11-27,2014-12-17,Courier,Kayla Woodcock,BC0280982,True
+1153,4,2014-11-28,2014-12-18,Road Freight,Kayla Woodcock,293092,True
+1154,7,2014-11-28,2014-12-18,Courier,Kayla Woodcock,BC0280982,True
+1155,4,2014-11-29,2014-12-19,Road Freight,Kayla Woodcock,293092,True
+1156,7,2014-11-29,2014-12-19,Courier,Kayla Woodcock,BC0280982,True
+1157,4,2014-12-01,2014-12-21,Road Freight,Kayla Woodcock,293092,True
+1158,7,2014-12-01,2014-12-21,Courier,Kayla Woodcock,BC0280982,True
+1159,4,2014-12-02,2014-12-22,Road Freight,Kayla Woodcock,293092,True
+1160,7,2014-12-02,2014-12-22,Courier,Kayla Woodcock,BC0280982,True
+1161,4,2014-12-03,2014-12-23,Road Freight,Kayla Woodcock,293092,True
+1162,7,2014-12-03,2014-12-23,Courier,Kayla Woodcock,BC0280982,True
+1163,4,2014-12-04,2014-12-24,Road Freight,Kayla Woodcock,293092,True
+1164,7,2014-12-04,2014-12-24,Courier,Kayla Woodcock,BC0280982,True
+1165,4,2014-12-05,2014-12-25,Road Freight,Kayla Woodcock,293092,True
+1166,7,2014-12-05,2014-12-25,Courier,Kayla Woodcock,BC0280982,True
+1167,4,2014-12-06,2014-12-13,Road Freight,Kayla Woodcock,293092,True
+1168,4,2014-12-08,2014-12-28,Road Freight,Kayla Woodcock,293092,True
+1169,7,2014-12-08,2014-12-28,Courier,Kayla Woodcock,BC0280982,True
+1170,4,2014-12-09,2014-12-29,Road Freight,Kayla Woodcock,293092,True
+1171,7,2014-12-09,2014-12-29,Courier,Kayla Woodcock,BC0280982,True
+1172,4,2014-12-10,2014-12-30,Road Freight,Kayla Woodcock,293092,True
+1173,7,2014-12-10,2014-12-30,Courier,Kayla Woodcock,BC0280982,True
+1174,4,2014-12-11,2014-12-31,Road Freight,Kayla Woodcock,293092,True
+1175,7,2014-12-11,2014-12-31,Courier,Kayla Woodcock,BC0280982,True
+1176,4,2014-12-12,2015-01-01,Road Freight,Kayla Woodcock,293092,True
+1177,7,2014-12-12,2015-01-01,Courier,Kayla Woodcock,BC0280982,True
+1178,4,2014-12-13,2015-01-02,Road Freight,Kayla Woodcock,293092,True
+1179,7,2014-12-13,2015-01-02,Courier,Kayla Woodcock,BC0280982,True
+1180,4,2014-12-15,2015-01-04,Road Freight,Kayla Woodcock,293092,True
+1181,7,2014-12-15,2015-01-04,Courier,Kayla Woodcock,BC0280982,True
+1182,4,2014-12-16,2015-01-05,Road Freight,Kayla Woodcock,293092,True
+1183,7,2014-12-16,2015-01-05,Courier,Kayla Woodcock,BC0280982,True
+1184,4,2014-12-17,2015-01-06,Road Freight,Kayla Woodcock,293092,True
+1185,7,2014-12-17,2015-01-06,Courier,Kayla Woodcock,BC0280982,True
+1186,4,2014-12-18,2015-01-07,Road Freight,Kayla Woodcock,293092,True
+1187,7,2014-12-18,2015-01-07,Courier,Kayla Woodcock,BC0280982,True
+1188,4,2014-12-19,2015-01-08,Road Freight,Kayla Woodcock,293092,True
+1189,7,2014-12-19,2015-01-08,Courier,Kayla Woodcock,BC0280982,True
+1190,4,2014-12-20,2015-01-09,Road Freight,Kayla Woodcock,293092,True
+1191,7,2014-12-20,2015-01-09,Courier,Kayla Woodcock,BC0280982,True
+1192,4,2014-12-22,2015-01-11,Road Freight,Kayla Woodcock,293092,True
+1193,7,2014-12-22,2015-01-11,Courier,Kayla Woodcock,BC0280982,True
+1194,4,2014-12-23,2015-01-12,Road Freight,Kayla Woodcock,293092,True
+1195,7,2014-12-23,2015-01-12,Courier,Kayla Woodcock,BC0280982,True
+1196,4,2014-12-24,2015-01-13,Road Freight,Kayla Woodcock,293092,True
+1197,7,2014-12-24,2015-01-13,Courier,Kayla Woodcock,BC0280982,True
+1198,4,2014-12-25,2015-01-14,Road Freight,Kayla Woodcock,293092,True
+1199,7,2014-12-25,2015-01-14,Courier,Kayla Woodcock,BC0280982,True
+1200,4,2014-12-26,2015-01-15,Road Freight,Kayla Woodcock,293092,True
+1201,7,2014-12-26,2015-01-15,Courier,Kayla Woodcock,BC0280982,True
+1202,4,2014-12-27,2015-01-10,Road Freight,Kayla Woodcock,293092,True
+1203,7,2014-12-27,2015-01-10,Courier,Kayla Woodcock,BC0280982,True
+1204,4,2014-12-29,2015-01-18,Road Freight,Kayla Woodcock,293092,True
+1205,7,2014-12-29,2015-01-18,Courier,Kayla Woodcock,BC0280982,True
+1206,4,2014-12-30,2015-01-19,Road Freight,Kayla Woodcock,293092,True
+1207,7,2014-12-30,2015-01-19,Courier,Kayla Woodcock,BC0280982,True
+1208,4,2014-12-31,2015-01-20,Road Freight,Kayla Woodcock,293092,True
+1209,7,2014-12-31,2015-01-20,Courier,Kayla Woodcock,BC0280982,True
+1210,4,2015-01-01,2015-01-21,Road Freight,Kayla Woodcock,293092,True
+1211,7,2015-01-01,2015-01-21,Courier,Kayla Woodcock,BC0280982,True
+1212,4,2015-01-02,2015-01-22,Road Freight,Kayla Woodcock,293092,True
+1213,7,2015-01-02,2015-01-22,Courier,Kayla Woodcock,BC0280982,True
+1214,4,2015-01-03,2015-01-10,Road Freight,Kayla Woodcock,293092,True
+1215,4,2015-01-05,2015-01-25,Road Freight,Kayla Woodcock,293092,True
+1216,7,2015-01-05,2015-01-25,Courier,Kayla Woodcock,BC0280982,True
+1217,4,2015-01-06,2015-01-26,Road Freight,Kayla Woodcock,293092,True
+1218,7,2015-01-06,2015-01-26,Courier,Kayla Woodcock,BC0280982,True
+1219,4,2015-01-07,2015-01-27,Road Freight,Kayla Woodcock,293092,True
+1220,7,2015-01-07,2015-01-27,Courier,Kayla Woodcock,BC0280982,True
+1221,4,2015-01-08,2015-01-28,Road Freight,Kayla Woodcock,293092,True
+1222,7,2015-01-08,2015-01-28,Courier,Kayla Woodcock,BC0280982,True
+1223,4,2015-01-09,2015-01-29,Road Freight,Kayla Woodcock,293092,True
+1224,7,2015-01-09,2015-01-29,Courier,Kayla Woodcock,BC0280982,True
+1225,4,2015-01-10,2015-01-17,Road Freight,Kayla Woodcock,293092,True
+1226,4,2015-01-12,2015-02-01,Road Freight,Kayla Woodcock,293092,True
+1227,7,2015-01-12,2015-02-01,Courier,Kayla Woodcock,BC0280982,True
+1228,4,2015-01-13,2015-02-02,Road Freight,Kayla Woodcock,293092,True
+1229,7,2015-01-13,2015-02-02,Courier,Kayla Woodcock,BC0280982,True
+1230,4,2015-01-14,2015-02-03,Road Freight,Kayla Woodcock,293092,True
+1231,7,2015-01-14,2015-02-03,Courier,Kayla Woodcock,BC0280982,True
+1232,4,2015-01-15,2015-02-04,Road Freight,Kayla Woodcock,293092,True
+1233,7,2015-01-15,2015-02-04,Courier,Kayla Woodcock,BC0280982,True
+1234,4,2015-01-16,2015-02-05,Road Freight,Kayla Woodcock,293092,True
+1235,7,2015-01-16,2015-02-05,Courier,Kayla Woodcock,BC0280982,True
+1236,4,2015-01-17,2015-01-24,Road Freight,Kayla Woodcock,293092,True
+1237,4,2015-01-19,2015-02-08,Road Freight,Kayla Woodcock,293092,True
+1238,7,2015-01-19,2015-02-08,Courier,Kayla Woodcock,BC0280982,True
+1239,4,2015-01-20,2015-02-09,Road Freight,Kayla Woodcock,293092,True
+1240,7,2015-01-20,2015-02-09,Courier,Kayla Woodcock,BC0280982,True
+1241,4,2015-01-21,2015-02-10,Road Freight,Kayla Woodcock,293092,True
+1242,7,2015-01-21,2015-02-10,Courier,Kayla Woodcock,BC0280982,True
+1243,4,2015-01-22,2015-02-11,Road Freight,Kayla Woodcock,293092,True
+1244,7,2015-01-22,2015-02-11,Courier,Kayla Woodcock,BC0280982,True
+1245,4,2015-01-23,2015-02-12,Road Freight,Kayla Woodcock,293092,True
+1246,7,2015-01-23,2015-02-12,Courier,Kayla Woodcock,BC0280982,True
+1247,4,2015-01-24,2015-02-13,Road Freight,Kayla Woodcock,293092,True
+1248,7,2015-01-24,2015-02-13,Courier,Kayla Woodcock,BC0280982,True
+1249,4,2015-01-26,2015-02-15,Road Freight,Kayla Woodcock,293092,True
+1250,7,2015-01-26,2015-02-15,Courier,Kayla Woodcock,BC0280982,True
+1251,4,2015-01-27,2015-02-16,Road Freight,Kayla Woodcock,293092,True
+1252,7,2015-01-27,2015-02-16,Courier,Kayla Woodcock,BC0280982,True
+1253,4,2015-01-28,2015-02-17,Road Freight,Kayla Woodcock,293092,True
+1254,7,2015-01-28,2015-02-17,Courier,Kayla Woodcock,BC0280982,True
+1255,4,2015-01-29,2015-02-18,Road Freight,Kayla Woodcock,293092,True
+1256,7,2015-01-29,2015-02-18,Courier,Kayla Woodcock,BC0280982,True
+1257,4,2015-01-30,2015-02-19,Road Freight,Kayla Woodcock,293092,True
+1258,7,2015-01-30,2015-02-19,Courier,Kayla Woodcock,BC0280982,True
+1259,4,2015-01-31,2015-02-20,Road Freight,Kayla Woodcock,293092,True
+1260,7,2015-01-31,2015-02-20,Courier,Kayla Woodcock,BC0280982,True
+1261,4,2015-02-02,2015-02-22,Road Freight,Kayla Woodcock,293092,True
+1262,7,2015-02-02,2015-02-22,Courier,Kayla Woodcock,BC0280982,True
+1263,4,2015-02-03,2015-02-23,Road Freight,Kayla Woodcock,293092,True
+1264,7,2015-02-03,2015-02-23,Courier,Kayla Woodcock,BC0280982,True
+1265,4,2015-02-04,2015-02-24,Road Freight,Kayla Woodcock,293092,True
+1266,7,2015-02-04,2015-02-24,Courier,Kayla Woodcock,BC0280982,True
+1267,4,2015-02-05,2015-02-25,Road Freight,Kayla Woodcock,293092,True
+1268,7,2015-02-05,2015-02-25,Courier,Kayla Woodcock,BC0280982,True
+1269,4,2015-02-06,2015-02-26,Road Freight,Kayla Woodcock,293092,True
+1270,7,2015-02-06,2015-02-26,Courier,Kayla Woodcock,BC0280982,True
+1271,7,2015-02-07,2015-02-27,Courier,Kayla Woodcock,BC0280982,True
+1272,4,2015-02-09,2015-03-01,Road Freight,Kayla Woodcock,293092,True
+1273,7,2015-02-09,2015-03-01,Courier,Kayla Woodcock,BC0280982,True
+1274,4,2015-02-10,2015-03-02,Road Freight,Kayla Woodcock,293092,True
+1275,7,2015-02-10,2015-03-02,Courier,Kayla Woodcock,BC0280982,True
+1276,4,2015-02-11,2015-03-03,Road Freight,Kayla Woodcock,293092,True
+1277,7,2015-02-11,2015-03-03,Courier,Kayla Woodcock,BC0280982,True
+1278,4,2015-02-12,2015-03-04,Road Freight,Kayla Woodcock,293092,True
+1279,7,2015-02-12,2015-03-04,Courier,Kayla Woodcock,BC0280982,True
+1280,4,2015-02-13,2015-03-05,Road Freight,Kayla Woodcock,293092,True
+1281,7,2015-02-13,2015-03-05,Courier,Kayla Woodcock,BC0280982,True
+1282,4,2015-02-14,2015-03-06,Road Freight,Kayla Woodcock,293092,True
+1283,7,2015-02-14,2015-03-06,Courier,Kayla Woodcock,BC0280982,True
+1284,4,2015-02-16,2015-03-08,Road Freight,Kayla Woodcock,293092,True
+1285,7,2015-02-16,2015-03-08,Courier,Kayla Woodcock,BC0280982,True
+1286,4,2015-02-17,2015-03-09,Road Freight,Kayla Woodcock,293092,True
+1287,7,2015-02-17,2015-03-09,Courier,Kayla Woodcock,BC0280982,True
+1288,4,2015-02-18,2015-03-10,Road Freight,Kayla Woodcock,293092,True
+1289,7,2015-02-18,2015-03-10,Courier,Kayla Woodcock,BC0280982,True
+1290,4,2015-02-19,2015-03-11,Road Freight,Kayla Woodcock,293092,True
+1291,7,2015-02-19,2015-03-11,Courier,Kayla Woodcock,BC0280982,True
+1292,4,2015-02-20,2015-03-12,Road Freight,Kayla Woodcock,293092,True
+1293,7,2015-02-20,2015-03-12,Courier,Kayla Woodcock,BC0280982,True
+1294,4,2015-02-21,2015-02-28,Road Freight,Kayla Woodcock,293092,True
+1295,4,2015-02-23,2015-03-15,Road Freight,Kayla Woodcock,293092,True
+1296,7,2015-02-23,2015-03-15,Courier,Kayla Woodcock,BC0280982,True
+1297,4,2015-02-24,2015-03-16,Road Freight,Kayla Woodcock,293092,True
+1298,7,2015-02-24,2015-03-16,Courier,Kayla Woodcock,BC0280982,True
+1299,4,2015-02-25,2015-03-17,Road Freight,Kayla Woodcock,293092,True
+1300,7,2015-02-25,2015-03-17,Courier,Kayla Woodcock,BC0280982,True
+1301,4,2015-02-26,2015-03-18,Road Freight,Kayla Woodcock,293092,True
+1302,7,2015-02-26,2015-03-18,Courier,Kayla Woodcock,BC0280982,True
+1303,4,2015-02-27,2015-03-19,Road Freight,Kayla Woodcock,293092,True
+1304,7,2015-02-27,2015-03-19,Courier,Kayla Woodcock,BC0280982,True
+1305,4,2015-02-28,2015-03-14,Road Freight,Kayla Woodcock,293092,True
+1306,7,2015-02-28,2015-03-14,Courier,Kayla Woodcock,BC0280982,True
+1307,4,2015-03-02,2015-03-22,Road Freight,Kayla Woodcock,293092,True
+1308,7,2015-03-02,2015-03-22,Courier,Kayla Woodcock,BC0280982,True
+1309,4,2015-03-03,2015-03-23,Road Freight,Kayla Woodcock,293092,True
+1310,7,2015-03-03,2015-03-23,Courier,Kayla Woodcock,BC0280982,True
+1311,4,2015-03-04,2015-03-24,Road Freight,Kayla Woodcock,293092,True
+1312,7,2015-03-04,2015-03-24,Courier,Kayla Woodcock,BC0280982,True
+1313,4,2015-03-05,2015-03-25,Road Freight,Kayla Woodcock,293092,True
+1314,7,2015-03-05,2015-03-25,Courier,Kayla Woodcock,BC0280982,True
+1315,4,2015-03-06,2015-03-26,Road Freight,Kayla Woodcock,293092,True
+1316,7,2015-03-06,2015-03-26,Courier,Kayla Woodcock,BC0280982,True
+1317,4,2015-03-07,2015-03-21,Road Freight,Kayla Woodcock,293092,True
+1318,7,2015-03-07,2015-03-21,Courier,Kayla Woodcock,BC0280982,True
+1319,4,2015-03-09,2015-03-29,Road Freight,Kayla Woodcock,293092,True
+1320,7,2015-03-09,2015-03-29,Courier,Kayla Woodcock,BC0280982,True
+1321,4,2015-03-10,2015-03-30,Road Freight,Kayla Woodcock,293092,True
+1322,7,2015-03-10,2015-03-30,Courier,Kayla Woodcock,BC0280982,True
+1323,4,2015-03-11,2015-03-31,Road Freight,Kayla Woodcock,293092,True
+1324,7,2015-03-11,2015-03-31,Courier,Kayla Woodcock,BC0280982,True
+1325,4,2015-03-12,2015-04-01,Road Freight,Kayla Woodcock,293092,True
+1326,7,2015-03-12,2015-04-01,Courier,Kayla Woodcock,BC0280982,True
+1327,4,2015-03-13,2015-04-02,Road Freight,Kayla Woodcock,293092,True
+1328,7,2015-03-13,2015-04-02,Courier,Kayla Woodcock,BC0280982,True
+1329,4,2015-03-14,2015-03-28,Road Freight,Kayla Woodcock,293092,True
+1330,7,2015-03-14,2015-03-28,Courier,Kayla Woodcock,BC0280982,True
+1331,4,2015-03-16,2015-04-05,Road Freight,Kayla Woodcock,293092,True
+1332,7,2015-03-16,2015-04-05,Courier,Kayla Woodcock,BC0280982,True
+1333,4,2015-03-17,2015-04-06,Road Freight,Kayla Woodcock,293092,True
+1334,7,2015-03-17,2015-04-06,Courier,Kayla Woodcock,BC0280982,True
+1335,4,2015-03-18,2015-04-07,Road Freight,Kayla Woodcock,293092,True
+1336,7,2015-03-18,2015-04-07,Courier,Kayla Woodcock,BC0280982,True
+1337,4,2015-03-19,2015-04-08,Road Freight,Kayla Woodcock,293092,True
+1338,7,2015-03-19,2015-04-08,Courier,Kayla Woodcock,BC0280982,True
+1339,4,2015-03-20,2015-04-09,Road Freight,Kayla Woodcock,293092,True
+1340,7,2015-03-20,2015-04-09,Courier,Kayla Woodcock,BC0280982,True
+1341,4,2015-03-21,2015-04-10,Road Freight,Kayla Woodcock,293092,True
+1342,7,2015-03-21,2015-04-10,Courier,Kayla Woodcock,BC0280982,True
+1343,4,2015-03-23,2015-04-12,Road Freight,Kayla Woodcock,293092,True
+1344,7,2015-03-23,2015-04-12,Courier,Kayla Woodcock,BC0280982,True
+1345,4,2015-03-24,2015-04-13,Road Freight,Kayla Woodcock,293092,True
+1346,7,2015-03-24,2015-04-13,Courier,Kayla Woodcock,BC0280982,True
+1347,4,2015-03-25,2015-04-14,Road Freight,Kayla Woodcock,293092,True
+1348,7,2015-03-25,2015-04-14,Courier,Kayla Woodcock,BC0280982,True
+1349,4,2015-03-26,2015-04-15,Road Freight,Kayla Woodcock,293092,True
+1350,7,2015-03-26,2015-04-15,Courier,Kayla Woodcock,BC0280982,True
+1351,4,2015-03-27,2015-04-16,Road Freight,Kayla Woodcock,293092,True
+1352,7,2015-03-27,2015-04-16,Courier,Kayla Woodcock,BC0280982,True
+1353,4,2015-03-28,2015-04-17,Road Freight,Kayla Woodcock,293092,True
+1354,7,2015-03-28,2015-04-17,Courier,Kayla Woodcock,BC0280982,True
+1355,4,2015-03-30,2015-04-19,Road Freight,Kayla Woodcock,293092,True
+1356,7,2015-03-30,2015-04-19,Courier,Kayla Woodcock,BC0280982,True
+1357,4,2015-03-31,2015-04-20,Road Freight,Kayla Woodcock,293092,True
+1358,7,2015-03-31,2015-04-20,Courier,Kayla Woodcock,BC0280982,True
+1359,4,2015-04-01,2015-04-21,Road Freight,Kayla Woodcock,293092,True
+1360,7,2015-04-01,2015-04-21,Courier,Kayla Woodcock,BC0280982,True
+1361,4,2015-04-02,2015-04-22,Road Freight,Kayla Woodcock,293092,True
+1362,7,2015-04-02,2015-04-22,Courier,Kayla Woodcock,BC0280982,True
+1363,4,2015-04-03,2015-04-23,Road Freight,Kayla Woodcock,293092,True
+1364,7,2015-04-03,2015-04-23,Courier,Kayla Woodcock,BC0280982,True
+1365,4,2015-04-04,2015-04-18,Road Freight,Kayla Woodcock,293092,True
+1366,7,2015-04-04,2015-04-18,Courier,Kayla Woodcock,BC0280982,True
+1367,4,2015-04-06,2015-04-26,Road Freight,Kayla Woodcock,293092,True
+1368,7,2015-04-06,2015-04-26,Courier,Kayla Woodcock,BC0280982,True
+1369,4,2015-04-07,2015-04-27,Road Freight,Kayla Woodcock,293092,True
+1370,7,2015-04-07,2015-04-27,Courier,Kayla Woodcock,BC0280982,True
+1371,4,2015-04-08,2015-04-28,Road Freight,Kayla Woodcock,293092,True
+1372,7,2015-04-08,2015-04-28,Courier,Kayla Woodcock,BC0280982,True
+1373,4,2015-04-09,2015-04-29,Road Freight,Kayla Woodcock,293092,True
+1374,7,2015-04-09,2015-04-29,Courier,Kayla Woodcock,BC0280982,True
+1375,4,2015-04-10,2015-04-30,Road Freight,Kayla Woodcock,293092,True
+1376,7,2015-04-10,2015-04-30,Courier,Kayla Woodcock,BC0280982,True
+1377,4,2015-04-11,2015-05-01,Road Freight,Kayla Woodcock,293092,True
+1378,7,2015-04-11,2015-05-01,Courier,Kayla Woodcock,BC0280982,True
+1379,4,2015-04-13,2015-05-03,Road Freight,Kayla Woodcock,293092,True
+1380,7,2015-04-13,2015-05-03,Courier,Kayla Woodcock,BC0280982,True
+1381,4,2015-04-14,2015-05-04,Road Freight,Kayla Woodcock,293092,True
+1382,7,2015-04-14,2015-05-04,Courier,Kayla Woodcock,BC0280982,True
+1383,4,2015-04-15,2015-05-05,Road Freight,Kayla Woodcock,293092,True
+1384,7,2015-04-15,2015-05-05,Courier,Kayla Woodcock,BC0280982,True
+1385,4,2015-04-16,2015-05-06,Road Freight,Kayla Woodcock,293092,True
+1386,7,2015-04-16,2015-05-06,Courier,Kayla Woodcock,BC0280982,True
+1387,4,2015-04-17,2015-05-07,Road Freight,Kayla Woodcock,293092,True
+1388,7,2015-04-17,2015-05-07,Courier,Kayla Woodcock,BC0280982,True
+1389,4,2015-04-18,2015-04-25,Road Freight,Kayla Woodcock,293092,True
+1390,4,2015-04-20,2015-05-10,Road Freight,Kayla Woodcock,293092,True
+1391,7,2015-04-20,2015-05-10,Courier,Kayla Woodcock,BC0280982,True
+1392,4,2015-04-21,2015-05-11,Road Freight,Kayla Woodcock,293092,True
+1393,7,2015-04-21,2015-05-11,Courier,Kayla Woodcock,BC0280982,True
+1394,4,2015-04-22,2015-05-12,Road Freight,Kayla Woodcock,293092,True
+1395,7,2015-04-22,2015-05-12,Courier,Kayla Woodcock,BC0280982,True
+1396,4,2015-04-23,2015-05-13,Road Freight,Kayla Woodcock,293092,True
+1397,7,2015-04-23,2015-05-13,Courier,Kayla Woodcock,BC0280982,True
+1398,4,2015-04-24,2015-05-14,Road Freight,Kayla Woodcock,293092,True
+1399,7,2015-04-24,2015-05-14,Courier,Kayla Woodcock,BC0280982,True
+1400,4,2015-04-25,2015-05-09,Road Freight,Kayla Woodcock,293092,True
+1401,7,2015-04-25,2015-05-09,Courier,Kayla Woodcock,BC0280982,True
+1402,4,2015-04-27,2015-05-17,Road Freight,Kayla Woodcock,293092,True
+1403,7,2015-04-27,2015-05-17,Courier,Kayla Woodcock,BC0280982,True
+1404,4,2015-04-28,2015-05-18,Road Freight,Kayla Woodcock,293092,True
+1405,7,2015-04-28,2015-05-18,Courier,Kayla Woodcock,BC0280982,True
+1406,4,2015-04-29,2015-05-19,Road Freight,Kayla Woodcock,293092,True
+1407,7,2015-04-29,2015-05-19,Courier,Kayla Woodcock,BC0280982,True
+1408,4,2015-04-30,2015-05-20,Road Freight,Kayla Woodcock,293092,True
+1409,7,2015-04-30,2015-05-20,Courier,Kayla Woodcock,BC0280982,True
+1410,4,2015-05-01,2015-05-21,Road Freight,Kayla Woodcock,293092,True
+1411,7,2015-05-01,2015-05-21,Courier,Kayla Woodcock,BC0280982,True
+1412,4,2015-05-04,2015-05-24,Road Freight,Kayla Woodcock,293092,True
+1413,7,2015-05-04,2015-05-24,Courier,Kayla Woodcock,BC0280982,True
+1414,4,2015-05-05,2015-05-25,Road Freight,Kayla Woodcock,293092,True
+1415,7,2015-05-05,2015-05-25,Courier,Kayla Woodcock,BC0280982,True
+1416,4,2015-05-06,2015-05-26,Road Freight,Kayla Woodcock,293092,True
+1417,7,2015-05-06,2015-05-26,Courier,Kayla Woodcock,BC0280982,True
+1418,4,2015-05-07,2015-05-27,Road Freight,Kayla Woodcock,293092,True
+1419,7,2015-05-07,2015-05-27,Courier,Kayla Woodcock,BC0280982,True
+1420,4,2015-05-08,2015-05-28,Road Freight,Kayla Woodcock,293092,True
+1421,7,2015-05-08,2015-05-28,Courier,Kayla Woodcock,BC0280982,True
+1422,4,2015-05-09,2015-05-23,Road Freight,Kayla Woodcock,293092,True
+1423,7,2015-05-09,2015-05-23,Courier,Kayla Woodcock,BC0280982,True
+1424,4,2015-05-11,2015-05-31,Road Freight,Kayla Woodcock,293092,True
+1425,7,2015-05-11,2015-05-31,Courier,Kayla Woodcock,BC0280982,True
+1426,4,2015-05-12,2015-06-01,Road Freight,Kayla Woodcock,293092,True
+1427,7,2015-05-12,2015-06-01,Courier,Kayla Woodcock,BC0280982,True
+1428,4,2015-05-13,2015-06-02,Road Freight,Kayla Woodcock,293092,True
+1429,7,2015-05-13,2015-06-02,Courier,Kayla Woodcock,BC0280982,True
+1430,4,2015-05-14,2015-06-03,Road Freight,Kayla Woodcock,293092,True
+1431,7,2015-05-14,2015-06-03,Courier,Kayla Woodcock,BC0280982,True
+1432,4,2015-05-15,2015-06-04,Road Freight,Kayla Woodcock,293092,True
+1433,7,2015-05-15,2015-06-04,Courier,Kayla Woodcock,BC0280982,True
+1434,4,2015-05-16,2015-06-05,Road Freight,Kayla Woodcock,293092,True
+1435,7,2015-05-16,2015-06-05,Courier,Kayla Woodcock,BC0280982,True
+1436,4,2015-05-18,2015-06-07,Road Freight,Kayla Woodcock,293092,True
+1437,7,2015-05-18,2015-06-07,Courier,Kayla Woodcock,BC0280982,True
+1438,4,2015-05-19,2015-06-08,Road Freight,Kayla Woodcock,293092,True
+1439,7,2015-05-19,2015-06-08,Courier,Kayla Woodcock,BC0280982,True
+1440,4,2015-05-20,2015-06-09,Road Freight,Kayla Woodcock,293092,True
+1441,7,2015-05-20,2015-06-09,Courier,Kayla Woodcock,BC0280982,True
+1442,4,2015-05-21,2015-06-10,Road Freight,Kayla Woodcock,293092,True
+1443,7,2015-05-21,2015-06-10,Courier,Kayla Woodcock,BC0280982,True
+1444,4,2015-05-22,2015-06-11,Road Freight,Kayla Woodcock,293092,True
+1445,7,2015-05-22,2015-06-11,Courier,Kayla Woodcock,BC0280982,True
+1446,4,2015-05-23,2015-06-06,Road Freight,Kayla Woodcock,293092,True
+1447,7,2015-05-23,2015-06-06,Courier,Kayla Woodcock,BC0280982,True
+1448,4,2015-05-25,2015-06-14,Road Freight,Kayla Woodcock,293092,True
+1449,7,2015-05-25,2015-06-14,Courier,Kayla Woodcock,BC0280982,True
+1450,4,2015-05-26,2015-06-15,Road Freight,Kayla Woodcock,293092,True
+1451,7,2015-05-26,2015-06-15,Courier,Kayla Woodcock,BC0280982,True
+1452,4,2015-05-27,2015-06-16,Road Freight,Kayla Woodcock,293092,True
+1453,7,2015-05-27,2015-06-16,Courier,Kayla Woodcock,BC0280982,True
+1454,4,2015-05-28,2015-06-17,Road Freight,Kayla Woodcock,293092,True
+1455,7,2015-05-28,2015-06-17,Courier,Kayla Woodcock,BC0280982,True
+1456,4,2015-05-29,2015-06-18,Road Freight,Kayla Woodcock,293092,True
+1457,7,2015-05-29,2015-06-18,Courier,Kayla Woodcock,BC0280982,True
+1458,4,2015-05-30,2015-06-13,Road Freight,Kayla Woodcock,293092,True
+1459,7,2015-05-30,2015-06-13,Courier,Kayla Woodcock,BC0280982,True
+1460,4,2015-06-01,2015-06-21,Road Freight,Kayla Woodcock,293092,True
+1461,7,2015-06-01,2015-06-21,Courier,Kayla Woodcock,BC0280982,True
+1462,4,2015-06-02,2015-06-22,Road Freight,Kayla Woodcock,293092,True
+1463,7,2015-06-02,2015-06-22,Courier,Kayla Woodcock,BC0280982,True
+1464,4,2015-06-03,2015-06-23,Road Freight,Kayla Woodcock,293092,True
+1465,7,2015-06-03,2015-06-23,Courier,Kayla Woodcock,BC0280982,True
+1466,4,2015-06-04,2015-06-24,Road Freight,Kayla Woodcock,293092,True
+1467,7,2015-06-04,2015-06-24,Courier,Kayla Woodcock,BC0280982,True
+1468,4,2015-06-05,2015-06-25,Road Freight,Kayla Woodcock,293092,True
+1469,7,2015-06-05,2015-06-25,Courier,Kayla Woodcock,BC0280982,True
+1470,4,2015-06-06,2015-06-26,Road Freight,Kayla Woodcock,293092,True
+1471,7,2015-06-06,2015-06-26,Courier,Kayla Woodcock,BC0280982,True
+1472,4,2015-06-08,2015-06-28,Road Freight,Kayla Woodcock,293092,True
+1473,7,2015-06-08,2015-06-28,Courier,Kayla Woodcock,BC0280982,True
+1474,4,2015-06-09,2015-06-29,Road Freight,Kayla Woodcock,293092,True
+1475,7,2015-06-09,2015-06-29,Courier,Kayla Woodcock,BC0280982,True
+1476,4,2015-06-10,2015-06-30,Road Freight,Kayla Woodcock,293092,True
+1477,7,2015-06-10,2015-06-30,Courier,Kayla Woodcock,BC0280982,True
+1478,4,2015-06-11,2015-07-01,Road Freight,Kayla Woodcock,293092,True
+1479,7,2015-06-11,2015-07-01,Courier,Kayla Woodcock,BC0280982,True
+1480,4,2015-06-12,2015-07-02,Road Freight,Kayla Woodcock,293092,True
+1481,7,2015-06-12,2015-07-02,Courier,Kayla Woodcock,BC0280982,True
+1482,4,2015-06-13,2015-06-27,Road Freight,Kayla Woodcock,293092,True
+1483,7,2015-06-13,2015-06-27,Courier,Kayla Woodcock,BC0280982,True
+1484,4,2015-06-15,2015-07-05,Road Freight,Kayla Woodcock,293092,True
+1485,7,2015-06-15,2015-07-05,Courier,Kayla Woodcock,BC0280982,True
+1486,4,2015-06-16,2015-07-06,Road Freight,Kayla Woodcock,293092,True
+1487,7,2015-06-16,2015-07-06,Courier,Kayla Woodcock,BC0280982,True
+1488,4,2015-06-17,2015-07-07,Road Freight,Kayla Woodcock,293092,True
+1489,7,2015-06-17,2015-07-07,Courier,Kayla Woodcock,BC0280982,True
+1490,4,2015-06-18,2015-07-08,Road Freight,Kayla Woodcock,293092,True
+1491,7,2015-06-18,2015-07-08,Courier,Kayla Woodcock,BC0280982,True
+1492,4,2015-06-19,2015-07-09,Road Freight,Kayla Woodcock,293092,True
+1493,7,2015-06-19,2015-07-09,Courier,Kayla Woodcock,BC0280982,True
+1494,4,2015-06-20,2015-07-04,Road Freight,Kayla Woodcock,293092,True
+1495,7,2015-06-20,2015-07-04,Courier,Kayla Woodcock,BC0280982,True
+1496,4,2015-06-22,2015-07-12,Road Freight,Kayla Woodcock,293092,True
+1497,7,2015-06-22,2015-07-12,Courier,Kayla Woodcock,BC0280982,True
+1498,4,2015-06-23,2015-07-13,Road Freight,Kayla Woodcock,293092,True
+1499,7,2015-06-23,2015-07-13,Courier,Kayla Woodcock,BC0280982,True
+1500,4,2015-06-24,2015-07-14,Road Freight,Kayla Woodcock,293092,True
+1501,7,2015-06-24,2015-07-14,Courier,Kayla Woodcock,BC0280982,True
+1502,4,2015-06-25,2015-07-15,Road Freight,Kayla Woodcock,293092,True
+1503,7,2015-06-25,2015-07-15,Courier,Kayla Woodcock,BC0280982,True
+1504,4,2015-06-26,2015-07-16,Road Freight,Kayla Woodcock,293092,True
+1505,7,2015-06-26,2015-07-16,Courier,Kayla Woodcock,BC0280982,True
+1506,4,2015-06-29,2015-07-19,Road Freight,Kayla Woodcock,293092,True
+1507,7,2015-06-29,2015-07-19,Courier,Kayla Woodcock,BC0280982,True
+1508,4,2015-06-30,2015-07-20,Road Freight,Kayla Woodcock,293092,True
+1509,7,2015-06-30,2015-07-20,Courier,Kayla Woodcock,BC0280982,True
+1510,4,2015-07-01,2015-07-21,Road Freight,Kayla Woodcock,293092,True
+1511,7,2015-07-01,2015-07-21,Courier,Kayla Woodcock,BC0280982,True
+1512,4,2015-07-02,2015-07-22,Road Freight,Kayla Woodcock,293092,True
+1513,7,2015-07-02,2015-07-22,Courier,Kayla Woodcock,BC0280982,True
+1514,4,2015-07-03,2015-07-23,Road Freight,Kayla Woodcock,293092,True
+1515,7,2015-07-03,2015-07-23,Courier,Kayla Woodcock,BC0280982,True
+1516,4,2015-07-04,2015-07-18,Road Freight,Kayla Woodcock,293092,True
+1517,7,2015-07-04,2015-07-18,Courier,Kayla Woodcock,BC0280982,True
+1518,4,2015-07-06,2015-07-26,Road Freight,Kayla Woodcock,293092,True
+1519,7,2015-07-06,2015-07-26,Courier,Kayla Woodcock,BC0280982,True
+1520,4,2015-07-07,2015-07-27,Road Freight,Kayla Woodcock,293092,True
+1521,7,2015-07-07,2015-07-27,Courier,Kayla Woodcock,BC0280982,True
+1522,4,2015-07-08,2015-07-28,Road Freight,Kayla Woodcock,293092,True
+1523,7,2015-07-08,2015-07-28,Courier,Kayla Woodcock,BC0280982,True
+1524,4,2015-07-09,2015-07-29,Road Freight,Kayla Woodcock,293092,True
+1525,7,2015-07-09,2015-07-29,Courier,Kayla Woodcock,BC0280982,True
+1526,4,2015-07-10,2015-07-30,Road Freight,Kayla Woodcock,293092,True
+1527,7,2015-07-10,2015-07-30,Courier,Kayla Woodcock,BC0280982,True
+1528,4,2015-07-11,2015-07-25,Road Freight,Kayla Woodcock,293092,True
+1529,7,2015-07-11,2015-07-25,Courier,Kayla Woodcock,BC0280982,True
+1530,4,2015-07-13,2015-08-02,Road Freight,Kayla Woodcock,293092,True
+1531,7,2015-07-13,2015-08-02,Courier,Kayla Woodcock,BC0280982,True
+1532,4,2015-07-14,2015-08-03,Road Freight,Kayla Woodcock,293092,True
+1533,7,2015-07-14,2015-08-03,Courier,Kayla Woodcock,BC0280982,True
+1534,4,2015-07-15,2015-08-04,Road Freight,Kayla Woodcock,293092,True
+1535,7,2015-07-15,2015-08-04,Courier,Kayla Woodcock,BC0280982,True
+1536,4,2015-07-16,2015-08-05,Road Freight,Kayla Woodcock,293092,True
+1537,7,2015-07-16,2015-08-05,Courier,Kayla Woodcock,BC0280982,True
+1538,4,2015-07-17,2015-08-06,Road Freight,Kayla Woodcock,293092,True
+1539,7,2015-07-17,2015-08-06,Courier,Kayla Woodcock,BC0280982,True
+1540,4,2015-07-18,2015-08-07,Road Freight,Kayla Woodcock,293092,True
+1541,7,2015-07-18,2015-08-07,Courier,Kayla Woodcock,BC0280982,True
+1542,4,2015-07-20,2015-08-09,Road Freight,Kayla Woodcock,293092,True
+1543,7,2015-07-20,2015-08-09,Courier,Kayla Woodcock,BC0280982,True
+1544,4,2015-07-21,2015-08-10,Road Freight,Kayla Woodcock,293092,True
+1545,7,2015-07-21,2015-08-10,Courier,Kayla Woodcock,BC0280982,True
+1546,4,2015-07-22,2015-08-11,Road Freight,Kayla Woodcock,293092,True
+1547,7,2015-07-22,2015-08-11,Courier,Kayla Woodcock,BC0280982,True
+1548,4,2015-07-23,2015-08-12,Road Freight,Kayla Woodcock,293092,True
+1549,7,2015-07-23,2015-08-12,Courier,Kayla Woodcock,BC0280982,True
+1550,4,2015-07-24,2015-08-13,Road Freight,Kayla Woodcock,293092,True
+1551,7,2015-07-24,2015-08-13,Courier,Kayla Woodcock,BC0280982,True
+1552,4,2015-07-25,2015-08-14,Road Freight,Kayla Woodcock,293092,True
+1553,7,2015-07-25,2015-08-14,Courier,Kayla Woodcock,BC0280982,True
+1554,4,2015-07-27,2015-08-16,Road Freight,Kayla Woodcock,293092,True
+1555,7,2015-07-27,2015-08-16,Courier,Kayla Woodcock,BC0280982,True
+1556,4,2015-07-28,2015-08-17,Road Freight,Kayla Woodcock,293092,True
+1557,7,2015-07-28,2015-08-17,Courier,Kayla Woodcock,BC0280982,True
+1558,4,2015-07-29,2015-08-18,Road Freight,Kayla Woodcock,293092,True
+1559,7,2015-07-29,2015-08-18,Courier,Kayla Woodcock,BC0280982,True
+1560,4,2015-07-30,2015-08-19,Road Freight,Kayla Woodcock,293092,True
+1561,7,2015-07-30,2015-08-19,Courier,Kayla Woodcock,BC0280982,True
+1562,4,2015-07-31,2015-08-20,Road Freight,Kayla Woodcock,293092,True
+1563,7,2015-07-31,2015-08-20,Courier,Kayla Woodcock,BC0280982,True
+1564,4,2015-08-01,2015-08-08,Road Freight,Kayla Woodcock,293092,True
+1565,4,2015-08-03,2015-08-23,Road Freight,Kayla Woodcock,293092,True
+1566,7,2015-08-03,2015-08-23,Courier,Kayla Woodcock,BC0280982,True
+1567,4,2015-08-04,2015-08-24,Road Freight,Kayla Woodcock,293092,True
+1568,7,2015-08-04,2015-08-24,Courier,Kayla Woodcock,BC0280982,True
+1569,4,2015-08-05,2015-08-25,Road Freight,Kayla Woodcock,293092,True
+1570,7,2015-08-05,2015-08-25,Courier,Kayla Woodcock,BC0280982,True
+1571,4,2015-08-06,2015-08-26,Road Freight,Kayla Woodcock,293092,True
+1572,7,2015-08-06,2015-08-26,Courier,Kayla Woodcock,BC0280982,True
+1573,4,2015-08-07,2015-08-27,Road Freight,Kayla Woodcock,293092,True
+1574,7,2015-08-07,2015-08-27,Courier,Kayla Woodcock,BC0280982,True
+1575,4,2015-08-08,2015-08-28,Road Freight,Kayla Woodcock,293092,True
+1576,7,2015-08-08,2015-08-28,Courier,Kayla Woodcock,BC0280982,True
+1577,4,2015-08-10,2015-08-30,Road Freight,Kayla Woodcock,293092,True
+1578,7,2015-08-10,2015-08-30,Courier,Kayla Woodcock,BC0280982,True
+1579,4,2015-08-11,2015-08-31,Road Freight,Kayla Woodcock,293092,True
+1580,7,2015-08-11,2015-08-31,Courier,Kayla Woodcock,BC0280982,True
+1581,4,2015-08-12,2015-09-01,Road Freight,Kayla Woodcock,293092,True
+1582,7,2015-08-12,2015-09-01,Courier,Kayla Woodcock,BC0280982,True
+1583,4,2015-08-13,2015-09-02,Road Freight,Kayla Woodcock,293092,True
+1584,7,2015-08-13,2015-09-02,Courier,Kayla Woodcock,BC0280982,True
+1585,4,2015-08-14,2015-09-03,Road Freight,Kayla Woodcock,293092,True
+1586,7,2015-08-14,2015-09-03,Courier,Kayla Woodcock,BC0280982,True
+1587,4,2015-08-15,2015-08-22,Road Freight,Kayla Woodcock,293092,True
+1588,4,2015-08-17,2015-09-06,Road Freight,Kayla Woodcock,293092,True
+1589,7,2015-08-17,2015-09-06,Courier,Kayla Woodcock,BC0280982,True
+1590,4,2015-08-18,2015-09-07,Road Freight,Kayla Woodcock,293092,True
+1591,7,2015-08-18,2015-09-07,Courier,Kayla Woodcock,BC0280982,True
+1592,4,2015-08-19,2015-09-08,Road Freight,Kayla Woodcock,293092,True
+1593,7,2015-08-19,2015-09-08,Courier,Kayla Woodcock,BC0280982,True
+1594,4,2015-08-20,2015-09-09,Road Freight,Kayla Woodcock,293092,True
+1595,7,2015-08-20,2015-09-09,Courier,Kayla Woodcock,BC0280982,True
+1596,4,2015-08-21,2015-09-10,Road Freight,Kayla Woodcock,293092,True
+1597,7,2015-08-21,2015-09-10,Courier,Kayla Woodcock,BC0280982,True
+1598,4,2015-08-22,2015-09-05,Road Freight,Kayla Woodcock,293092,True
+1599,7,2015-08-22,2015-09-05,Courier,Kayla Woodcock,BC0280982,True
+1600,4,2015-08-24,2015-09-13,Road Freight,Kayla Woodcock,293092,True
+1601,7,2015-08-24,2015-09-13,Courier,Kayla Woodcock,BC0280982,True
+1602,4,2015-08-25,2015-09-14,Road Freight,Kayla Woodcock,293092,True
+1603,7,2015-08-25,2015-09-14,Courier,Kayla Woodcock,BC0280982,True
+1604,4,2015-08-26,2015-09-15,Road Freight,Kayla Woodcock,293092,True
+1605,7,2015-08-26,2015-09-15,Courier,Kayla Woodcock,BC0280982,True
+1606,4,2015-08-27,2015-09-16,Road Freight,Kayla Woodcock,293092,True
+1607,7,2015-08-27,2015-09-16,Courier,Kayla Woodcock,BC0280982,True
+1608,4,2015-08-28,2015-09-17,Road Freight,Kayla Woodcock,293092,True
+1609,7,2015-08-28,2015-09-17,Courier,Kayla Woodcock,BC0280982,True
+1610,4,2015-08-29,2015-09-12,Road Freight,Kayla Woodcock,293092,True
+1611,7,2015-08-29,2015-09-12,Courier,Kayla Woodcock,BC0280982,True
+1612,4,2015-08-31,2015-09-20,Road Freight,Kayla Woodcock,293092,True
+1613,7,2015-08-31,2015-09-20,Courier,Kayla Woodcock,BC0280982,True
+1614,4,2015-09-01,2015-09-21,Road Freight,Kayla Woodcock,293092,True
+1615,7,2015-09-01,2015-09-21,Courier,Kayla Woodcock,BC0280982,True
+1616,4,2015-09-02,2015-09-22,Road Freight,Kayla Woodcock,293092,True
+1617,7,2015-09-02,2015-09-22,Courier,Kayla Woodcock,BC0280982,True
+1618,4,2015-09-03,2015-09-23,Road Freight,Kayla Woodcock,293092,True
+1619,7,2015-09-03,2015-09-23,Courier,Kayla Woodcock,BC0280982,True
+1620,4,2015-09-04,2015-09-24,Road Freight,Kayla Woodcock,293092,True
+1621,7,2015-09-04,2015-09-24,Courier,Kayla Woodcock,BC0280982,True
+1622,4,2015-09-05,2015-09-19,Road Freight,Kayla Woodcock,293092,True
+1623,7,2015-09-05,2015-09-19,Courier,Kayla Woodcock,BC0280982,True
+1624,4,2015-09-07,2015-09-27,Road Freight,Kayla Woodcock,293092,True
+1625,7,2015-09-07,2015-09-27,Courier,Kayla Woodcock,BC0280982,True
+1626,4,2015-09-08,2015-09-28,Road Freight,Kayla Woodcock,293092,True
+1627,7,2015-09-08,2015-09-28,Courier,Kayla Woodcock,BC0280982,True
+1628,4,2015-09-09,2015-09-29,Road Freight,Kayla Woodcock,293092,True
+1629,7,2015-09-09,2015-09-29,Courier,Kayla Woodcock,BC0280982,True
+1630,4,2015-09-10,2015-09-30,Road Freight,Kayla Woodcock,293092,True
+1631,7,2015-09-10,2015-09-30,Courier,Kayla Woodcock,BC0280982,True
+1632,4,2015-09-11,2015-10-01,Road Freight,Kayla Woodcock,293092,True
+1633,7,2015-09-11,2015-10-01,Courier,Kayla Woodcock,BC0280982,True
+1634,7,2015-09-12,2015-09-26,Courier,Kayla Woodcock,BC0280982,True
+1635,4,2015-09-14,2015-10-04,Road Freight,Kayla Woodcock,293092,True
+1636,7,2015-09-14,2015-10-04,Courier,Kayla Woodcock,BC0280982,True
+1637,4,2015-09-15,2015-10-05,Road Freight,Kayla Woodcock,293092,True
+1638,7,2015-09-15,2015-10-05,Courier,Kayla Woodcock,BC0280982,True
+1639,4,2015-09-16,2015-10-06,Road Freight,Kayla Woodcock,293092,True
+1640,7,2015-09-16,2015-10-06,Courier,Kayla Woodcock,BC0280982,True
+1641,4,2015-09-17,2015-10-07,Road Freight,Kayla Woodcock,293092,True
+1642,7,2015-09-17,2015-10-07,Courier,Kayla Woodcock,BC0280982,True
+1643,4,2015-09-18,2015-10-08,Road Freight,Kayla Woodcock,293092,True
+1644,7,2015-09-18,2015-10-08,Courier,Kayla Woodcock,BC0280982,True
+1645,4,2015-09-19,2015-10-09,Road Freight,Kayla Woodcock,293092,True
+1646,7,2015-09-19,2015-10-09,Courier,Kayla Woodcock,BC0280982,True
+1647,4,2015-09-21,2015-10-11,Road Freight,Kayla Woodcock,293092,True
+1648,7,2015-09-21,2015-10-11,Courier,Kayla Woodcock,BC0280982,True
+1649,4,2015-09-22,2015-10-12,Road Freight,Kayla Woodcock,293092,True
+1650,7,2015-09-22,2015-10-12,Courier,Kayla Woodcock,BC0280982,True
+1651,4,2015-09-23,2015-10-13,Road Freight,Kayla Woodcock,293092,True
+1652,7,2015-09-23,2015-10-13,Courier,Kayla Woodcock,BC0280982,True
+1653,4,2015-09-24,2015-10-14,Road Freight,Kayla Woodcock,293092,True
+1654,7,2015-09-24,2015-10-14,Courier,Kayla Woodcock,BC0280982,True
+1655,4,2015-09-25,2015-10-15,Road Freight,Kayla Woodcock,293092,True
+1656,7,2015-09-25,2015-10-15,Courier,Kayla Woodcock,BC0280982,True
+1657,4,2015-09-26,2015-10-03,Road Freight,Kayla Woodcock,293092,True
+1658,4,2015-09-28,2015-10-18,Road Freight,Kayla Woodcock,293092,True
+1659,7,2015-09-28,2015-10-18,Courier,Kayla Woodcock,BC0280982,True
+1660,4,2015-09-29,2015-10-19,Road Freight,Kayla Woodcock,293092,True
+1661,7,2015-09-29,2015-10-19,Courier,Kayla Woodcock,BC0280982,True
+1662,4,2015-09-30,2015-10-20,Road Freight,Kayla Woodcock,293092,True
+1663,7,2015-09-30,2015-10-20,Courier,Kayla Woodcock,BC0280982,True
+1664,4,2015-10-01,2015-10-21,Road Freight,Kayla Woodcock,293092,True
+1665,7,2015-10-01,2015-10-21,Courier,Kayla Woodcock,BC0280982,True
+1666,4,2015-10-02,2015-10-22,Road Freight,Kayla Woodcock,293092,True
+1667,7,2015-10-02,2015-10-22,Courier,Kayla Woodcock,BC0280982,True
+1668,4,2015-10-03,2015-10-17,Road Freight,Kayla Woodcock,293092,True
+1669,7,2015-10-03,2015-10-17,Courier,Kayla Woodcock,BC0280982,True
+1670,4,2015-10-05,2015-10-25,Road Freight,Kayla Woodcock,293092,True
+1671,7,2015-10-05,2015-10-25,Courier,Kayla Woodcock,BC0280982,True
+1672,4,2015-10-06,2015-10-26,Road Freight,Kayla Woodcock,293092,True
+1673,7,2015-10-06,2015-10-26,Courier,Kayla Woodcock,BC0280982,True
+1674,4,2015-10-07,2015-10-27,Road Freight,Kayla Woodcock,293092,True
+1675,7,2015-10-07,2015-10-27,Courier,Kayla Woodcock,BC0280982,True
+1676,4,2015-10-08,2015-10-28,Road Freight,Kayla Woodcock,293092,True
+1677,7,2015-10-08,2015-10-28,Courier,Kayla Woodcock,BC0280982,True
+1678,4,2015-10-09,2015-10-29,Road Freight,Kayla Woodcock,293092,True
+1679,7,2015-10-09,2015-10-29,Courier,Kayla Woodcock,BC0280982,True
+1680,4,2015-10-10,2015-10-24,Road Freight,Kayla Woodcock,293092,True
+1681,7,2015-10-10,2015-10-24,Courier,Kayla Woodcock,BC0280982,True
+1682,4,2015-10-12,2015-11-01,Road Freight,Kayla Woodcock,293092,True
+1683,7,2015-10-12,2015-11-01,Courier,Kayla Woodcock,BC0280982,True
+1684,4,2015-10-13,2015-11-02,Road Freight,Kayla Woodcock,293092,True
+1685,7,2015-10-13,2015-11-02,Courier,Kayla Woodcock,BC0280982,True
+1686,4,2015-10-14,2015-11-03,Road Freight,Kayla Woodcock,293092,True
+1687,7,2015-10-14,2015-11-03,Courier,Kayla Woodcock,BC0280982,True
+1688,4,2015-10-15,2015-11-04,Road Freight,Kayla Woodcock,293092,True
+1689,7,2015-10-15,2015-11-04,Courier,Kayla Woodcock,BC0280982,True
+1690,4,2015-10-16,2015-11-05,Road Freight,Kayla Woodcock,293092,True
+1691,7,2015-10-16,2015-11-05,Courier,Kayla Woodcock,BC0280982,True
+1692,4,2015-10-17,2015-10-31,Road Freight,Kayla Woodcock,293092,True
+1693,7,2015-10-17,2015-10-31,Courier,Kayla Woodcock,BC0280982,True
+1694,4,2015-10-19,2015-11-08,Road Freight,Kayla Woodcock,293092,True
+1695,7,2015-10-19,2015-11-08,Courier,Kayla Woodcock,BC0280982,True
+1696,4,2015-10-20,2015-11-09,Road Freight,Kayla Woodcock,293092,True
+1697,7,2015-10-20,2015-11-09,Courier,Kayla Woodcock,BC0280982,True
+1698,4,2015-10-21,2015-11-10,Road Freight,Kayla Woodcock,293092,True
+1699,7,2015-10-21,2015-11-10,Courier,Kayla Woodcock,BC0280982,True
+1700,4,2015-10-22,2015-11-11,Road Freight,Kayla Woodcock,293092,True
+1701,7,2015-10-22,2015-11-11,Courier,Kayla Woodcock,BC0280982,True
+1702,4,2015-10-23,2015-11-12,Road Freight,Kayla Woodcock,293092,True
+1703,7,2015-10-23,2015-11-12,Courier,Kayla Woodcock,BC0280982,True
+1704,4,2015-10-24,2015-11-13,Road Freight,Kayla Woodcock,293092,True
+1705,7,2015-10-24,2015-11-13,Courier,Kayla Woodcock,BC0280982,True
+1706,4,2015-10-26,2015-11-15,Road Freight,Kayla Woodcock,293092,True
+1707,7,2015-10-26,2015-11-15,Courier,Kayla Woodcock,BC0280982,True
+1708,4,2015-10-27,2015-11-16,Road Freight,Kayla Woodcock,293092,True
+1709,7,2015-10-27,2015-11-16,Courier,Kayla Woodcock,BC0280982,True
+1710,4,2015-10-28,2015-11-17,Road Freight,Kayla Woodcock,293092,True
+1711,7,2015-10-28,2015-11-17,Courier,Kayla Woodcock,BC0280982,True
+1712,4,2015-10-29,2015-11-18,Road Freight,Kayla Woodcock,293092,True
+1713,7,2015-10-29,2015-11-18,Courier,Kayla Woodcock,BC0280982,True
+1714,4,2015-10-30,2015-11-19,Road Freight,Kayla Woodcock,293092,True
+1715,7,2015-10-30,2015-11-19,Courier,Kayla Woodcock,BC0280982,True
+1716,4,2015-10-31,2015-11-20,Road Freight,Kayla Woodcock,293092,True
+1717,7,2015-10-31,2015-11-20,Courier,Kayla Woodcock,BC0280982,True
+1718,4,2015-11-02,2015-11-22,Road Freight,Kayla Woodcock,293092,True
+1719,7,2015-11-02,2015-11-22,Courier,Kayla Woodcock,BC0280982,True
+1720,4,2015-11-03,2015-11-23,Road Freight,Kayla Woodcock,293092,True
+1721,7,2015-11-03,2015-11-23,Courier,Kayla Woodcock,BC0280982,True
+1722,4,2015-11-04,2015-11-24,Road Freight,Kayla Woodcock,293092,True
+1723,7,2015-11-04,2015-11-24,Courier,Kayla Woodcock,BC0280982,True
+1724,4,2015-11-05,2015-11-25,Road Freight,Kayla Woodcock,293092,True
+1725,7,2015-11-05,2015-11-25,Courier,Kayla Woodcock,BC0280982,True
+1726,4,2015-11-06,2015-11-26,Road Freight,Kayla Woodcock,293092,True
+1727,7,2015-11-06,2015-11-26,Courier,Kayla Woodcock,BC0280982,True
+1728,4,2015-11-07,2015-11-21,Road Freight,Kayla Woodcock,293092,True
+1729,7,2015-11-07,2015-11-21,Courier,Kayla Woodcock,BC0280982,True
+1730,4,2015-11-09,2015-11-29,Road Freight,Kayla Woodcock,293092,True
+1731,7,2015-11-09,2015-11-29,Courier,Kayla Woodcock,BC0280982,True
+1732,4,2015-11-10,2015-11-30,Road Freight,Kayla Woodcock,293092,True
+1733,7,2015-11-10,2015-11-30,Courier,Kayla Woodcock,BC0280982,True
+1734,4,2015-11-11,2015-12-01,Road Freight,Kayla Woodcock,293092,True
+1735,7,2015-11-11,2015-12-01,Courier,Kayla Woodcock,BC0280982,True
+1736,4,2015-11-12,2015-12-02,Road Freight,Kayla Woodcock,293092,True
+1737,7,2015-11-12,2015-12-02,Courier,Kayla Woodcock,BC0280982,True
+1738,4,2015-11-13,2015-12-03,Road Freight,Kayla Woodcock,293092,True
+1739,7,2015-11-13,2015-12-03,Courier,Kayla Woodcock,BC0280982,True
+1740,4,2015-11-14,2015-12-04,Road Freight,Kayla Woodcock,293092,True
+1741,7,2015-11-14,2015-12-04,Courier,Kayla Woodcock,BC0280982,True
+1742,4,2015-11-16,2015-12-06,Road Freight,Kayla Woodcock,293092,True
+1743,7,2015-11-16,2015-12-06,Courier,Kayla Woodcock,BC0280982,True
+1744,4,2015-11-17,2015-12-07,Road Freight,Kayla Woodcock,293092,True
+1745,7,2015-11-17,2015-12-07,Courier,Kayla Woodcock,BC0280982,True
+1746,4,2015-11-18,2015-12-08,Road Freight,Kayla Woodcock,293092,True
+1747,7,2015-11-18,2015-12-08,Courier,Kayla Woodcock,BC0280982,True
+1748,4,2015-11-19,2015-12-09,Road Freight,Kayla Woodcock,293092,True
+1749,7,2015-11-19,2015-12-09,Courier,Kayla Woodcock,BC0280982,True
+1750,4,2015-11-20,2015-12-10,Road Freight,Kayla Woodcock,293092,True
+1751,7,2015-11-20,2015-12-10,Courier,Kayla Woodcock,BC0280982,True
+1752,4,2015-11-21,2015-11-28,Road Freight,Kayla Woodcock,293092,True
+1753,4,2015-11-23,2015-12-13,Road Freight,Kayla Woodcock,293092,True
+1754,7,2015-11-23,2015-12-13,Courier,Kayla Woodcock,BC0280982,True
+1755,4,2015-11-24,2015-12-14,Road Freight,Kayla Woodcock,293092,True
+1756,7,2015-11-24,2015-12-14,Courier,Kayla Woodcock,BC0280982,True
+1757,4,2015-11-25,2015-12-15,Road Freight,Kayla Woodcock,293092,True
+1758,7,2015-11-25,2015-12-15,Courier,Kayla Woodcock,BC0280982,True
+1759,4,2015-11-26,2015-12-16,Road Freight,Kayla Woodcock,293092,True
+1760,7,2015-11-26,2015-12-16,Courier,Kayla Woodcock,BC0280982,True
+1761,4,2015-11-27,2015-12-17,Road Freight,Kayla Woodcock,293092,True
+1762,7,2015-11-27,2015-12-17,Courier,Kayla Woodcock,BC0280982,True
+1763,4,2015-11-28,2015-12-05,Road Freight,Kayla Woodcock,293092,True
+1764,4,2015-11-30,2015-12-20,Road Freight,Kayla Woodcock,293092,True
+1765,7,2015-11-30,2015-12-20,Courier,Kayla Woodcock,BC0280982,True
+1766,4,2015-12-01,2015-12-21,Road Freight,Kayla Woodcock,293092,True
+1767,7,2015-12-01,2015-12-21,Courier,Kayla Woodcock,BC0280982,True
+1768,4,2015-12-02,2015-12-22,Road Freight,Kayla Woodcock,293092,True
+1769,7,2015-12-02,2015-12-22,Courier,Kayla Woodcock,BC0280982,True
+1770,4,2015-12-03,2015-12-23,Road Freight,Kayla Woodcock,293092,True
+1771,7,2015-12-03,2015-12-23,Courier,Kayla Woodcock,BC0280982,True
+1772,4,2015-12-04,2015-12-24,Road Freight,Kayla Woodcock,293092,True
+1773,7,2015-12-04,2015-12-24,Courier,Kayla Woodcock,BC0280982,True
+1774,4,2015-12-05,2015-12-25,Road Freight,Kayla Woodcock,293092,True
+1775,7,2015-12-05,2015-12-25,Courier,Kayla Woodcock,BC0280982,True
+1776,4,2015-12-07,2015-12-27,Road Freight,Kayla Woodcock,293092,True
+1777,7,2015-12-07,2015-12-27,Courier,Kayla Woodcock,BC0280982,True
+1778,4,2015-12-08,2015-12-28,Road Freight,Kayla Woodcock,293092,True
+1779,7,2015-12-08,2015-12-28,Courier,Kayla Woodcock,BC0280982,True
+1780,4,2015-12-09,2015-12-29,Road Freight,Kayla Woodcock,293092,True
+1781,7,2015-12-09,2015-12-29,Courier,Kayla Woodcock,BC0280982,True
+1782,4,2015-12-10,2015-12-30,Road Freight,Kayla Woodcock,293092,True
+1783,7,2015-12-10,2015-12-30,Courier,Kayla Woodcock,BC0280982,True
+1784,4,2015-12-11,2015-12-31,Road Freight,Kayla Woodcock,293092,True
+1785,7,2015-12-11,2015-12-31,Courier,Kayla Woodcock,BC0280982,True
+1786,4,2015-12-12,2016-01-01,Road Freight,Kayla Woodcock,293092,True
+1787,7,2015-12-12,2016-01-01,Courier,Kayla Woodcock,BC0280982,True
+1788,4,2015-12-14,2016-01-03,Road Freight,Kayla Woodcock,293092,True
+1789,7,2015-12-14,2016-01-03,Courier,Kayla Woodcock,BC0280982,True
+1790,4,2015-12-15,2016-01-04,Road Freight,Kayla Woodcock,293092,True
+1791,7,2015-12-15,2016-01-04,Courier,Kayla Woodcock,BC0280982,True
+1792,4,2015-12-16,2016-01-05,Road Freight,Kayla Woodcock,293092,True
+1793,7,2015-12-16,2016-01-05,Courier,Kayla Woodcock,BC0280982,True
+1794,4,2015-12-17,2016-01-06,Road Freight,Kayla Woodcock,293092,True
+1795,7,2015-12-17,2016-01-06,Courier,Kayla Woodcock,BC0280982,True
+1796,4,2015-12-18,2016-01-07,Road Freight,Kayla Woodcock,293092,True
+1797,7,2015-12-18,2016-01-07,Courier,Kayla Woodcock,BC0280982,True
+1798,4,2015-12-19,2016-01-08,Road Freight,Kayla Woodcock,293092,True
+1799,7,2015-12-19,2016-01-08,Courier,Kayla Woodcock,BC0280982,True
+1800,4,2015-12-21,2016-01-10,Road Freight,Kayla Woodcock,293092,True
+1801,7,2015-12-21,2016-01-10,Courier,Kayla Woodcock,BC0280982,True
+1802,4,2015-12-22,2016-01-11,Road Freight,Kayla Woodcock,293092,True
+1803,7,2015-12-22,2016-01-11,Courier,Kayla Woodcock,BC0280982,True
+1804,4,2015-12-23,2016-01-12,Road Freight,Kayla Woodcock,293092,True
+1805,7,2015-12-23,2016-01-12,Courier,Kayla Woodcock,BC0280982,True
+1806,4,2015-12-24,2016-01-13,Road Freight,Kayla Woodcock,293092,True
+1807,7,2015-12-24,2016-01-13,Courier,Kayla Woodcock,BC0280982,True
+1808,4,2015-12-25,2016-01-14,Road Freight,Kayla Woodcock,293092,True
+1809,7,2015-12-25,2016-01-14,Courier,Kayla Woodcock,BC0280982,True
+1810,4,2015-12-26,2016-01-15,Road Freight,Kayla Woodcock,293092,True
+1811,7,2015-12-26,2016-01-15,Courier,Kayla Woodcock,BC0280982,True
+1812,4,2015-12-28,2016-01-17,Road Freight,Kayla Woodcock,293092,True
+1813,7,2015-12-28,2016-01-17,Courier,Kayla Woodcock,BC0280982,True
+1814,4,2015-12-29,2016-01-18,Road Freight,Kayla Woodcock,293092,True
+1815,7,2015-12-29,2016-01-18,Courier,Kayla Woodcock,BC0280982,True
+1816,4,2015-12-30,2016-01-19,Road Freight,Kayla Woodcock,293092,True
+1817,7,2015-12-30,2016-01-19,Courier,Kayla Woodcock,BC0280982,True
+1818,4,2015-12-31,2016-01-20,Road Freight,Kayla Woodcock,293092,True
+1819,7,2015-12-31,2016-01-20,Courier,Kayla Woodcock,BC0280982,True
+1820,4,2016-01-01,2016-01-21,Road Freight,Kayla Woodcock,293092,True
+1821,7,2016-01-01,2016-01-21,Courier,Kayla Woodcock,BC0280982,True
+1822,1,2016-01-02,2016-01-09,Road Freight,Kayla Woodcock,AA20384,True
+1823,4,2016-01-02,2016-01-09,Road Freight,Kayla Woodcock,293092,True
+1824,1,2016-01-03,2016-01-06,Road Freight,Kayla Woodcock,AA20384,True
+1825,1,2016-01-04,2016-01-24,Road Freight,Kayla Woodcock,AA20384,True
+1826,4,2016-01-04,2016-01-24,Road Freight,Kayla Woodcock,293092,True
+1827,7,2016-01-04,2016-01-24,Courier,Kayla Woodcock,BC0280982,True
+1828,1,2016-01-05,2016-01-25,Road Freight,Kayla Woodcock,AA20384,True
+1829,4,2016-01-05,2016-01-25,Road Freight,Kayla Woodcock,293092,True
+1830,7,2016-01-05,2016-01-25,Courier,Kayla Woodcock,BC0280982,True
+1831,1,2016-01-06,2016-01-26,Road Freight,Kayla Woodcock,AA20384,True
+1832,4,2016-01-06,2016-01-26,Road Freight,Kayla Woodcock,293092,True
+1833,7,2016-01-06,2016-01-26,Courier,Kayla Woodcock,BC0280982,True
+1834,4,2016-01-07,2016-01-27,Road Freight,Kayla Woodcock,293092,True
+1835,7,2016-01-07,2016-01-27,Courier,Kayla Woodcock,BC0280982,True
+1836,4,2016-01-08,2016-01-28,Road Freight,Kayla Woodcock,293092,True
+1837,7,2016-01-08,2016-01-28,Courier,Kayla Woodcock,BC0280982,True
+1838,4,2016-01-09,2016-01-23,Road Freight,Kayla Woodcock,293092,True
+1839,7,2016-01-09,2016-01-23,Courier,Kayla Woodcock,BC0280982,True
+1840,4,2016-01-11,2016-01-31,Road Freight,Kayla Woodcock,293092,True
+1841,7,2016-01-11,2016-01-31,Courier,Kayla Woodcock,BC0280982,True
+1842,4,2016-01-12,2016-02-01,Road Freight,Kayla Woodcock,293092,True
+1843,7,2016-01-12,2016-02-01,Courier,Kayla Woodcock,BC0280982,True
+1844,4,2016-01-13,2016-02-02,Road Freight,Kayla Woodcock,293092,True
+1845,7,2016-01-13,2016-02-02,Courier,Kayla Woodcock,BC0280982,True
+1846,4,2016-01-14,2016-02-03,Road Freight,Kayla Woodcock,293092,True
+1847,7,2016-01-14,2016-02-03,Courier,Kayla Woodcock,BC0280982,True
+1848,4,2016-01-15,2016-02-04,Road Freight,Kayla Woodcock,293092,True
+1849,7,2016-01-15,2016-02-04,Courier,Kayla Woodcock,BC0280982,True
+1850,4,2016-01-16,2016-01-23,Road Freight,Kayla Woodcock,293092,True
+1851,4,2016-01-18,2016-02-07,Road Freight,Kayla Woodcock,293092,True
+1852,7,2016-01-18,2016-02-07,Courier,Kayla Woodcock,BC0280982,True
+1853,4,2016-01-19,2016-02-08,Road Freight,Kayla Woodcock,293092,True
+1854,7,2016-01-19,2016-02-08,Courier,Kayla Woodcock,BC0280982,True
+1855,4,2016-01-20,2016-02-09,Road Freight,Kayla Woodcock,293092,True
+1856,7,2016-01-20,2016-02-09,Courier,Kayla Woodcock,BC0280982,True
+1857,4,2016-01-21,2016-02-10,Road Freight,Kayla Woodcock,293092,True
+1858,7,2016-01-21,2016-02-10,Courier,Kayla Woodcock,BC0280982,True
+1859,4,2016-01-22,2016-02-11,Road Freight,Kayla Woodcock,293092,True
+1860,7,2016-01-22,2016-02-11,Courier,Kayla Woodcock,BC0280982,True
+1861,4,2016-01-23,2016-02-12,Road Freight,Kayla Woodcock,293092,True
+1862,7,2016-01-23,2016-02-12,Courier,Kayla Woodcock,BC0280982,True
+1863,4,2016-01-25,2016-02-14,Road Freight,Kayla Woodcock,293092,True
+1864,7,2016-01-25,2016-02-14,Courier,Kayla Woodcock,BC0280982,True
+1865,4,2016-01-26,2016-02-15,Road Freight,Kayla Woodcock,293092,True
+1866,7,2016-01-26,2016-02-15,Courier,Kayla Woodcock,BC0280982,True
+1867,4,2016-01-27,2016-02-16,Road Freight,Kayla Woodcock,293092,True
+1868,7,2016-01-27,2016-02-16,Courier,Kayla Woodcock,BC0280982,True
+1869,4,2016-01-28,2016-02-17,Road Freight,Kayla Woodcock,293092,True
+1870,7,2016-01-28,2016-02-17,Courier,Kayla Woodcock,BC0280982,True
+1871,4,2016-01-29,2016-02-18,Road Freight,Kayla Woodcock,293092,True
+1872,7,2016-01-29,2016-02-18,Courier,Kayla Woodcock,BC0280982,True
+1873,4,2016-01-30,2016-02-13,Road Freight,Kayla Woodcock,293092,True
+1874,7,2016-01-30,2016-02-13,Courier,Kayla Woodcock,BC0280982,True
+1875,4,2016-02-01,2016-02-21,Road Freight,Kayla Woodcock,293092,True
+1876,7,2016-02-01,2016-02-21,Courier,Kayla Woodcock,BC0280982,True
+1877,4,2016-02-02,2016-02-22,Road Freight,Kayla Woodcock,293092,True
+1878,7,2016-02-02,2016-02-22,Courier,Kayla Woodcock,BC0280982,True
+1879,4,2016-02-03,2016-02-23,Road Freight,Kayla Woodcock,293092,True
+1880,7,2016-02-03,2016-02-23,Courier,Kayla Woodcock,BC0280982,True
+1881,4,2016-02-04,2016-02-24,Road Freight,Kayla Woodcock,293092,True
+1882,7,2016-02-04,2016-02-24,Courier,Kayla Woodcock,BC0280982,True
+1883,4,2016-02-05,2016-02-25,Road Freight,Kayla Woodcock,293092,True
+1884,7,2016-02-05,2016-02-25,Courier,Kayla Woodcock,BC0280982,True
+1885,4,2016-02-06,2016-02-20,Road Freight,Kayla Woodcock,293092,True
+1886,7,2016-02-06,2016-02-20,Courier,Kayla Woodcock,BC0280982,True
+1887,4,2016-02-08,2016-02-28,Road Freight,Kayla Woodcock,293092,True
+1888,7,2016-02-08,2016-02-28,Courier,Kayla Woodcock,BC0280982,True
+1889,4,2016-02-09,2016-02-29,Road Freight,Kayla Woodcock,293092,True
+1890,7,2016-02-09,2016-02-29,Courier,Kayla Woodcock,BC0280982,True
+1891,4,2016-02-10,2016-03-01,Road Freight,Kayla Woodcock,293092,True
+1892,7,2016-02-10,2016-03-01,Courier,Kayla Woodcock,BC0280982,True
+1893,4,2016-02-11,2016-03-02,Road Freight,Kayla Woodcock,293092,True
+1894,7,2016-02-11,2016-03-02,Courier,Kayla Woodcock,BC0280982,True
+1895,4,2016-02-12,2016-03-03,Road Freight,Kayla Woodcock,293092,True
+1896,7,2016-02-12,2016-03-03,Courier,Kayla Woodcock,BC0280982,True
+1897,4,2016-02-13,2016-03-04,Road Freight,Kayla Woodcock,293092,True
+1898,7,2016-02-13,2016-03-04,Courier,Kayla Woodcock,BC0280982,True
+1899,4,2016-02-15,2016-03-06,Road Freight,Kayla Woodcock,293092,True
+1900,7,2016-02-15,2016-03-06,Courier,Kayla Woodcock,BC0280982,True
+1901,4,2016-02-16,2016-03-07,Road Freight,Kayla Woodcock,293092,True
+1902,7,2016-02-16,2016-03-07,Courier,Kayla Woodcock,BC0280982,True
+1903,4,2016-02-17,2016-03-08,Road Freight,Kayla Woodcock,293092,True
+1904,7,2016-02-17,2016-03-08,Courier,Kayla Woodcock,BC0280982,True
+1905,4,2016-02-18,2016-03-09,Road Freight,Kayla Woodcock,293092,True
+1906,7,2016-02-18,2016-03-09,Courier,Kayla Woodcock,BC0280982,True
+1907,4,2016-02-19,2016-03-10,Road Freight,Kayla Woodcock,293092,True
+1908,7,2016-02-19,2016-03-10,Courier,Kayla Woodcock,BC0280982,True
+1909,4,2016-02-20,2016-03-11,Road Freight,Kayla Woodcock,293092,True
+1910,7,2016-02-20,2016-03-11,Courier,Kayla Woodcock,BC0280982,True
+1911,4,2016-02-22,2016-03-13,Road Freight,Kayla Woodcock,293092,True
+1912,7,2016-02-22,2016-03-13,Courier,Kayla Woodcock,BC0280982,True
+1913,4,2016-02-23,2016-03-14,Road Freight,Kayla Woodcock,293092,True
+1914,7,2016-02-23,2016-03-14,Courier,Kayla Woodcock,BC0280982,True
+1915,4,2016-02-24,2016-03-15,Road Freight,Kayla Woodcock,293092,True
+1916,7,2016-02-24,2016-03-15,Courier,Kayla Woodcock,BC0280982,True
+1917,4,2016-02-25,2016-03-16,Road Freight,Kayla Woodcock,293092,True
+1918,7,2016-02-25,2016-03-16,Courier,Kayla Woodcock,BC0280982,True
+1919,4,2016-02-26,2016-03-17,Road Freight,Kayla Woodcock,293092,True
+1920,7,2016-02-26,2016-03-17,Courier,Kayla Woodcock,BC0280982,True
+1921,4,2016-02-27,2016-03-05,Road Freight,Kayla Woodcock,293092,True
+1922,4,2016-02-29,2016-03-20,Road Freight,Kayla Woodcock,293092,True
+1923,7,2016-02-29,2016-03-20,Courier,Kayla Woodcock,BC0280982,True
+1924,4,2016-03-01,2016-03-21,Road Freight,Kayla Woodcock,293092,True
+1925,7,2016-03-01,2016-03-21,Courier,Kayla Woodcock,BC0280982,True
+1926,4,2016-03-02,2016-03-22,Road Freight,Kayla Woodcock,293092,True
+1927,7,2016-03-02,2016-03-22,Courier,Kayla Woodcock,BC0280982,True
+1928,4,2016-03-03,2016-03-23,Road Freight,Kayla Woodcock,293092,True
+1929,7,2016-03-03,2016-03-23,Courier,Kayla Woodcock,BC0280982,True
+1930,4,2016-03-04,2016-03-24,Road Freight,Kayla Woodcock,293092,True
+1931,7,2016-03-04,2016-03-24,Courier,Kayla Woodcock,BC0280982,True
+1932,4,2016-03-05,2016-03-12,Road Freight,Kayla Woodcock,293092,True
+1933,4,2016-03-07,2016-03-27,Road Freight,Kayla Woodcock,293092,True
+1934,7,2016-03-07,2016-03-27,Courier,Kayla Woodcock,BC0280982,True
+1935,4,2016-03-08,2016-03-28,Road Freight,Kayla Woodcock,293092,True
+1936,7,2016-03-08,2016-03-28,Courier,Kayla Woodcock,BC0280982,True
+1937,4,2016-03-09,2016-03-29,Road Freight,Kayla Woodcock,293092,True
+1938,7,2016-03-09,2016-03-29,Courier,Kayla Woodcock,BC0280982,True
+1939,4,2016-03-10,2016-03-30,Road Freight,Kayla Woodcock,293092,True
+1940,7,2016-03-10,2016-03-30,Courier,Kayla Woodcock,BC0280982,True
+1941,4,2016-03-11,2016-03-31,Road Freight,Kayla Woodcock,293092,True
+1942,7,2016-03-11,2016-03-31,Courier,Kayla Woodcock,BC0280982,True
+1943,4,2016-03-14,2016-04-03,Road Freight,Kayla Woodcock,293092,True
+1944,7,2016-03-14,2016-04-03,Courier,Kayla Woodcock,BC0280982,True
+1945,4,2016-03-15,2016-04-04,Road Freight,Kayla Woodcock,293092,True
+1946,7,2016-03-15,2016-04-04,Courier,Kayla Woodcock,BC0280982,True
+1947,4,2016-03-16,2016-04-05,Road Freight,Kayla Woodcock,293092,True
+1948,7,2016-03-16,2016-04-05,Courier,Kayla Woodcock,BC0280982,True
+1949,4,2016-03-17,2016-04-06,Road Freight,Kayla Woodcock,293092,True
+1950,7,2016-03-17,2016-04-06,Courier,Kayla Woodcock,BC0280982,True
+1951,4,2016-03-18,2016-04-07,Road Freight,Kayla Woodcock,293092,True
+1952,7,2016-03-18,2016-04-07,Courier,Kayla Woodcock,BC0280982,True
+1953,4,2016-03-19,2016-04-02,Road Freight,Kayla Woodcock,293092,True
+1954,7,2016-03-19,2016-04-02,Courier,Kayla Woodcock,BC0280982,True
+1955,4,2016-03-21,2016-04-10,Road Freight,Kayla Woodcock,293092,True
+1956,7,2016-03-21,2016-04-10,Courier,Kayla Woodcock,BC0280982,True
+1957,4,2016-03-22,2016-04-11,Road Freight,Kayla Woodcock,293092,True
+1958,7,2016-03-22,2016-04-11,Courier,Kayla Woodcock,BC0280982,True
+1959,4,2016-03-23,2016-04-12,Road Freight,Kayla Woodcock,293092,True
+1960,7,2016-03-23,2016-04-12,Courier,Kayla Woodcock,BC0280982,True
+1961,4,2016-03-24,2016-04-13,Road Freight,Kayla Woodcock,293092,True
+1962,7,2016-03-24,2016-04-13,Courier,Kayla Woodcock,BC0280982,True
+1963,4,2016-03-25,2016-04-14,Road Freight,Kayla Woodcock,293092,True
+1964,7,2016-03-25,2016-04-14,Courier,Kayla Woodcock,BC0280982,True
+1965,4,2016-03-26,2016-04-15,Road Freight,Kayla Woodcock,293092,True
+1966,7,2016-03-26,2016-04-15,Courier,Kayla Woodcock,BC0280982,True
+1967,4,2016-03-28,2016-04-17,Road Freight,Kayla Woodcock,293092,True
+1968,7,2016-03-28,2016-04-17,Courier,Kayla Woodcock,BC0280982,True
+1969,4,2016-03-29,2016-04-18,Road Freight,Kayla Woodcock,293092,True
+1970,7,2016-03-29,2016-04-18,Courier,Kayla Woodcock,BC0280982,True
+1971,4,2016-03-30,2016-04-19,Road Freight,Kayla Woodcock,293092,True
+1972,7,2016-03-30,2016-04-19,Courier,Kayla Woodcock,BC0280982,True
+1973,4,2016-03-31,2016-04-20,Road Freight,Kayla Woodcock,293092,True
+1974,7,2016-03-31,2016-04-20,Courier,Kayla Woodcock,BC0280982,True
+1975,4,2016-04-01,2016-04-21,Road Freight,Kayla Woodcock,293092,True
+1976,7,2016-04-01,2016-04-21,Courier,Kayla Woodcock,BC0280982,True
+1977,4,2016-04-02,2016-04-09,Road Freight,Kayla Woodcock,293092,True
+1978,4,2016-04-04,2016-04-24,Road Freight,Kayla Woodcock,293092,True
+1979,7,2016-04-04,2016-04-24,Courier,Kayla Woodcock,BC0280982,True
+1980,4,2016-04-05,2016-04-25,Road Freight,Kayla Woodcock,293092,True
+1981,7,2016-04-05,2016-04-25,Courier,Kayla Woodcock,BC0280982,True
+1982,4,2016-04-06,2016-04-26,Road Freight,Kayla Woodcock,293092,True
+1983,7,2016-04-06,2016-04-26,Courier,Kayla Woodcock,BC0280982,True
+1984,4,2016-04-07,2016-04-27,Road Freight,Kayla Woodcock,293092,True
+1985,7,2016-04-07,2016-04-27,Courier,Kayla Woodcock,BC0280982,True
+1986,4,2016-04-08,2016-04-28,Road Freight,Kayla Woodcock,293092,True
+1987,7,2016-04-08,2016-04-28,Courier,Kayla Woodcock,BC0280982,True
+1988,4,2016-04-09,2016-04-29,Road Freight,Kayla Woodcock,293092,True
+1989,7,2016-04-09,2016-04-29,Courier,Kayla Woodcock,BC0280982,True
+1990,4,2016-04-11,2016-05-01,Road Freight,Kayla Woodcock,293092,True
+1991,7,2016-04-11,2016-05-01,Courier,Kayla Woodcock,BC0280982,True
+1992,4,2016-04-12,2016-05-02,Road Freight,Kayla Woodcock,293092,True
+1993,7,2016-04-12,2016-05-02,Courier,Kayla Woodcock,BC0280982,True
+1994,4,2016-04-13,2016-05-03,Road Freight,Kayla Woodcock,293092,True
+1995,7,2016-04-13,2016-05-03,Courier,Kayla Woodcock,BC0280982,True
+1996,4,2016-04-14,2016-05-04,Road Freight,Kayla Woodcock,293092,True
+1997,7,2016-04-14,2016-05-04,Courier,Kayla Woodcock,BC0280982,True
+1998,4,2016-04-15,2016-05-05,Road Freight,Kayla Woodcock,293092,True
+1999,7,2016-04-15,2016-05-05,Courier,Kayla Woodcock,BC0280982,True
+2000,4,2016-04-16,2016-04-30,Road Freight,Kayla Woodcock,293092,True
+2001,7,2016-04-16,2016-04-30,Courier,Kayla Woodcock,BC0280982,True
+2002,4,2016-04-18,2016-05-08,Road Freight,Kayla Woodcock,293092,True
+2003,7,2016-04-18,2016-05-08,Courier,Kayla Woodcock,BC0280982,True
+2004,4,2016-04-19,2016-05-09,Road Freight,Kayla Woodcock,293092,True
+2005,7,2016-04-19,2016-05-09,Courier,Kayla Woodcock,BC0280982,True
+2006,4,2016-04-20,2016-05-10,Road Freight,Kayla Woodcock,293092,True
+2007,7,2016-04-20,2016-05-10,Courier,Kayla Woodcock,BC0280982,True
+2008,4,2016-04-21,2016-05-11,Road Freight,Kayla Woodcock,293092,True
+2009,7,2016-04-21,2016-05-11,Courier,Kayla Woodcock,BC0280982,True
+2010,4,2016-04-22,2016-05-12,Road Freight,Kayla Woodcock,293092,True
+2011,7,2016-04-22,2016-05-12,Courier,Kayla Woodcock,BC0280982,True
+2012,4,2016-04-23,2016-05-07,Road Freight,Kayla Woodcock,293092,True
+2013,7,2016-04-23,2016-05-07,Courier,Kayla Woodcock,BC0280982,True
+2014,4,2016-04-25,2016-05-15,Road Freight,Kayla Woodcock,293092,True
+2015,7,2016-04-25,2016-05-15,Courier,Kayla Woodcock,BC0280982,True
+2016,4,2016-04-26,2016-05-16,Road Freight,Kayla Woodcock,293092,True
+2017,7,2016-04-26,2016-05-16,Courier,Kayla Woodcock,BC0280982,True
+2018,4,2016-04-27,2016-05-17,Road Freight,Kayla Woodcock,293092,True
+2019,7,2016-04-27,2016-05-17,Courier,Kayla Woodcock,BC0280982,True
+2020,4,2016-04-28,2016-05-18,Road Freight,Kayla Woodcock,293092,True
+2021,7,2016-04-28,2016-05-18,Courier,Kayla Woodcock,BC0280982,True
+2022,4,2016-04-29,2016-05-19,Road Freight,Kayla Woodcock,293092,True
+2023,7,2016-04-29,2016-05-19,Courier,Kayla Woodcock,BC0280982,True
+2024,7,2016-04-30,2016-05-20,Courier,Kayla Woodcock,BC0280982,True
+2025,4,2016-05-02,2016-05-22,Road Freight,Kayla Woodcock,293092,True
+2026,7,2016-05-02,2016-05-22,Courier,Kayla Woodcock,BC0280982,True
+2027,4,2016-05-03,2016-05-23,Road Freight,Kayla Woodcock,293092,True
+2028,7,2016-05-03,2016-05-23,Courier,Kayla Woodcock,BC0280982,True
+2029,4,2016-05-04,2016-05-24,Road Freight,Kayla Woodcock,293092,True
+2030,7,2016-05-04,2016-05-24,Courier,Kayla Woodcock,BC0280982,True
+2031,4,2016-05-05,2016-05-25,Road Freight,Kayla Woodcock,293092,True
+2032,7,2016-05-05,2016-05-25,Courier,Kayla Woodcock,BC0280982,True
+2033,4,2016-05-06,2016-05-26,Road Freight,Kayla Woodcock,293092,True
+2034,7,2016-05-06,2016-05-26,Courier,Kayla Woodcock,BC0280982,True
+2035,4,2016-05-07,2016-05-27,Road Freight,Kayla Woodcock,293092,True
+2036,7,2016-05-07,2016-05-27,Courier,Kayla Woodcock,BC0280982,True
+2037,4,2016-05-09,2016-05-29,Road Freight,Kayla Woodcock,293092,True
+2038,7,2016-05-09,2016-05-29,Courier,Kayla Woodcock,BC0280982,True
+2039,4,2016-05-10,2016-05-30,Road Freight,Kayla Woodcock,293092,True
+2040,7,2016-05-10,2016-05-30,Courier,Kayla Woodcock,BC0280982,True
+2041,4,2016-05-11,2016-05-31,Road Freight,Kayla Woodcock,293092,True
+2042,7,2016-05-11,2016-05-31,Courier,Kayla Woodcock,BC0280982,True
+2043,4,2016-05-12,2016-06-01,Road Freight,Kayla Woodcock,293092,True
+2044,7,2016-05-12,2016-06-01,Courier,Kayla Woodcock,BC0280982,True
+2045,4,2016-05-13,2016-06-02,Road Freight,Kayla Woodcock,293092,True
+2046,7,2016-05-13,2016-06-02,Courier,Kayla Woodcock,BC0280982,True
+2047,4,2016-05-14,2016-05-21,Road Freight,Kayla Woodcock,293092,True
+2048,4,2016-05-16,2016-06-05,Road Freight,Kayla Woodcock,293092,True
+2049,7,2016-05-16,2016-06-05,Courier,Kayla Woodcock,BC0280982,True
+2050,4,2016-05-17,2016-06-06,Road Freight,Kayla Woodcock,293092,True
+2051,7,2016-05-17,2016-06-06,Courier,Kayla Woodcock,BC0280982,True
+2052,4,2016-05-18,2016-06-07,Road Freight,Kayla Woodcock,293092,True
+2053,7,2016-05-18,2016-06-07,Courier,Kayla Woodcock,BC0280982,True
+2054,4,2016-05-19,2016-06-08,Road Freight,Kayla Woodcock,293092,True
+2055,7,2016-05-19,2016-06-08,Courier,Kayla Woodcock,BC0280982,True
+2056,4,2016-05-20,2016-06-09,Road Freight,Kayla Woodcock,293092,True
+2057,7,2016-05-20,2016-06-09,Courier,Kayla Woodcock,BC0280982,True
+2058,4,2016-05-21,2016-06-04,Road Freight,Kayla Woodcock,293092,True
+2059,7,2016-05-21,2016-06-04,Courier,Kayla Woodcock,BC0280982,True
+2060,4,2016-05-23,2016-06-12,Road Freight,Kayla Woodcock,293092,True
+2061,7,2016-05-23,2016-06-12,Courier,Kayla Woodcock,BC0280982,True
+2062,4,2016-05-24,2016-06-13,Road Freight,Kayla Woodcock,293092,True
+2063,7,2016-05-24,2016-06-13,Courier,Kayla Woodcock,BC0280982,True
+2064,4,2016-05-25,2016-06-14,Road Freight,Kayla Woodcock,293092,True
+2065,7,2016-05-25,2016-06-14,Courier,Kayla Woodcock,BC0280982,True
+2066,4,2016-05-26,2016-06-15,Road Freight,Kayla Woodcock,293092,True
+2067,7,2016-05-26,2016-06-15,Courier,Kayla Woodcock,BC0280982,True
+2068,4,2016-05-27,2016-06-16,Road Freight,Kayla Woodcock,293092,True
+2069,7,2016-05-27,2016-06-16,Courier,Kayla Woodcock,BC0280982,True
+2070,4,2016-05-28,2016-06-04,Road Freight,Kayla Woodcock,293092,True
+2071,4,2016-05-30,2016-06-19,Road Freight,Kayla Woodcock,293092,True
+2072,7,2016-05-30,2016-06-19,Courier,Kayla Woodcock,BC0280982,True
+2073,4,2016-05-31,2016-06-20,Road Freight,Kayla Woodcock,293092,False
+2074,7,2016-05-31,2016-06-20,Courier,Kayla Woodcock,BC0280982,False

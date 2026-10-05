@@ -8,6 +8,7 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 alembic upgrade head              # create/upgrade the tables (database setup: see the project README)
 python -m app.db.seed             # load demo data into an empty database
+python -m app.db.load_dataset --reset   # or: replace it with the dataset in ../Data (last 12 months)
 uvicorn app.main:app --reload     # http://localhost:8000, docs at /docs and /redoc
 pytest                            # run the tests (in-memory backend)
 ```

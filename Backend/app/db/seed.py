@@ -69,18 +69,26 @@ def seed(session: Session) -> None:
         supplier_products.insert(),
         [{"supplier_id": s["id"], "product_id": pid} for s in SUPPLIERS for pid in s["product_ids"]],
     )
+    sync_sequences(session)
 
-    # Continue each ID sequence after the highest seeded ID.
+
+def sync_sequences(session: Session) -> None:
+    """Continues each ID sequence after the highest stored ID."""
     for table, sequence in SEQUENCES.items():
         ids = session.scalars(select(Base.metadata.tables[table].c.id)).all()
         highest = max((int(m.group()) for i in ids if (m := re.search(r"\d+$", i))), default=0)
         session.execute(text("SELECT setval(:sequence, :value)"), {"sequence": sequence, "value": max(highest, 1)})
 
 
-def reset(session: Session) -> None:
-    """Deletes every row and seeds again. Destructive."""
+def clear(session: Session) -> None:
+    """Deletes every row. Destructive."""
     tables = ", ".join(f'"{table.name}"' for table in Base.metadata.sorted_tables)
     session.execute(text(f"TRUNCATE {tables} CASCADE"))
+
+
+def reset(session: Session) -> None:
+    """Deletes every row and seeds again. Destructive."""
+    clear(session)
     seed(session)
 
 

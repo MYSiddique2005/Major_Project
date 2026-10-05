@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 from math import ceil
 
 from app.core.exceptions import BusinessRuleError, NotFoundError
-from app.models.entities import Approval, PurchaseOrder, User
+from app.models.entities import Approval, Product, PurchaseOrder, Supplier, User
 from app.models.enums import ApprovalStatus, AuditAction, PurchaseOrderStatus, SupplierStatus
 from app.repositories.base import (
     ApprovalRepository,
@@ -41,9 +41,11 @@ class ProcurementService:
         self._approvals = approvals
         self._audit = audit
 
-    def to_response(self, po: PurchaseOrder) -> PurchaseOrderResponse:
-        supplier = self._suppliers.get(po.supplier_id)
-        product = self._products.get(po.product_id)
+    def to_response(
+        self, po: PurchaseOrder, supplier: Supplier | None = None, product: Product | None = None
+    ) -> PurchaseOrderResponse:
+        supplier = supplier or self._suppliers.get(po.supplier_id)
+        product = product or self._products.get(po.product_id)
         return PurchaseOrderResponse(
             **po.model_dump(),
             supplier_name=supplier.name if supplier else "Unknown supplier",
@@ -81,15 +83,17 @@ class ProcurementService:
         supplier_id: str | None = None,
         product_id: str | None = None,
     ) -> list[PurchaseOrderResponse]:
-        orders = (self.to_response(po) for po in self._purchase_orders.list())
-        result = [
-            po
-            for po in orders
+        # Suppliers and products are read once, not once per order.
+        suppliers = {s.id: s for s in self._suppliers.list()}
+        products = {p.id: p for p in self._products.list()}
+        orders = (
+            self.to_response(po, suppliers.get(po.supplier_id), products.get(po.product_id))
+            for po in self._purchase_orders.list()
             if (status is None or po.status == status)
             and (supplier_id is None or po.supplier_id == supplier_id)
             and (product_id is None or po.product_id == product_id)
-            and matches_search(search, po.id, po.supplier_name, po.product_name)
-        ]
+        )
+        result = [po for po in orders if matches_search(search, po.id, po.supplier_name, po.product_name)]
         return sorted(result, key=lambda po: (po.order_date, po.id), reverse=True)
 
     def get_order(self, po_id: str) -> PurchaseOrderResponse:

@@ -1,0 +1,8 @@
+id,name,contact_name,email,phone,country,avg_delivery_days,delivery_reliability,status
+S001,A Datum Corporation,Reio Kabin,reio@adatum.com,(847) 555-0100,United States,2.75,93.66,Active
+S002,"Contoso, Ltd.",Hanna Mihhailov,hannam@contoso.com,(360) 555-0100,United States,2.4,84.46,Active
+S004,"Fabrikam, Inc.",Bill Lawson,billl@fabrikam.com,(203) 555-0104,United States,9.98,93.84,Active
+S005,Graphic Design Institute,Penny Buck,pennyb@graphicdesigninstitute.com,(406) 555-0105,United States,11.95,90.2,Active
+S007,"Litware, Inc.",Elias Myllari,eliasm@litwareinc.com,(209) 555-0108,United States,15.34,74.67,Active
+S010,Northwind Electric Cars,Eliza Soderberg,elizas@northwindelectriccars.com,(201) 555-0105,United States,15.13,75.27,Active
+S012,The Phone Company,Hai Dam,haid@thephone-company.com,(218) 555-0105,United States,13.73,95.25,Active
