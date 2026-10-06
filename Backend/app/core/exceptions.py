@@ -13,6 +13,12 @@ class NotFoundError(DomainError):
     status_code = 404
 
 
+class ServiceUnavailableError(DomainError):
+    """An external service the request depends on could not be used."""
+
+    status_code = 503
+
+
 class BusinessRuleError(DomainError):
     """A request was well-formed but violates a business rule or workflow state."""
 

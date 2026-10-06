@@ -9,6 +9,7 @@ export const AUDIT_ACTIONS = [
   'SUBMIT_FOR_APPROVAL',
   'APPROVE_PURCHASE_ORDER',
   'REJECT_PURCHASE_ORDER',
+  'AI_QUERY',
 ] as const
 
 export interface AuditLog {

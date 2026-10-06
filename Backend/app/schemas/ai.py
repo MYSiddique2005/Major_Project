@@ -1,14 +1,36 @@
-"""Contracts for the future AI layer. Only placeholders are returned so far."""
+"""Contracts for the AI assistant."""
+from typing import Literal
+
 from pydantic import BaseModel, Field
+
+
+class ChatTurn(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=20000)
 
 
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=2000, examples=["Which products are at risk of stockout?"])
+    history: list[ChatTurn] = Field(
+        default=[], max_length=40, description="Earlier turns of this conversation, oldest first"
+    )
 
 
 class ChatResponse(BaseModel):
-    status: str
+    status: str = Field(description="ok, not_configured, refused or incomplete")
     message: str
-    sources: list[dict] = []
+    sources: list[dict] = Field(default=[], description="The tool calls the answer is based on")
+    knowledge: list[dict] = Field(default=[], description="Knowledge-base passages given to the model")
     recommendations: list[dict] = []
     actions: list[dict] = []
+    provider: str | None = None
+    model: str | None = None
+    usage: dict[str, int] | None = None
+
+
+class KnowledgeEntry(BaseModel):
+    id: str
+    title: str
+    category: str
+    text: str
+    score: float | None = Field(default=None, description="Relevance to the search, when one was given")

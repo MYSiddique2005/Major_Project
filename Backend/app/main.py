@@ -18,7 +18,8 @@ app = FastAPI(
         "ERP foundation for IntelliERP: Sales, Inventory, Procurement, Suppliers and Products with JWT "
         "authentication, role-based access control, a purchase-order approval workflow and audit logging. "
         "Data is stored in PostgreSQL (or in memory when `DATA_BACKEND=memory`).\n\n"
-        "**No LLM is used yet;** the AI endpoints are placeholders.\n\n"
+        "The AI assistant (`POST /api/v1/ai/chat`) answers from read-only ERP tools and needs "
+        "`GEMINI_API_KEY` (or `ANTHROPIC_API_KEY` with `LLM_PROVIDER=anthropic`).\n\n"
         "To try protected endpoints: call `POST /api/v1/auth/login`, then click **Authorize** and paste "
         "the `access_token`."
     ),

@@ -7,10 +7,11 @@ The research goal is to study how an LLM can be grounded in enterprise data and 
 Sales, Inventory and Procurement, surface operational risks, and turn recommendations into ERP actions
 that are validated, permission-checked, approved by a person and audited.
 
-**This repository is currently at Phase 3: the ERP foundation, PostgreSQL persistence and a rule-based
-analytics engine. There is no LLM yet.**
+**This repository is currently at Phase 5: the ERP foundation, PostgreSQL persistence, a rule-based
+analytics engine, and an LLM assistant that answers questions by calling read-only ERP tools and is
+grounded in a knowledge base of the company's schema, definitions and rules.**
 
-## Scope so far (Phases 1–3)
+## Scope so far (Phases 1–5)
 
 Implemented:
 
@@ -24,21 +25,30 @@ Implemented:
 - Analytics (deterministic rules and statistics, not AI): stockout risk per product with the evidence
   behind each level, reorder suggestions, weekly demand forecasts, supplier delivery performance,
   dashboard risk alerts and what-if stock projections
-- AI placeholder: an assistant page and `POST /api/v1/ai/chat` that return a fixed "not implemented"
-  response
+- AI assistant: a chat page and `POST /api/v1/ai/chat`. An LLM (Google Gemini by default, or Anthropic
+  Claude) answers questions by calling 11 read-only tools over the analytics and ERP data, limited to what the
+  user's role may see. Each answer lists the tool calls it used, and each question is audit-logged
+- Enterprise grounding: a knowledge base of 37 passages (table and column meanings, business
+  definitions, rules, workflows, role permissions, data notes). The passages relevant to each question
+  are retrieved and given to the model, which can also search the knowledge base itself
 
-Intentionally not implemented: LLM calls, RAG, vector search, Text-to-SQL, agents, machine-learning
-models, scheduled background monitoring, production deployment.
+Not implemented yet: proactive LLM alerts
+(Phase 6), LLM-drafted purchase orders (Phase 7), the evaluation (Phase 8). Not planned: Text-to-SQL
+(the model never writes SQL), a vector database, machine-learning models, production deployment.
 
 ## Technology
 
 | Layer | Stack |
 |---|---|
 | Backend | Python 3.11+, FastAPI, Pydantic v2, pydantic-settings, PyJWT, bcrypt, Uvicorn, pytest |
+| LLM | Google Gemini (`google-genai`) or Anthropic Claude (`anthropic`), chosen by `LLM_PROVIDER` |
 | Database | PostgreSQL, SQLAlchemy 2, Alembic, psycopg 3 |
 | Frontend | React 19, TypeScript, Vite, React Router, Axios, Tailwind CSS v4, Recharts, Lucide |
 
-No API keys are needed. PostgreSQL is needed for persistent data; without it, set `DATA_BACKEND=memory`.
+The AI assistant needs a model API key in `Backend/.env`: `GEMINI_API_KEY` (free tier, from
+<https://aistudio.google.com/apikey>) or, with `LLM_PROVIDER=anthropic`, `ANTHROPIC_API_KEY`. Everything
+else runs without one, and the assistant page then says it is not configured. PostgreSQL is needed for
+persistent data; without it, set `DATA_BACKEND=memory`.
 
 ## Project structure
 
@@ -54,6 +64,8 @@ Major_Project/
 │   │   ├── schemas/           Pydantic request/response contracts
 │   │   ├── services/          business logic and workflows
 │   │   ├── analytics/         pure calculation functions: demand, forecasting, risk, simulation
+│   │   ├── llm/               the tools the AI assistant may call
+│   │   ├── knowledge/         the knowledge base the assistant is grounded in, and its retrieval
 │   │   ├── repositories/      base.py (interfaces), postgres.py, mock_*.py (in-memory)
 │   │   ├── mock_data/         demo records used to seed either backend
 │   │   ├── security/          authentication, authorization, role → permission map
@@ -199,7 +211,7 @@ All routes are under `/api/v1` and, except login, require `Authorization: Bearer
 | Approvals | `GET /approvals`, `GET /approvals/{id}`, `POST /approvals/{id}/approve`, `POST /approvals/{id}/reject` |
 | Analytics | `GET /analytics/stock-risk`, `GET /analytics/stock-risk/{product_id}`, `GET /analytics/forecast/{product_id}`, `GET /analytics/supplier-performance`, `GET /analytics/alerts`, `POST /analytics/what-if` |
 | Audit | `GET /audit-logs` |
-| AI placeholder | `POST /ai/chat` |
+| AI assistant | `POST /ai/chat`, `GET /ai/knowledge` |
 | System | `GET /system/info` |
 | Health | `GET /health` (no prefix) |
 
@@ -249,6 +261,81 @@ docstring states its rules. `AnalyticsService` feeds them ERP data through the r
 A reorder suggestion never creates anything by itself. A user with procurement rights can open it as a
 pre-filled draft, which then goes through the normal validation, approval and audit path.
 
+## AI assistant (Phase 4)
+
+`POST /ai/chat` takes a `message` and, optionally, the earlier turns of the conversation as `history`.
+
+1. The backend offers the model only the tools the user's role has permission for.
+2. The model chooses tools; the backend runs them through the same services the pages use and returns
+   the results. The permission is checked again when each tool runs.
+3. The model writes its answer from those results. The response carries the answer, the tool calls as
+   `sources`, the model name and token usage.
+
+| Tool | Returns | Permission |
+|---|---|---|
+| `list_stock_risk`, `get_stock_risk` | Stockout risk with its evidence, reorder point, suggested order | `analytics:view` |
+| `get_demand_forecast` | 26 weeks of demand and a weekly forecast | `analytics:view` |
+| `list_supplier_performance` | On-time rate, delays, lead time, overdue orders | `analytics:view` |
+| `list_risk_alerts` | Current high and critical alerts | `analytics:view` |
+| `run_what_if` | Stock projection under a changed demand, delay or order | `analytics:view` |
+| `search_products` | Product master data and stock status | `products:view` |
+| `get_inventory` | Stock records of a product | `inventory:view` |
+| `get_sales_summary` | Units, revenue, weekly units, top customers and products | `sales:view` |
+| `list_purchase_orders` | Purchase orders and their delivery dates | `procurement:view` |
+| `list_suppliers` | Supplier master data | `suppliers:view` |
+
+All tools are read-only. The model has no database access, writes no SQL, and takes every figure from a
+tool result. It stops after at most 8 rounds of tool calls.
+
+| Setting in `Backend/.env` | Meaning |
+|---|---|
+| `LLM_PROVIDER` | `gemini` (default) or `anthropic` |
+| `GEMINI_API_KEY` / `ANTHROPIC_API_KEY` | Key for the chosen provider |
+| `LLM_MODEL` | Model name; default `gemini-3.8-flash` or `claude-opus-5-5` |
+| `LLM_EFFORT` | Claude only: `low` to `max`, default `medium` |
+
+Each question sends ERP figures to the provider. On Gemini's free tier Google may use that content to
+improve its products and applies per-minute and per-day request limits; one question uses one request
+per round of tool calls. Claude is billed per token to the key's account. The provider and model that
+answered are returned with every response, so runs on different models can be compared in Phase 8.
+
+## Enterprise grounding (Phase 5)
+
+A general-purpose model does not know what "safety stock", "Low Stock" or "high risk" mean in this
+system, or how its figures are calculated. The knowledge base in `Backend/app/knowledge/` tells it.
+
+| Kind | Passages | Where the text comes from |
+|---|---:|---|
+| Schema | 9 | Generated from the database models: every table, column, key and foreign key, with a written description of each column |
+| Definitions | 11 | Written: stock on hand, safety stock, reorder level and point, days of cover, demand and trend, lead time, units on order, on-time rate, revenue, margin, forecast error |
+| Rules | 7 | Written: stock status, stockout risk, reorder suggestion, supplier risk, what-if assumptions, purchase-order validation, limits of the assistant |
+| Workflows | 3 | Written: purchase-order lifecycle, approval, sales-order statuses |
+| Access | 4 | Generated from the role → permission map |
+| Data notes | 3 | Written: identifiers and how modules link, what is source data and what is simulated, limits of the figures |
+
+Thresholds and periods in the written passages are filled in from the constants of the code that applies
+them, and a test fails if a database column has no description, so the knowledge base cannot drift from
+the system.
+
+How it is used for each question:
+
+1. **Retrieve.** The question (with the previous question, for follow-ups) is matched against every
+   passage with BM25 keyword ranking over title, alternative keywords and text. The best 4 are kept.
+2. **Augment.** Those passages are placed in front of the question inside `<knowledge>` tags, and the
+   model is told to treat them as the authority on terms and rules.
+3. **Generate.** The model answers, still taking all figures from the ERP tools. It can call
+   `search_knowledge` for anything the supplied passages do not cover.
+
+The response lists the passages supplied (`knowledge`), and the chat page shows them under the answer.
+`GET /ai/knowledge` returns or searches the knowledge base. Retrieval is keyword-based, not embedding-based:
+the collection is small and written in the vocabulary users ask in, and it needs no second external
+service. On 26 test questions the answering passage is ranked first for 24 and in the top three for all
+26; those questions were written alongside the passages, so this checks that retrieval works, not how it
+does on questions from real users.
+
+`LLM_GROUNDING=false` in `Backend/.env` removes the passages, the instruction and the search tool, which
+is how Phase 8 will measure what grounding contributes.
+
 ## Data model
 
 Tables: `users`, `suppliers`, `products`, `supplier_products` (which suppliers can deliver which
@@ -276,15 +363,17 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
   no seasonality; supplier statistics rest on very few deliveries per supplier in the demo data; alerts
   are computed when requested, not by a scheduled job.
 - Frontend has no automated tests.
+- AI assistant: the answer arrives in one piece after all tool calls finish (no streaming), so a question
+  can take up to a minute. The browser keeps the conversation; it is lost on reload and is not
+  stored on the server.
+  Automated tests use a scripted stand-in for the model, so they check the plumbing, not answer quality.
 
 ## Where later phases plug in
 
-- **LLM tools:** the read-only methods of `AnalyticsService` (stock risk, forecast, supplier performance,
-  what-if) return typed results with their evidence, ready to be exposed as functions the LLM can call.
-- **LLM:** replace the body of `AIService.chat` in `app/services/ai_service.py`. The request/response
-  contract (`message`, `sources`, `recommendations`, `actions`) is already what the frontend uses.
-- **LLM-drafted purchase orders:** call `ProcurementService.create_draft`. Drafts from any source go
-  through the same validation, approval and audit path.
+- **Recommendations (Phase 6):** fill the `recommendations` field of the chat response, which the
+  frontend already receives.
+- **LLM-drafted purchase orders (Phase 7):** add a tool that calls `ProcurementService.create_draft` and
+  report it in `actions`. Drafts from any source go through the same validation, approval and audit path.
 
 ## Roadmap
 
@@ -292,9 +381,9 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 |---|---|
 | 1 (done) | Frontend, FastAPI backend, mock ERP data, REST APIs, authentication, RBAC, ERP workflows, approval workflow, audit logs |
 | 2 (done) | PostgreSQL, SQLAlchemy, Alembic, persistent ERP data |
-| 3 (current) | Analytics, risk detection, forecasting, what-if analysis |
-| 4 | LLM integration, natural-language interface, tool/function calling |
-| 5 | Enterprise grounding: RAG, schema metadata, business rules, enterprise knowledge |
+| 3 (done) | Analytics, risk detection, forecasting, what-if analysis |
+| 4 (done) | LLM integration, natural-language interface, tool/function calling |
+| 5 (current) | Enterprise grounding: RAG, schema metadata, business rules, enterprise knowledge |
 | 6 | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
 | 7 | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
 | 8 | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |

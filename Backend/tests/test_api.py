@@ -91,11 +91,3 @@ def test_filters(client, auth):
     assert critical and all(i["status"] == "Critical" for i in critical)
     found = client.get(f"{API}/products", params={"search": "laptop"}, headers=headers).json()
     assert found and all("laptop" in p["name"].lower() for p in found)
-
-
-def test_ai_chat_is_placeholder(client, auth):
-    response = client.post(f"{API}/ai/chat", json={"message": "Which products are at risk?"}, headers=auth("admin"))
-    assert response.status_code == 200
-    body = response.json()
-    assert body["status"] == "not_implemented"
-    assert body["sources"] == body["recommendations"] == body["actions"] == []

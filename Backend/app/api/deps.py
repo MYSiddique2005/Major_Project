@@ -15,6 +15,10 @@ from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
 from app.db.session import get_session_factory
+from app.knowledge.base import KnowledgeBase
+from app.knowledge.content import get_knowledge_base
+from app.llm.providers import Provider, build_provider
+from app.llm.tools import Toolbox
 from app.repositories import postgres
 from app.repositories.base import (
     ApprovalRepository,
@@ -212,5 +216,28 @@ def get_analytics_service(
     return AnalyticsService(products, inventory, sales, purchase_orders, suppliers)
 
 
-def get_ai_service() -> AIService:
-    return AIService()
+@lru_cache
+def get_llm_provider() -> Provider | None:
+    """One model client for the process; None when the provider's API key is not configured."""
+    return build_provider(get_settings())
+
+
+def get_knowledge() -> KnowledgeBase | None:
+    """The knowledge base, or None when grounding is switched off."""
+    return get_knowledge_base() if get_settings().llm_grounding else None
+
+
+def get_ai_service(
+    provider: Provider | None = Depends(get_llm_provider),
+    knowledge: KnowledgeBase | None = Depends(get_knowledge),
+    analytics: AnalyticsService = Depends(get_analytics_service),
+    products: ProductService = Depends(get_product_service),
+    inventory: InventoryService = Depends(get_inventory_service),
+    sales: SalesService = Depends(get_sales_service),
+    suppliers: SupplierService = Depends(get_supplier_service),
+    procurement: ProcurementService = Depends(get_procurement_service),
+    audit: AuditService = Depends(get_audit_service),
+    uow: UnitOfWork = Depends(get_unit_of_work),
+) -> AIService:
+    toolbox = Toolbox(analytics, products, inventory, sales, suppliers, procurement, knowledge)
+    return AIService(provider, toolbox, audit, uow, get_settings(), knowledge)

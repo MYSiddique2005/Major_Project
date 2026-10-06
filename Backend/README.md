@@ -1,6 +1,6 @@
 # IntelliERP backend
 
-FastAPI service for IntelliERP (Phase 3: PostgreSQL persistence and rule-based analytics). See the [project README](../README.md) for scope, credentials,
+FastAPI service for IntelliERP (Phase 5: PostgreSQL persistence, rule-based analytics and a grounded LLM assistant). See the [project README](../README.md) for scope, credentials,
 the route list and the roadmap.
 
 ```bash
@@ -23,6 +23,8 @@ is the allowed CORS origin; separate several with commas. `DATA_BACKEND` is `pos
 |---|---|---|
 | API | `app/api/v1/` | HTTP, status codes, permission dependencies. No business logic. |
 | Service | `app/services/` | Business rules, workflows, building response schemas |
+| LLM tools | `app/llm/` | The read-only functions the assistant may call, each tied to a permission |
+| Knowledge | `app/knowledge/` | The passages the assistant is grounded in (`content.py`) and their retrieval (`base.py`) |
 | Analytics | `app/analytics/` | Pure calculation functions (no I/O): demand, forecasting, stock risk, supplier performance, simulation |
 | Repository | `app/repositories/` | Data access. `base.py` holds the interfaces; `postgres.py` and `mock_*.py` implement them |
 | Database | `app/db/`, `migrations/` | SQLAlchemy tables, session factory, seed script, Alembic migrations |
@@ -30,6 +32,30 @@ is the allowed CORS origin; separate several with commas. `DATA_BACKEND` is `pos
 
 `app/api/deps.py` is the only place that names concrete repository classes. It opens one database
 session per request and shares it between that request's repositories.
+
+## AI assistant
+
+`AIService` (`app/services/ai_service.py`) sends the question to the model together with the tools the
+user's role allows, runs the tools the model asks for, and returns the answer with the list of tool
+calls as `sources`. It talks to the model through a provider in `app/llm/providers.py`: Gemini by
+default (`GEMINI_API_KEY`), or Claude with `LLM_PROVIDER=anthropic` and `ANTHROPIC_API_KEY`.
+`LLM_MODEL` overrides the provider's default model.
+
+To add a provider: implement `start()` returning a conversation with `reply()` and
+`add_tool_results()`, keep whatever the API needs passed back between tool calls, add it to
+`build_provider`, and test it with a stand-in client as in `tests/test_providers.py`.
+
+To add a tool: write an input model and a handler in `app/llm/tools.py`, register it in
+`Toolbox._build` with the permission it needs, and add it to `test_every_tool_returns_data`. Keep
+tools read-only and their results small; the model reads every character they return.
+
+To add knowledge: add an `Entry` to `WRITTEN` in `app/knowledge/content.py` (take numbers from the code's
+constants, and list other words people use for the term in `keywords`), then add a question for it to
+`RETRIEVAL_CASES` in `tests/test_knowledge.py`. A new database column needs a line in
+`COLUMN_DESCRIPTIONS` or the tests fail.
+
+The tests never call the real model. `tests/test_ai.py` swaps in a scripted provider through the
+`get_llm_provider` dependency.
 
 ## Working with the database
 

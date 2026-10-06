@@ -1,10 +1,14 @@
-# IntelliERP backend - Phase 2 (PostgreSQL persistence; still no LLM dependencies by design)
+# IntelliERP backend
 fastapi>=0.115
 uvicorn[standard]>=0.30
 pydantic>=2.7
 pydantic-settings>=2.3
 PyJWT>=2.8
 bcrypt>=4.1
+
+# AI assistant (Phase 4): one SDK per model provider
+google-genai>=2.28
+anthropic>=1.11
 
 # Persistence
 SQLAlchemy>=2.0

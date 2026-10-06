@@ -28,5 +28,5 @@ The API base URL comes from `VITE_API_BASE_URL` (see `.env.example`) and default
 - Types in `src/types/` mirror the backend schemas in `Backend/app/schemas/`. Update both together.
 - Permissions come from the backend (`/auth/me`). `hasPermission` and `RequirePermission` only tailor
   the UI; the API is what enforces access.
-- The AI Assistant page is a placeholder and is labelled as such. Analytics pages and dashboard risk
-  alerts come from fixed rules; do not present any of this as AI-generated until an LLM is connected.
+- The AI Assistant page is the only AI-generated content; it shows which data each answer used.
+  Analytics pages and dashboard risk alerts come from fixed rules, not from the model.
