@@ -13,6 +13,7 @@ from app.models.enums import (
     ApprovalStatus,
     AuditStatus,
     InsightStatus,
+    PurchaseOrderOrigin,
     RiskLevel,
     ScanStatus,
     ProductStatus,
@@ -89,6 +90,9 @@ class PurchaseOrder(BaseModel):
     status: PurchaseOrderStatus
     reason: str = ""
     created_by: str  # username
+    origin: PurchaseOrderOrigin = PurchaseOrderOrigin.MANUAL
+    origin_ref: str | None = None  # the insight an AI Insight draft came from
+    ai_recommendation: dict | None = None  # the recommendation and its checks, as they stood when drafted
 
 
 class Approval(BaseModel):
@@ -152,5 +156,6 @@ class AiInsight(BaseModel):
     evidence: list[dict]
     checks: dict
     status: InsightStatus = InsightStatus.NEW
+    purchase_order_id: str | None = None  # the draft created from this insight, if any
     reviewed_by: str | None = None
     reviewed_at: datetime | None = None

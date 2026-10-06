@@ -15,6 +15,19 @@ export interface ChatKnowledge {
   score: number
 }
 
+/** Something the assistant did at the user's request. Only one kind exists: a draft purchase order. */
+export interface ChatAction {
+  type: 'purchase_order_draft'
+  purchase_order_id: string
+  status: string
+  product_id: string
+  product_name: string
+  supplier_id: string
+  supplier_name: string
+  quantity: number
+  total_amount: number
+}
+
 export interface ChatTurn {
   role: 'user' | 'assistant'
   content: string
@@ -27,7 +40,7 @@ export interface ChatResponse {
   sources: ChatSource[]
   knowledge: ChatKnowledge[]
   recommendations: Recommendation[]
-  actions: unknown[]
+  actions: ChatAction[]
   provider: string | null
   model: string | null
   usage: Record<string, number> | null

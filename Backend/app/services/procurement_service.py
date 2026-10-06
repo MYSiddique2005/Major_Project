@@ -3,7 +3,7 @@ from math import ceil
 
 from app.core.exceptions import BusinessRuleError, NotFoundError
 from app.models.entities import Approval, Product, PurchaseOrder, Supplier, User
-from app.models.enums import ApprovalStatus, AuditAction, PurchaseOrderStatus, SupplierStatus
+from app.models.enums import ApprovalStatus, AuditAction, PurchaseOrderOrigin, PurchaseOrderStatus, SupplierStatus
 from app.repositories.base import (
     ApprovalRepository,
     ProductRepository,
@@ -99,7 +99,17 @@ class ProcurementService:
     def get_order(self, po_id: str) -> PurchaseOrderResponse:
         return self.to_response(self._get(po_id))
 
-    def create_draft(self, data: PurchaseOrderCreate, user: User) -> PurchaseOrderResponse:
+    def create_draft(
+        self,
+        data: PurchaseOrderCreate,
+        user: User,
+        origin: PurchaseOrderOrigin = PurchaseOrderOrigin.MANUAL,
+        origin_ref: str | None = None,
+        ai_recommendation: dict | None = None,
+        commit: bool = True,
+    ) -> PurchaseOrderResponse:
+        """Creates a draft. An AI draft takes this same path: the same validation, and the same
+        submission and approval afterwards. `commit=False` lets a caller save more in the same transaction."""
         supplier = self._suppliers.get(data.supplier_id)
         product = self._products.get(data.product_id)
         today = date.today()
@@ -115,15 +125,20 @@ class ProcurementService:
             status=PurchaseOrderStatus.DRAFT,
             reason=data.reason,
             created_by=user.username,
+            origin=origin,
+            origin_ref=origin_ref,
+            ai_recommendation=ai_recommendation,
         )
         self._validate(po)
         po.id = self._purchase_orders.next_id()
         self._purchase_orders.add(po)
+        source = "" if origin == PurchaseOrderOrigin.MANUAL else f" (drafted by the {origin.value}{f', {origin_ref}' if origin_ref else ''})"
         self._audit.record(
             action=AuditAction.CREATE_PURCHASE_ORDER, entity=ENTITY, entity_id=po.id, user=user,
-            description=f"Created draft for {po.quantity} x {po.product_id} from {po.supplier_id}",
+            description=f"Created draft for {po.quantity} x {po.product_id} from {po.supplier_id}{source}",
         )
-        self._uow.commit()
+        if commit:
+            self._uow.commit()
         return self.to_response(po)
 
     def update_draft(self, po_id: str, data: PurchaseOrderUpdate, user: User) -> PurchaseOrderResponse:

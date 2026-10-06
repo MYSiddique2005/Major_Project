@@ -1,7 +1,7 @@
 # IntelliERP backend
 
-FastAPI service for IntelliERP (Phase 6: PostgreSQL persistence, rule-based analytics and a grounded LLM assistant
-that makes checked recommendations and raises insights on a schedule). See the [project README](../README.md) for scope, credentials,
+FastAPI service for IntelliERP (Phase 7: PostgreSQL persistence, rule-based analytics and a grounded LLM assistant
+that makes checked recommendations, raises insights on a schedule and can draft purchase orders for approval). See the [project README](../README.md) for scope, credentials,
 the route list and the roadmap.
 
 ```bash
@@ -66,7 +66,12 @@ analytics pick the findings, the model records one insight per finding through a
 is checked and stored. `app/scheduler.py` runs scans from a background thread started in `main.py`; it
 reads the last scan time from the database, so it is safe under the development reloader.
 
-After pulling this change run `alembic upgrade head` (adds `ai_scans` and `ai_insights`).
+`AIActionService` (`app/services/ai_action_service.py`) is the only place the AI side changes ERP data:
+it checks a reorder recommendation and passes it to `ProcurementService.create_draft`. Keep it that way;
+do not give the assistant a tool that submits, approves or edits.
+
+After pulling these changes run `alembic upgrade head` (adds `ai_scans`, `ai_insights` and the AI-origin
+columns on `purchase_orders`).
 
 ## Working with the database
 

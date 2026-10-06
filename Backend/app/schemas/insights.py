@@ -26,6 +26,7 @@ class InsightResponse(BaseModel):
     evidence: list[dict]
     checks: dict = Field(description="Results of the server's checks on the model's text")
     status: InsightStatus
+    purchase_order_id: str | None = Field(description="Draft purchase order created from this insight")
     reviewed_by: str | None
     reviewed_at: datetime | None
 

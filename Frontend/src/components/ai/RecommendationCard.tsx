@@ -1,9 +1,10 @@
-import { AlertTriangle, CheckCircle2 } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, FilePlus2 } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
 import type { Recommendation } from '../../types'
 import { RiskBadge } from '../analytics/RiskBadge'
+import { Button } from '../common/Button'
 
 const ACTION_LABELS: Record<Recommendation['action'], string> = {
   reorder: 'Reorder',
@@ -64,10 +65,18 @@ interface RecommendationCardProps {
   meta?: ReactNode
   /** Buttons shown at the bottom. */
   actions?: ReactNode
+  /** Lets the user turn a reorder recommendation into a draft purchase order. Omit to hide the control. */
+  draft?: {
+    onDraft: () => void
+    busy: boolean
+    /** The draft already created from this recommendation, if any. */
+    purchaseOrderId: string | null
+  }
 }
 
 /** One AI recommendation: the finding, the action, the evidence by module and the server's checks. */
-export function RecommendationCard({ recommendation, meta, actions }: RecommendationCardProps) {
+export function RecommendationCard({ recommendation, meta, actions, draft }: RecommendationCardProps) {
+  const canDraft = draft && recommendation.action === 'reorder' && recommendation.checks.supplier_supplies_product !== false
   const subjectLink =
     recommendation.subject_type === 'product'
       ? `/analytics/products/${recommendation.subject_id}`
@@ -112,7 +121,22 @@ export function RecommendationCard({ recommendation, meta, actions }: Recommenda
         ))}
       </ul>
 
-      {actions && <div className="mt-3 flex flex-wrap gap-2">{actions}</div>}
+      {(actions || canDraft) && (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {canDraft &&
+            (draft.purchaseOrderId ? (
+              <Link to={`/procurement/${draft.purchaseOrderId}`} className="text-sm font-medium text-brand-700 hover:underline">
+                Draft {draft.purchaseOrderId} created: review and submit it
+              </Link>
+            ) : (
+              <Button variant="primary" disabled={draft.busy} onClick={draft.onDraft}>
+                <FilePlus2 className="size-4" aria-hidden />
+                {draft.busy ? 'Creating draft…' : 'Create draft purchase order'}
+              </Button>
+            ))}
+          {actions}
+        </div>
+      )}
     </article>
   )
 }

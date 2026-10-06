@@ -34,6 +34,7 @@ export default function AIInsights() {
   const insights = useApi(() => insightService.list({ includePast: showPast }), [showPast])
   const scans = useApi(() => insightService.listScans(1), [])
   const canAct = hasPermission('ai:use')
+  const canDraft = hasPermission('procurement:create')
 
   const runScan = async () => {
     setScanning(true)
@@ -47,6 +48,19 @@ export default function AIInsights() {
       setScanning(false)
       insights.reload()
       scans.reload()
+    }
+  }
+
+  const draftOrder = async (insight: AiInsight) => {
+    setBusyId(insight.id)
+    try {
+      const order = await insightService.draftOrder(insight.id)
+      toast.success(`Draft ${order.id} created. Review and submit it on the Procurement page.`)
+      insights.reload()
+    } catch (err) {
+      toast.error(getErrorMessage(err, 'The draft could not be created.'))
+    } finally {
+      setBusyId(null)
     }
   }
 
@@ -82,7 +96,8 @@ export default function AIInsights() {
         <p>
           The rule-based analytics decide what is at risk and how severe it is. The AI model writes the explanation and
           the recommended action from the sales, inventory and procurement facts, and each one is then checked against
-          the system's own figures. An insight creates no order.
+          the system's own figures. An insight creates no order; a reorder insight can be turned into a draft, which then
+          needs the usual review and approval.
           {scans.data?.[0] && <span className="mt-1 block text-blue-800">Last scan: {scanSummary(scans.data[0])}</span>}
         </p>
       </div>
@@ -107,6 +122,15 @@ export default function AIInsights() {
                       <StatusBadge status={insight.status} tone={insight.status === 'New' ? 'blue' : 'slate'} />
                       <span className="text-xs text-slate-500">{formatDateTime(insight.created_at)}</span>
                     </>
+                  }
+                  draft={
+                    canDraft && (insight.status === 'New' || insight.status === 'Acknowledged')
+                      ? {
+                          onDraft: () => void draftOrder(insight),
+                          busy: busyId === insight.id,
+                          purchaseOrderId: insight.purchase_order_id,
+                        }
+                      : undefined
                   }
                   actions={
                     canAct &&

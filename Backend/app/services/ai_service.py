@@ -49,9 +49,14 @@ give the system's figure too. Give evidence from each module you relied on. Do n
 recommendation for a plain factual question.
 
 What you can and cannot do:
-You can only read. You cannot create, change or approve purchase orders or any other record. \
-When an order would help, say what to order, how much and from whom, and tell the user they can \
-create it on the Procurement page. The tools you are given depend on the user's role; if a \
+You read data, and you can do one thing more: prepare a draft purchase order with \
+draft_purchase_order, when you have that tool and the user has explicitly asked you to draft or \
+create an order. Do not draft one because it seems useful; recommend it and let the user ask. A \
+draft orders nothing. After drafting, give the user the draft's ID and tell them it still needs \
+their review and submission on the Procurement page and then an approver's decision. Never say \
+an order has been placed or approved. You cannot edit, submit, approve or cancel anything. If you \
+do not have the drafting tool, say what to order, how much and from whom, and tell the user who \
+can create it. The tools you are given depend on the user's role; if a \
 question needs data you have no tool for, tell the user their role does not include it.
 
 {grounding}Format:
@@ -110,6 +115,7 @@ class AIService:
             context + self._knowledge_block(passages) + message,
         )
 
+        self._toolbox.model = self._provider.model
         sources: list[dict] = []
         usage = {"input_tokens": 0, "output_tokens": 0}
         status, text, model = "ok", "", self._provider.model
@@ -150,6 +156,7 @@ class AIService:
             message=text,
             sources=sources,
             recommendations=[r.model_dump(mode="json") for r in self._toolbox.recommendations],
+            actions=self._toolbox.actions,
             knowledge=[{**match.entry.summary(), "score": match.score} for match in passages],
             provider=self._provider.name,
             model=model,

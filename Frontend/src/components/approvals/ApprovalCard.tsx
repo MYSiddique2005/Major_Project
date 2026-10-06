@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 
 import type { Approval } from '../../types'
 import { formatCurrency, formatDateTime, formatNumber } from '../../utils/format'
+import { AiOriginNotice } from '../ai/AiOriginNotice'
 import { Button } from '../common/Button'
 import { StatusBadge } from '../common/StatusBadge'
 
@@ -43,6 +44,9 @@ export function ApprovalCard({ approval, onApprove, onReject }: ApprovalCardProp
         <p className="mt-3 text-sm text-slate-600">
           <span className="font-medium text-slate-700">Reason:</span> {approval.reason || 'No reason given'}
         </p>
+        <div className="mt-3 empty:hidden">
+          <AiOriginNotice order={po} compact />
+        </div>
         {approval.decided_by && (
           <p className="mt-1 text-sm text-slate-600">
             <span className="font-medium text-slate-700">{approval.status} by:</span> {approval.decided_by} on{' '}

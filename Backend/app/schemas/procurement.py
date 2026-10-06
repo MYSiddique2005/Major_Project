@@ -2,7 +2,7 @@ from datetime import date
 
 from pydantic import BaseModel, Field
 
-from app.models.enums import PurchaseOrderStatus
+from app.models.enums import PurchaseOrderOrigin, PurchaseOrderStatus
 
 
 class PurchaseOrderResponse(BaseModel):
@@ -20,6 +20,11 @@ class PurchaseOrderResponse(BaseModel):
     status: PurchaseOrderStatus
     reason: str
     created_by: str
+    origin: PurchaseOrderOrigin = Field(description="Manual, or drafted from an AI recommendation or insight")
+    origin_ref: str | None = Field(description="The AI insight the draft came from")
+    ai_recommendation: dict | None = Field(
+        description="For AI drafts: the recommendation, its evidence and the server's checks when it was drafted"
+    )
 
 
 class PurchaseOrderCreate(BaseModel):

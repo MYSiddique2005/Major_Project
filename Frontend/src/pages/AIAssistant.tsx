@@ -1,12 +1,14 @@
 import { BookOpen, Database, Info, Send, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
 
 import { RecommendationCard } from '../components/ai/RecommendationCard'
 import { Button } from '../components/common/Button'
 import { PageHeader } from '../components/common/PageHeader'
+import { useAuth } from '../context/AuthContext'
 import { getErrorMessage } from '../services/api'
 import { aiService } from '../services/aiService'
-import type { ChatKnowledge, ChatSource, ChatTurn, Recommendation } from '../types'
+import type { ChatAction, ChatKnowledge, ChatSource, ChatTurn, Recommendation } from '../types'
 
 interface Message {
   id: number
@@ -15,6 +17,7 @@ interface Message {
   sources?: ChatSource[]
   knowledge?: ChatKnowledge[]
   recommendations?: Recommendation[]
+  actions?: ChatAction[]
   /** Only real answers are sent back to the assistant as conversation history. */
   inHistory: boolean
 }
@@ -40,6 +43,7 @@ const TOOL_LABELS: Record<string, string> = {
   list_suppliers: 'Suppliers',
   get_product_overview: 'Product overview',
   propose_recommendation: 'Recommendation check',
+  draft_purchase_order: 'Draft purchase order',
   search_knowledge: 'Knowledge base search',
 }
 
@@ -59,6 +63,8 @@ export default function AIAssistant() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
+  const { hasPermission } = useAuth()
+  const canDraft = hasPermission('procurement:create')
   const nextId = useRef(1)
   const endRef = useRef<HTMLDivElement>(null)
 
@@ -87,6 +93,7 @@ export default function AIAssistant() {
         sources: response.sources,
         knowledge: response.knowledge,
         recommendations: response.recommendations,
+        actions: response.actions,
         inHistory: answered,
       })
     } catch (err) {
@@ -98,6 +105,22 @@ export default function AIAssistant() {
       })
     } finally {
       setSending(false)
+    }
+  }
+
+  // Drafts created from a recommendation card, keyed by "message id:card index".
+  const [drafts, setDrafts] = useState<Record<string, string>>({})
+  const [draftingKey, setDraftingKey] = useState<string | null>(null)
+
+  const draftOrder = async (key: string, recommendation: Recommendation) => {
+    setDraftingKey(key)
+    try {
+      const order = await aiService.draftOrder(recommendation)
+      setDrafts((current) => ({ ...current, [key]: order.id }))
+    } catch (err) {
+      append({ author: 'assistant', text: getErrorMessage(err, 'The draft could not be created.'), inHistory: false })
+    } finally {
+      setDraftingKey(null)
     }
   }
 
@@ -114,7 +137,8 @@ export default function AIAssistant() {
         <Info className="mt-0.5 size-4 shrink-0" aria-hidden />
         <p>
           Answers are written by an AI model from data it reads through IntelliERP's own reports, limited to what your
-          role can see. It cannot create or change records. Check the figures against the linked pages before acting.
+          role can see. The only record it can create is a draft purchase order, when you ask for one; a draft orders
+          nothing until it is reviewed, submitted and approved. Check the figures against the linked pages before acting.
         </p>
       </div>
 
@@ -152,11 +176,38 @@ export default function AIAssistant() {
                   {message.text}
                   {message.recommendations && message.recommendations.length > 0 && (
                     <div className="mt-3 space-y-2">
-                      {message.recommendations.map((recommendation, index) => (
-                        <RecommendationCard key={index} recommendation={recommendation} />
-                      ))}
+                      {message.recommendations.map((recommendation, index) => {
+                        const key = `${message.id}:${index}`
+                        // A draft the assistant itself made for this product in the same answer.
+                        const made = message.actions?.find((action) => action.product_id === recommendation.product_id)
+                        return (
+                          <RecommendationCard
+                            key={index}
+                            recommendation={recommendation}
+                            draft={
+                              canDraft
+                                ? {
+                                    onDraft: () => void draftOrder(key, recommendation),
+                                    busy: draftingKey === key,
+                                    purchaseOrderId: made?.purchase_order_id ?? drafts[key] ?? null,
+                                  }
+                                : undefined
+                            }
+                          />
+                        )
+                      })}
                     </div>
                   )}
+                  {message.actions?.map((action) => (
+                    <p key={action.purchase_order_id} className="mt-3 rounded-md border border-violet-200 bg-violet-50 px-3 py-2 text-violet-950">
+                      Draft{' '}
+                      <Link to={`/procurement/${action.purchase_order_id}`} className="font-semibold underline">
+                        {action.purchase_order_id}
+                      </Link>{' '}
+                      created: {action.quantity.toLocaleString()} × {action.product_name} from {action.supplier_name}. Nothing is
+                      ordered until it is reviewed, submitted and approved.
+                    </p>
+                  ))}
                   {message.sources && message.sources.length > 0 && (
                     <div className="mt-2.5 flex flex-wrap items-center gap-1.5 border-t border-slate-200 pt-2 text-xs text-slate-500">
                       <Database className="size-3.5" aria-hidden />

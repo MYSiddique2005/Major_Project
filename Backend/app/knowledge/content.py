@@ -98,6 +98,9 @@ COLUMN_DESCRIPTIONS = {
         "status": "Draft, Pending Approval, Approved, Rejected, Ordered, Delivered or Cancelled.",
         "reason": "Why the order was raised.",
         "created_by": "Who created the order.",
+        "origin": "Manual, AI Assistant (drafted from a chat recommendation) or AI Insight (drafted from an insight).",
+        "origin_ref": "The AI insight the draft came from, when the origin is AI Insight.",
+        "ai_recommendation": "For AI drafts: the recommendation, its evidence and the server's checks when drafted.",
     },
     "approvals": {
         "id": "Approval ID, such as APR-0001.",
@@ -153,6 +156,7 @@ COLUMN_DESCRIPTIONS = {
         "evidence": "Facts the model relied on, each labelled with its module.",
         "checks": "Results of the server's checks: modules cited, quantity against the rule, supplier, figures.",
         "status": "New, Acknowledged, Dismissed or Superseded (replaced by a newer insight on the same subject).",
+        "purchase_order_id": "The draft purchase order created from this insight, if one was.",
         "reviewed_by": "Username of whoever acknowledged or dismissed it.",
         "reviewed_at": "When that happened.",
     },
@@ -292,9 +296,10 @@ WRITTEN = [
           "create purchase order requirements constraints checks valid order"),
     Entry("rule.ai-assistant", "What the AI assistant may and may not do", "rule",
           f"The AI assistant answers from read-only tools and the knowledge base. It uses only the tools the user's "
-          f"role permits, so it cannot show data the user could not open themselves. It cannot create, change, "
-          f"submit or approve any record. List tools return at most {MAX_ROWS} rows per call. Every question is "
-          f"written to the audit log with the tools used.",
+          f"role permits, so it cannot show data the user could not open themselves. The one thing it can create is "
+          f"a draft purchase order, and only for a user who may create purchase orders and has asked for it. It "
+          f"cannot edit, submit, approve, cancel or place anything. List tools return at most {MAX_ROWS} rows per "
+          f"call. Every question is written to the audit log with the tools used.",
           "assistant limits capabilities permissions chatbot LLM"),
     Entry("rule.ai-insights", "Proactive AI insights and how recommendations are checked", "rule",
           "The AI assistant scans the data on a schedule and on request. The analytics decide what is wrong: only "
@@ -305,7 +310,8 @@ WRITTEN = [
           "quantity the reorder rule gives; the supplier must be able to supply the product; and every figure in "
           "the text is looked up among the system's figures. An insight is New until a user acknowledges or "
           "dismisses it, and is superseded when its subject is analysed again or is no longer flagged. "
-          "Recommendations made in the chat pass the same checks. An insight creates no order.",
+          "Recommendations made in the chat pass the same checks. An insight creates no order by itself; a user "
+          "can turn a reorder insight into a draft purchase order.",
           "proactive monitoring alerts scan insight recommendation verification checked hallucination dashboard"),
     # --- workflows --------------------------------------------------------------------------
     Entry("flow.purchase-order", "Purchase order lifecycle and statuses", "workflow",
@@ -322,6 +328,18 @@ WRITTEN = [
           "the purchase order and the audit entry are saved together. Separation of duties is not enforced: a user "
           "who may approve can approve an order they created.",
           "who can approve sign off authorise authorize approval center"),
+    Entry("flow.ai-draft", "AI-drafted purchase orders (controlled actions)", "workflow",
+          "A reorder recommendation from the AI assistant or an AI insight can be turned into a draft purchase "
+          "order, by the user clicking 'Create draft purchase order' or asking the assistant to draft it. The "
+          "steps are fixed. 1: the recommendation is checked on the server against the reorder rule, the supplier "
+          "and the system's figures. 2: a Draft is created through the same validation as any purchase order, "
+          "marked with its origin (AI Assistant or AI Insight) and carrying the recommendation, its evidence and "
+          "the check results. 3: a user with procurement:create reviews it, may edit it, and submits it. 4: a user "
+          "with procurement:approve approves or rejects it. Only a user who may create purchase orders can have "
+          "one drafted. The AI cannot submit, approve or place an order, and at most 3 drafts are created for one "
+          "chat message. A quantity that differs from the reorder rule does not block the draft but is flagged on "
+          "it for the reviewer and approver. Every step is in the audit log.",
+          "AI purchase order automatic order assistant creates order human approval human in the loop draft PO"),
     Entry("flow.sales-order", "Sales order statuses", "workflow",
           "A sales order is Pending while it waits for stock or processing, Processing once shipped and on its way "
           "to the customer, and Completed once delivered. Cancelled orders are excluded from revenue and from "

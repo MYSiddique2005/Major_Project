@@ -33,6 +33,14 @@ class PurchaseOrderStatus(StrEnum):
     CANCELLED = "Cancelled"
 
 
+class PurchaseOrderOrigin(StrEnum):
+    """Who or what prepared a purchase order. An AI origin never skips validation or approval."""
+
+    MANUAL = "Manual"
+    AI_ASSISTANT = "AI Assistant"  # drafted from a recommendation in the chat
+    AI_INSIGHT = "AI Insight"  # drafted from a proactive insight
+
+
 class SupplierStatus(StrEnum):
     ACTIVE = "Active"
     INACTIVE = "Inactive"

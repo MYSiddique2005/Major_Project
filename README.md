@@ -7,12 +7,13 @@ The research goal is to study how an LLM can be grounded in enterprise data and 
 Sales, Inventory and Procurement, surface operational risks, and turn recommendations into ERP actions
 that are validated, permission-checked, approved by a person and audited.
 
-**This repository is currently at Phase 6: the ERP foundation, PostgreSQL persistence, a rule-based
+**This repository is currently at Phase 7: the ERP foundation, PostgreSQL persistence, a rule-based
 analytics engine, and an LLM assistant that is grounded in the company's schema and rules, reasons
-across sales, inventory and procurement, raises insights on its own, and makes recommendations that
-the server checks against its own figures.**
+across sales, inventory and procurement, raises insights on its own, makes recommendations that the
+server checks against its own figures, and can turn a recommendation into a draft purchase order that
+a person must review, submit and approve.**
 
-## Scope so far (Phases 1–6)
+## Scope so far (Phases 1–7)
 
 Implemented:
 
@@ -29,7 +30,7 @@ Implemented:
 - AI assistant: a chat page and `POST /api/v1/ai/chat`. An LLM (Google Gemini by default, or Anthropic
   Claude) answers questions by calling read-only tools over the analytics and ERP data, limited to what the
   user's role may see. Each answer lists the tool calls it used, and each question is audit-logged
-- Enterprise grounding: a knowledge base of 40 passages (table and column meanings, business
+- Enterprise grounding: a knowledge base of 41 passages (table and column meanings, business
   definitions, rules, workflows, role permissions, data notes). The passages relevant to each question
   are retrieved and given to the model, which can also search the knowledge base itself
 
@@ -40,7 +41,11 @@ Implemented:
 - Proactive insights: a scheduled scan has the assistant explain the current high and critical findings
   and recommend an action for each; they appear on the dashboard and the AI Insights page
 
-Not implemented yet: LLM-drafted purchase orders (Phase 7), the evaluation (Phase 8). Not planned: Text-to-SQL
+- Controlled actions: a reorder recommendation or insight can become a draft purchase order, by a
+  button or by asking the assistant. The draft is marked with its AI origin, carries the recommendation
+  and its checks, and goes through the same validation, submission and approval as any other order
+
+Not implemented yet: the evaluation (Phase 8). Not planned: Text-to-SQL
 (the model never writes SQL), a vector database, machine-learning models, production deployment.
 
 ## Technology
@@ -218,8 +223,8 @@ All routes are under `/api/v1` and, except login, require `Authorization: Bearer
 | Approvals | `GET /approvals`, `GET /approvals/{id}`, `POST /approvals/{id}/approve`, `POST /approvals/{id}/reject` |
 | Analytics | `GET /analytics/stock-risk`, `GET /analytics/stock-risk/{product_id}`, `GET /analytics/forecast/{product_id}`, `GET /analytics/supplier-performance`, `GET /analytics/alerts`, `POST /analytics/what-if` |
 | Audit | `GET /audit-logs` |
-| AI assistant | `POST /ai/chat`, `GET /ai/knowledge` |
-| AI insights | `GET /ai/insights`, `GET /ai/insights/scans`, `POST /ai/insights/scan`, `POST /ai/insights/{id}/acknowledge`, `POST /ai/insights/{id}/dismiss` |
+| AI assistant | `POST /ai/chat`, `GET /ai/knowledge`, `POST /ai/recommendations/draft-order` |
+| AI insights | `GET /ai/insights`, `GET /ai/insights/scans`, `POST /ai/insights/scan`, `POST /ai/insights/{id}/acknowledge`, `POST /ai/insights/{id}/dismiss`, `POST /ai/insights/{id}/draft-order` |
 | System | `GET /system/info` |
 | Health | `GET /health` (no prefix) |
 
@@ -294,8 +299,9 @@ pre-filled draft, which then goes through the normal validation, approval and au
 | `get_product_overview` | One product's facts grouped by module (Phase 6) | `analytics:view` |
 | `propose_recommendation` | Records a recommendation and returns the server's checks on it (Phase 6) | `analytics:view` |
 | `search_knowledge` | Passages from the knowledge base (Phase 5) | `ai:use` |
+| `draft_purchase_order` | Creates a draft purchase order from a reorder recommendation (Phase 7) | `procurement:create` |
 
-All tools are read-only; `propose_recommendation` changes nothing in the ERP data. The model has no database access, writes no SQL, and takes every figure from a
+All tools are read-only except `draft_purchase_order`, which can only create a Draft. The model has no database access, writes no SQL, and takes every figure from a
 tool result. It stops after at most 8 rounds of tool calls.
 
 | Setting in `Backend/.env` | Meaning |
@@ -325,7 +331,7 @@ system, or how its figures are calculated. The knowledge base in `Backend/app/kn
 | Schema | 11 | Generated from the database models: every table, column, key and foreign key, with a written description of each column |
 | Definitions | 11 | Written: stock on hand, safety stock, reorder level and point, days of cover, demand and trend, lead time, units on order, on-time rate, revenue, margin, forecast error |
 | Rules | 8 | Written: stock status, stockout risk, reorder suggestion, supplier risk, what-if assumptions, purchase-order validation, limits of the assistant, how insights and recommendations are checked |
-| Workflows | 3 | Written: purchase-order lifecycle, approval, sales-order statuses |
+| Workflows | 4 | Written: purchase-order lifecycle, approval, AI-drafted purchase orders, sales-order statuses |
 | Access | 4 | Generated from the role → permission map |
 | Data notes | 3 | Written: identifiers and how modules link, what is source data and what is simulated, limits of the figures |
 
@@ -390,6 +396,35 @@ and scans in `ai_scans`. An insight is New until a user acknowledges or dismisse
 when its subject is analysed again or is no longer flagged. Viewing needs `analytics:view`; running a
 scan and reviewing need `ai:use`. Scans and reviews are audit-logged. An insight creates no order.
 
+## Controlled actions (Phase 7)
+
+The AI side can cause exactly one change to the ERP data: a purchase order in status Draft.
+
+1. **Recommendation.** A `reorder` recommendation names a product, a supplier and a quantity.
+2. **Checks.** The server checks it again against the reorder rule, the supplier and the system's
+   figures (the Phase 6 checks), using the figures of that moment.
+3. **Draft.** `ProcurementService.create_draft` creates the draft, with the validation every purchase
+   order passes. The order records its `origin` (AI Assistant or AI Insight), the insight it came from,
+   and the recommendation with its evidence and check results as they stood.
+4. **Review and submission.** A user with `procurement:create` reviews the draft, may edit it, and
+   submits it.
+5. **Approval.** A user with `procurement:approve` approves or rejects it. The purchase-order page and
+   the Approval Center show the AI's reasoning and any warning from the checks.
+
+Three ways in, one path: the "Create draft purchase order" button on a recommendation card in the chat,
+the same button on a reorder insight, and the assistant's `draft_purchase_order` tool when the user
+asks it to draft the order.
+
+| Control | How it is enforced |
+|---|---|
+| Only a draft | The assistant has no tool that edits, submits, approves, cancels or places an order; a test asserts this |
+| Only for users who could do it themselves | The tool is offered, and the endpoints open, only with `procurement:create`; the service checks again |
+| Only on request | The assistant is instructed to draft only when the user asks; this rests on the model following its instructions, not on code |
+| Same rules as any order | Supplier must be active and supply the product; quantity and price limits apply |
+| Bounded | At most 3 drafts for one chat message; one draft per insight |
+| A different quantity is visible | A quantity that differs from the reorder rule is not blocked, but is flagged on the draft for the reviewer and approver |
+| Traceable | The audit log records the draft with its AI origin, and each later step |
+
 ## Data model
 
 Tables: `users`, `suppliers`, `products`, `supplier_products` (which suppliers can deliver which
@@ -408,7 +443,8 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 - The JWT is kept in `localStorage`; there is no refresh token or logout on the server side.
 - No user management UI; the Settings page is read-only.
 - Purchase orders stop at Approved/Rejected. Ordered and Delivered exist only in seed data.
-- A user who may approve can approve their own purchase order (no separation of duties yet).
+- A user who may approve can approve their own purchase order, including one the AI drafted for them
+  (no separation of duties yet).
 - Lists are filtered and joined in Python after loading the table, and paginated in the browser. With
   12 months of the dataset loaded, sales endpoints take just under a second and the sales list is an
   18 MB response; loading more history would need SQL-level filtering and pagination.
@@ -425,9 +461,10 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 
 ## Where later phases plug in
 
-- **LLM-drafted purchase orders (Phase 7):** a `reorder` recommendation already carries the product,
-  supplier and quantity. Add a tool or a button that passes it to `ProcurementService.create_draft` and
-  report it in `actions`. Drafts from any source go through the same validation, approval and audit path.
+- **Evaluation (Phase 8):** every chat response carries the provider, model, token usage, tool calls,
+  knowledge passages, recommendations with their checks, and actions; `LLM_GROUNDING=false` and
+  `LLM_PROVIDER` / `LLM_MODEL` give the comparison conditions. Experiment scripts and results belong in
+  `LLM/`.
 
 ## Roadmap
 
@@ -438,7 +475,7 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 | 3 (done) | Analytics, risk detection, forecasting, what-if analysis |
 | 4 (done) | LLM integration, natural-language interface, tool/function calling |
 | 5 (done) | Enterprise grounding: RAG, schema metadata, business rules, enterprise knowledge |
-| 6 (current) | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
-| 7 | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
+| 6 (done) | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
+| 7 (current) | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
 | 8 | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |
 # Major_Project

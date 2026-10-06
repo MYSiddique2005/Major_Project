@@ -1,12 +1,15 @@
 from typing import Literal
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 
-from app.api.deps import get_ai_service
+from app.api.deps import get_ai_action_service, get_ai_service
 from app.models.entities import User
 from app.knowledge.base import CATEGORIES
 from app.knowledge.content import get_knowledge_base
+from app.llm.recommendations import RecommendationInput
 from app.schemas.ai import ChatRequest, ChatResponse, KnowledgeEntry
+from app.schemas.procurement import PurchaseOrderResponse
+from app.services.ai_action_service import AIActionService
 from app.security.authorization import require_permission
 from app.security.permissions import Permission
 from app.services.ai_service import AIService
@@ -49,3 +52,20 @@ def knowledge(search: str | None = None, category: Literal[CATEGORIES] | None = 
         for entry in base.entries
         if category is None or entry.category == category
     ]
+
+
+@router.post(
+    "/recommendations/draft-order",
+    response_model=PurchaseOrderResponse,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create a draft purchase order from an AI recommendation",
+    description="The recommendation is checked again on the server and saved as a Draft marked as coming from "
+    "the AI assistant. It then needs the usual submission and approval; nothing is ordered.",
+)
+def draft_order_from_recommendation(
+    recommendation: RecommendationInput,
+    user: User = Depends(require_permission(Permission.PROCUREMENT_CREATE)),
+    service: AIActionService = Depends(get_ai_action_service),
+):
+    order, _ = service.draft_from_proposal(recommendation, user)
+    return order

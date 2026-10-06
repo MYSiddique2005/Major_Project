@@ -44,6 +44,7 @@ export interface AiInsight extends Recommendation {
   scan_id: string
   created_at: string
   status: InsightStatus
+  purchase_order_id: string | null
   reviewed_by: string | null
   reviewed_at: string | null
 }

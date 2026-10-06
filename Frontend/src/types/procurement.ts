@@ -1,3 +1,5 @@
+import type { EvidenceItem, RecommendationChecks } from './insights'
+
 export const PURCHASE_ORDER_STATUSES = [
   'Draft',
   'Pending Approval',
@@ -8,6 +10,20 @@ export const PURCHASE_ORDER_STATUSES = [
   'Cancelled',
 ] as const
 export type PurchaseOrderStatus = (typeof PURCHASE_ORDER_STATUSES)[number]
+
+export type PurchaseOrderOrigin = 'Manual' | 'AI Assistant' | 'AI Insight'
+
+/** The AI recommendation a draft was made from, as it stood then, with the server's checks on it. */
+export interface KeptRecommendation {
+  headline: string
+  explanation: string
+  severity: string
+  system_quantity: number | null
+  evidence: EvidenceItem[]
+  checks: RecommendationChecks
+  model: string | null
+  requested_by: string
+}
 
 export interface PurchaseOrder {
   id: string
@@ -24,6 +40,9 @@ export interface PurchaseOrder {
   status: PurchaseOrderStatus
   reason: string
   created_by: string
+  origin: PurchaseOrderOrigin
+  origin_ref: string | null
+  ai_recommendation: KeptRecommendation | null
 }
 
 export interface PurchaseOrderInput {

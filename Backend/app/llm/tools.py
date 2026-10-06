@@ -8,7 +8,7 @@ All figures come from these functions; the model does no arithmetic of its own o
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import date, timedelta
-from typing import Any, Callable, Literal
+from typing import TYPE_CHECKING, Any, Callable, Literal
 
 from pydantic import BaseModel, Field, ValidationError
 
@@ -26,8 +26,13 @@ from app.services.product_service import ProductService
 from app.services.sales_service import SalesService
 from app.services.supplier_service import SupplierService
 
+if TYPE_CHECKING:
+    from app.services.ai_action_service import AIActionService
+
 MAX_ROWS = 50
 PROPOSE_TOOL = "propose_recommendation"
+DRAFT_TOOL = "draft_purchase_order"
+MAX_DRAFTS_PER_REQUEST = 3
 
 
 # --- Tool inputs ----------------------------------------------------------------------------
@@ -108,8 +113,12 @@ class Toolbox:
         suppliers: SupplierService,
         procurement: ProcurementService,
         knowledge: KnowledgeBase | None = None,
+        actions: "AIActionService | None" = None,
     ):
         self._knowledge = knowledge
+        self._actions = actions
+        self.actions: list[dict] = []  # drafts created during this request
+        self.model: str | None = None  # set by the assistant, recorded on drafts
         self._checker = RecommendationChecker(analytics, suppliers, knowledge)
         self.recommendations: list[Recommendation] = []  # accepted during this request
         self._analytics = analytics
@@ -124,6 +133,7 @@ class Toolbox:
         return [tool for tool in self._tools.values() if has_permission(user.role, tool.permission)]
 
     def run(self, user: User, name: str, arguments: Any) -> Any:
+        self._user = user
         tool = self._tools.get(name)
         if tool is None:
             raise ToolError(f"Unknown tool '{name}'.")
@@ -138,6 +148,16 @@ class Toolbox:
 
     def _build(self) -> list[Tool]:
         tools = self._data_tools()
+        if self._actions is not None:
+            tools.append(Tool(
+                DRAFT_TOOL,
+                "Create a DRAFT purchase order from a reorder recommendation. Use it only when the user has "
+                "explicitly asked you to draft or create the order. Give the full recommendation (the same fields "
+                "as propose_recommendation, with action 'reorder', the product, supplier and quantity); it is "
+                "checked, shown to the user, and saved as a draft. A draft orders nothing: a person must review "
+                "and submit it, and an approver must approve it.",
+                Permission.PROCUREMENT_CREATE, RecommendationInput, self._draft_purchase_order,
+            ))
         if self._knowledge is not None:
             tools.append(Tool(
                 "search_knowledge",
@@ -240,6 +260,38 @@ class Toolbox:
         ]
 
     # --- Handlers ---------------------------------------------------------------------------
+
+    def _draft_purchase_order(self, args: RecommendationInput) -> dict:
+        if len(self.actions) >= MAX_DRAFTS_PER_REQUEST:
+            raise ToolError(f"At most {MAX_DRAFTS_PER_REQUEST} drafts can be created for one message.")
+        order, recommendation = self._actions.draft_from_proposal(args, self._user, self.model)
+        self.recommendations.append(recommendation)
+        self.actions.append({
+            "type": "purchase_order_draft",
+            "purchase_order_id": order.id,
+            "status": order.status.value,
+            "product_id": order.product_id,
+            "product_name": order.product_name,
+            "supplier_id": order.supplier_id,
+            "supplier_name": order.supplier_name,
+            "quantity": order.quantity,
+            "total_amount": order.total_amount,
+        })
+        result: dict[str, Any] = {
+            "purchase_order_id": order.id,
+            "status": order.status.value,
+            "quantity": order.quantity,
+            "supplier": order.supplier_name,
+            "total_amount": order.total_amount,
+            "next_steps": "Nothing has been ordered. The user must review and submit the draft on the "
+            "Procurement page, and an approver must approve it. Tell the user this.",
+        }
+        if recommendation.checks.quantity_matches_rule is False:
+            result["note"] = (
+                f"The reorder rule gives {recommendation.system_quantity} units, not {recommendation.quantity}. "
+                "The draft is flagged; tell the user both figures."
+            )
+        return result
 
     def _get_product_overview(self, args: ProductInput) -> dict:
         try:

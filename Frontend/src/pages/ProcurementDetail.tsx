@@ -2,6 +2,7 @@ import { Pencil, Send, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { AiOriginNotice } from '../components/ai/AiOriginNotice'
 import { Button } from '../components/common/Button'
 import { Card } from '../components/common/Card'
 import { ConfirmDialog } from '../components/common/ConfirmDialog'
@@ -88,6 +89,7 @@ export default function ProcurementDetail() {
                   { label: 'PO ID', value: data.id },
                   { label: 'Status', value: <StatusBadge status={data.status} /> },
                   { label: 'Created by', value: data.created_by },
+                  { label: 'Origin', value: data.origin },
                   {
                     label: 'Supplier',
                     value: hasPermission('suppliers:view') ? (
@@ -113,6 +115,9 @@ export default function ProcurementDetail() {
                   { label: 'Reason', value: data.reason || '—' },
                 ]}
               />
+              <div className="mt-5 empty:hidden">
+                <AiOriginNotice order={data} />
+              </div>
               {data.status === 'Pending Approval' && hasPermission('procurement:approve') && (
                 <p className="mt-5 border-t border-slate-200 pt-4 text-sm text-slate-600">
                   This order is waiting for a decision in the <TextLink to="/approvals">Approval Center</TextLink>.

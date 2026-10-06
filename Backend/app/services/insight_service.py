@@ -150,6 +150,7 @@ class InsightService:
             logger.exception("AI scan %s failed", scan.id)
             scan.status, scan.message = ScanStatus.FAILED, f"Unexpected error: {error}"[:500]
         scan.finished_at = datetime.now()
+        scan.message = scan.message[:500]  # the column's width; a long list of rejections is cut short
         self._scans.update(scan)
         self._audit.record(
             action=AuditAction.AI_SCAN, entity="AI Scan", entity_id=scan.id, user=user, username=trigger,

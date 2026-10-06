@@ -13,6 +13,10 @@ class NotFoundError(DomainError):
     status_code = 404
 
 
+class PermissionDeniedError(DomainError):
+    status_code = 403
+
+
 class ServiceUnavailableError(DomainError):
     """An external service the request depends on could not be used."""
 

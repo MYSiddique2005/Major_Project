@@ -45,6 +45,7 @@ from app.repositories.mock_products import MockProductRepository
 from app.repositories.mock_sales import MockSalesRepository
 from app.repositories.mock_suppliers import MockSupplierRepository
 from app.repositories.mock_users import MockUserRepository
+from app.services.ai_action_service import AIActionService
 from app.services.ai_service import AIService
 from app.services.analytics_service import AnalyticsService
 from app.services.approval_service import ApprovalService
@@ -243,8 +244,20 @@ def get_knowledge() -> KnowledgeBase | None:
     return get_knowledge_base() if get_settings().llm_grounding else None
 
 
+def get_ai_action_service(
+    knowledge: KnowledgeBase | None = Depends(get_knowledge),
+    analytics: AnalyticsService = Depends(get_analytics_service),
+    suppliers: SupplierService = Depends(get_supplier_service),
+    procurement: ProcurementService = Depends(get_procurement_service),
+    insights: AiInsightRepository = Depends(get_ai_insight_repository),
+    uow: UnitOfWork = Depends(get_unit_of_work),
+) -> AIActionService:
+    return AIActionService(procurement, RecommendationChecker(analytics, suppliers, knowledge), insights, uow)
+
+
 def get_ai_service(
     provider: Provider | None = Depends(get_llm_provider),
+    actions: AIActionService = Depends(get_ai_action_service),
     knowledge: KnowledgeBase | None = Depends(get_knowledge),
     analytics: AnalyticsService = Depends(get_analytics_service),
     products: ProductService = Depends(get_product_service),
@@ -255,7 +268,7 @@ def get_ai_service(
     audit: AuditService = Depends(get_audit_service),
     uow: UnitOfWork = Depends(get_unit_of_work),
 ) -> AIService:
-    toolbox = Toolbox(analytics, products, inventory, sales, suppliers, procurement, knowledge)
+    toolbox = Toolbox(analytics, products, inventory, sales, suppliers, procurement, knowledge, actions)
     return AIService(provider, toolbox, audit, uow, get_settings(), knowledge)
 
 

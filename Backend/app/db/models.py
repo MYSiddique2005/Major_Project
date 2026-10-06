@@ -31,6 +31,7 @@ from app.models.enums import (
     AuditStatus,
     InsightStatus,
     ProductStatus,
+    PurchaseOrderOrigin,
     PurchaseOrderStatus,
     RiskLevel,
     Role,
@@ -166,6 +167,11 @@ class PurchaseOrderModel(Base):
     status: Mapped[PurchaseOrderStatus] = mapped_column(_enum(PurchaseOrderStatus, "status"), index=True)
     reason: Mapped[str] = mapped_column(String(500), default="")
     created_by: Mapped[str] = mapped_column(String(64))
+    origin: Mapped[PurchaseOrderOrigin] = mapped_column(
+        _enum(PurchaseOrderOrigin, "origin"), default=PurchaseOrderOrigin.MANUAL, server_default="Manual"
+    )
+    origin_ref: Mapped[str | None] = mapped_column(String(16))
+    ai_recommendation: Mapped[dict | None] = mapped_column(JSON)
 
 
 class ApprovalModel(Base):
@@ -238,5 +244,6 @@ class AiInsightModel(Base):
     evidence: Mapped[list] = mapped_column(JSON)
     checks: Mapped[dict] = mapped_column(JSON)
     status: Mapped[InsightStatus] = mapped_column(_enum(InsightStatus, "status"), index=True)
+    purchase_order_id: Mapped[str | None] = mapped_column(String(16))
     reviewed_by: Mapped[str | None] = mapped_column(String(64))
     reviewed_at: Mapped[datetime | None] = mapped_column(DateTime)
