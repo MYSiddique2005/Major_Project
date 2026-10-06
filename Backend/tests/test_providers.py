@@ -168,8 +168,9 @@ def test_gemini_moves_down_the_list_as_daily_limits_run_out():
 
     assert conversation.reply().text == "Answer."
     assert [r["model"] for r in create.requests] == ["gemini-3.8-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite"]
-    # A new conversation starts from the main model again.
-    assert provider.start("system", TOOLS, [], "question").model == "gemini-3.8-flash"
+    # Later conversations skip the models that ran out today, instead of asking them again.
+    later = provider.start("system", TOOLS, [], "question")
+    assert later.model == "gemini-3.5-flash-lite" and later.fallback_models == []
 
 
 def test_gemini_waits_out_the_per_minute_limit_and_carries_on():

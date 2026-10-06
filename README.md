@@ -7,13 +7,15 @@ The research goal is to study how an LLM can be grounded in enterprise data and 
 Sales, Inventory and Procurement, surface operational risks, and turn recommendations into ERP actions
 that are validated, permission-checked, approved by a person and audited.
 
-**This repository is currently at Phase 7: the ERP foundation, PostgreSQL persistence, a rule-based
+**All eight phases are built. The repository contains the ERP foundation, PostgreSQL persistence, a rule-based
 analytics engine, and an LLM assistant that is grounded in the company's schema and rules, reasons
 across sales, inventory and procurement, raises insights on its own, makes recommendations that the
 server checks against its own figures, and can turn a recommendation into a draft purchase order that
 a person must review, submit and approve.**
 
-## Scope so far (Phases 1–7)
+An evaluation of the assistant on 24 questions is in `LLM/` (Phase 8).
+
+## Scope (Phases 1–8)
 
 Implemented:
 
@@ -45,7 +47,8 @@ Implemented:
   button or by asking the assistant. The draft is marked with its AI origin, carries the recommendation
   and its checks, and goes through the same validation, submission and approval as any other order
 
-Not implemented yet: the evaluation (Phase 8). Not planned: Text-to-SQL
+- Evaluation: a resumable harness in `LLM/evaluation` asks questions whose correct answers are computed
+  from the database, with and without grounding, and scores the answers without using a model as judge Not planned: Text-to-SQL
 (the model never writes SQL), a vector database, machine-learning models, production deployment.
 
 ## Technology
@@ -92,7 +95,7 @@ Major_Project/
 │       ├── context/           AuthContext, ToastContext
 │       ├── hooks/  types/  utils/
 ├── Data/                      Wide World Importers dataset: raw, cleaned, simulated, processed (see Data/README.md)
-└── LLM/                       empty; reserved for a later phase
+└── LLM/                       evaluation of the assistant: questions, runner, scoring, results (see LLM/README.md)
 ```
 
 Request flow: `React page → service (Axios) → FastAPI route → service → repository interface → PostgreSQL`.
@@ -425,6 +428,32 @@ asks it to draft the order.
 | A different quantity is visible | A quantity that differs from the reorder rule is not blocked, but is flagged on the draft for the reviewer and approver |
 | Traceable | The audit log records the draft with its AI origin, and each later step |
 
+## Evaluation (Phase 8)
+
+`LLM/evaluation` runs the assistant, exactly as the web application builds it, on 24 questions in five
+groups (grounding, factual, cross-module, controlled actions and permissions, abstention). Each case
+computes its correct answer from the application's services at run time. Ten of the questions are also
+asked with the knowledge base switched off. Scoring matches expected facts by number or phrase and
+counts figures in an answer that nothing supports. `LLM/README.md` explains how to run it.
+
+Run of 6 October 2026, on Gemini's free tier (mostly `gemini-3.5-flash-lite`):
+
+| | Passed | Facts found | Unsupported figures |
+|---|---:|---:|---:|
+| All 24 questions, with grounding | 23 (96%) | 96% | 0 of 119 |
+| 10 paired questions, with grounding | 10 of 10 | 100% | 0 of 72 |
+| The same 10, without grounding | 5 of 10 | 72% | 3 of 64 |
+
+The one failure with grounding: asked for sales revenue by a role without sales access, the assistant
+revealed nothing and used no sales tool, but gave a wrong reason. Without grounding, the assistant
+could not state the company's thresholds (the 28-day demand window's minimum of 5 orders, the 14-day
+review period, the 8-week backtest) and in one answer invented figures; the three cross-module questions
+were answered correctly either way, because the tools return those facts.
+
+These are indications from a small, single-run test written by the system's author and scored by
+keyword; they are not statistically reliable rates. `LLM/README.md` lists the limits, and
+`LLM/evaluation/results/main/report.md` has every answer.
+
 ## Data model
 
 Tables: `users`, `suppliers`, `products`, `supplier_products` (which suppliers can deliver which
@@ -459,12 +488,10 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
   stored on the server.
   Automated tests use a scripted stand-in for the model, so they check the plumbing, not answer quality.
 
-## Where later phases plug in
+## What could come next
 
-- **Evaluation (Phase 8):** every chat response carries the provider, model, token usage, tool calls,
-  knowledge passages, recommendations with their checks, and actions; `LLM_GROUNDING=false` and
-  `LLM_PROVIDER` / `LLM_MODEL` give the comparison conditions. Experiment scripts and results belong in
-  `LLM/`.
+- **Further evaluation:** more questions, questions written by other people, repeated runs to measure
+  consistency, and the same run on other models (`LLM_PROVIDER` / `LLM_MODEL` with another `--name`).
 
 ## Roadmap
 
@@ -476,6 +503,6 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 | 4 (done) | LLM integration, natural-language interface, tool/function calling |
 | 5 (done) | Enterprise grounding: RAG, schema metadata, business rules, enterprise knowledge |
 | 6 (done) | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
-| 7 (current) | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
-| 8 | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |
+| 7 (done) | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
+| 8 (done, first run) | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |
 # Major_Project

@@ -13,6 +13,7 @@ import logging
 import re
 import time
 from dataclasses import dataclass, field
+from datetime import date
 from typing import Any, Literal, Protocol
 
 import anthropic
@@ -233,6 +234,7 @@ class GeminiConversation:
     config: genai_types.GenerateContentConfig
     contents: list
     fallback_models: list[str] = field(default_factory=list)
+    on_daily_limit: Any = None  # told which model ran out, so later conversations skip it today
     sleep: Any = time.sleep
     _last_content: Any = None
     _waited: float = 0.0
@@ -250,6 +252,8 @@ class GeminiConversation:
                     self._waited += wait
                     self.sleep(wait)
                 elif (error.code in GEMINI_TEMPORARY or is_daily_limit(error)) and self.fallback_models:
+                    if is_daily_limit(error) and self.on_daily_limit:
+                        self.on_daily_limit(self.model)
                     following = self.fallback_models.pop(0)
                     logger.warning("Gemini model %s unavailable (%s); switching to %s", self.model, error.code, following)
                     self.model = following
@@ -326,6 +330,17 @@ class GeminiProvider:
     def __init__(self, client: genai.Client, model: str, fallback_models: list[str] | None = None):
         self._client, self.model = client, model
         self._fallback_models = [name for name in fallback_models or [] if name != model]
+        self._out_of_quota: dict[str, date] = {}  # model -> the day its daily limit was hit
+
+    def _models_for_today(self) -> list[str]:
+        """The main model then the fallbacks, leaving out those whose daily limit was already hit today.
+        The last model is always kept, so there is something to try and its error can be reported."""
+        models = [self.model, *self._fallback_models]
+        usable = [name for name in models if self._out_of_quota.get(name) != date.today()]
+        return usable or models[-1:]
+
+    def _mark_out_of_quota(self, model: str) -> None:
+        self._out_of_quota[model] = date.today()
 
     def start(
         self, system: str, tools: list[Tool], history: list[Turn], message: str, require_tool: bool = False
@@ -345,7 +360,8 @@ class GeminiProvider:
             )
             for turn in [*history, Turn("user", message)]
         ]
-        return GeminiConversation(self._client, self.model, config, contents, list(self._fallback_models))
+        first, *others = self._models_for_today()
+        return GeminiConversation(self._client, first, config, contents, others, self._mark_out_of_quota)
 
 
 def build_provider(settings: Settings) -> Provider | None:
