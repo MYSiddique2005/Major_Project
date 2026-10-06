@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     gemini_api_key: str | None = None
     anthropic_api_key: str | None = None
     llm_model: str | None = None  # default: gemini-3.8-flash or claude-opus-5-5, by provider
+    # Gemini only: used when the main model stays unavailable (Google returns 503 when one is overloaded).
+    llm_fallback_model: str | None = "gemini-3.5-flash"
     llm_effort: Literal["low", "medium", "high", "xhigh", "max"] = "medium"  # Anthropic only
     llm_max_tool_rounds: int = 8  # tool-calling round trips allowed for one question
     # Grounding: give the model the company's definitions and rules from the knowledge base.

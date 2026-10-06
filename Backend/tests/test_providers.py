@@ -120,20 +120,73 @@ def test_gemini_leaves_thoughts_out_of_the_answer_and_reports_cut_off_and_blocke
     assert conversation.reply().stop == "refused"
 
 
+def quota_error(message):
+    return genai_errors.APIError(429, {"error": {"message": message, "status": "RESOURCE_EXHAUSTED"}})
+
+
+PER_MINUTE = "Quota exceeded, limit: 5, model: gemini-3.8-flash\nPlease retry in 29.18s. quotaId: GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+PER_DAY = "Quota exceeded.\nPlease retry in 3600s. quotaId: GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+
+
 @pytest.mark.parametrize(
     "code, message, expected",
     [
         (429, "quota exceeded", "free-tier limit"),
+        (429, PER_DAY, "daily limit"),
         (403, "permission denied", "GEMINI_API_KEY"),
         (400, "API key not valid. Please pass a valid API key.", "GEMINI_API_KEY"),
         (404, "model not found", "LLM_MODEL"),
-        (500, "internal", r"error \(500\)"),
+        (503, "This model is currently experiencing high demand.", "busy right now"),
+        (418, "teapot", r"error \(418\)"),
     ],
 )
 def test_gemini_errors_are_explained(code, message, expected):
     provider, _ = gemini(genai_errors.APIError(code, {"error": {"message": message, "status": "X"}}))
     with pytest.raises(ServiceUnavailableError, match=expected):
         provider.start("system", TOOLS, [], "question").reply()
+
+
+def test_gemini_switches_to_the_fallback_model_when_the_main_one_stays_unavailable():
+    overloaded = genai_errors.APIError(503, {"error": {"message": "high demand", "status": "UNAVAILABLE"}})
+    create = Recorder(overloaded, gemini_response(genai_types.Part(text="Answer.")), gemini_response(genai_types.Part(text="More.")))
+    client = SimpleNamespace(models=SimpleNamespace(generate_content=create))
+    conversation = GeminiProvider(client, "gemini-3.8-flash", "gemini-3.5-flash").start("system", TOOLS, [], "question")
+
+    assert conversation.reply().text == "Answer."
+    assert [request["model"] for request in create.requests] == ["gemini-3.8-flash", "gemini-3.5-flash"]
+    conversation.reply()
+    assert create.requests[2]["model"] == "gemini-3.5-flash"  # the rest of the conversation stays on it
+
+
+def test_gemini_waits_out_the_per_minute_limit_and_carries_on():
+    create = Recorder(quota_error(PER_MINUTE), gemini_response(genai_types.Part(text="Answer.")))
+    client = SimpleNamespace(models=SimpleNamespace(generate_content=create))
+    conversation = GeminiProvider(client, "gemini-3.8-flash", "gemini-3.5-flash").start("system", TOOLS, [], "q")
+    waits = []
+    conversation.sleep = waits.append
+
+    assert conversation.reply().text == "Answer."
+    assert waits == [pytest.approx(30.18)]  # the time Google asked for, plus a second
+    assert [request["model"] for request in create.requests] == ["gemini-3.8-flash"] * 2  # same model, no fallback
+
+
+def test_gemini_gives_up_on_a_daily_limit_or_after_waiting_too_long():
+    create = Recorder(quota_error(PER_DAY))
+    client = SimpleNamespace(models=SimpleNamespace(generate_content=create))
+    conversation = GeminiProvider(client, "gemini-3.8-flash").start("system", TOOLS, [], "q")
+    conversation.sleep = lambda seconds: pytest.fail("must not wait for a daily limit")
+    with pytest.raises(ServiceUnavailableError, match="daily limit"):
+        conversation.reply()
+    assert len(create.requests) == 1
+
+    always_limited = Recorder(*[quota_error(PER_MINUTE)] * 10)
+    client = SimpleNamespace(models=SimpleNamespace(generate_content=always_limited))
+    conversation = GeminiProvider(client, "gemini-3.8-flash").start("system", TOOLS, [], "q")
+    waits = []
+    conversation.sleep = waits.append
+    with pytest.raises(ServiceUnavailableError, match="Wait a minute"):
+        conversation.reply()
+    assert sum(waits) <= 150 and len(always_limited.requests) == len(waits) + 1
 
 
 def test_gemini_declarations_use_plain_json_schema():

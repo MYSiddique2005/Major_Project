@@ -9,6 +9,9 @@ returned exactly as received.
     LLM_PROVIDER=anthropic  Anthropic Claude                   ANTHROPIC_API_KEY
 """
 import json
+import logging
+import re
+import time
 from dataclasses import dataclass, field
 from typing import Any, Literal, Protocol
 
@@ -20,6 +23,8 @@ from google.genai import types as genai_types
 from app.core.config import Settings
 from app.core.exceptions import ServiceUnavailableError
 from app.llm.tools import Tool
+
+logger = logging.getLogger(__name__)
 
 MAX_TOKENS = 16000
 DEFAULT_MODELS = {"gemini": "gemini-3.8-flash", "anthropic": "claude-opus-5-5"}
@@ -188,20 +193,71 @@ def gemini_declaration(tool: Tool) -> genai_types.FunctionDeclaration:
     )
 
 
+# Google answers 503 while a model is overloaded and 5xx on passing faults; these usually clear in seconds.
+GEMINI_TEMPORARY = (500, 502, 503, 504)
+GEMINI_RETRY = genai_types.HttpRetryOptions(
+    attempts=3, initial_delay=1.5, max_delay=8.0, http_status_codes=list(GEMINI_TEMPORARY)
+)
+
+
+# The free tier allows only a few requests a minute, and one question needs one request per round of
+# tool calls. When the per-minute limit is hit, Google says how long to wait; the conversation waits
+# that long and carries on, up to this many seconds in total. A daily limit is not waited for.
+GEMINI_MAX_QUOTA_WAIT_SECONDS = 150
+_RETRY_IN = re.compile(r"retry in ([\d.]+)s", re.IGNORECASE)
+
+
+def quota_wait_seconds(error: genai_errors.APIError) -> float | None:
+    """Seconds to wait before retrying a per-minute quota error; None if waiting will not help."""
+    text = str(error)
+    match = _RETRY_IN.search(text)
+    if error.code != 429 or "PerDay" in text or match is None:
+        return None
+    return float(match.group(1)) + 1
+
+
 @dataclass
 class GeminiConversation:
     client: genai.Client
     model: str
     config: genai_types.GenerateContentConfig
     contents: list
+    fallback_model: str | None = None
+    sleep: Any = time.sleep
     _last_content: Any = None
+    _waited: float = 0.0
+
+    def _generate(self):
+        while True:
+            try:
+                return self._generate_once()
+            except genai_errors.APIError as error:
+                wait = quota_wait_seconds(error)
+                if wait is None or self._waited + wait > GEMINI_MAX_QUOTA_WAIT_SECONDS:
+                    raise
+                logger.info("Gemini per-minute limit reached on %s; waiting %.0fs", self.model, wait)
+                self._waited += wait
+                self.sleep(wait)
+
+    def _generate_once(self):
+        try:
+            return self.client.models.generate_content(model=self.model, contents=self.contents, config=self.config)
+        except genai_errors.APIError as error:
+            if error.code not in GEMINI_TEMPORARY or not self.fallback_model or self.fallback_model == self.model:
+                raise
+            # Still unavailable after the retries: finish the conversation on the fallback model.
+            logger.warning("Gemini model %s unavailable (%s); switching to %s", self.model, error.code, self.fallback_model)
+            self.model = self.fallback_model
+            return self.client.models.generate_content(model=self.model, contents=self.contents, config=self.config)
 
     def reply(self) -> Reply:
         try:
-            response = self.client.models.generate_content(model=self.model, contents=self.contents, config=self.config)
+            response = self._generate()
         except genai_errors.APIError as error:
+            logger.warning("Gemini request failed on %s: %s", self.model, error)
             raise ServiceUnavailableError(_gemini_error(error, self.model)) from error
         except Exception as error:  # the SDK passes network failures through from its HTTP library
+            logger.warning("Gemini request failed: %r", error)
             raise ServiceUnavailableError("Could not reach the AI service. Check the network connection.") from error
 
         usage = response.usage_metadata
@@ -246,19 +302,23 @@ class GeminiConversation:
 
 def _gemini_error(error: genai_errors.APIError, model: str) -> str:
     if error.code == 429:
-        return "The Gemini free-tier limit was reached. Wait a minute and try again; daily limits reset the next day."
+        if "PerDay" in str(error):
+            return "The Gemini free-tier daily limit was reached. It resets the next day."
+        return "The Gemini free-tier limit was reached. Wait a minute and try again."
     if error.code in (401, 403) or "API key" in str(error):
         return "The AI service rejected the API key. Check GEMINI_API_KEY."
     if error.code == 404:
         return f"The model '{model}' was not found. Check LLM_MODEL."
+    if error.code in GEMINI_TEMPORARY:
+        return "Google's AI service is busy right now. This usually passes within a minute; please ask again."
     return f"The AI service returned an error ({error.code})."
 
 
 class GeminiProvider:
     name = "gemini"
 
-    def __init__(self, client: genai.Client, model: str):
-        self._client, self.model = client, model
+    def __init__(self, client: genai.Client, model: str, fallback_model: str | None = None):
+        self._client, self.model, self._fallback_model = client, model, fallback_model
 
     def start(self, system: str, tools: list[Tool], history: list[Turn], message: str) -> GeminiConversation:
         config = genai_types.GenerateContentConfig(
@@ -273,14 +333,19 @@ class GeminiProvider:
             )
             for turn in [*history, Turn("user", message)]
         ]
-        return GeminiConversation(self._client, self.model, config, contents)
+        return GeminiConversation(self._client, self.model, config, contents, self._fallback_model)
 
 
 def build_provider(settings: Settings) -> Provider | None:
     """The configured provider, or None when its API key is not set."""
     model = settings.llm_model or DEFAULT_MODELS[settings.llm_provider]
     if settings.llm_provider == "gemini":
-        return GeminiProvider(genai.Client(api_key=settings.gemini_api_key), model) if settings.gemini_api_key else None
+        if not settings.gemini_api_key:
+            return None
+        client = genai.Client(
+            api_key=settings.gemini_api_key, http_options=genai_types.HttpOptions(retry_options=GEMINI_RETRY)
+        )
+        return GeminiProvider(client, model, settings.llm_fallback_model)
     if not settings.anthropic_api_key:
         return None
     return AnthropicProvider(anthropic.Anthropic(api_key=settings.anthropic_api_key), model, settings.llm_effort)

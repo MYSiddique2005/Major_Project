@@ -114,7 +114,7 @@ export default function AIAssistant() {
             <div className="flex h-full flex-col items-center justify-center text-center">
               <Sparkles className="size-7 text-slate-400" aria-hidden />
               <p className="mt-3 text-sm font-medium text-slate-900">Suggested questions</p>
-              <p className="mt-1 text-xs text-slate-500">Answers can take up to a minute.</p>
+              <p className="mt-1 text-xs text-slate-500">Answers usually take under a minute.</p>
               <div className="mt-4 flex max-w-xl flex-wrap justify-center gap-2">
                 {SUGGESTED_QUESTIONS.map((question) => (
                   <button
@@ -171,7 +171,11 @@ export default function AIAssistant() {
               </div>
             ))
           )}
-          {sending && <p className="text-sm text-slate-500">Reading the ERP data…</p>}
+          {sending && (
+            <p className="text-sm text-slate-500">
+              Reading the ERP data… This can take a minute or two when the free model tier is busy.
+            </p>
+          )}
           <div ref={endRef} />
         </div>
 

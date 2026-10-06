@@ -292,6 +292,7 @@ tool result. It stops after at most 8 rounds of tool calls.
 | `LLM_PROVIDER` | `gemini` (default) or `anthropic` |
 | `GEMINI_API_KEY` / `ANTHROPIC_API_KEY` | Key for the chosen provider |
 | `LLM_MODEL` | Model name; default `gemini-3.8-flash` or `claude-opus-5-5` |
+| `LLM_FALLBACK_MODEL` | Gemini only: model used when the main one stays overloaded; default `gemini-3.5-flash` |
 | `LLM_EFFORT` | Claude only: `low` to `max`, default `medium` |
 
 Each question sends ERP figures to the provider. On Gemini's free tier Google may use that content to
