@@ -19,7 +19,9 @@ class ApprovalService:
         procurement: ProcurementService,
         audit: AuditService,
         uow: UnitOfWork,
+        separation_of_duties: bool = True,
     ):
+        self._separation_of_duties = separation_of_duties
         self._uow = uow
         self._approvals = approvals
         self._purchase_orders = purchase_orders
@@ -59,6 +61,12 @@ class ApprovalService:
         po = self._purchase_orders.get(approval.purchase_order_id)
         if po is None or po.status != PurchaseOrderStatus.PENDING_APPROVAL:
             raise BusinessRuleError(f"Purchase order {approval.purchase_order_id} is not pending approval")
+        # Separation of duties: an order needs a second person to approve it. This also covers a draft the
+        # AI assistant prepared for someone, which is created in that person's name. Rejecting is allowed.
+        if approved and self._separation_of_duties and user.username in (po.created_by, approval.requested_by):
+            raise BusinessRuleError(
+                f"You created or submitted {po.id}, so another approver must approve it. You may still reject it."
+            )
 
         approval.status = ApprovalStatus.APPROVED if approved else ApprovalStatus.REJECTED
         approval.decided_by = user.username

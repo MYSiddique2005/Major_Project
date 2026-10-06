@@ -211,7 +211,7 @@ def get_approval_service(
     audit: AuditService = Depends(get_audit_service),
     uow: UnitOfWork = Depends(get_unit_of_work),
 ) -> ApprovalService:
-    return ApprovalService(approvals, purchase_orders, procurement, audit, uow)
+    return ApprovalService(approvals, purchase_orders, procurement, audit, uow, get_settings().separation_of_duties)
 
 
 def get_dashboard_service(

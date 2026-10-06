@@ -123,6 +123,16 @@ def test_tools_offered_follow_the_role(client, auth, llm):
     assert "list_purchase_orders" in procurement_tools and "get_sales_summary" not in procurement_tools
 
 
+def test_assistant_is_told_what_the_role_does_not_include(client, auth, llm):
+    scripted = llm(reply("ok"))
+    for user in ("procurement", "inventory", "admin"):
+        ask(client, auth(user))
+    procurement, inventory, admin = (conversation.message for conversation in scripted.conversations)
+    assert "does not include: sales orders, revenue and customers" in procurement
+    assert "the list of purchase orders" in inventory and "drafting purchase orders" in inventory
+    assert "sales orders" not in inventory and "does not include" not in admin
+
+
 def test_tool_outside_the_role_is_refused_even_if_the_model_calls_it(client, auth, llm):
     scripted = llm(reply("", call("list_purchase_orders", {})), reply("I cannot see orders."))
     body = ask(client, auth("inventory")).json()

@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     data_backend: Literal["postgres", "memory"] = "postgres"
     database_url: str = "postgresql+psycopg://intellierp:intellierp@localhost:5432/intellierp"
 
+    # Whoever created or submitted a purchase order may not be the one to approve it.
+    separation_of_duties: bool = True
+
     # AI assistant. Without the provider's key the assistant reports that it is not configured.
     llm_provider: Literal["gemini", "anthropic"] = "gemini"
     gemini_api_key: str | None = None

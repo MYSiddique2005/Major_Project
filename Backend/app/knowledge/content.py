@@ -325,8 +325,9 @@ WRITTEN = [
           "Creating, editing and submitting purchase orders needs the procurement:create permission; approving or "
           "rejecting needs procurement:approve. An approval can be decided once, while it is Pending and its "
           "purchase order is Pending Approval. The decision, the decider and an optional comment are stored, and "
-          "the purchase order and the audit entry are saved together. Separation of duties is not enforced: a user "
-          "who may approve can approve an order they created.",
+          "the purchase order and the audit entry are saved together. Separation of duties is enforced: the user "
+          "who created or submitted a purchase order cannot approve it, so a second approver is needed; they may "
+          "still reject it. This includes a draft the AI assistant prepared for them.",
           "who can approve sign off authorise authorize approval center"),
     Entry("flow.ai-draft", "AI-drafted purchase orders (controlled actions)", "workflow",
           "A reorder recommendation from the AI assistant or an AI insight can be turned into a draft purchase "
@@ -335,7 +336,8 @@ WRITTEN = [
           "and the system's figures. 2: a Draft is created through the same validation as any purchase order, "
           "marked with its origin (AI Assistant or AI Insight) and carrying the recommendation, its evidence and "
           "the check results. 3: a user with procurement:create reviews it, may edit it, and submits it. 4: a user "
-          "with procurement:approve approves or rejects it. Only a user who may create purchase orders can have "
+          "with procurement:approve, other than the one who created or submitted it, approves or rejects it. Only a "
+          "user who may create purchase orders can have "
           "one drafted. The AI cannot submit, approve or place an order, and at most 3 drafts are created for one "
           "chat message. A quantity that differs from the reorder rule does not block the draft but is flagged on "
           "it for the reviewer and approver. Every step is in the audit log.",

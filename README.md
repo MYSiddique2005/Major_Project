@@ -411,7 +411,8 @@ The AI side can cause exactly one change to the ERP data: a purchase order in st
    and the recommendation with its evidence and check results as they stood.
 4. **Review and submission.** A user with `procurement:create` reviews the draft, may edit it, and
    submits it.
-5. **Approval.** A user with `procurement:approve` approves or rejects it. The purchase-order page and
+5. **Approval.** A different user with `procurement:approve` approves or rejects it; the person the
+   draft was made for cannot approve it. The purchase-order page and
    the Approval Center show the AI's reasoning and any warning from the checks.
 
 Three ways in, one path: the "Create draft purchase order" button on a recommendation card in the chat,
@@ -426,6 +427,7 @@ asks it to draft the order.
 | Same rules as any order | Supplier must be active and supply the product; quantity and price limits apply |
 | Bounded | At most 3 drafts for one chat message; one draft per insight |
 | A different quantity is visible | A quantity that differs from the reorder rule is not blocked, but is flagged on the draft for the reviewer and approver |
+| A second person decides | Whoever the draft was made for cannot approve it (separation of duties) |
 | Traceable | The audit log records the draft with its AI origin, and each later step |
 
 ## Evaluation (Phase 8)
@@ -445,7 +447,8 @@ Run of 6 October 2026, on Gemini's free tier (mostly `gemini-3.5-flash-lite`):
 | The same 10, without grounding | 5 of 10 | 72% | 3 of 64 |
 
 The one failure with grounding: asked for sales revenue by a role without sales access, the assistant
-revealed nothing and used no sales tool, but gave a wrong reason. Without grounding, the assistant
+revealed nothing and used no sales tool, but gave a wrong reason. The assistant is now told what the
+user's role does not include; that question, asked again afterwards, is in `results/after-fix`. Without grounding, the assistant
 could not state the company's thresholds (the 28-day demand window's minimum of 5 orders, the 14-day
 review period, the 8-week backtest) and in one answer invented figures; the three cross-module questions
 were answered correctly either way, because the tools return those facts.
@@ -472,8 +475,9 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 - The JWT is kept in `localStorage`; there is no refresh token or logout on the server side.
 - No user management UI; the Settings page is read-only.
 - Purchase orders stop at Approved/Rejected. Ordered and Delivered exist only in seed data.
-- A user who may approve can approve their own purchase order, including one the AI drafted for them
-  (no separation of duties yet).
+- Separation of duties is by username only: whoever created or submitted a purchase order cannot approve
+  it (`SEPARATION_OF_DUTIES=false` switches this off). With the demo accounts this means an order from
+  `procurement` is approved by `admin`. There are no approval limits by amount.
 - Lists are filtered and joined in Python after loading the table, and paginated in the browser. With
   12 months of the dataset loaded, sales endpoints take just under a second and the sales list is an
   18 MB response; loading more history would need SQL-level filtering and pagination.

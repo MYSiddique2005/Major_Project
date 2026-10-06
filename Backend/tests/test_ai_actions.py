@@ -47,8 +47,11 @@ def test_ai_draft_goes_through_the_same_submission_and_approval_as_any_order(cli
 
     approval = next(a for a in client.get(f"{API}/approvals", headers=headers).json() if a["purchase_order_id"] == order["id"])
     assert approval["purchase_order"]["ai_recommendation"]["headline"]  # the approver sees the AI's reasoning
-    approved = client.post(f"{API}/approvals/{approval['id']}/approve", json={}, headers=headers).json()
-    assert approved["status"] == "Approved" and approved["decided_by"] == "procurement"
+    # The person the AI drafted it for cannot be the one to approve it.
+    own = client.post(f"{API}/approvals/{approval['id']}/approve", json={}, headers=headers)
+    assert own.status_code == 400 and "another approver" in own.json()["detail"]
+    approved = client.post(f"{API}/approvals/{approval['id']}/approve", json={}, headers=auth("admin")).json()
+    assert approved["status"] == "Approved" and approved["decided_by"] == "admin"
     assert client.get(f"{API}/procurement/{order['id']}", headers=headers).json()["status"] == "Approved"
 
 

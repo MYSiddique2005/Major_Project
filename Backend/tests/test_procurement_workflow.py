@@ -93,3 +93,24 @@ def test_login_is_audited(client, auth):
     logs = client.get(f"{API}/audit-logs", params={"action": "LOGIN"}, headers=auth("admin")).json()
     assert logs[0]["status"] == "SUCCESS"
     assert any(log["status"] == "FAILED" and log["username"] == "admin" for log in logs)
+
+
+def test_creator_cannot_approve_their_own_purchase_order(client, auth):
+    headers = auth("procurement")
+    po_id = _create(client, headers).json()["id"]
+    client.post(f"{API}/procurement/{po_id}/submit", headers=headers)
+    approval_id = _pending_approval_id(client, headers, po_id)
+
+    own = client.post(f"{API}/approvals/{approval_id}/approve", headers=headers)
+    assert own.status_code == 400 and "another approver" in own.json()["detail"]
+    assert client.get(f"{API}/procurement/{po_id}", headers=headers).json()["status"] == "Pending Approval"
+    # A second person can approve it; the creator could still have rejected it.
+    assert client.post(f"{API}/approvals/{approval_id}/approve", headers=auth("admin")).status_code == 200
+
+
+def test_creator_may_reject_their_own_purchase_order(client, auth):
+    headers = auth("procurement")
+    po_id = _create(client, headers).json()["id"]
+    client.post(f"{API}/procurement/{po_id}/submit", headers=headers)
+    approval_id = _pending_approval_id(client, headers, po_id)
+    assert client.post(f"{API}/approvals/{approval_id}/reject", headers=headers).json()["status"] == "Rejected"

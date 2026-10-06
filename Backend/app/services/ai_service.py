@@ -107,7 +107,13 @@ class AIService:
         passages = self._retrieve(message, history)
         # The date and role go with the question, not in the system prompt, so the prompt stays identical
         # across requests.
-        context = f"<context>Today is {date.today().isoformat()}. The user's role is {user.role.value}.</context>\n\n"
+        withheld = self._toolbox.withheld(user)
+        access = (
+            f" This role does not include: {'; '.join(withheld)}. You have no tool for these. If the user asks for "
+            "any of them, say plainly that their role does not include it; do not give another reason."
+            if withheld else ""
+        )
+        context = f"<context>Today is {date.today().isoformat()}. The user's role is {user.role.value}.{access}</context>\n\n"
         conversation = self._provider.start(
             self._system_prompt,
             self._toolbox.available(user),

@@ -35,6 +35,17 @@ DRAFT_TOOL = "draft_purchase_order"
 MAX_DRAFTS_PER_REQUEST = 3
 
 
+WITHHELD = {
+    Permission.SALES_VIEW: "sales orders, revenue and customers",
+    Permission.PROCUREMENT_VIEW: "the list of purchase orders",
+    Permission.PROCUREMENT_CREATE: "drafting purchase orders",
+    Permission.ANALYTICS_VIEW: "analytics (stock risk, forecasts, supplier performance, what-if)",
+    Permission.INVENTORY_VIEW: "stock records",
+    Permission.PRODUCTS_VIEW: "the product catalogue",
+    Permission.SUPPLIERS_VIEW: "supplier master data",
+}
+
+
 # --- Tool inputs ----------------------------------------------------------------------------
 
 
@@ -131,6 +142,12 @@ class Toolbox:
 
     def available(self, user: User) -> list[Tool]:
         return [tool for tool in self._tools.values() if has_permission(user.role, tool.permission)]
+
+    def withheld(self, user: User) -> list[str]:
+        """In plain words, what this user's role keeps the assistant from doing, so it can say so
+        instead of guessing why it has no tool for a question."""
+        missing = {tool.permission for tool in self._tools.values() if not has_permission(user.role, tool.permission)}
+        return [WITHHELD[permission] for permission in sorted(missing) if permission in WITHHELD]
 
     def run(self, user: User, name: str, arguments: Any) -> Any:
         self._user = user
