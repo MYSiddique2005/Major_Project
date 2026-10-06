@@ -17,7 +17,7 @@ The API base URL comes from `VITE_API_BASE_URL` (see `.env.example`) and default
 `/login`, `/dashboard`, `/sales`, `/sales/:id`, `/inventory`, `/inventory/:id`, `/procurement`,
 `/procurement/:id`, `/suppliers`, `/suppliers/:id`, `/products`, `/products/:id`, `/analytics`,
 `/analytics/products/:id`, `/approvals`,
-`/audit-logs`, `/ai-assistant`, `/settings` (`/profile` redirects to `/settings`).
+`/audit-logs`, `/ai-insights`, `/ai-assistant`, `/settings` (`/profile` redirects to `/settings`).
 
 ## Conventions
 

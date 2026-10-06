@@ -7,6 +7,7 @@ DATA_BACKEND selects the repository implementations:
 Services and routes depend only on the abstractions in app/repositories/base.py.
 """
 from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from functools import lru_cache
 
@@ -18,9 +19,12 @@ from app.db.session import get_session_factory
 from app.knowledge.base import KnowledgeBase
 from app.knowledge.content import get_knowledge_base
 from app.llm.providers import Provider, build_provider
+from app.llm.recommendations import RecommendationChecker
 from app.llm.tools import Toolbox
 from app.repositories import postgres
 from app.repositories.base import (
+    AiInsightRepository,
+    AiScanRepository,
     ApprovalRepository,
     AuditLogRepository,
     InventoryRepository,
@@ -32,6 +36,7 @@ from app.repositories.base import (
     UnitOfWork,
     UserRepository,
 )
+from app.repositories.mock_ai import MockAiInsightRepository, MockAiScanRepository
 from app.repositories.mock_approvals import MockApprovalRepository
 from app.repositories.mock_audit import MockAuditLogRepository
 from app.repositories.mock_inventory import MockInventoryRepository
@@ -46,6 +51,7 @@ from app.services.approval_service import ApprovalService
 from app.services.audit_service import AuditService
 from app.services.auth_service import AuthService
 from app.services.dashboard_service import DashboardService
+from app.services.insight_service import InsightService
 from app.services.inventory_service import InventoryService
 from app.services.procurement_service import ProcurementService
 from app.services.product_service import ProductService
@@ -65,6 +71,8 @@ class MemoryStore:
     purchase_orders: PurchaseOrderRepository = field(default_factory=MockPurchaseOrderRepository)
     approvals: ApprovalRepository = field(default_factory=MockApprovalRepository)
     audit_logs: AuditLogRepository = field(default_factory=MockAuditLogRepository)
+    ai_scans: AiScanRepository = field(default_factory=MockAiScanRepository)
+    ai_insights: AiInsightRepository = field(default_factory=MockAiInsightRepository)
 
 
 @lru_cache
@@ -130,6 +138,14 @@ def get_approval_repository(session: Session | None = Depends(get_session)) -> A
 
 def get_audit_log_repository(session: Session | None = Depends(get_session)) -> AuditLogRepository:
     return postgres.PostgresAuditLogRepository(session) if session else _memory().audit_logs
+
+
+def get_ai_scan_repository(session: Session | None = Depends(get_session)) -> AiScanRepository:
+    return postgres.PostgresAiScanRepository(session) if session else _memory().ai_scans
+
+
+def get_ai_insight_repository(session: Session | None = Depends(get_session)) -> AiInsightRepository:
+    return postgres.PostgresAiInsightRepository(session) if session else _memory().ai_insights
 
 
 # --- Services -----------------------------------------------------------------
@@ -241,3 +257,37 @@ def get_ai_service(
 ) -> AIService:
     toolbox = Toolbox(analytics, products, inventory, sales, suppliers, procurement, knowledge)
     return AIService(provider, toolbox, audit, uow, get_settings(), knowledge)
+
+
+def get_insight_service(
+    provider: Provider | None = Depends(get_llm_provider),
+    knowledge: KnowledgeBase | None = Depends(get_knowledge),
+    analytics: AnalyticsService = Depends(get_analytics_service),
+    suppliers: SupplierService = Depends(get_supplier_service),
+    scans: AiScanRepository = Depends(get_ai_scan_repository),
+    insights: AiInsightRepository = Depends(get_ai_insight_repository),
+    audit: AuditService = Depends(get_audit_service),
+    uow: UnitOfWork = Depends(get_unit_of_work),
+) -> InsightService:
+    checker = RecommendationChecker(analytics, suppliers, knowledge)
+    return InsightService(provider, analytics, checker, knowledge, scans, insights, audit, uow, get_settings())
+
+
+@contextmanager
+def insight_service_outside_a_request(provider_factory=get_llm_provider) -> Iterator[InsightService]:
+    """The insight service with its own database session, for the scheduler (which has no request to hang it on)."""
+    session = None if get_settings().data_backend == "memory" else get_session_factory()()
+    try:
+        products, suppliers = get_product_repository(session), get_supplier_repository(session)
+        analytics = AnalyticsService(
+            products, get_inventory_repository(session), get_sales_repository(session),
+            get_purchase_order_repository(session), suppliers,
+        )
+        yield get_insight_service(
+            provider_factory(), get_knowledge(), analytics, SupplierService(suppliers, products),
+            get_ai_scan_repository(session), get_ai_insight_repository(session),
+            AuditService(get_audit_log_repository(session)), get_unit_of_work(session),
+        )
+    finally:
+        if session is not None:
+            session.close()

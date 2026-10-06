@@ -24,14 +24,18 @@ class Settings(BaseSettings):
     gemini_api_key: str | None = None
     anthropic_api_key: str | None = None
     llm_model: str | None = None  # default: gemini-3.8-flash or claude-opus-5-5, by provider
-    # Gemini only: used when the main model stays unavailable (Google returns 503 when one is overloaded).
-    llm_fallback_model: str | None = "gemini-3.5-flash"
+    # Gemini only: models to move on to, in order, when the one in use is overloaded (503) or has used up
+    # its daily free-tier requests. Each model has its own quota. Comma-separated; empty to disable.
+    llm_fallback_model: str = "gemini-3.5-flash,gemini-3.5-flash-lite"
     llm_effort: Literal["low", "medium", "high", "xhigh", "max"] = "medium"  # Anthropic only
     llm_max_tool_rounds: int = 8  # tool-calling round trips allowed for one question
     # Grounding: give the model the company's definitions and rules from the knowledge base.
     # Turn off only to measure what grounding contributes.
     llm_grounding: bool = True
     llm_knowledge_passages: int = 4  # passages retrieved for each question
+    # Proactive scan: the assistant analyses the current high and critical findings on its own.
+    insight_scan_interval_minutes: int = 1440  # 0 switches the scheduled scan off; it can still be run by hand
+    insight_max_findings: int = 6  # findings analysed per scan, most severe first
 
     @property
     def cors_origins(self) -> list[str]:

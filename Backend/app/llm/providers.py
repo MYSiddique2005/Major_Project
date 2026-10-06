@@ -75,7 +75,11 @@ class Provider(Protocol):
     name: str
     model: str
 
-    def start(self, system: str, tools: list[Tool], history: list[Turn], message: str) -> Conversation: ...
+    def start(
+        self, system: str, tools: list[Tool], history: list[Turn], message: str, require_tool: bool = False
+    ) -> Conversation:
+        """`require_tool` asks for an answer made of tool calls. Gemini enforces it; Claude's current
+        models do not allow forcing, so there it rests on the instructions."""
 
 
 # --- Anthropic -------------------------------------------------------------------------------
@@ -151,7 +155,9 @@ class AnthropicProvider:
     def __init__(self, client: anthropic.Anthropic, model: str, effort: str):
         self._client, self.model, self._effort = client, model, effort
 
-    def start(self, system: str, tools: list[Tool], history: list[Turn], message: str) -> AnthropicConversation:
+    def start(
+        self, system: str, tools: list[Tool], history: list[Turn], message: str, require_tool: bool = False
+    ) -> AnthropicConversation:
         messages = [{"role": turn.role, "content": turn.content} for turn in history]
         messages.append({"role": "user", "content": message})
         return AnthropicConversation(
@@ -216,39 +222,39 @@ def quota_wait_seconds(error: genai_errors.APIError) -> float | None:
     return float(match.group(1)) + 1
 
 
+def is_daily_limit(error: genai_errors.APIError) -> bool:
+    return error.code == 429 and "PerDay" in str(error)
+
+
 @dataclass
 class GeminiConversation:
     client: genai.Client
     model: str
     config: genai_types.GenerateContentConfig
     contents: list
-    fallback_model: str | None = None
+    fallback_models: list[str] = field(default_factory=list)
     sleep: Any = time.sleep
     _last_content: Any = None
     _waited: float = 0.0
 
     def _generate(self):
+        """One model request, working around what the free tier puts in the way: a per-minute limit is
+        waited out; an overloaded model or a used-up daily quota moves the conversation to the next model."""
         while True:
             try:
-                return self._generate_once()
+                return self.client.models.generate_content(model=self.model, contents=self.contents, config=self.config)
             except genai_errors.APIError as error:
                 wait = quota_wait_seconds(error)
-                if wait is None or self._waited + wait > GEMINI_MAX_QUOTA_WAIT_SECONDS:
+                if wait is not None and self._waited + wait <= GEMINI_MAX_QUOTA_WAIT_SECONDS:
+                    logger.info("Gemini per-minute limit reached on %s; waiting %.0fs", self.model, wait)
+                    self._waited += wait
+                    self.sleep(wait)
+                elif (error.code in GEMINI_TEMPORARY or is_daily_limit(error)) and self.fallback_models:
+                    following = self.fallback_models.pop(0)
+                    logger.warning("Gemini model %s unavailable (%s); switching to %s", self.model, error.code, following)
+                    self.model = following
+                else:
                     raise
-                logger.info("Gemini per-minute limit reached on %s; waiting %.0fs", self.model, wait)
-                self._waited += wait
-                self.sleep(wait)
-
-    def _generate_once(self):
-        try:
-            return self.client.models.generate_content(model=self.model, contents=self.contents, config=self.config)
-        except genai_errors.APIError as error:
-            if error.code not in GEMINI_TEMPORARY or not self.fallback_model or self.fallback_model == self.model:
-                raise
-            # Still unavailable after the retries: finish the conversation on the fallback model.
-            logger.warning("Gemini model %s unavailable (%s); switching to %s", self.model, error.code, self.fallback_model)
-            self.model = self.fallback_model
-            return self.client.models.generate_content(model=self.model, contents=self.contents, config=self.config)
 
     def reply(self) -> Reply:
         try:
@@ -302,8 +308,8 @@ class GeminiConversation:
 
 def _gemini_error(error: genai_errors.APIError, model: str) -> str:
     if error.code == 429:
-        if "PerDay" in str(error):
-            return "The Gemini free-tier daily limit was reached. It resets the next day."
+        if is_daily_limit(error):
+            return "The Gemini free-tier daily limit was reached on every configured model. It resets the next day."
         return "The Gemini free-tier limit was reached. Wait a minute and try again."
     if error.code in (401, 403) or "API key" in str(error):
         return "The AI service rejected the API key. Check GEMINI_API_KEY."
@@ -317,13 +323,19 @@ def _gemini_error(error: genai_errors.APIError, model: str) -> str:
 class GeminiProvider:
     name = "gemini"
 
-    def __init__(self, client: genai.Client, model: str, fallback_model: str | None = None):
-        self._client, self.model, self._fallback_model = client, model, fallback_model
+    def __init__(self, client: genai.Client, model: str, fallback_models: list[str] | None = None):
+        self._client, self.model = client, model
+        self._fallback_models = [name for name in fallback_models or [] if name != model]
 
-    def start(self, system: str, tools: list[Tool], history: list[Turn], message: str) -> GeminiConversation:
+    def start(
+        self, system: str, tools: list[Tool], history: list[Turn], message: str, require_tool: bool = False
+    ) -> GeminiConversation:
         config = genai_types.GenerateContentConfig(
             system_instruction=system,
             tools=[genai_types.Tool(function_declarations=[gemini_declaration(tool) for tool in tools])],
+            tool_config=genai_types.ToolConfig(
+                function_calling_config=genai_types.FunctionCallingConfig(mode=genai_types.FunctionCallingConfigMode.ANY)
+            ) if require_tool else None,
             # The service runs the tools itself, so it can check permissions and record each call.
             automatic_function_calling=genai_types.AutomaticFunctionCallingConfig(disable=True),
         )
@@ -333,7 +345,7 @@ class GeminiProvider:
             )
             for turn in [*history, Turn("user", message)]
         ]
-        return GeminiConversation(self._client, self.model, config, contents, self._fallback_model)
+        return GeminiConversation(self._client, self.model, config, contents, list(self._fallback_models))
 
 
 def build_provider(settings: Settings) -> Provider | None:
@@ -345,7 +357,8 @@ def build_provider(settings: Settings) -> Provider | None:
         client = genai.Client(
             api_key=settings.gemini_api_key, http_options=genai_types.HttpOptions(retry_options=GEMINI_RETRY)
         )
-        return GeminiProvider(client, model, settings.llm_fallback_model)
+        fallbacks = [name.strip() for name in settings.llm_fallback_model.split(",") if name.strip()]
+        return GeminiProvider(client, model, fallbacks)
     if not settings.anthropic_api_key:
         return None
     return AnthropicProvider(anthropic.Anthropic(api_key=settings.anthropic_api_key), model, settings.llm_effort)

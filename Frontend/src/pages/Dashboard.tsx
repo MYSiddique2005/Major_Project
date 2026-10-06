@@ -9,10 +9,13 @@ import {
   Truck,
 } from 'lucide-react'
 
+import { RiskBadge } from '../components/analytics/RiskBadge'
 import { Card } from '../components/common/Card'
+import { EmptyState } from '../components/common/EmptyState'
 import { PageHeader } from '../components/common/PageHeader'
 import { QueryBoundary } from '../components/common/QueryBoundary'
 import { StatCard } from '../components/common/StatCard'
+import { TextLink } from '../components/common/TextLink'
 import { RiskAlertsPanel } from '../components/dashboard/RiskAlertsPanel'
 import { SalesTrendChart } from '../components/dashboard/SalesTrendChart'
 import { StatusBarChart } from '../components/dashboard/StatusBarChart'
@@ -20,6 +23,7 @@ import { useAuth } from '../context/AuthContext'
 import { useApi } from '../hooks/useApi'
 import { analyticsService } from '../services/analyticsService'
 import { dashboardService } from '../services/dashboardService'
+import { insightService } from '../services/insightService'
 import { chartTheme } from '../utils/chartTheme'
 import { formatCurrency, formatNumber } from '../utils/format'
 
@@ -30,12 +34,47 @@ function greeting(): string {
   return 'Good evening'
 }
 
+function AiInsightsPanel() {
+  const insights = useApi(() => insightService.list(), [])
+  return (
+    <Card
+      title="AI Insights"
+      subtitle="The most severe risks, explained by the AI assistant from sales, inventory and procurement data."
+      actions={<TextLink to="/ai-insights">View all</TextLink>}
+      className="lg:col-span-2"
+    >
+      <QueryBoundary state={insights} resource="AI insights">
+        {(data) =>
+          data.length === 0 ? (
+            <EmptyState message="No AI insights yet. Run a scan from the AI Insights page." />
+          ) : (
+            <ul className="divide-y divide-slate-100">
+              {data.slice(0, 3).map((insight) => (
+                <li key={insight.id} className="py-3 first:pt-0 last:pb-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <RiskBadge level={insight.severity} />
+                    <span className="text-xs text-slate-500">
+                      {insight.subject_name} ({insight.subject_id})
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm font-medium text-slate-900">{insight.headline}</p>
+                  <p className="mt-0.5 line-clamp-2 text-sm text-slate-600">{insight.explanation}</p>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </QueryBoundary>
+    </Card>
+  )
+}
+
 function RiskAlerts() {
   const alerts = useApi(analyticsService.getAlerts, [])
   return (
     <Card
       title="Risk Alerts"
-      subtitle="High and critical risks found by rule-based analytics over sales, inventory and procurement data. Not AI generated; LLM explanations arrive in a later phase."
+      subtitle="High and critical risks found by rule-based analytics over sales, inventory and procurement data. Not AI generated."
       className="lg:col-span-2"
     >
       <QueryBoundary state={alerts} resource="risk alerts">
@@ -97,6 +136,7 @@ export default function Dashboard() {
           </QueryBoundary>
         </Card>
 
+        {hasPermission('analytics:view') && <AiInsightsPanel />}
         {hasPermission('analytics:view') && <RiskAlerts />}
       </div>
     </>

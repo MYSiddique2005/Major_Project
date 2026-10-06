@@ -1,11 +1,12 @@
 import { BookOpen, Database, Info, Send, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 
+import { RecommendationCard } from '../components/ai/RecommendationCard'
 import { Button } from '../components/common/Button'
 import { PageHeader } from '../components/common/PageHeader'
 import { getErrorMessage } from '../services/api'
 import { aiService } from '../services/aiService'
-import type { ChatKnowledge, ChatSource, ChatTurn } from '../types'
+import type { ChatKnowledge, ChatSource, ChatTurn, Recommendation } from '../types'
 
 interface Message {
   id: number
@@ -13,6 +14,7 @@ interface Message {
   text: string
   sources?: ChatSource[]
   knowledge?: ChatKnowledge[]
+  recommendations?: Recommendation[]
   /** Only real answers are sent back to the assistant as conversation history. */
   inHistory: boolean
 }
@@ -36,13 +38,20 @@ const TOOL_LABELS: Record<string, string> = {
   get_sales_summary: 'Sales summary',
   list_purchase_orders: 'Purchase orders',
   list_suppliers: 'Suppliers',
+  get_product_overview: 'Product overview',
+  propose_recommendation: 'Recommendation check',
   search_knowledge: 'Knowledge base search',
 }
 
 /** "Stock risk (P059)" - the tool's name plus the record it was asked about, when there is one. */
 function sourceLabel(source: ChatSource): string {
   const label = TOOL_LABELS[source.tool] ?? source.tool
-  const subject = source.input.product_id ?? source.input.supplier_id ?? source.input.search ?? source.input.query
+  const subject =
+    source.input.product_id ??
+    source.input.supplier_id ??
+    source.input.subject_id ??
+    source.input.search ??
+    source.input.query
   return typeof subject === 'string' && subject ? `${label} (${subject})` : label
 }
 
@@ -77,6 +86,7 @@ export default function AIAssistant() {
         text: response.message,
         sources: response.sources,
         knowledge: response.knowledge,
+        recommendations: response.recommendations,
         inHistory: answered,
       })
     } catch (err) {
@@ -140,6 +150,13 @@ export default function AIAssistant() {
                     {message.author === 'user' ? 'You' : 'IntelliERP assistant'}
                   </p>
                   {message.text}
+                  {message.recommendations && message.recommendations.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {message.recommendations.map((recommendation, index) => (
+                        <RecommendationCard key={index} recommendation={recommendation} />
+                      ))}
+                    </div>
+                  )}
                   {message.sources && message.sources.length > 0 && (
                     <div className="mt-2.5 flex flex-wrap items-center gap-1.5 border-t border-slate-200 pt-2 text-xs text-slate-500">
                       <Database className="size-3.5" aria-hidden />

@@ -56,6 +56,19 @@ class RiskLevel(StrEnum):
     CRITICAL = "Critical"
 
 
+class InsightStatus(StrEnum):
+    NEW = "New"
+    ACKNOWLEDGED = "Acknowledged"
+    DISMISSED = "Dismissed"
+    SUPERSEDED = "Superseded"  # replaced by a newer insight about the same product or supplier
+
+
+class ScanStatus(StrEnum):
+    RUNNING = "Running"
+    COMPLETED = "Completed"
+    FAILED = "Failed"
+
+
 class AuditStatus(StrEnum):
     SUCCESS = "SUCCESS"
     FAILED = "FAILED"
@@ -70,3 +83,5 @@ class AuditAction(StrEnum):
     APPROVE_PURCHASE_ORDER = "APPROVE_PURCHASE_ORDER"
     REJECT_PURCHASE_ORDER = "REJECT_PURCHASE_ORDER"
     AI_QUERY = "AI_QUERY"
+    AI_SCAN = "AI_SCAN"
+    REVIEW_AI_INSIGHT = "REVIEW_AI_INSIGHT"

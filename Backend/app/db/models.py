@@ -8,6 +8,7 @@ import enum
 from datetime import date, datetime
 
 from sqlalchemy import (
+    JSON,
     Boolean,
     CheckConstraint,
     Column,
@@ -28,10 +29,13 @@ from app.db.base import Base
 from app.models.enums import (
     ApprovalStatus,
     AuditStatus,
+    InsightStatus,
     ProductStatus,
     PurchaseOrderStatus,
+    RiskLevel,
     Role,
     SalesStatus,
+    ScanStatus,
     SupplierStatus,
 )
 
@@ -48,6 +52,8 @@ SEQUENCES = {
     "purchase_orders": "purchase_order_id_seq",
     "approvals": "approval_id_seq",
     "audit_logs": "audit_log_id_seq",
+    "ai_scans": "ai_scan_id_seq",
+    "ai_insights": "ai_insight_id_seq",
 }
 
 
@@ -191,3 +197,46 @@ class AuditLogModel(Base):
     entity_id: Mapped[str] = mapped_column(String(32))
     status: Mapped[AuditStatus] = mapped_column(_enum(AuditStatus, "status"))
     description: Mapped[str] = mapped_column(Text)
+
+
+class AiScanModel(Base):
+    __tablename__ = "ai_scans"
+
+    id: Mapped[str] = mapped_column(ID, primary_key=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime, index=True)
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime)
+    trigger: Mapped[str] = mapped_column(String(64))
+    status: Mapped[ScanStatus] = mapped_column(_enum(ScanStatus, "status"))
+    findings: Mapped[int] = mapped_column(Integer, default=0)
+    insights: Mapped[int] = mapped_column(Integer, default=0)
+    message: Mapped[str] = mapped_column(String(500), default="")
+    provider: Mapped[str | None] = mapped_column(String(32))
+    model: Mapped[str | None] = mapped_column(String(64))
+
+
+class AiInsightModel(Base):
+    """No foreign keys to products or suppliers: an insight is a record of what was said at the time."""
+
+    __tablename__ = "ai_insights"
+
+    id: Mapped[str] = mapped_column(ID, primary_key=True)
+    scan_id: Mapped[str] = mapped_column(ForeignKey("ai_scans.id", ondelete="CASCADE"), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, index=True)
+    subject_type: Mapped[str] = mapped_column(String(16))
+    subject_id: Mapped[str] = mapped_column(String(16), index=True)
+    subject_name: Mapped[str] = mapped_column(String(160))
+    severity: Mapped[RiskLevel] = mapped_column(_enum(RiskLevel, "severity"))
+    headline: Mapped[str] = mapped_column(String(200))
+    explanation: Mapped[str] = mapped_column(Text)
+    action: Mapped[str] = mapped_column(String(32))
+    product_id: Mapped[str | None] = mapped_column(String(16))
+    product_name: Mapped[str | None] = mapped_column(String(160))
+    supplier_id: Mapped[str | None] = mapped_column(String(16))
+    supplier_name: Mapped[str | None] = mapped_column(String(160))
+    quantity: Mapped[int | None] = mapped_column(Integer)
+    system_quantity: Mapped[int | None] = mapped_column(Integer)
+    evidence: Mapped[list] = mapped_column(JSON)
+    checks: Mapped[dict] = mapped_column(JSON)
+    status: Mapped[InsightStatus] = mapped_column(_enum(InsightStatus, "status"), index=True)
+    reviewed_by: Mapped[str | None] = mapped_column(String(64))
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime)

@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -8,10 +10,23 @@ from app.api.router import api_router
 from app.core.config import get_settings
 from app.core.exceptions import DomainError
 from app.db.session import get_engine
+from app.scheduler import ScanScheduler
 
 settings = get_settings()
 
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    """Runs the proactive AI scan scheduler for as long as the server is up."""
+    scheduler = ScanScheduler() if settings.insight_scan_interval_minutes > 0 else None
+    if scheduler:
+        scheduler.start()
+    yield
+    if scheduler:
+        scheduler.stop()
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title=f"{settings.app_name} API",
     version="0.1.0",
     description=(

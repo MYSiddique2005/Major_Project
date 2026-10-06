@@ -1,6 +1,7 @@
 # IntelliERP backend
 
-FastAPI service for IntelliERP (Phase 5: PostgreSQL persistence, rule-based analytics and a grounded LLM assistant). See the [project README](../README.md) for scope, credentials,
+FastAPI service for IntelliERP (Phase 6: PostgreSQL persistence, rule-based analytics and a grounded LLM assistant
+that makes checked recommendations and raises insights on a schedule). See the [project README](../README.md) for scope, credentials,
 the route list and the roadmap.
 
 ```bash
@@ -56,6 +57,16 @@ constants, and list other words people use for the term in `keywords`), then add
 
 The tests never call the real model. `tests/test_ai.py` swaps in a scripted provider through the
 `get_llm_provider` dependency.
+
+## Recommendations and proactive insights
+
+`app/llm/recommendations.py` builds the cross-module facts for a product or supplier and checks a
+recommendation against them. `InsightService` (`app/services/insight_service.py`) runs a scan: the
+analytics pick the findings, the model records one insight per finding through a single tool, and each
+is checked and stored. `app/scheduler.py` runs scans from a background thread started in `main.py`; it
+reads the last scan time from the database, so it is safe under the development reloader.
+
+After pulling this change run `alembic upgrade head` (adds `ai_scans` and `ai_insights`).
 
 ## Working with the database
 

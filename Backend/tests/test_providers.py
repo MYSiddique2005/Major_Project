@@ -27,6 +27,7 @@ from app.llm.providers import (
 from app.llm.tools import Toolbox
 
 TOOLS = list(Toolbox(None, None, None, None, None, None, get_knowledge_base())._tools.values())
+RECOMMEND = next(tool for tool in TOOLS if tool.name == "propose_recommendation")
 HISTORY = [Turn("user", "Hello"), Turn("assistant", "Hi, how can I help?")]
 
 
@@ -150,7 +151,7 @@ def test_gemini_switches_to_the_fallback_model_when_the_main_one_stays_unavailab
     overloaded = genai_errors.APIError(503, {"error": {"message": "high demand", "status": "UNAVAILABLE"}})
     create = Recorder(overloaded, gemini_response(genai_types.Part(text="Answer.")), gemini_response(genai_types.Part(text="More.")))
     client = SimpleNamespace(models=SimpleNamespace(generate_content=create))
-    conversation = GeminiProvider(client, "gemini-3.8-flash", "gemini-3.5-flash").start("system", TOOLS, [], "question")
+    conversation = GeminiProvider(client, "gemini-3.8-flash", ["gemini-3.5-flash"]).start("system", TOOLS, [], "question")
 
     assert conversation.reply().text == "Answer."
     assert [request["model"] for request in create.requests] == ["gemini-3.8-flash", "gemini-3.5-flash"]
@@ -158,10 +159,23 @@ def test_gemini_switches_to_the_fallback_model_when_the_main_one_stays_unavailab
     assert create.requests[2]["model"] == "gemini-3.5-flash"  # the rest of the conversation stays on it
 
 
+def test_gemini_moves_down_the_list_as_daily_limits_run_out():
+    create = Recorder(quota_error(PER_DAY), quota_error(PER_DAY), gemini_response(genai_types.Part(text="Answer.")))
+    client = SimpleNamespace(models=SimpleNamespace(generate_content=create))
+    provider = GeminiProvider(client, "gemini-3.8-flash", ["gemini-3.5-flash", "gemini-3.5-flash-lite"])
+    conversation = provider.start("system", TOOLS, [], "question")
+    conversation.sleep = lambda seconds: pytest.fail("a daily limit is not waited for")
+
+    assert conversation.reply().text == "Answer."
+    assert [r["model"] for r in create.requests] == ["gemini-3.8-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite"]
+    # A new conversation starts from the main model again.
+    assert provider.start("system", TOOLS, [], "question").model == "gemini-3.8-flash"
+
+
 def test_gemini_waits_out_the_per_minute_limit_and_carries_on():
     create = Recorder(quota_error(PER_MINUTE), gemini_response(genai_types.Part(text="Answer.")))
     client = SimpleNamespace(models=SimpleNamespace(generate_content=create))
-    conversation = GeminiProvider(client, "gemini-3.8-flash", "gemini-3.5-flash").start("system", TOOLS, [], "q")
+    conversation = GeminiProvider(client, "gemini-3.8-flash", ["gemini-3.5-flash"]).start("system", TOOLS, [], "q")
     waits = []
     conversation.sleep = waits.append
 

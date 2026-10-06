@@ -12,6 +12,9 @@ from pydantic import BaseModel
 from app.models.enums import (
     ApprovalStatus,
     AuditStatus,
+    InsightStatus,
+    RiskLevel,
+    ScanStatus,
     ProductStatus,
     PurchaseOrderStatus,
     Role,
@@ -110,3 +113,44 @@ class AuditLog(BaseModel):
     entity_id: str
     status: AuditStatus
     description: str
+
+
+class AiScan(BaseModel):
+    """One proactive scan of the ERP data by the AI assistant."""
+
+    id: str
+    started_at: datetime
+    finished_at: datetime | None = None
+    trigger: str  # "schedule" or the username that asked for it
+    status: ScanStatus
+    findings: int = 0  # high and critical findings the analytics raised
+    insights: int = 0  # insights the model recorded and the checks accepted
+    message: str = ""
+    provider: str | None = None
+    model: str | None = None
+
+
+class AiInsight(BaseModel):
+    """A finding the AI assistant raised on its own, with its recommendation and the checks made on it."""
+
+    id: str
+    scan_id: str
+    created_at: datetime
+    subject_type: str  # product | supplier
+    subject_id: str
+    subject_name: str
+    severity: RiskLevel  # from the analytics, not from the model
+    headline: str
+    explanation: str
+    action: str
+    product_id: str | None = None
+    product_name: str | None = None
+    supplier_id: str | None = None
+    supplier_name: str | None = None
+    quantity: int | None = None
+    system_quantity: int | None = None
+    evidence: list[dict]
+    checks: dict
+    status: InsightStatus = InsightStatus.NEW
+    reviewed_by: str | None = None
+    reviewed_at: datetime | None = None

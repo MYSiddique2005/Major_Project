@@ -1,3 +1,5 @@
+import type { Recommendation } from './insights'
+
 /** One tool call the assistant made to answer a question. */
 export interface ChatSource {
   tool: string
@@ -24,7 +26,7 @@ export interface ChatResponse {
   message: string
   sources: ChatSource[]
   knowledge: ChatKnowledge[]
-  recommendations: unknown[]
+  recommendations: Recommendation[]
   actions: unknown[]
   provider: string | null
   model: string | null

@@ -12,6 +12,8 @@ from typing import Generic, TypeVar
 from pydantic import BaseModel
 
 from app.models.entities import (
+    AiInsight,
+    AiScan,
     Approval,
     AuditLog,
     InventoryRecord,
@@ -79,6 +81,12 @@ class PurchaseOrderRepository(Repository[PurchaseOrder]): ...
 
 
 class AuditLogRepository(Repository[AuditLog]): ...
+
+
+class AiScanRepository(Repository[AiScan]): ...
+
+
+class AiInsightRepository(Repository[AiInsight]): ...
 
 
 class InventoryRepository(Repository[InventoryRecord]):

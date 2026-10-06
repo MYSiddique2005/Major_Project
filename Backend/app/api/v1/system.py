@@ -6,7 +6,7 @@ from app.security.authentication import get_current_user
 
 router = APIRouter(prefix="/system", tags=["System"], dependencies=[Depends(get_current_user)])
 
-CURRENT_PHASE = 5
+CURRENT_PHASE = 6
 
 
 @router.get("/info", response_model=SystemInfo, summary="Build phase and data backend in use")

@@ -13,6 +13,8 @@ from sqlalchemy.orm import Session
 from app.db.base import Base
 from app.db.models import (
     SEQUENCES,
+    AiInsightModel,
+    AiScanModel,
     ApprovalModel,
     AuditLogModel,
     InventoryModel,
@@ -23,6 +25,8 @@ from app.db.models import (
     UserModel,
 )
 from app.models.entities import (
+    AiInsight,
+    AiScan,
     Approval,
     AuditLog,
     InventoryRecord,
@@ -34,6 +38,8 @@ from app.models.entities import (
 )
 from app.models.enums import ApprovalStatus
 from app.repositories.base import (
+    AiInsightRepository,
+    AiScanRepository,
     ApprovalRepository,
     AuditLogRepository,
     InventoryRepository,
@@ -127,6 +133,14 @@ class PostgresPurchaseOrderRepository(SqlRepository[PurchaseOrder, PurchaseOrder
 
 class PostgresAuditLogRepository(SqlRepository[AuditLog, AuditLogModel], AuditLogRepository):
     entity, model, id_prefix, id_width = AuditLog, AuditLogModel, "AUD-", 5
+
+
+class PostgresAiScanRepository(SqlRepository[AiScan, AiScanModel], AiScanRepository):
+    entity, model, id_prefix = AiScan, AiScanModel, "SCAN-"
+
+
+class PostgresAiInsightRepository(SqlRepository[AiInsight, AiInsightModel], AiInsightRepository):
+    entity, model, id_prefix = AiInsight, AiInsightModel, "INS-"
 
 
 class PostgresSupplierRepository(SqlRepository[Supplier, SupplierModel], SupplierRepository):

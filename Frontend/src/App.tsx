@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './components/layout/AppLayout'
 import { RequireAuth, RequirePermission } from './components/layout/ProtectedRoute'
 import AIAssistant from './pages/AIAssistant'
+import AIInsights from './pages/AIInsights'
 import Analytics from './pages/Analytics'
 import AnalyticsProduct from './pages/AnalyticsProduct'
 import Approvals from './pages/Approvals'
@@ -55,6 +56,7 @@ export default function App() {
         <Route path="/analytics/products/:id" element={guard('analytics:view', <AnalyticsProduct />)} />
         <Route path="/approvals" element={guard('procurement:approve', <Approvals />)} />
         <Route path="/audit-logs" element={guard('audit:view', <AuditLogs />)} />
+        <Route path="/ai-insights" element={guard('analytics:view', <AIInsights />)} />
         <Route path="/ai-assistant" element={guard('ai:use', <AIAssistant />)} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/profile" element={<Navigate to="/settings" replace />} />

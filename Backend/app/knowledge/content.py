@@ -28,6 +28,8 @@ TABLE_DESCRIPTIONS = {
     "purchase_orders": "Orders placed with suppliers to buy stock. Each row is one product.",
     "approvals": "Requests to approve a purchase order, and the decision taken.",
     "audit_logs": "A permanent record of logins, purchase-order actions and AI assistant questions.",
+    "ai_scans": "Each proactive scan the AI assistant ran over the current high and critical findings.",
+    "ai_insights": "Findings the AI assistant raised on its own during a scan, each with a recommendation.",
 }
 
 COLUMN_DESCRIPTIONS = {
@@ -118,6 +120,41 @@ COLUMN_DESCRIPTIONS = {
         "entity_id": "ID of the record affected.",
         "status": "SUCCESS or FAILED.",
         "description": "Details of the event.",
+    },
+    "ai_scans": {
+        "id": "Scan ID, such as SCAN-0001.",
+        "started_at": "When the scan started.",
+        "finished_at": "When it finished; empty while running.",
+        "trigger": "'schedule' for an automatic scan, otherwise the username that started it.",
+        "status": "Running, Completed or Failed.",
+        "findings": "Number of high and critical findings the analytics raised at that moment.",
+        "insights": "Number of insights the model recorded that passed the checks.",
+        "message": "Notes on the scan, such as why it failed or which proposals were rejected.",
+        "provider": "Model provider used.",
+        "model": "Model that produced the insights.",
+    },
+    "ai_insights": {
+        "id": "Insight ID, such as INS-0001.",
+        "scan_id": "The scan that produced it.",
+        "created_at": "When it was recorded.",
+        "subject_type": "product or supplier.",
+        "subject_id": "ID of the product or supplier the insight is about.",
+        "subject_name": "Its name at the time.",
+        "severity": "Critical, High, Medium or Low. Taken from the analytics, not from the model.",
+        "headline": "The finding in one line, written by the model.",
+        "explanation": "Why it matters across sales, inventory and procurement, written by the model.",
+        "action": "reorder, expedite_delivery, review_supplier or monitor.",
+        "product_id": "Product the action concerns.",
+        "product_name": "Its name.",
+        "supplier_id": "Supplier the action concerns.",
+        "supplier_name": "Its name.",
+        "quantity": "Units the model recommends ordering (reorder only).",
+        "system_quantity": "Units the reorder rule gives, for comparison.",
+        "evidence": "Facts the model relied on, each labelled with its module.",
+        "checks": "Results of the server's checks: modules cited, quantity against the rule, supplier, figures.",
+        "status": "New, Acknowledged, Dismissed or Superseded (replaced by a newer insight on the same subject).",
+        "reviewed_by": "Username of whoever acknowledged or dismissed it.",
+        "reviewed_at": "When that happened.",
     },
 }
 
@@ -259,6 +296,17 @@ WRITTEN = [
           f"submit or approve any record. List tools return at most {MAX_ROWS} rows per call. Every question is "
           f"written to the audit log with the tools used.",
           "assistant limits capabilities permissions chatbot LLM"),
+    Entry("rule.ai-insights", "Proactive AI insights and how recommendations are checked", "rule",
+          "The AI assistant scans the data on a schedule and on request. The analytics decide what is wrong: only "
+          "High and Critical stockout or supplier findings are analysed, the most severe first. For each, the "
+          "model writes an insight: a headline, an explanation connecting sales, inventory and procurement, a "
+          "recommended action (reorder, expedite_delivery, review_supplier or monitor) and its evidence by module. "
+          "The server then checks it: severity is set from the analytics; a reorder quantity is compared with the "
+          "quantity the reorder rule gives; the supplier must be able to supply the product; and every figure in "
+          "the text is looked up among the system's figures. An insight is New until a user acknowledges or "
+          "dismisses it, and is superseded when its subject is analysed again or is no longer flagged. "
+          "Recommendations made in the chat pass the same checks. An insight creates no order.",
+          "proactive monitoring alerts scan insight recommendation verification checked hallucination dashboard"),
     # --- workflows --------------------------------------------------------------------------
     Entry("flow.purchase-order", "Purchase order lifecycle and statuses", "workflow",
           "A purchase order starts as Draft. Only a Draft can be edited, deleted or submitted. Submitting sets it "

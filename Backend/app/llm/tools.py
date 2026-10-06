@@ -14,6 +14,7 @@ from pydantic import BaseModel, Field, ValidationError
 
 from app.core.exceptions import DomainError
 from app.knowledge.base import CATEGORIES, KnowledgeBase
+from app.llm.recommendations import Recommendation, RecommendationChecker, RecommendationError, RecommendationInput
 from app.models.entities import User
 from app.models.enums import PurchaseOrderStatus, RiskLevel, SalesStatus
 from app.schemas.analytics import WhatIfRequest
@@ -26,6 +27,7 @@ from app.services.sales_service import SalesService
 from app.services.supplier_service import SupplierService
 
 MAX_ROWS = 50
+PROPOSE_TOOL = "propose_recommendation"
 
 
 # --- Tool inputs ----------------------------------------------------------------------------
@@ -108,6 +110,8 @@ class Toolbox:
         knowledge: KnowledgeBase | None = None,
     ):
         self._knowledge = knowledge
+        self._checker = RecommendationChecker(analytics, suppliers, knowledge)
+        self.recommendations: list[Recommendation] = []  # accepted during this request
         self._analytics = analytics
         self._products = products
         self._inventory = inventory
@@ -147,6 +151,23 @@ class Toolbox:
 
     def _data_tools(self) -> list[Tool]:
         return [
+            Tool(
+                "get_product_overview",
+                "Everything about one product's supply position in one call, grouped by module: sales (demand, "
+                "trend, units per week, forecast), inventory (stock, safety stock, days of cover), procurement "
+                "(lead time, units on order, overdue units), the supplier's delivery record, and the risk "
+                "assessment with its suggested order. Prefer this to separate calls when a question is about why a "
+                "product is at risk or what to do about it.",
+                Permission.ANALYTICS_VIEW, ProductInput, self._get_product_overview,
+            ),
+            Tool(
+                PROPOSE_TOOL,
+                "Record a specific recommendation you are making to the user (reorder, expedite a delivery, review "
+                "a supplier, or monitor), with the evidence from each module. The system checks it against its own "
+                "figures and rules and shows it to the user as a card. Call it once per recommendation, after you "
+                "have the facts, and in the same turn as your written answer.",
+                Permission.ANALYTICS_VIEW, RecommendationInput, self._propose_recommendation,
+            ),
             Tool(
                 "list_stock_risk",
                 "Stockout risk for active products, most urgent first, with the counts per risk level. Each row "
@@ -219,6 +240,32 @@ class Toolbox:
         ]
 
     # --- Handlers ---------------------------------------------------------------------------
+
+    def _get_product_overview(self, args: ProductInput) -> dict:
+        try:
+            return self._checker.product_facts(args.product_id)
+        except RecommendationError as error:
+            raise ToolError(str(error)) from error
+
+    def _propose_recommendation(self, args: RecommendationInput) -> dict:
+        try:
+            recommendation = self._checker.check(args)
+        except RecommendationError as error:
+            raise ToolError(str(error)) from error
+        self.recommendations.append(recommendation)
+        checks = recommendation.checks
+        result: dict[str, Any] = {"recorded": True, "severity": recommendation.severity.value}
+        # Tell the model what the checks found, so it can correct its written answer.
+        if checks.quantity_matches_rule is False:
+            result["note"] = (
+                f"The reorder rule gives {recommendation.system_quantity} units, not {recommendation.quantity}. "
+                "Tell the user both figures."
+            )
+        if checks.supplier_supplies_product is False:
+            result["warning"] = f"{recommendation.supplier_name} does not supply {recommendation.product_name}."
+        if checks.figures_unmatched:
+            result["figures_not_in_system_data"] = checks.figures_unmatched
+        return result
 
     def _search_knowledge(self, args: KnowledgeSearchInput) -> list[dict]:
         matches = self._knowledge.search(args.query, args.limit, args.category)

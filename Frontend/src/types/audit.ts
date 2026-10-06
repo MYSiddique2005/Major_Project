@@ -10,6 +10,8 @@ export const AUDIT_ACTIONS = [
   'APPROVE_PURCHASE_ORDER',
   'REJECT_PURCHASE_ORDER',
   'AI_QUERY',
+  'AI_SCAN',
+  'REVIEW_AI_INSIGHT',
 ] as const
 
 export interface AuditLog {

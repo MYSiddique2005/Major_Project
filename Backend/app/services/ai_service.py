@@ -9,7 +9,7 @@ from datetime import date
 from app.core.config import Settings
 from app.knowledge.base import KnowledgeBase, Match
 from app.llm.providers import KEY_NAMES, Provider, ToolCall, ToolResult, Turn
-from app.llm.tools import Toolbox, ToolError
+from app.llm.tools import PROPOSE_TOOL, Toolbox, ToolError
 from app.models.entities import User
 from app.models.enums import AuditAction
 from app.repositories.base import UnitOfWork
@@ -40,6 +40,13 @@ Each round of tool calls takes time, and the number of rounds is limited. Ask fo
 can foresee needing in the same round, including several tools or several products at once, and \
 do not call a tool again for something you already have. Stop calling tools as soon as you can \
 answer.
+
+Recommendations:
+When your answer recommends a specific action on a product or supplier, also record it with \
+propose_recommendation, in the same turn as the written answer. Take a reorder quantity and \
+supplier from the system's suggestion; if you believe a different quantity is right, say why and \
+give the system's figure too. Give evidence from each module you relied on. Do not record a \
+recommendation for a plain factual question.
 
 What you can and cannot do:
 You can only read. You cannot create, change or approve purchase orders or any other record. \
@@ -119,7 +126,12 @@ class AIService:
                 if reply.stop == "max_tokens":
                     text += "\n\n(The answer was cut off because it reached the length limit.)"
                 break
-            conversation.add_tool_results([self._run_tool(user, call, sources) for call in reply.tool_calls])
+            results = [self._run_tool(user, call, sources) for call in reply.tool_calls]
+            # An answer that arrives together with its recommendations is finished: the recommendations
+            # are recorded and nothing more is asked of the model.
+            if text and all(call.name == PROPOSE_TOOL for call in reply.tool_calls) and not any(r.is_error for r in results):
+                break
+            conversation.add_tool_results(results)
         else:
             status = "incomplete"
             text = "I could not finish this within the allowed number of steps. Try a narrower question."
@@ -137,6 +149,7 @@ class AIService:
             status=status,
             message=text,
             sources=sources,
+            recommendations=[r.model_dump(mode="json") for r in self._toolbox.recommendations],
             knowledge=[{**match.entry.summary(), "score": match.score} for match in passages],
             provider=self._provider.name,
             model=model,

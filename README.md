@@ -7,11 +7,12 @@ The research goal is to study how an LLM can be grounded in enterprise data and 
 Sales, Inventory and Procurement, surface operational risks, and turn recommendations into ERP actions
 that are validated, permission-checked, approved by a person and audited.
 
-**This repository is currently at Phase 5: the ERP foundation, PostgreSQL persistence, a rule-based
-analytics engine, and an LLM assistant that answers questions by calling read-only ERP tools and is
-grounded in a knowledge base of the company's schema, definitions and rules.**
+**This repository is currently at Phase 6: the ERP foundation, PostgreSQL persistence, a rule-based
+analytics engine, and an LLM assistant that is grounded in the company's schema and rules, reasons
+across sales, inventory and procurement, raises insights on its own, and makes recommendations that
+the server checks against its own figures.**
 
-## Scope so far (Phases 1–5)
+## Scope so far (Phases 1–6)
 
 Implemented:
 
@@ -26,14 +27,20 @@ Implemented:
   behind each level, reorder suggestions, weekly demand forecasts, supplier delivery performance,
   dashboard risk alerts and what-if stock projections
 - AI assistant: a chat page and `POST /api/v1/ai/chat`. An LLM (Google Gemini by default, or Anthropic
-  Claude) answers questions by calling 11 read-only tools over the analytics and ERP data, limited to what the
+  Claude) answers questions by calling read-only tools over the analytics and ERP data, limited to what the
   user's role may see. Each answer lists the tool calls it used, and each question is audit-logged
-- Enterprise grounding: a knowledge base of 37 passages (table and column meanings, business
+- Enterprise grounding: a knowledge base of 40 passages (table and column meanings, business
   definitions, rules, workflows, role permissions, data notes). The passages relevant to each question
   are retrieved and given to the model, which can also search the knowledge base itself
 
-Not implemented yet: proactive LLM alerts
-(Phase 6), LLM-drafted purchase orders (Phase 7), the evaluation (Phase 8). Not planned: Text-to-SQL
+- Cross-module reasoning: one tool returns a product's facts grouped by module (sales, inventory,
+  procurement, supplier), and recommendations must give their evidence by module
+- Checked recommendations: the assistant records each recommendation in a fixed structure, and the
+  server compares it with the analytics (severity, reorder quantity, supplier, every figure in the text)
+- Proactive insights: a scheduled scan has the assistant explain the current high and critical findings
+  and recommend an action for each; they appear on the dashboard and the AI Insights page
+
+Not implemented yet: LLM-drafted purchase orders (Phase 7), the evaluation (Phase 8). Not planned: Text-to-SQL
 (the model never writes SQL), a vector database, machine-learning models, production deployment.
 
 ## Technology
@@ -212,6 +219,7 @@ All routes are under `/api/v1` and, except login, require `Authorization: Bearer
 | Analytics | `GET /analytics/stock-risk`, `GET /analytics/stock-risk/{product_id}`, `GET /analytics/forecast/{product_id}`, `GET /analytics/supplier-performance`, `GET /analytics/alerts`, `POST /analytics/what-if` |
 | Audit | `GET /audit-logs` |
 | AI assistant | `POST /ai/chat`, `GET /ai/knowledge` |
+| AI insights | `GET /ai/insights`, `GET /ai/insights/scans`, `POST /ai/insights/scan`, `POST /ai/insights/{id}/acknowledge`, `POST /ai/insights/{id}/dismiss` |
 | System | `GET /system/info` |
 | Health | `GET /health` (no prefix) |
 
@@ -283,8 +291,11 @@ pre-filled draft, which then goes through the normal validation, approval and au
 | `get_sales_summary` | Units, revenue, weekly units, top customers and products | `sales:view` |
 | `list_purchase_orders` | Purchase orders and their delivery dates | `procurement:view` |
 | `list_suppliers` | Supplier master data | `suppliers:view` |
+| `get_product_overview` | One product's facts grouped by module (Phase 6) | `analytics:view` |
+| `propose_recommendation` | Records a recommendation and returns the server's checks on it (Phase 6) | `analytics:view` |
+| `search_knowledge` | Passages from the knowledge base (Phase 5) | `ai:use` |
 
-All tools are read-only. The model has no database access, writes no SQL, and takes every figure from a
+All tools are read-only; `propose_recommendation` changes nothing in the ERP data. The model has no database access, writes no SQL, and takes every figure from a
 tool result. It stops after at most 8 rounds of tool calls.
 
 | Setting in `Backend/.env` | Meaning |
@@ -292,12 +303,16 @@ tool result. It stops after at most 8 rounds of tool calls.
 | `LLM_PROVIDER` | `gemini` (default) or `anthropic` |
 | `GEMINI_API_KEY` / `ANTHROPIC_API_KEY` | Key for the chosen provider |
 | `LLM_MODEL` | Model name; default `gemini-3.8-flash` or `claude-opus-5-5` |
-| `LLM_FALLBACK_MODEL` | Gemini only: model used when the main one stays overloaded; default `gemini-3.5-flash` |
+| `LLM_FALLBACK_MODEL` | Gemini only: models to move on to, in order, when the one in use is overloaded or out of daily quota; default `gemini-3.5-flash,gemini-3.5-flash-lite` |
+| `INSIGHT_SCAN_INTERVAL_MINUTES` | Minutes between scheduled scans; default 1440, 0 switches them off |
+| `INSIGHT_MAX_FINDINGS` | Findings analysed per scan; default 6 |
 | `LLM_EFFORT` | Claude only: `low` to `max`, default `medium` |
 
 Each question sends ERP figures to the provider. On Gemini's free tier Google may use that content to
-improve its products and applies per-minute and per-day request limits; one question uses one request
-per round of tool calls. Claude is billed per token to the key's account. The provider and model that
+improve its products and limits requests per model: 5 a minute and 20 a day on `gemini-3.8-flash` when
+this was written. One question uses one request per round of tool calls, so a day's quota on one model
+is a handful of questions. The assistant waits out the per-minute limit and moves to the next fallback
+model when a model is overloaded or its daily quota is used up. Claude is billed per token to the key's account. The provider and model that
 answered are returned with every response, so runs on different models can be compared in Phase 8.
 
 ## Enterprise grounding (Phase 5)
@@ -307,9 +322,9 @@ system, or how its figures are calculated. The knowledge base in `Backend/app/kn
 
 | Kind | Passages | Where the text comes from |
 |---|---:|---|
-| Schema | 9 | Generated from the database models: every table, column, key and foreign key, with a written description of each column |
+| Schema | 11 | Generated from the database models: every table, column, key and foreign key, with a written description of each column |
 | Definitions | 11 | Written: stock on hand, safety stock, reorder level and point, days of cover, demand and trend, lead time, units on order, on-time rate, revenue, margin, forecast error |
-| Rules | 7 | Written: stock status, stockout risk, reorder suggestion, supplier risk, what-if assumptions, purchase-order validation, limits of the assistant |
+| Rules | 8 | Written: stock status, stockout risk, reorder suggestion, supplier risk, what-if assumptions, purchase-order validation, limits of the assistant, how insights and recommendations are checked |
 | Workflows | 3 | Written: purchase-order lifecycle, approval, sales-order statuses |
 | Access | 4 | Generated from the role → permission map |
 | Data notes | 3 | Written: identifiers and how modules link, what is source data and what is simulated, limits of the figures |
@@ -337,10 +352,49 @@ does on questions from real users.
 `LLM_GROUNDING=false` in `Backend/.env` removes the passages, the instruction and the search tool, which
 is how Phase 8 will measure what grounding contributes.
 
+## Cross-module reasoning, recommendations and proactive insights (Phase 6)
+
+**Cross-module facts.** `get_product_overview` gives the model one product's position grouped by the
+module each fact comes from: sales (demand, trend, units per week, forecast), inventory (stock, safety
+stock, days of cover), procurement (lead time, units on order, overdue units), the supplier's delivery
+record, and the risk assessment. The same structure feeds the proactive scan.
+
+**Checked recommendations.** When the assistant recommends an action it records it with
+`propose_recommendation`: a headline, an explanation, an action (`reorder`, `expedite_delivery`,
+`review_supplier` or `monitor`) and evidence labelled by module. The server then checks it
+(`Backend/app/llm/recommendations.py`) and returns the results with it:
+
+| Check | What it does |
+|---|---|
+| Severity | Set from the analytics; the model's opinion is not used |
+| Reorder quantity | Compared with the quantity the reorder rule gives; both are shown if they differ |
+| Supplier | Must be able to supply the product |
+| Cross-module | Evidence must come from at least two of sales, inventory and procurement/supplier |
+| Figures | Every number in the text is looked up among the system's figures for that product or supplier and the rule thresholds; any not found are listed |
+
+The figure check is a lookup, not proof: it ignores identifiers and dates, allows rounding, and cannot
+tell a correct figure used in the wrong place. The model is told what the checks found so it can correct
+its answer. Recommendations appear as cards under the chat answer.
+
+**Proactive insights.** A scan works in two halves. The analytics decide what is wrong (every High or
+Critical stock or supplier finding) and how severe it is. The model receives the cross-module facts and
+the applicable rules for the most severe findings (6 by default) and records one insight per finding
+with the same structure and checks as above. It cannot raise an insight about anything the analytics did
+not flag. A scan is normally one model request; the model is reminded once or twice if it leaves
+findings out.
+
+Scans run on a schedule (`INSIGHT_SCAN_INTERVAL_MINUTES`, default 1440 = daily, 0 = off) from a
+background thread in the web process, and on demand from the AI Insights page. The time of the last scan
+is stored, so restarting the server neither repeats nor skips one. Insights are stored in `ai_insights`
+and scans in `ai_scans`. An insight is New until a user acknowledges or dismisses it, and is superseded
+when its subject is analysed again or is no longer flagged. Viewing needs `analytics:view`; running a
+scan and reviewing need `ai:use`. Scans and reviews are audit-logged. An insight creates no order.
+
 ## Data model
 
 Tables: `users`, `suppliers`, `products`, `supplier_products` (which suppliers can deliver which
-products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_logs`.
+products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_logs`, `ai_scans`,
+`ai_insights`.
 
 - Foreign keys link products, inventory, sales and purchase orders to their product and supplier.
 - Status and role columns are text guarded by CHECK constraints; quantities must be positive and
@@ -361,8 +415,8 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 - Two people deciding the same approval at the same instant are not guarded by row locks.
 - Timestamps are stored without a time zone (server local time).
 - Analytics: demand is assumed constant in projections; forecasts are simple statistical methods with
-  no seasonality; supplier statistics rest on very few deliveries per supplier in the demo data; alerts
-  are computed when requested, not by a scheduled job.
+  no seasonality; supplier statistics rest on very few deliveries per supplier in the demo data; the rule-based
+  alerts are computed when requested; only the AI insights are produced on a schedule.
 - Frontend has no automated tests.
 - AI assistant: the answer arrives in one piece after all tool calls finish (no streaming), so a question
   can take up to a minute. The browser keeps the conversation; it is lost on reload and is not
@@ -371,9 +425,8 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 
 ## Where later phases plug in
 
-- **Recommendations (Phase 6):** fill the `recommendations` field of the chat response, which the
-  frontend already receives.
-- **LLM-drafted purchase orders (Phase 7):** add a tool that calls `ProcurementService.create_draft` and
+- **LLM-drafted purchase orders (Phase 7):** a `reorder` recommendation already carries the product,
+  supplier and quantity. Add a tool or a button that passes it to `ProcurementService.create_draft` and
   report it in `actions`. Drafts from any source go through the same validation, approval and audit path.
 
 ## Roadmap
@@ -384,8 +437,8 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 | 2 (done) | PostgreSQL, SQLAlchemy, Alembic, persistent ERP data |
 | 3 (done) | Analytics, risk detection, forecasting, what-if analysis |
 | 4 (done) | LLM integration, natural-language interface, tool/function calling |
-| 5 (current) | Enterprise grounding: RAG, schema metadata, business rules, enterprise knowledge |
-| 6 | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
+| 5 (done) | Enterprise grounding: RAG, schema metadata, business rules, enterprise knowledge |
+| 6 (current) | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
 | 7 | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
 | 8 | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |
 # Major_Project

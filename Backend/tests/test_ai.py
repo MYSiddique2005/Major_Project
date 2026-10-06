@@ -51,8 +51,9 @@ class ScriptedProvider:
         self.conversations = []
         self.requests = 0
 
-    def start(self, system, tools, history, message):
+    def start(self, system, tools, history, message, require_tool=False):
         self.conversations.append(ScriptedConversation(self, system, tools, history, message))
+        self.conversations[-1].require_tool = require_tool
         return self.conversations[-1]
 
 

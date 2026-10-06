@@ -7,6 +7,7 @@ from app.api.v1 import (
     audit,
     auth,
     dashboard,
+    insights,
     inventory,
     procurement,
     products,
@@ -16,5 +17,5 @@ from app.api.v1 import (
 )
 
 api_router = APIRouter()
-for module in (auth, dashboard, sales, inventory, procurement, suppliers, products, approvals, analytics, audit, ai, system):
+for module in (auth, dashboard, sales, inventory, procurement, suppliers, products, approvals, analytics, audit, ai, insights, system):
     api_router.include_router(module.router)
