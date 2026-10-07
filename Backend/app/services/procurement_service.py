@@ -1,6 +1,7 @@
 from datetime import date, datetime, timedelta
 from math import ceil
 
+from app.core.clock import Clock
 from app.core.exceptions import BusinessRuleError, NotFoundError
 from app.models.entities import Approval, Product, PurchaseOrder, Supplier, User
 from app.models.enums import ApprovalStatus, AuditAction, PurchaseOrderOrigin, PurchaseOrderStatus, SupplierStatus
@@ -33,7 +34,9 @@ class ProcurementService:
         approvals: ApprovalRepository,
         audit: AuditService,
         uow: UnitOfWork,
+        clock: Clock | None = None,
     ):
+        self._clock = clock or Clock()
         self._uow = uow
         self._purchase_orders = purchase_orders
         self._suppliers = suppliers
@@ -112,7 +115,7 @@ class ProcurementService:
         submission and approval afterwards. `commit=False` lets a caller save more in the same transaction."""
         supplier = self._suppliers.get(data.supplier_id)
         product = self._products.get(data.product_id)
-        today = date.today()
+        today = self._clock.today()
         lead_days = ceil(supplier.avg_delivery_days) if supplier else 0
         po = PurchaseOrder(
             id="",

@@ -254,8 +254,9 @@ supply-side results as simulated. `Data/README.md` describes the pipeline, the m
 
 `python -m app.db.load_dataset --reset` loads it into PostgreSQL: all products, suppliers and stock,
 plus the most recent 12 months of sales (about 72,700 lines) and purchase orders (about 5,400 lines).
-Dates are moved forward so the last day of the data is the day it is loaded; reload if it was loaded
-long ago. Approvals and audit logs start empty, and the demo accounts are unchanged. The in-memory
+Dates are moved forward so the last day of the data is the day it is loaded. Afterwards the system keeps
+treating the data's last day as "today" (`BUSINESS_DATE=auto`, see `Backend/app/core/clock.py`), so the
+analytics do not drift as calendar days pass and no reload is needed. The header shows that date. Approvals and audit logs start empty, and the demo accounts are unchanged. The in-memory
 backend and the tests keep using the demo data described above.
 
 ## Analytics (Phase 3)
@@ -266,12 +267,12 @@ docstring states its rules. `AnalyticsService` feeds them ERP data through the r
 | Output | How it is calculated |
 |---|---|
 | Demand | Units sold per day over the last 28 days (cancelled orders excluded); trend = change against the previous 28 days, shown only when both periods have at least 5 orders |
-| Stockout risk | **Critical**: nothing on hand and still selling. **High**: stock runs out before a new order could arrive and no delivery is due in time, or stock is below safety stock while demand is up 15% or more. **Medium**: below safety stock, or cover within 7 days of the lead time. **Low**: otherwise |
+| Stockout risk | **Critical**: nothing on hand and still selling. **High**: stock runs out before a new order could arrive and no delivery is due in time, or stock is below safety stock while demand is up 15% or more. **Medium**: below safety stock; or cover within 7 days of the lead time with no delivery due in time; or stock runs out before a new order could arrive and the delivery it relies on comes from a supplier with High delivery risk. **Low**: otherwise, including short stock covered by a delivery due in time |
 | Evidence | Each risk item lists the facts that produced it (stock vs safety stock, demand, trend, days of cover vs lead time, open orders) |
 | Lead time | Average of the supplier's actual deliveries when there are at least two, otherwise the supplier's stated delivery time |
 | Reorder suggestion | Order up to `demand × (lead time + 14-day review period) + safety stock`, minus stock and open orders, rounded up to 10. Only when the stock position is at or below the reorder point |
 | Forecast | Weekly totals; 4-week moving average or 12-week linear trend. The method with the lower one-week-ahead error over the last 8 weeks is used unless one is requested |
-| Supplier performance | On-time rate, average and longest delay, observed lead time, delay trend and overdue orders, from purchase-order history |
+| Supplier performance | On-time rate, average and longest delay, observed lead time and overdue orders, from purchase-order history. Delay trend: orders due in the last 60 days against the 60 days before, counting an order still overdue with its delay so far |
 | What-if | Day-by-day stock projection for a changed demand level, delivery delay and/or a new order, compared with the baseline. Read-only |
 
 A reorder suggestion never creates anything by itself. A user with procurement rights can open it as a
@@ -438,24 +439,32 @@ computes its correct answer from the application's services at run time. Ten of 
 asked with the knowledge base switched off. Scoring matches expected facts by number or phrase and
 counts figures in an answer that nothing supports. `LLM/README.md` explains how to run it.
 
-Run of 6 October 2026, on Gemini's free tier (mostly `gemini-3.5-flash-lite`):
+Two runs on 6 October 2026, on Gemini's free tier (almost all on `gemini-3.5-flash-lite`):
 
 | | Passed | Facts found | Unsupported figures |
 |---|---:|---:|---:|
-| All 24 questions, with grounding | 23 (96%) | 96% | 0 of 119 |
-| 10 paired questions, with grounding | 10 of 10 | 100% | 0 of 72 |
-| The same 10, without grounding | 5 of 10 | 72% | 3 of 64 |
+| **Run 1** (`results/main`): all 24 questions, with grounding | 23 (96%) | 96% | 0 of 119 |
+| Run 1: 10 paired questions, with grounding | 10 of 10 | 100% | 0 of 72 |
+| Run 1: the same 10, without grounding | 5 of 10 | 72% | 3 of 64 |
+| **Run 2** (`results/rules-v2`): all 24 questions, with grounding | 24 (100%) | 100% | 1 of 100 |
+| Run 2: 10 paired questions, with grounding | 10 of 10 | 100% | 0 of 60 |
+| Run 2: the same 10, without grounding | 5 of 10 | 62% | 1 of 51 |
 
-The one failure with grounding: asked for sales revenue by a role without sales access, the assistant
-revealed nothing and used no sales tool, but gave a wrong reason. The assistant is now told what the
-user's role does not include; that question, asked again afterwards, is in `results/after-fix`. Without grounding, the assistant
+Run 2 was made later the same day, after three changes to the system: the assistant is told what the
+user's role does not include (which fixed run 1's one failure), the stockout-risk and supplier-trend
+rules were refined, and the analytics measure from the data's last day. The correct answers are
+recomputed each run, so the two runs are scored against the rules in force at the time. The one
+unsupported figure in run 2 is a difference the model worked out correctly from two tool figures
+(328.4 - 246.8 = 81.6); the check counts any derived figure as unsupported.
+
+Run 1's one failure with grounding: asked for sales revenue by a role without sales access, the assistant
+revealed nothing and used no sales tool, but gave a wrong reason. Without grounding, the assistant
 could not state the company's thresholds (the 28-day demand window's minimum of 5 orders, the 14-day
 review period, the 8-week backtest) and in one answer invented figures; the three cross-module questions
 were answered correctly either way, because the tools return those facts.
 
-These are indications from a small, single-run test written by the system's author and scored by
-keyword; they are not statistically reliable rates. `LLM/README.md` lists the limits, and
-`LLM/evaluation/results/main/report.md` has every answer.
+These are indications from a small test written by the system's author and scored by keyword; they are not statistically reliable rates. `LLM/README.md` lists the limits, and
+the `report.md` in each results folder has every answer.
 
 ## Data model
 

@@ -1,6 +1,7 @@
 from collections import Counter
 from datetime import date
 
+from app.core.clock import Clock
 from app.models.enums import PurchaseOrderStatus, SalesStatus, StockStatus, SupplierStatus
 from app.repositories.base import PurchaseOrderRepository, SupplierRepository
 from app.schemas.dashboard import DashboardSummary, SalesTrendPoint, StatusCount
@@ -17,7 +18,9 @@ class DashboardService:
         inventory: InventoryService,
         purchase_orders: PurchaseOrderRepository,
         suppliers: SupplierRepository,
+        clock: Clock | None = None,
     ):
+        self._clock = clock or Clock()
         self._sales = sales
         self._inventory = inventory
         self._purchase_orders = purchase_orders
@@ -41,7 +44,8 @@ class DashboardService:
 
     def get_sales_trend(self) -> list[SalesTrendPoint]:
         """Monthly revenue and order count for the last 12 months (cancelled orders excluded)."""
-        year, month = date.today().year, date.today().month
+        today = self._clock.today()
+        year, month = today.year, today.month
         months = []
         for _ in range(TREND_MONTHS):
             months.append((year, month))

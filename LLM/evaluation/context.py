@@ -7,6 +7,7 @@ returned, which the scoring needs in order to tell which figures in an answer ar
 from contextlib import contextmanager
 
 from app.api import deps
+from app.core.clock import Clock
 from app.core.config import get_settings
 from app.db.session import get_session_factory
 from app.knowledge.content import get_knowledge_base
@@ -40,8 +41,9 @@ class Context:
         self.uow = deps.get_unit_of_work(session)
         self.audit = AuditService(deps.get_audit_log_repository(session))
 
+        self.clock = Clock(self.sales_repo, self.settings.business_date)
         self.analytics = AnalyticsService(
-            self.products_repo, self.inventory_repo, self.sales_repo, self.orders_repo, self.suppliers_repo
+            self.products_repo, self.inventory_repo, self.sales_repo, self.orders_repo, self.suppliers_repo, self.clock
         )
         self.products = ProductService(self.products_repo, self.suppliers_repo, self.inventory_repo)
         self.inventory = InventoryService(self.inventory_repo, self.products_repo)
@@ -49,7 +51,7 @@ class Context:
         self.suppliers = SupplierService(self.suppliers_repo, self.products_repo)
         self.procurement = ProcurementService(
             self.orders_repo, self.suppliers_repo, self.products_repo,
-            deps.get_approval_repository(session), self.audit, self.uow,
+            deps.get_approval_repository(session), self.audit, self.uow, self.clock,
         )
         self.provider = deps.get_llm_provider()
 
@@ -62,7 +64,8 @@ class Context:
         checker = RecommendationChecker(self.analytics, self.suppliers, knowledge)
         actions = AIActionService(self.procurement, checker, self.insights_repo, self.uow)
         toolbox = Toolbox(
-            self.analytics, self.products, self.inventory, self.sales, self.suppliers, self.procurement, knowledge, actions
+            self.analytics, self.products, self.inventory, self.sales, self.suppliers, self.procurement, knowledge, actions,
+            self.clock,
         )
         outputs: list[dict] = []
         run = toolbox.run

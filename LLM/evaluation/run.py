@@ -60,7 +60,7 @@ def run_case(ctx: Context, case: Case, grounded: bool) -> dict:
     knowledge = get_knowledge_base()
     passages = " ".join(entry.text for item in response.knowledge if (entry := knowledge.get(item["id"])))
     tool_text = json.dumps(outputs, default=str)
-    evidence = f"{case.question} {date.today().isoformat()} {tool_text} {passages}"
+    evidence = f"{case.question} {ctx.clock.today().isoformat()} {tool_text} {passages}"
 
     record = {
         "case": case.id,

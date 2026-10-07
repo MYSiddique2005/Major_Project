@@ -8,16 +8,21 @@ Risk rules, first match wins:
 
 The on-time percentage is only used as a rule once a supplier has at least
 MIN_DELIVERIES_FOR_RATE deliveries, so one late delivery cannot label a supplier High.
+
+The delay trend compares the orders that fell due in the last TREND_WINDOW_DAYS with those due in the
+window before it. Orders are placed in a window by the date they were promised, and an order that is
+overdue counts with its delay so far. Looking only at orders already delivered would leave out exactly
+the late ones that have not arrived yet and make every supplier look as if it were improving.
 """
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, timedelta
 
 from app.models.entities import PurchaseOrder
 from app.models.enums import PurchaseOrderStatus, RiskLevel
 
-RECENT_DELIVERIES = 2
 MIN_DELIVERIES_FOR_RATE = 3
-MIN_DELIVERIES_FOR_TREND = 4
+TREND_WINDOW_DAYS = 60
+MIN_ORDERS_PER_TREND_WINDOW = 2
 TREND_TOLERANCE_DAYS = 0.5
 
 
@@ -48,10 +53,21 @@ def assess(orders: list[PurchaseOrder], today: date) -> SupplierPerformance:
     avg_delay = round(sum(delays) / n, 2) if n else None
     avg_lead = round(sum(lead_times) / n, 1) if n else None
 
+    def delays_due_between(start: date, end: date) -> list[int]:
+        """Delay of every order promised in [start, end): actual delay, or the delay so far if still overdue."""
+        return [
+            max(0, ((o.actual_delivery or today) - o.expected_delivery).days)
+            for o in orders
+            if start <= o.expected_delivery < end and (o.actual_delivery is not None or o in overdue)
+        ]
+
+    window = timedelta(days=TREND_WINDOW_DAYS)
+    recent_delays = delays_due_between(today - window, today)
+    earlier_delays = delays_due_between(today - 2 * window, today - window)
     trend = "insufficient data"
-    if n >= MIN_DELIVERIES_FOR_TREND:
-        recent = sum(delays[-RECENT_DELIVERIES:]) / RECENT_DELIVERIES
-        earlier = sum(delays[:-RECENT_DELIVERIES]) / (n - RECENT_DELIVERIES)
+    if min(len(recent_delays), len(earlier_delays)) >= MIN_ORDERS_PER_TREND_WINDOW:
+        recent = sum(recent_delays) / len(recent_delays)
+        earlier = sum(earlier_delays) / len(earlier_delays)
         if recent > earlier + TREND_TOLERANCE_DAYS:
             trend = "worsening"
         elif recent < earlier - TREND_TOLERANCE_DAYS:
@@ -77,7 +93,7 @@ def assess(orders: list[PurchaseOrder], today: date) -> SupplierPerformance:
         if avg_delay > 0:
             drivers.append(f"Average delay is {days(avg_delay)} (longest {days(max(delays))}).")
         if trend == "worsening":
-            drivers.append("Delays have grown in the most recent deliveries.")
+            drivers.append(f"Delays have grown over the last {TREND_WINDOW_DAYS} days.")
     else:
         drivers.append("No completed deliveries to analyse.")
     for order in overdue:

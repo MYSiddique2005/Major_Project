@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     data_backend: Literal["postgres", "memory"] = "postgres"
     database_url: str = "postgresql+psycopg://intellierp:intellierp@localhost:5432/intellierp"
 
+    # The business's "today": auto (latest sales order date), today (calendar date) or a date. See core/clock.py.
+    business_date: str = "auto"
+
     # Whoever created or submitted a purchase order may not be the one to approve it.
     separation_of_duties: bool = True
 

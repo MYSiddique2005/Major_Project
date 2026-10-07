@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useApi } from '../../hooks/useApi'
 import { systemService } from '../../services/systemService'
-import { formatRole } from '../../utils/format'
+import { formatDate, formatRole } from '../../utils/format'
 
 export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
   const { user } = useAuth()
@@ -19,6 +19,7 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
           <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
             Phase {system.data.phase} ·{' '}
             {system.data.persistent ? 'PostgreSQL, data is saved' : 'in-memory demo data, resets on server restart'}
+            {' · '}data as of {formatDate(system.data.business_date)}
           </span>
         )}
       </div>

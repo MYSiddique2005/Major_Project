@@ -7,7 +7,7 @@ are stored together or not at all.
 from typing import Generic, TypeVar
 
 from pydantic import BaseModel
-from sqlalchemy import Sequence, select
+from sqlalchemy import Sequence, func, select
 from sqlalchemy.orm import Session
 
 from app.db.base import Base
@@ -125,6 +125,9 @@ class PostgresProductRepository(SqlRepository[Product, ProductModel], ProductRep
 
 class PostgresSalesRepository(SqlRepository[SalesOrder, SalesOrderModel], SalesRepository):
     entity, model, id_prefix = SalesOrder, SalesOrderModel, "SO-"
+
+    def latest_order_date(self):
+        return self._session.scalar(select(func.max(SalesOrderModel.order_date)))
 
 
 class PostgresPurchaseOrderRepository(SqlRepository[PurchaseOrder, PurchaseOrderModel], PurchaseOrderRepository):

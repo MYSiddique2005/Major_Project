@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any, Callable, Literal
 
 from pydantic import BaseModel, Field, ValidationError
 
+from app.core.clock import Clock
 from app.core.exceptions import DomainError
 from app.knowledge.base import CATEGORIES, KnowledgeBase
 from app.llm.recommendations import Recommendation, RecommendationChecker, RecommendationError, RecommendationInput
@@ -125,7 +126,9 @@ class Toolbox:
         procurement: ProcurementService,
         knowledge: KnowledgeBase | None = None,
         actions: "AIActionService | None" = None,
+        clock: Clock | None = None,
     ):
+        self.clock = clock or Clock()
         self._knowledge = knowledge
         self._actions = actions
         self.actions: list[dict] = []  # drafts created during this request
@@ -387,7 +390,7 @@ class Toolbox:
         return [record.model_dump(mode="json", exclude={"sku"}) for record in records]
 
     def _get_sales_summary(self, args: SalesSummaryInput) -> dict:
-        today = date.today()
+        today = self.clock.today()
         since = today - timedelta(days=args.days)
         orders = [
             order for order in self._sales.list_orders(product_id=args.product_id)

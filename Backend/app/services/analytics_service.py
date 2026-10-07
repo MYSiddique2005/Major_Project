@@ -7,6 +7,7 @@ from math import ceil
 
 from app.analytics import forecasting, simulation, stock_risk, supplier_performance
 from app.analytics.demand import demand_stats, weekly_units
+from app.core.clock import Clock
 from app.core.exceptions import NotFoundError
 from app.models.entities import Product, PurchaseOrder, SalesOrder, Supplier
 from app.models.enums import ProductStatus, PurchaseOrderStatus, RiskLevel, SupplierStatus
@@ -45,7 +46,9 @@ class AnalyticsService:
         sales: SalesRepository,
         purchase_orders: PurchaseOrderRepository,
         suppliers: SupplierRepository,
+        clock: Clock | None = None,
     ):
+        self._clock = clock or Clock()
         self._products = products
         self._inventory = inventory
         self._sales = sales
@@ -54,10 +57,9 @@ class AnalyticsService:
 
     # --- Stock risk -------------------------------------------------------
 
-    def _lead_time(self, supplier: Supplier | None, supplier_orders: list[PurchaseOrder], today: date):
-        if supplier is None:
+    def _lead_time(self, supplier: Supplier | None, observed: supplier_performance.SupplierPerformance | None):
+        if supplier is None or observed is None:
             return 0.0, "supplier master data"
-        observed = supplier_performance.assess(supplier_orders, today)
         if observed.deliveries_analyzed >= MIN_DELIVERIES_FOR_OBSERVED_LEAD_TIME:
             return observed.avg_lead_time_days, "observed deliveries"
         return supplier.avg_delivery_days, "supplier master data"
@@ -85,6 +87,11 @@ class AnalyticsService:
         for record in self._inventory.list():
             stock_by_product[record.product_id].append(record)
 
+        # Each supplier's delivery record is assessed once and shared by all its products.
+        performance = {
+            supplier_id: supplier_performance.assess(orders_by_supplier[supplier_id], today) for supplier_id in suppliers
+        }
+
         items = []
         for product in self._products.list():
             if product.status != ProductStatus.ACTIVE or (only_product_id and product.id != only_product_id):
@@ -92,7 +99,8 @@ class AnalyticsService:
             records = stock_by_product[product.id]
             demand = demand_stats(sales_by_product[product.id], today)
             supplier = suppliers.get(product.supplier_id)
-            lead_time, lead_source = self._lead_time(supplier, orders_by_supplier[product.supplier_id], today)
+            observed = performance.get(product.supplier_id)
+            lead_time, lead_source = self._lead_time(supplier, observed)
 
             in_transit = [
                 po for po in orders_by_product[product.id]
@@ -111,6 +119,7 @@ class AnalyticsService:
                 awaiting_approval_units=sum(
                     po.quantity for po in orders_by_product[product.id] if po.status in AWAITING_PLACEMENT
                 ),
+                supplier_high_risk=observed is not None and observed.level == RiskLevel.HIGH,
             )
             risk = stock_risk.assess(position, today)
             suggested = self._suggested_supplier(product, suppliers) if risk.suggested_order_quantity else None
@@ -153,7 +162,7 @@ class AnalyticsService:
     ) -> list[StockRiskItem]:
         return [
             item
-            for item in self._stock_risk_items(today or date.today())
+            for item in self._stock_risk_items(today or self._clock.today())
             if (level is None or item.risk_level == level)
             and matches_search(search, item.product_id, item.product_name, item.sku, item.category, item.supplier_name)
         ]
@@ -161,7 +170,7 @@ class AnalyticsService:
     def get_stock_risk(self, product_id: str, today: date | None = None) -> StockRiskItem:
         if self._products.get(product_id) is None:
             raise NotFoundError(f"Product '{product_id}' not found")
-        items = self._stock_risk_items(today or date.today(), only_product_id=product_id)
+        items = self._stock_risk_items(today or self._clock.today(), only_product_id=product_id)
         if not items:
             raise NotFoundError(f"Product '{product_id}' is discontinued and is not analysed")
         return items[0]
@@ -175,7 +184,7 @@ class AnalyticsService:
         method: ForecastMethod | None = None,
         today: date | None = None,
     ) -> DemandForecast:
-        today = today or date.today()
+        today = today or self._clock.today()
         product = self._products.get(product_id)
         if product is None:
             raise NotFoundError(f"Product '{product_id}' not found")
@@ -202,7 +211,7 @@ class AnalyticsService:
     # --- Suppliers --------------------------------------------------------
 
     def list_supplier_performance(self, today: date | None = None) -> list[SupplierPerformanceItem]:
-        today = today or date.today()
+        today = today or self._clock.today()
         orders_by_supplier: dict[str, list[PurchaseOrder]] = defaultdict(list)
         for po in self._purchase_orders.list():
             orders_by_supplier[po.supplier_id].append(po)
@@ -234,7 +243,7 @@ class AnalyticsService:
 
     def list_alerts(self, today: date | None = None) -> list[RiskAlert]:
         """High and Critical findings only, for the dashboard."""
-        today = today or date.today()
+        today = today or self._clock.today()
         urgent = (RiskLevel.CRITICAL, RiskLevel.HIGH)
         alerts = [
             RiskAlert(
@@ -267,7 +276,7 @@ class AnalyticsService:
     # --- What-if ----------------------------------------------------------
 
     def run_what_if(self, request: WhatIfRequest, today: date | None = None) -> WhatIfResult:
-        today = today or date.today()
+        today = today or self._clock.today()
         item = self.get_stock_risk(request.product_id, today)
         tomorrow = today + timedelta(days=1)
 

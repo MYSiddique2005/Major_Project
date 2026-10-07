@@ -222,9 +222,10 @@ WRITTEN = [
           f"For each delivered purchase order, the delay is the number of days the goods arrived after the expected "
           f"delivery date; early or on-time arrivals count as 0. The on-time rate is the percentage of deliveries "
           f"with a delay of 0. Average delay and longest delay are over all deliveries. The delay trend compares the "
-          f"last {P.RECENT_DELIVERIES} deliveries with all earlier ones: worsening or improving if they differ by "
-          f"more than {P.TREND_TOLERANCE_DAYS:g} days, otherwise stable; it needs at least "
-          f"{P.MIN_DELIVERIES_FOR_TREND} deliveries. These are measured from purchase-order history and can differ "
+          f"orders that were due in the last {P.TREND_WINDOW_DAYS} days with those due in the {P.TREND_WINDOW_DAYS} "
+          f"days before: worsening or improving if the average delay differs by more than "
+          f"{P.TREND_TOLERANCE_DAYS:g} days, otherwise stable. An order still overdue counts with its delay so far, "
+          f"and each period needs at least {P.MIN_ORDERS_PER_TREND_WINDOW} orders. These are measured from purchase-order history and can differ "
           f"from the stated delivery_reliability in the supplier's master data.",
           "supplier reliability punctuality late deliveries lateness delivery performance OTD on time delivery"),
     Entry("def.revenue", "Revenue, total sales and average order value", "definition",
@@ -258,10 +259,12 @@ WRITTEN = [
           f"rule that matches gives the level. Critical: nothing on hand while the product is still selling. High: "
           f"either days of cover is less than the lead time, or stock is below safety stock while demand is up "
           f"{S.RISING_DEMAND_PCT:g}% or more; and in both cases no delivery on order is due before the projected "
-          f"stockout date. Medium: stock is below safety stock, or days of cover is less than the lead time, or days "
-          f"of cover is less than the lead time plus {S.REVIEW_BUFFER_DAYS} days. Low: none of these. A delivery "
-          f"that is due in time lowers High to Medium; overdue units do not count as due in time. Stockout risk is "
-          f"different from stock status, which looks only at the stock record.",
+          f"stockout date. Medium: stock is below safety stock; or days of cover is less than the lead time plus "
+          f"{S.REVIEW_BUFFER_DAYS} days and no delivery is due in time; or days of cover is less than the lead time "
+          f"and the delivery it relies on comes from a supplier whose delivery risk is High. Low: none of these, "
+          f"which includes stock that is short but covered by a delivery due before it runs out from a supplier "
+          f"that is not high risk. Overdue units do not count as due in time. Stockout risk is different from stock "
+          f"status, which looks only at the stock record.",
           "risk assessment why is a product at risk running out shortage risk classification high risk critical"),
     Entry("rule.reorder-suggestion", "Reorder suggestion rule (how much to order)", "rule",
           f"A reorder is suggested only when stock on hand + units on order + overdue units + units awaiting "
@@ -309,7 +312,8 @@ WRITTEN = [
           "The server then checks it: severity is set from the analytics; a reorder quantity is compared with the "
           "quantity the reorder rule gives; the supplier must be able to supply the product; and every figure in "
           "the text is looked up among the system's figures. An insight is New until a user acknowledges or "
-          "dismisses it, and is superseded when its subject is analysed again or is no longer flagged. "
+          "dismisses it. It is superseded when its subject is analysed again, and also, whether New or "
+          "Acknowledged, once the analytics no longer flag its subject. "
           "Recommendations made in the chat pass the same checks. An insight creates no order by itself; a user "
           "can turn a reorder insight into a draft purchase order.",
           "proactive monitoring alerts scan insight recommendation verification checked hallucination dashboard"),

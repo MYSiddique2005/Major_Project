@@ -4,8 +4,10 @@ Risk rules, first match wins:
   Critical - nothing on hand while the product is still selling
   High     - stock will run out before a new order could arrive and no inbound delivery is due in time,
              or stock is below safety stock while demand is rising sharply (same inbound condition)
-  Medium   - stock is below safety stock, or cover is within one review period of the lead time
-  Low      - none of the above
+  Medium   - stock is below safety stock; or cover is within a week of the lead time and no delivery is due
+             in time; or stock will run out before a new order could arrive and the delivery it relies on
+             comes from a supplier with high delivery risk
+  Low      - none of the above, including stock that is short but covered by a delivery due in time
 """
 from dataclasses import dataclass, field
 from datetime import date, timedelta
@@ -30,6 +32,7 @@ class StockPosition:
     next_inbound_date: date | None = None
     overdue_inbound_units: int = 0
     awaiting_approval_units: int = 0
+    supplier_high_risk: bool = False  # the supplier's delivery risk is High
 
 
 @dataclass(frozen=True)
@@ -67,8 +70,8 @@ def assess(position: StockPosition, today: date) -> StockRisk:
         level = RiskLevel.HIGH
     elif (
         below_safety
-        or runs_out_before_resupply
-        or (days_of_cover is not None and days_of_cover < p.lead_time_days + REVIEW_BUFFER_DAYS)
+        or (days_of_cover is not None and days_of_cover < p.lead_time_days + REVIEW_BUFFER_DAYS and not inbound_in_time)
+        or (runs_out_before_resupply and p.supplier_high_risk)
     ):
         level = RiskLevel.MEDIUM
     else:
@@ -92,6 +95,8 @@ def assess(position: StockPosition, today: date) -> StockRisk:
         )
     if p.inbound_units:
         drivers.append(f"{p.inbound_units} units on order, next delivery expected {p.next_inbound_date:%d %b %Y}.")
+    if runs_out_before_resupply and inbound_in_time and p.supplier_high_risk:
+        drivers.append("The delivery it relies on comes from a supplier with high delivery risk.")
     if p.overdue_inbound_units:
         drivers.append(f"{p.overdue_inbound_units} units on order are overdue from the supplier.")
     if p.awaiting_approval_units:

@@ -40,19 +40,30 @@ audit log of the database it runs on.
 
 ## Results
 
-`evaluation/results/main/report.md` is the run of 6 October 2026: 34 answers on Gemini's free tier
-(`gemini-3.5-flash-lite` for 30, `gemini-3.5-flash` for 4), on the Wide World Importers dataset.
+Two runs of 34 answers each were made on 6 October 2026, on Gemini's free tier (almost all on
+`gemini-3.5-flash-lite`), on the Wide World Importers dataset.
 
 | | Passed | Facts found | Unsupported figures |
 |---|---:|---:|---:|
-| All 24 questions, with grounding | 23 (96%) | 96% | 0 of 119 |
-| 10 paired questions, with grounding | 10 of 10 | 100% | 0 of 72 |
-| The same 10, without grounding | 5 of 10 | 72% | 3 of 64 |
+| **Run 1** (`results/main`): all 24 questions, with grounding | 23 (96%) | 96% | 0 of 119 |
+| Run 1: 10 paired questions, with grounding | 10 of 10 | 100% | 0 of 72 |
+| Run 1: the same 10, without grounding | 5 of 10 | 72% | 3 of 64 |
+| **Run 2** (`results/rules-v2`): all 24 questions, with grounding | 24 (100%) | 100% | 1 of 100 |
+| Run 2: 10 paired questions, with grounding | 10 of 10 | 100% | 0 of 60 |
+| Run 2: the same 10, without grounding | 5 of 10 | 62% | 1 of 51 |
+
+Run 2 was made later the same day, after three changes to the system: the assistant is told what the
+user's role does not include (which fixed run 1's one failure), the stockout-risk and supplier-trend
+rules were refined, and the analytics measure from the data's last day. The correct answers are
+recomputed each run, so the two runs are scored against the rules in force at the time. The one
+unsupported figure in run 2 is a difference the model worked out correctly from two tool figures
+(328.4 - 246.8 = 81.6); the check counts any derived figure as unsupported.
 
 Read these with their limits in mind:
 
-- **Small and single-run.** 24 questions, each asked once. The model is not deterministic; these are
-  indications, not statistically reliable rates.
+- **Small.** 24 questions, asked once per run. Two runs agreeing is some evidence of consistency, but the
+  system changed between them, so they are not repeats of one experiment. These are indications, not
+  statistically reliable rates.
 - **Written by the system's author.** The questions were written by whoever built the knowledge base and
   tools, so they favour what the system covers. Questions from real users would be harder.
 - **Keyword scoring.** A correct answer worded unexpectedly is marked wrong, and a wrong answer that

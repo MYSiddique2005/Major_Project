@@ -76,11 +76,25 @@ def test_backtest_prefers_trend_for_trending_series():
         (dict(on_hand=20, safety_stock=10, avg_daily_demand=5, lead_time_days=7), RiskLevel.HIGH),
         # below safety stock with demand up 30%
         (dict(on_hand=90, safety_stock=100, avg_daily_demand=2, demand_trend_pct=30, lead_time_days=7), RiskLevel.HIGH),
-        # same as the 4-day case, but a delivery arrives before stock runs out
+        # same as the 4-day case, but a delivery arrives before stock runs out: covered
         (
             dict(on_hand=20, safety_stock=10, avg_daily_demand=5, lead_time_days=7, inbound_units=100,
                  next_inbound_date=TODAY + timedelta(days=2)),
+            RiskLevel.LOW,
+        ),
+        # ... unless that delivery comes from a supplier with high delivery risk
+        (
+            dict(on_hand=20, safety_stock=10, avg_daily_demand=5, lead_time_days=7, inbound_units=100,
+                 next_inbound_date=TODAY + timedelta(days=2), supplier_high_risk=True),
             RiskLevel.MEDIUM,
+        ),
+        # cover within a week of the lead time and nothing on the way: a reorder is due
+        (dict(on_hand=60, safety_stock=10, avg_daily_demand=5, lead_time_days=7), RiskLevel.MEDIUM),
+        # the same with a delivery due before stock runs out
+        (
+            dict(on_hand=60, safety_stock=10, avg_daily_demand=5, lead_time_days=7, inbound_units=100,
+                 next_inbound_date=TODAY + timedelta(days=5)),
+            RiskLevel.LOW,
         ),
         (dict(on_hand=90, safety_stock=100, avg_daily_demand=2, lead_time_days=7), RiskLevel.MEDIUM),
         (dict(on_hand=500, safety_stock=100, avg_daily_demand=2, lead_time_days=7), RiskLevel.LOW),
@@ -122,6 +136,18 @@ def test_supplier_performance_levels():
 
     one_late = supplier_performance.assess([_po(30, 5, 2)], TODAY)
     assert one_late.level == RiskLevel.MEDIUM  # a single late delivery is not enough for High
+
+
+def test_delay_trend_counts_orders_that_are_still_overdue():
+    """Recent late orders that have not arrived must not be left out, or every supplier looks as if it is improving."""
+    earlier = [_po(110, 5, 0), _po(90, 5, 0)]  # due 105 and 85 days ago, on time
+    recent_on_time = [_po(40, 5, 0), _po(30, 5, 0)]
+    still_overdue = [  # ordered 20 days ago, due 15 days ago, not delivered
+        _po(20, 5, 0).model_copy(update={"actual_delivery": None, "status": "Ordered"}) for _ in range(2)
+    ]
+    assert supplier_performance.assess(earlier + recent_on_time, TODAY).delay_trend == "stable"
+    assert supplier_performance.assess(earlier + recent_on_time + still_overdue, TODAY).delay_trend == "worsening"
+    assert supplier_performance.assess(earlier, TODAY).delay_trend == "insufficient data"
 
     overdue = supplier_performance.assess([_po(20, 5, None, status="Ordered")], TODAY)
     assert (overdue.level, overdue.overdue_orders) == (RiskLevel.HIGH, 1)

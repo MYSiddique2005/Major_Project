@@ -7,6 +7,7 @@ running without a database).
 """
 import re
 from abc import ABC, abstractmethod
+from datetime import date
 from typing import Generic, TypeVar
 
 from pydantic import BaseModel
@@ -74,7 +75,10 @@ class ProductRepository(Repository[Product]): ...
 class SupplierRepository(Repository[Supplier]): ...
 
 
-class SalesRepository(Repository[SalesOrder]): ...
+class SalesRepository(Repository[SalesOrder]):
+    @abstractmethod
+    def latest_order_date(self) -> date | None:
+        """The most recent order date, or None when there are no orders."""
 
 
 class PurchaseOrderRepository(Repository[PurchaseOrder]): ...

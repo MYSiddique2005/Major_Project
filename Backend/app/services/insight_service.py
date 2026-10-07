@@ -16,6 +16,7 @@ from datetime import date, datetime, timedelta
 
 from pydantic import ValidationError
 
+from app.core.clock import Clock
 from app.core.config import Settings
 from app.core.exceptions import BusinessRuleError, DomainError, NotFoundError
 from app.knowledge.base import KnowledgeBase
@@ -37,6 +38,7 @@ RULES_FOR_SCAN = ("rule.stockout-risk", "rule.reorder-suggestion", "rule.supplie
 SEVERITY_ORDER = [RiskLevel.CRITICAL, RiskLevel.HIGH, RiskLevel.MEDIUM, RiskLevel.LOW]
 CURRENT = (InsightStatus.NEW, InsightStatus.ACKNOWLEDGED)
 STALE_RUNNING_SCAN = timedelta(minutes=15)
+RETRY_FAILED_SCAN_AFTER = timedelta(hours=1)
 
 SCAN_PROMPT = """\
 You are the monitoring assistant inside IntelliERP, an ERP system for a wholesale company. The \
@@ -76,7 +78,9 @@ class InsightService:
         audit: AuditService,
         uow: UnitOfWork,
         settings: Settings,
+        clock: Clock | None = None,
     ):
+        self._clock = clock or Clock()
         self._provider = provider
         self._analytics = analytics
         self._checker = checker
@@ -115,6 +119,8 @@ class InsightService:
             return True
         if last.status == ScanStatus.RUNNING and now - last.started_at < STALE_RUNNING_SCAN:
             return False
+        if last.status == ScanStatus.FAILED:  # e.g. a rate limit: try again sooner than the next scheduled scan
+            return now - last.started_at >= min(RETRY_FAILED_SCAN_AFTER, timedelta(minutes=interval))
         return now - last.started_at >= timedelta(minutes=interval)
 
     # --- Review ---------------------------------------------------------------------------------
@@ -210,7 +216,7 @@ class InsightService:
             Permission.AI_USE, RecommendationInput, record,
         )
         message = (
-            f"<context>Today is {date.today().isoformat()}.</context>\n\n{self._rules_block()}"
+            f"<context>Today is {self._clock.today().isoformat()}.</context>\n\n{self._rules_block()}"
             f"<findings>\n{json.dumps(findings, separators=(',', ':'))}\n</findings>"
         )
         # Normally one request: the model answers with all its record_insight calls and the scan ends
@@ -258,11 +264,14 @@ class InsightService:
         scan.message = " ".join(notes)
 
     def _supersede(self, subjects: set[tuple[str, str]]) -> None:
-        """An unreviewed insight is replaced when its subject is analysed again or is no longer flagged."""
+        """Retires insights that no longer describe the present: a New insight whose subject has just been
+        analysed again, and any New or Acknowledged insight whose subject the analytics no longer flag."""
         still_flagged = {(alert.entity, alert.entity_id) for alert in self._analytics.list_alerts()}
         for insight in self._insights.list():
             key = (insight.subject_type, insight.subject_id)
-            if insight.status == InsightStatus.NEW and (key in subjects or key not in still_flagged):
+            replaced = insight.status == InsightStatus.NEW and key in subjects
+            resolved = insight.status in CURRENT and key not in still_flagged
+            if replaced or resolved:
                 insight.status = InsightStatus.SUPERSEDED
                 self._insights.update(insight)
 

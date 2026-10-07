@@ -289,6 +289,15 @@ def test_scheduler_scans_when_due_and_not_before(client, auth, llm):
     assert [s["trigger"] for s in scans] == ["schedule", "schedule"]
 
 
+def test_scheduler_retries_a_failed_scan_within_the_hour_not_the_next_day(client, auth, llm):
+    scripted = llm(reply("I have nothing to add."))  # the scan fails: no insight recorded
+    now = datetime.now()
+    assert run_if_due(now, lambda: scripted) is True
+    assert client.get(f"{API}/ai/insights/scans", headers=auth("admin")).json()[0]["status"] == "Failed"
+    assert run_if_due(now + timedelta(minutes=30), lambda: scripted) is False
+    assert run_if_due(now + timedelta(minutes=61), lambda: scripted) is True
+
+
 def test_scheduler_does_nothing_without_a_model_or_when_switched_off(client):
     with insight_service_outside_a_request(lambda: None) as service:
         assert service.is_due(datetime.now()) is False

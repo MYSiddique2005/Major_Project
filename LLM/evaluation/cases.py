@@ -56,8 +56,8 @@ def build_cases(ctx: Context) -> list[Case]:
     least_punctual = min(suppliers, key=lambda s: s.on_time_rate)
     on_order = sum(1 for po in ctx.orders_repo.list() if po.status == PurchaseOrderStatus.ORDERED)
 
-    from datetime import date, timedelta
-    since = date.today() - timedelta(days=30)
+    from datetime import timedelta
+    since = ctx.clock.today() - timedelta(days=30)
     revenue_30d = round(sum(
         order.quantity * order.unit_price for order in ctx.sales_repo.list()
         if order.order_date > since and order.status != SalesStatus.CANCELLED

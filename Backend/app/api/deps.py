@@ -14,6 +14,7 @@ from functools import lru_cache
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
+from app.core.clock import Clock
 from app.core.config import get_settings
 from app.db.session import get_session_factory
 from app.knowledge.base import KnowledgeBase
@@ -149,6 +150,10 @@ def get_ai_insight_repository(session: Session | None = Depends(get_session)) ->
     return postgres.PostgresAiInsightRepository(session) if session else _memory().ai_insights
 
 
+def get_clock(sales: SalesRepository = Depends(get_sales_repository)) -> Clock:
+    return Clock(sales, get_settings().business_date)
+
+
 # --- Services -----------------------------------------------------------------
 
 
@@ -200,8 +205,9 @@ def get_procurement_service(
     approvals: ApprovalRepository = Depends(get_approval_repository),
     audit: AuditService = Depends(get_audit_service),
     uow: UnitOfWork = Depends(get_unit_of_work),
+    clock: Clock = Depends(get_clock),
 ) -> ProcurementService:
-    return ProcurementService(purchase_orders, suppliers, products, approvals, audit, uow)
+    return ProcurementService(purchase_orders, suppliers, products, approvals, audit, uow, clock)
 
 
 def get_approval_service(
@@ -219,8 +225,9 @@ def get_dashboard_service(
     inventory: InventoryService = Depends(get_inventory_service),
     purchase_orders: PurchaseOrderRepository = Depends(get_purchase_order_repository),
     suppliers: SupplierRepository = Depends(get_supplier_repository),
+    clock: Clock = Depends(get_clock),
 ) -> DashboardService:
-    return DashboardService(sales, inventory, purchase_orders, suppliers)
+    return DashboardService(sales, inventory, purchase_orders, suppliers, clock)
 
 
 def get_analytics_service(
@@ -229,8 +236,9 @@ def get_analytics_service(
     sales: SalesRepository = Depends(get_sales_repository),
     purchase_orders: PurchaseOrderRepository = Depends(get_purchase_order_repository),
     suppliers: SupplierRepository = Depends(get_supplier_repository),
+    clock: Clock = Depends(get_clock),
 ) -> AnalyticsService:
-    return AnalyticsService(products, inventory, sales, purchase_orders, suppliers)
+    return AnalyticsService(products, inventory, sales, purchase_orders, suppliers, clock)
 
 
 @lru_cache
@@ -267,8 +275,9 @@ def get_ai_service(
     procurement: ProcurementService = Depends(get_procurement_service),
     audit: AuditService = Depends(get_audit_service),
     uow: UnitOfWork = Depends(get_unit_of_work),
+    clock: Clock = Depends(get_clock),
 ) -> AIService:
-    toolbox = Toolbox(analytics, products, inventory, sales, suppliers, procurement, knowledge, actions)
+    toolbox = Toolbox(analytics, products, inventory, sales, suppliers, procurement, knowledge, actions, clock)
     return AIService(provider, toolbox, audit, uow, get_settings(), knowledge)
 
 
@@ -281,9 +290,10 @@ def get_insight_service(
     insights: AiInsightRepository = Depends(get_ai_insight_repository),
     audit: AuditService = Depends(get_audit_service),
     uow: UnitOfWork = Depends(get_unit_of_work),
+    clock: Clock = Depends(get_clock),
 ) -> InsightService:
     checker = RecommendationChecker(analytics, suppliers, knowledge)
-    return InsightService(provider, analytics, checker, knowledge, scans, insights, audit, uow, get_settings())
+    return InsightService(provider, analytics, checker, knowledge, scans, insights, audit, uow, get_settings(), clock)
 
 
 @contextmanager
@@ -292,14 +302,15 @@ def insight_service_outside_a_request(provider_factory=get_llm_provider) -> Iter
     session = None if get_settings().data_backend == "memory" else get_session_factory()()
     try:
         products, suppliers = get_product_repository(session), get_supplier_repository(session)
+        sales = get_sales_repository(session)
+        clock = get_clock(sales)
         analytics = AnalyticsService(
-            products, get_inventory_repository(session), get_sales_repository(session),
-            get_purchase_order_repository(session), suppliers,
+            products, get_inventory_repository(session), sales, get_purchase_order_repository(session), suppliers, clock
         )
         yield get_insight_service(
             provider_factory(), get_knowledge(), analytics, SupplierService(suppliers, products),
             get_ai_scan_repository(session), get_ai_insight_repository(session),
-            AuditService(get_audit_log_repository(session)), get_unit_of_work(session),
+            AuditService(get_audit_log_repository(session)), get_unit_of_work(session), clock,
         )
     finally:
         if session is not None:
