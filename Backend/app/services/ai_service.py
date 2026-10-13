@@ -4,11 +4,12 @@ The model never sees the database. For each question it chooses tools from app/l
 server runs them with the user's permissions, and the model writes its answer from the results.
 Every tool call is returned to the client as a source and recorded in the audit log.
 """
-from datetime import date
+import json
 
 from app.core.config import Settings
 from app.knowledge.base import KnowledgeBase, Match
 from app.llm.providers import KEY_NAMES, Provider, ToolCall, ToolResult, Turn
+from app.llm.recommendations import untraced_figures
 from app.llm.tools import PROPOSE_TOOL, Toolbox, ToolError
 from app.models.entities import User
 from app.models.enums import AuditAction
@@ -39,7 +40,8 @@ Using tools:
 Each round of tool calls takes time, and the number of rounds is limited. Ask for everything you \
 can foresee needing in the same round, including several tools or several products at once, and \
 do not call a tool again for something you already have. Stop calling tools as soon as you can \
-answer.
+answer. A list tool shows only the first rows of what matched. When a result says fewer rows are \
+shown than matched, answer "how many" from the counts it gives, never by counting the rows listed.
 
 Recommendations:
 When your answer recommends a specific action on a product or supplier, also record it with \
@@ -54,7 +56,12 @@ draft_purchase_order, when you have that tool and the user has explicitly asked 
 create an order. Do not draft one because it seems useful; recommend it and let the user ask. A \
 draft orders nothing. After drafting, give the user the draft's ID and tell them it still needs \
 their review and submission on the Procurement page and then an approver's decision. Never say \
-an order has been placed or approved. You cannot edit, submit, approve or cancel anything. If you \
+an order has been placed or approved. You cannot edit, submit, approve or cancel anything; those \
+are your limits, not the user's, so do not tell users they lack a right their role has. When you \
+are going to draft, call the tool in that same turn; never reply that you will draft it. If the \
+request also asks for something you cannot do, such as submitting or approving, still create the \
+draft and say which part is left to people. If a draft is refused, tell the user why; do not try \
+again with a different product, supplier or quantity from the one the user gave unless they ask. If you \
 do not have the drafting tool, say what to order, how much and from whom, and tell the user who \
 can create it. The tools you are given depend on the user's role; if a \
 question needs data you have no tool for, tell the user their role does not include it.
@@ -75,6 +82,12 @@ by the company's rule. If neither the passages nor a search covers something, sa
 base does not define it instead of assuming.
 
 """
+
+# Sent back to the model, once, when its answer states figures although no tool gave it any data.
+NO_SOURCE_CORRECTION = """\
+<check>Your answer states figures that no tool returned in this conversation and that are not in the \
+question or the knowledge passages: {figures}. You may not state ERP figures from memory. If the answer \
+needs them, call the tool that provides them now. Otherwise answer again without them.</check>"""
 
 
 class AIService:
@@ -113,7 +126,11 @@ class AIService:
             "any of them, say plainly that their role does not include it; do not give another reason."
             if withheld else ""
         )
-        context = f"<context>Today is {self._toolbox.clock.today().isoformat()}. The user's role is {user.role.value}.{access}</context>\n\n"
+        rights = self._toolbox.order_rights(user, self._settings.separation_of_duties)
+        context = (
+            f"<context>Today is {self._toolbox.clock.today().isoformat()}. The user's role is {user.role.value}. "
+            f"{rights}{access}</context>\n\n"
+        )
         conversation = self._provider.start(
             self._system_prompt,
             self._toolbox.available(user),
@@ -122,10 +139,21 @@ class AIService:
         )
 
         self._toolbox.model = self._provider.model
+        self._toolbox.request_text = message
         sources: list[dict] = []
+        outputs: list = []  # what the tools returned: the only place the answer's figures may come from
         usage = {"input_tokens": 0, "output_tokens": 0}
         status, text, model = "ok", "", self._provider.model
-        for _ in range(self._settings.llm_max_tool_rounds + 1):
+        # Figures may also be repeated from the question, the passages supplied, or earlier turns.
+        given = " ".join([message, context, *(match.entry.text for match in passages), *(turn.content for turn in history)])
+
+        def untraced() -> list[str]:
+            return untraced_figures(text, f"{given} {json.dumps(outputs, default=str)}")
+
+        corrected = False
+        replies, allowed = 0, self._settings.llm_max_tool_rounds + 1  # the tool rounds, then the answer
+        while replies < allowed:
+            replies += 1
             reply = conversation.reply()
             model, text = reply.model, reply.text
             usage["input_tokens"] += reply.input_tokens
@@ -137,8 +165,15 @@ class AIService:
             if reply.stop != "tool_use":
                 if reply.stop == "max_tokens":
                     text += "\n\n(The answer was cut off because it reached the length limit.)"
+                # An answer with figures but no tool result behind it has nowhere to have got them from.
+                # The model is told once and may call the tool or drop the figures.
+                elif not corrected and not any(source["ok"] for source in sources) and (missing := untraced()):
+                    corrected = True
+                    allowed += 1  # one more reply, for the corrected answer
+                    conversation.add_user_message(NO_SOURCE_CORRECTION.format(figures=", ".join(missing)))
+                    continue
                 break
-            results = [self._run_tool(user, call, sources) for call in reply.tool_calls]
+            results = [self._run_tool(user, call, sources, outputs) for call in reply.tool_calls]
             # An answer that arrives together with its recommendations is finished: the recommendations
             # are recorded and nothing more is asked of the model.
             if text and all(call.name == PROPOSE_TOOL for call in reply.tool_calls) and not any(r.is_error for r in results):
@@ -163,6 +198,7 @@ class AIService:
             sources=sources,
             recommendations=[r.model_dump(mode="json") for r in self._toolbox.recommendations],
             actions=self._toolbox.actions,
+            unverified_figures=untraced() if status == "ok" else [],
             knowledge=[{**match.entry.summary(), "score": match.score} for match in passages],
             provider=self._provider.name,
             model=model,
@@ -187,10 +223,11 @@ class AIService:
         )
         return f"<knowledge>\n{body}\n</knowledge>\n\n"
 
-    def _run_tool(self, user: User, call: ToolCall, sources: list[dict]) -> ToolResult:
+    def _run_tool(self, user: User, call: ToolCall, sources: list[dict], outputs: list) -> ToolResult:
         try:
             content, failed = self._toolbox.run(user, call.name, call.arguments), False
         except ToolError as error:
             content, failed = str(error), True
         sources.append({"tool": call.name, "input": call.arguments, "ok": not failed})
+        outputs.append(content)
         return ToolResult(call, content, failed)

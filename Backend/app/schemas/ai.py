@@ -23,6 +23,9 @@ class ChatResponse(BaseModel):
     knowledge: list[dict] = Field(default=[], description="Knowledge-base passages given to the model")
     recommendations: list[dict] = []
     actions: list[dict] = []
+    unverified_figures: list[str] = Field(
+        default=[], description="Figures in the answer found in no tool result, knowledge passage or question"
+    )
     provider: str | None = None
     model: str | None = None
     usage: dict[str, int] | None = None

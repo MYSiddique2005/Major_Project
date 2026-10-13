@@ -41,6 +41,8 @@ export interface ChatResponse {
   knowledge: ChatKnowledge[]
   recommendations: Recommendation[]
   actions: ChatAction[]
+  /** Figures in the answer that the server found in no tool result, knowledge passage or question. */
+  unverified_figures: string[]
   provider: string | null
   model: string | null
   usage: Record<string, number> | null

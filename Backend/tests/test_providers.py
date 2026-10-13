@@ -97,6 +97,20 @@ def test_gemini_tool_round_trip():
     assert response.response == {"result": {"risk_level": "High"}}
 
 
+def test_gemini_follow_up_message_goes_after_the_models_own_reply():
+    provider, create = gemini(
+        gemini_response(genai_types.Part(text="Safety stock is 4321.")), gemini_response(genai_types.Part(text="I have no figure."))
+    )
+    conversation = provider.start("You are the assistant.", TOOLS, [], "What is the safety stock?")
+    conversation.reply()
+    conversation.add_user_message("<check>No tool returned 4321.</check>")
+    assert conversation.reply().text == "I have no figure."
+
+    question, model_turn, follow_up = create.requests[1]["contents"]
+    assert (question.role, model_turn.role, follow_up.role) == ("user", "model", "user")
+    assert model_turn.parts[0].text == "Safety stock is 4321." and follow_up.parts[0].text == "<check>No tool returned 4321.</check>"
+
+
 def test_gemini_tool_error_and_missing_call_id():
     unnamed_call = genai_types.Part(function_call=genai_types.FunctionCall(name="get_inventory", args={}))
     provider, create = gemini(gemini_response(unnamed_call), gemini_response(genai_types.Part(text="Sorry.")))
@@ -274,6 +288,18 @@ def test_anthropic_tool_round_trip():
     assert assistant_turn["content"] == [thinking, tool_use]  # returned exactly as received
     assert result_turn["content"] == [
         {"type": "tool_result", "tool_use_id": "toolu_1", "content": '{"risk_level":"High"}', "is_error": False}
+    ]
+
+
+def test_anthropic_follow_up_message_goes_after_the_models_own_reply():
+    said = SimpleNamespace(type="text", text="Safety stock is 4321.")
+    provider, create = claude(anthropic_response(said), anthropic_response(SimpleNamespace(type="text", text="I have no figure.")))
+    conversation = provider.start("You are the assistant.", TOOLS, [], "What is the safety stock?")
+    conversation.reply()
+    conversation.add_user_message("<check>No tool returned 4321.</check>")
+    assert conversation.reply().text == "I have no figure."
+    assert create.requests[1]["messages"][-2:] == [
+        {"role": "assistant", "content": [said]}, {"role": "user", "content": "<check>No tool returned 4321.</check>"}
     ]
 
 

@@ -302,7 +302,10 @@ WRITTEN = [
           f"role permits, so it cannot show data the user could not open themselves. The one thing it can create is "
           f"a draft purchase order, and only for a user who may create purchase orders and has asked for it. It "
           f"cannot edit, submit, approve, cancel or place anything. List tools return at most {MAX_ROWS} rows per "
-          f"call. Every question is written to the audit log with the tools used.",
+          f"call. The figures in an answer are checked against what the tools returned, the passages supplied and "
+          f"the question: an answer that states figures although no tool was called is sent back to be corrected, "
+          f"and any figure that still cannot be traced is listed under the answer as unverified. Every question is "
+          f"written to the audit log with the tools used.",
           "assistant limits capabilities permissions chatbot LLM"),
     Entry("rule.ai-insights", "Proactive AI insights and how recommendations are checked", "rule",
           "The AI assistant scans the data on a schedule and on request. The analytics decide what is wrong: only "
@@ -343,7 +346,8 @@ WRITTEN = [
           "with procurement:approve, other than the one who created or submitted it, approves or rejects it. Only a "
           "user who may create purchase orders can have "
           "one drafted. The AI cannot submit, approve or place an order, and at most 3 drafts are created for one "
-          "chat message. A quantity that differs from the reorder rule does not block the draft but is flagged on "
+          "chat message. If the user names a supplier that cannot supply the product, the draft is refused and the "
+          "assistant may not draft from a different supplier in the same message; the user has to ask for that. A quantity that differs from the reorder rule does not block the draft but is flagged on "
           "it for the reviewer and approver. Every step is in the audit log.",
           "AI purchase order automatic order assistant creates order human approval human in the loop draft PO"),
     Entry("flow.sales-order", "Sales order statuses", "workflow",

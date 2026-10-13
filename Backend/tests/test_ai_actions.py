@@ -180,6 +180,50 @@ def test_number_of_drafts_per_message_is_limited(client, auth, llm):
     assert last.is_error and "At most 3 drafts" in last.content
 
 
+def test_a_supplier_the_user_named_is_not_swapped_for_another_after_a_refusal(client, auth, llm):
+    facts = overview(client, auth, llm)
+    wrong = other_supplier(client, auth, facts)
+    right = facts["assessment"]["suggested_supplier_id"]
+    # The model tries the supplier the user named, is refused, then tries the product's real supplier on its own.
+    scripted = llm(
+        reply("", call("draft_purchase_order", proposal(facts, supplier_id=wrong))),
+        reply("", call("draft_purchase_order", proposal(facts, supplier_id=right))),
+        reply("That supplier cannot deliver it."),
+    )
+    body = ask(client, auth("procurement"), f"Draft a purchase order for {facts['product']['id']} from supplier {wrong}.").json()
+
+    first, second = (round_[0] for round_ in scripted.conversations[0].results)
+    assert first.is_error and "does not supply" in first.content
+    assert second.is_error and "Do not draft from a different supplier" in second.content
+    assert body["actions"] == []  # nothing was drafted
+
+
+def test_the_assistant_may_correct_a_supplier_the_user_did_not_name(client, auth, llm):
+    facts = overview(client, auth, llm)
+    wrong = other_supplier(client, auth, facts)
+    right = facts["assessment"]["suggested_supplier_id"]
+    llm(
+        reply("", call("draft_purchase_order", proposal(facts, supplier_id=wrong))),  # the model's own mistake
+        reply("", call("draft_purchase_order", proposal(facts, supplier_id=right))),
+        reply("Drafted."),
+    )
+    body = ask(client, auth("procurement"), f"Draft a purchase order for {facts['product']['id']}.").json()
+    (action,) = body["actions"]
+    assert action["supplier_id"] == right
+
+
+def test_assistant_is_told_what_the_user_may_do_with_purchase_orders(client, auth, llm):
+    scripted = llm(reply("ok"))
+    for user in ("procurement", "inventory"):
+        ask(client, auth(user))
+    procurement, inventory = (conversation.message for conversation in scripted.conversations)
+    assert "The user can create, edit and submit purchase orders" in procurement
+    assert "approve or reject purchase orders that another user created or submitted" in procurement
+    assert "The user cannot create, submit or approve purchase orders" in inventory
+    system = scripted.conversations[0].system
+    assert "never reply that you will draft it" in system and "those are your limits, not the user's" in system
+
+
 def test_the_assistant_has_no_tool_that_submits_approves_or_places_an_order():
     names = set(Toolbox(None, None, None, None, None, None, None, actions=object())._tools)
     assert "draft_purchase_order" in names

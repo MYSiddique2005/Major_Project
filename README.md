@@ -13,7 +13,7 @@ across sales, inventory and procurement, raises insights on its own, makes recom
 server checks against its own figures, and can turn a recommendation into a draft purchase order that
 a person must review, submit and approve.**
 
-An evaluation of the assistant on 24 questions is in `LLM/` (Phase 8).
+An evaluation of the assistant on 86 questions, before and after fixes and repeated three times, is in `LLM/` (Phase 8).
 
 ## Scope (Phases 1–8)
 
@@ -48,8 +48,10 @@ Implemented:
   and its checks, and goes through the same validation, submission and approval as any other order
 
 - Evaluation: a resumable harness in `LLM/evaluation` asks questions whose correct answers are computed
-  from the database, with and without grounding, and scores the answers without using a model as judge Not planned: Text-to-SQL
-(the model never writes SQL), a vector database, machine-learning models, production deployment.
+  from the database, with and without grounding, and scores the answers without using a model as judge
+
+Not planned: Text-to-SQL (the model never writes SQL), a vector database, machine-learning models,
+production deployment.
 
 ## Technology
 
@@ -298,15 +300,30 @@ pre-filled draft, which then goes through the normal validation, approval and au
 | `search_products` | Product master data and stock status | `products:view` |
 | `get_inventory` | Stock records of a product | `inventory:view` |
 | `get_sales_summary` | Units, revenue, weekly units, top customers and products | `sales:view` |
-| `list_purchase_orders` | Purchase orders and their delivery dates | `procurement:view` |
+| `list_purchase_orders` | Purchase orders and their delivery dates, the number overdue, or one order by its ID | `procurement:view` |
 | `list_suppliers` | Supplier master data | `suppliers:view` |
 | `get_product_overview` | One product's facts grouped by module (Phase 6) | `analytics:view` |
 | `propose_recommendation` | Records a recommendation and returns the server's checks on it (Phase 6) | `analytics:view` |
 | `search_knowledge` | Passages from the knowledge base (Phase 5) | `ai:use` |
 | `draft_purchase_order` | Creates a draft purchase order from a reorder recommendation (Phase 7) | `procurement:create` |
 
-All tools are read-only except `draft_purchase_order`, which can only create a Draft. The model has no database access, writes no SQL, and takes every figure from a
-tool result. It stops after at most 8 rounds of tool calls.
+All tools are read-only except `draft_purchase_order`, which can only create a Draft. The model has no
+database access, writes no SQL, and is instructed to take every figure from a tool result. It stops after
+at most 8 rounds of tool calls.
+
+Three things keep an answer tied to the data rather than to the model's instructions alone:
+
+- **Lists say when they are cut off.** A list tool returns at most 50 rows. Its result gives the totals
+  over everything that matched (for purchase orders, including how many are overdue) and, when rows were
+  left out, a note saying so, so the model does not count the rows it happens to see.
+- **Figures need a source.** The server looks up every figure in the answer among the tool results, the
+  knowledge passages supplied, the question and the earlier turns. If the answer states figures although
+  no tool was called, it is sent back to the model once to be corrected. Figures that still cannot be
+  traced are returned as `unverified_figures` and shown under the answer as a caution. Whole numbers up
+  to 10 are ignored (they are usually counts of the items listed), and a figure the model worked out
+  from tool results is flagged, not blocked.
+- **The user's rights are stated.** Each question tells the model what the user's role cannot see and
+  what the user may do with purchase orders, so it does not present its own limits as the user's.
 
 | Setting in `Backend/.env` | Meaning |
 |---|---|
@@ -424,47 +441,59 @@ asks it to draft the order.
 |---|---|
 | Only a draft | The assistant has no tool that edits, submits, approves, cancels or places an order; a test asserts this |
 | Only for users who could do it themselves | The tool is offered, and the endpoints open, only with `procurement:create`; the service checks again |
-| Only on request | The assistant is instructed to draft only when the user asks; this rests on the model following its instructions, not on code |
+| Only on request | The assistant is instructed to draft only when the user asks, and to call the tool rather than say it will; this rests on the model following its instructions, not on code |
 | Same rules as any order | Supplier must be active and supply the product; quantity and price limits apply |
 | Bounded | At most 3 drafts for one chat message; one draft per insight |
 | A different quantity is visible | A quantity that differs from the reorder rule is not blocked, but is flagged on the draft for the reviewer and approver |
+| No substitute supplier | If the user names a supplier and the server refuses the draft (for example, that supplier does not supply the product), a draft from any supplier the user did not name is refused for the rest of that message; the user has to ask for it |
 | A second person decides | Whoever the draft was made for cannot approve it (separation of duties) |
 | Traceable | The audit log records the draft with its AI origin, and each later step |
 
 ## Evaluation (Phase 8)
 
-`LLM/evaluation` runs the assistant, exactly as the web application builds it, on 24 questions in five
+`LLM/evaluation` runs the assistant, exactly as the web application builds it, on 86 questions in five
 groups (grounding, factual, cross-module, controlled actions and permissions, abstention). Each case
-computes its correct answer from the application's services at run time. Ten of the questions are also
-asked with the knowledge base switched off. Scoring matches expected facts by number or phrase and
-counts figures in an answer that nothing supports. `LLM/README.md` explains how to run it.
+computes its correct answer from the application's services at run time. 32 of the questions are also
+asked with the knowledge base switched off. Scoring matches expected facts by number, phrase or pattern,
+counts figures in an answer that nothing supports, and uses no model as a judge. `LLM/README.md`
+explains how to run it and reports the results in full.
 
-Two runs on 6 October 2026, on Gemini's free tier (almost all on `gemini-3.5-flash-lite`):
+Runs of 10 to 13 October 2026, all on `gemini-3.5-flash-lite` (the free tier's smallest model), on the
+Wide World Importers dataset:
 
-| | Passed | Facts found | Unsupported figures |
+| Run | Passed with grounding | 95% CI | Unsupported figures |
 |---|---:|---:|---:|
-| **Run 1** (`results/main`): all 24 questions, with grounding | 23 (96%) | 96% | 0 of 119 |
-| Run 1: 10 paired questions, with grounding | 10 of 10 | 100% | 0 of 72 |
-| Run 1: the same 10, without grounding | 5 of 10 | 72% | 3 of 64 |
-| **Run 2** (`results/rules-v2`): all 24 questions, with grounding | 24 (100%) | 100% | 1 of 100 |
-| Run 2: 10 paired questions, with grounding | 10 of 10 | 100% | 0 of 60 |
-| Run 2: the same 10, without grounding | 5 of 10 | 62% | 1 of 51 |
+| `extended-1`: before the fixes below | 81 of 86 (94%) | 87-97% | 4 of 334 |
+| `fixed-1`: after the fixes | 84 of 86 (98%) | 92-99% | 1 of 310 |
+| `fixed-2`: repeat | 86 of 86 (100%) | 96-100% | 3 of 342 |
+| `fixed-3`: repeat | 86 of 86 (100%) | 96-100% | 2 of 332 |
 
-Run 2 was made later the same day, after three changes to the system: the assistant is told what the
-user's role does not include (which fixed run 1's one failure), the stockout-risk and supplier-trend
-rules were refined, and the analytics measure from the data's last day. The correct answers are
-recomputed each run, so the two runs are scored against the rules in force at the time. The one
-unsupported figure in run 2 is a difference the model worked out correctly from two tool figures
-(328.4 - 246.8 = 81.6); the check counts any derived figure as unsupported.
+| The same 32 questions | Passed with grounding | Passed without | p (exact sign test) |
+|---|---:|---:|---:|
+| `extended-1` | 32 | 9 | < 0.0001 |
+| `fixed-1` / `fixed-2` / `fixed-3` | 32 / 32 / 32 | 8 / 9 / 9 | < 0.0001 each |
 
-Run 1's one failure with grounding: asked for sales revenue by a role without sales access, the assistant
-revealed nothing and used no sales tool, but gave a wrong reason. Without grounding, the assistant
-could not state the company's thresholds (the 28-day demand window's minimum of 5 orders, the 14-day
-review period, the 8-week backtest) and in one answer invented figures; the three cross-module questions
-were answered correctly either way, because the tools return those facts.
+Without the knowledge base the assistant still answered 5 or 6 of 7 cross-module questions, because the
+tools return those facts, but only 2 to 4 of 25 questions about the company's own terms and rules.
+Across the three repeats of the fixed system, 84 of 86 questions passed every time with grounding; two
+failed once. The unsupported figures with grounding are all figures worked out correctly from tool
+results.
 
-These are indications from a small test written by the system's author and scored by keyword; they are not statistically reliable rates. `LLM/README.md` lists the limits, and
-the `report.md` in each results folder has every answer.
+The first run found five real failures, and each led to a change in the system: overdue orders counted
+from a truncated list; a real order declared missing for the same reason; figures and a supplier stated
+without any lookup; a draft announced but not made, with the user's rights misdescribed; and a supplier
+the user named swapped for another after the server refused it. The changes are described under
+[AI assistant](#ai-assistant-phase-4) and [Controlled actions](#controlled-actions-phase-7). All five
+passed in every repeat. Two other questions failed once after the changes (a supplier looked up by its
+ID in a search that matches names, and a non-existent product described as having no stock).
+
+Two earlier runs on the first 24 questions (6 October) passed 23 and 24 of 24 with grounding and 5 of
+10 without, and are unchanged under the current scoring.
+
+These are indications from a test written by the system's builders, scored by keyword and corrected by
+reading the answers, on one small model; they are not statistically reliable rates. `LLM/README.md`
+lists the limits, and the `report.md` and `notes.md` in each results folder have every answer and every
+correction to the key.
 
 ## Data model
 
@@ -500,11 +529,16 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
   can take up to a minute. The browser keeps the conversation; it is lost on reload and is not
   stored on the server.
   Automated tests use a scripted stand-in for the model, so they check the plumbing, not answer quality.
+  The check of an answer's figures is a lookup: it cannot tell a figure the model worked out correctly
+  from one it made up, or a real figure used in the wrong place.
 
 ## What could come next
 
-- **Further evaluation:** more questions, questions written by other people, repeated runs to measure
-  consistency, and the same run on other models (`LLM_PROVIDER` / `LLM_MODEL` with another `--name`).
+- **Two gaps the last run showed:** the stock-risk search does not match a supplier's ID, and asking for
+  the stock of a product that does not exist returns "no stock records" instead of "no such product".
+  They were left as they are so that the repeated runs measured one unchanged system.
+- **Further evaluation:** questions written by other people, and the same runs on other models
+  (`EVAL_MODEL` and `EVAL_PREFIX` with `run_extended.sh`).
 
 ## Roadmap
 
@@ -517,5 +551,4 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 | 5 (done) | Enterprise grounding: RAG, schema metadata, business rules, enterprise knowledge |
 | 6 (done) | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
 | 7 (done) | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
-| 8 (done, first run) | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |
-# Major_Project
+| 8 (done) | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |

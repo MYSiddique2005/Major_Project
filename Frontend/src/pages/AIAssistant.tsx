@@ -1,4 +1,4 @@
-import { BookOpen, Database, Info, Send, Sparkles } from 'lucide-react'
+import { AlertTriangle, BookOpen, Database, Info, Send, Sparkles } from 'lucide-react'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -16,6 +16,7 @@ interface Message {
   text: string
   sources?: ChatSource[]
   knowledge?: ChatKnowledge[]
+  unverifiedFigures?: string[]
   recommendations?: Recommendation[]
   actions?: ChatAction[]
   /** Only real answers are sent back to the assistant as conversation history. */
@@ -94,6 +95,7 @@ export default function AIAssistant() {
         knowledge: response.knowledge,
         recommendations: response.recommendations,
         actions: response.actions,
+        unverifiedFigures: response.unverified_figures,
         inHistory: answered,
       })
     } catch (err) {
@@ -223,6 +225,16 @@ export default function AIAssistant() {
                         </span>
                       ))}
                     </div>
+                  )}
+                  {message.unverifiedFigures && message.unverifiedFigures.length > 0 && (
+                    <p role="note" className="mt-2 flex items-start gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-xs text-amber-900">
+                      <AlertTriangle className="mt-0.5 size-3.5 shrink-0" aria-hidden />
+                      <span>
+                        Not found in the system data: {message.unverifiedFigures.join(', ')}. The assistant may have
+                        worked {message.unverifiedFigures.length === 1 ? 'this figure' : 'these figures'} out itself; check before relying on{' '}
+                        {message.unverifiedFigures.length === 1 ? 'it' : 'them'}.
+                      </span>
+                    </p>
                   )}
                   {message.knowledge && message.knowledge.length > 0 && (
                     <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">

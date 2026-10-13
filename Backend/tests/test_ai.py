@@ -28,6 +28,7 @@ class ScriptedConversation:
         self.provider, self.system, self.history, self.message = provider, system, history, message
         self.tool_names = {tool.name for tool in tools}
         self.results = []  # one list of ToolResult per round of tool calls
+        self.follow_ups = []  # messages the service sent after a reply, such as a request to correct it
 
     def reply(self):
         self.provider.requests += 1
@@ -39,6 +40,9 @@ class ScriptedConversation:
 
     def add_tool_results(self, results):
         self.results.append(results)
+
+    def add_user_message(self, text):
+        self.follow_ups.append(text)
 
 
 class ScriptedProvider:
@@ -214,3 +218,74 @@ def test_every_tool_returns_data(client, auth, llm, name, arguments):
     assert not result.is_error, result.content
     assert result.content
     assert len(json.dumps(result.content)) < 20_000  # results stay small enough to send to the model
+
+
+def test_list_results_give_totals_and_say_when_rows_are_cut_off(client, auth, llm):
+    scripted = llm(
+        reply("", call("list_purchase_orders", {"limit": 2}, "call_1"), call("list_purchase_orders", {"limit": 50}, "call_2"),
+              call("list_stock_risk", {"limit": 1}, "call_3")),
+        reply("Done."),
+    )
+    ask(client, auth("admin"))
+    few, all_orders, risk = (result.content for result in scripted.conversations[0].results[0])
+
+    # The overdue count covers every matching order, however few rows are listed.
+    assert few["matching_orders"] == all_orders["matching_orders"] > 2 and few["shown"] == 2
+    assert few["overdue_orders"] == all_orders["overdue_orders"] >= 1  # the demo data has an overdue order
+    assert "do not count the listed rows" in few["note"] and "note" not in all_orders
+    assert "note" in risk and risk["shown"] == 1
+    assert "never by counting the rows listed" in scripted.conversations[0].system
+
+
+# --- Figures must have a source -------------------------------------------------------------------
+
+
+def test_an_answer_with_figures_but_no_tool_call_is_sent_back_once(client, auth, llm):
+    scripted = llm(
+        reply("Safety stock is 4321 units and the reorder point is 8765."),   # from nowhere
+        reply("", call("get_inventory", {"product_id": "P001"})),              # corrected: asks the system
+        reply("Laptop Pro 14 (P001) has stock records in two warehouses."),
+    )
+    body = ask(client, auth("admin"), "What is the safety stock of P001?").json()
+
+    (follow_up,) = scripted.conversations[0].follow_ups
+    assert "4321" in follow_up and "8765" in follow_up and "call the tool" in follow_up
+    assert body["message"] == "Laptop Pro 14 (P001) has stock records in two warehouses."
+    assert body["unverified_figures"] == [] and scripted.requests == 3
+
+
+def test_the_correction_is_asked_for_only_once(client, auth, llm):
+    scripted = llm(reply("Safety stock is 4321 units."))  # the model repeats itself
+    body = ask(client, auth("admin")).json()
+    assert len(scripted.conversations[0].follow_ups) == 1 and scripted.requests == 2
+    assert body["unverified_figures"] == ["4321"]  # still reported to the user as unverified
+
+
+def test_figures_from_tools_the_question_or_small_counts_need_no_correction(client, auth, llm):
+    scripted = llm(reply("", call("get_inventory", {"product_id": "P001"})), reply("There are 350 units in the Main Warehouse."))
+    assert ask(client, auth("admin")).json()["unverified_figures"] == []
+    assert scripted.conversations[0].follow_ups == []
+
+    scripted = llm(reply("You asked about 5000 units. There are 3 things to check first."))
+    body = ask(client, auth("admin"), "Can we order 5000 units?").json()
+    assert scripted.conversations[0].follow_ups == [] and body["unverified_figures"] == [] and scripted.requests == 1
+
+
+def test_a_figure_no_tool_returned_is_reported_as_unverified(client, auth, llm):
+    scripted = llm(reply("", call("list_risk_alerts", {})), reply("There are 98765 alerts."))
+    body = ask(client, auth("admin")).json()
+    # A tool was called, so the figure may be derived from its result: it is not sent back, only flagged.
+    assert body["unverified_figures"] == ["98765"] and scripted.conversations[0].follow_ups == []
+
+
+def test_one_purchase_order_can_be_looked_up_by_its_id(client, auth, llm):
+    oldest = client.get(f"{API}/procurement", headers=auth("admin")).json()[-1]["id"]
+    scripted = llm(
+        reply("", call("list_purchase_orders", {"order_id": oldest.lower(), "limit": 1}, "call_1"),
+              call("list_purchase_orders", {"order_id": "PO-0"}, "call_2")),
+        reply("Done."),
+    )
+    ask(client, auth("admin"))
+    found, missing = scripted.conversations[0].results[0]
+    assert found.content["matching_orders"] == 1 and found.content["orders"][0]["id"] == oldest
+    assert missing.is_error and "not found" in missing.content

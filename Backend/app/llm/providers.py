@@ -71,6 +71,9 @@ class Conversation(Protocol):
     def add_tool_results(self, results: list[ToolResult]) -> None:
         """Adds the results of the tool calls in the last reply."""
 
+    def add_user_message(self, text: str) -> None:
+        """Adds a further message after the model's last reply, for the model to answer next."""
+
 
 class Provider(Protocol):
     name: str
@@ -148,6 +151,11 @@ class AnthropicConversation:
                 for result in results
             ],
         })
+
+
+    def add_user_message(self, text: str) -> None:
+        self.messages.append({"role": "assistant", "content": self._last_content})
+        self.messages.append({"role": "user", "content": text})
 
 
 class AnthropicProvider:
@@ -308,6 +316,14 @@ class GeminiConversation:
             ))
             for result in results
         ]))
+
+    def add_user_message(self, text: str) -> None:
+        self.contents.append(self._last_content)
+        self.contents.append(_gemini_user_turn(text))
+
+
+def _gemini_user_turn(text: str):
+    return genai_types.Content(role="user", parts=[genai_types.Part(text=text)])
 
 
 def _gemini_error(error: genai_errors.APIError, model: str) -> str:

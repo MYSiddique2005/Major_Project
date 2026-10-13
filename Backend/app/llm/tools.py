@@ -5,6 +5,7 @@ permission it needs. A user is only offered the tools their role allows, and the
 when a tool runs, so the assistant can never show data the user could not open themselves.
 All figures come from these functions; the model does no arithmetic of its own on ERP data.
 """
+import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import date, timedelta
@@ -47,6 +48,14 @@ WITHHELD = {
 }
 
 
+def _truncated(limit: int, total: int, rows: str, totals: str) -> dict[str, str]:
+    """A note for a list result that shows only part of what matched, so the rows are not mistaken for all of it."""
+    if total <= limit:
+        return {}
+    return {"note": f"Only the first {limit} of {total} matching {rows} are listed. {totals} cover all {total}; "
+                    f"do not count the listed rows to answer how many."}
+
+
 # --- Tool inputs ----------------------------------------------------------------------------
 
 
@@ -80,6 +89,7 @@ class SalesSummaryInput(BaseModel):
 
 
 class PurchaseOrderListInput(BaseModel):
+    order_id: str | None = Field(default=None, description="One purchase order by its ID, such as PO-18064")
     product_id: str | None = None
     supplier_id: str | None = Field(default=None, description="Supplier ID such as S004")
     status: PurchaseOrderStatus | None = None
@@ -133,6 +143,8 @@ class Toolbox:
         self._actions = actions
         self.actions: list[dict] = []  # drafts created during this request
         self.model: str | None = None  # set by the assistant, recorded on drafts
+        self.request_text = ""  # the user's message, set by the assistant: what they actually asked for
+        self._refused_suppliers: dict[str, str] = {}  # product -> supplier the user named and the server refused
         self._checker = RecommendationChecker(analytics, suppliers, knowledge)
         self.recommendations: list[Recommendation] = []  # accepted during this request
         self._analytics = analytics
@@ -151,6 +163,21 @@ class Toolbox:
         instead of guessing why it has no tool for a question."""
         missing = {tool.permission for tool in self._tools.values() if not has_permission(user.role, tool.permission)}
         return [WITHHELD[permission] for permission in sorted(missing) if permission in WITHHELD]
+
+    @staticmethod
+    def order_rights(user: User, separation_of_duties: bool = True) -> str:
+        """In plain words, what this user may do with purchase orders themselves. Given to the assistant so
+        it does not confuse its own limits (it can only draft) with the user's."""
+        rights = []
+        if has_permission(user.role, Permission.PROCUREMENT_CREATE):
+            rights.append("create, edit and submit purchase orders")
+        if has_permission(user.role, Permission.PROCUREMENT_APPROVE):
+            rights.append(
+                "approve or reject purchase orders" + (" that another user created or submitted" if separation_of_duties else "")
+            )
+        if not rights:
+            return "The user cannot create, submit or approve purchase orders."
+        return f"The user can {' and '.join(rights)}."
 
     def run(self, user: User, name: str, arguments: Any) -> Any:
         self._user = user
@@ -267,8 +294,11 @@ class Toolbox:
             ),
             Tool(
                 "list_purchase_orders",
-                "Purchase orders, newest first, filtered by product, supplier or status, with the count per "
-                "status. Shows quantities, order date, expected and actual delivery dates.",
+                "Purchase orders, newest first, filtered by product, supplier or status, or one order by its ID "
+                "(always use order_id to look up a particular order). Gives the count per "
+                "status and the number overdue across ALL matching orders, then lists only the newest rows "
+                "(quantities, order date, expected and actual delivery dates). Answer 'how many' from the counts, "
+                "not by counting the rows listed.",
                 Permission.PROCUREMENT_VIEW, PurchaseOrderListInput, self._list_purchase_orders,
             ),
             Tool(
@@ -281,10 +311,36 @@ class Toolbox:
 
     # --- Handlers ---------------------------------------------------------------------------
 
+    def _named_by_user(self, supplier_id: str) -> bool:
+        """Whether the user's message names this supplier, by ID or by name."""
+        text = self.request_text.lower()
+        if re.search(rf"\b{re.escape(supplier_id.lower())}\b", text):
+            return True
+        try:
+            name = self._suppliers.get_supplier(supplier_id).name
+        except DomainError:
+            return False
+        return name.split(",")[0].strip().lower() in text  # "Fabrikam" for "Fabrikam, Inc."
+
     def _draft_purchase_order(self, args: RecommendationInput) -> dict:
         if len(self.actions) >= MAX_DRAFTS_PER_REQUEST:
             raise ToolError(f"At most {MAX_DRAFTS_PER_REQUEST} drafts can be created for one message.")
-        order, recommendation = self._actions.draft_from_proposal(args, self._user, self.model)
+        # A draft must be what the user asked for. If they named a supplier and the server refused it, the
+        # assistant may not quietly draft from another one in the same message; the user decides.
+        product_id = args.product_id or (args.subject_id if args.subject_type == "product" else None)
+        refused = self._refused_suppliers.get(product_id or "")
+        if refused and args.supplier_id != refused and not (args.supplier_id and self._named_by_user(args.supplier_id)):
+            raise ToolError(
+                f"The user asked for supplier {refused} and that draft was refused. Do not draft from a different "
+                "supplier on your own. Tell the user why it was refused and which supplier can deliver the product, "
+                "and let them ask for that draft."
+            )
+        try:
+            order, recommendation = self._actions.draft_from_proposal(args, self._user, self.model)
+        except DomainError:
+            if product_id and args.supplier_id and self._named_by_user(args.supplier_id):
+                self._refused_suppliers[product_id] = args.supplier_id
+            raise
         self.recommendations.append(recommendation)
         self.actions.append({
             "type": "purchase_order_draft",
@@ -356,6 +412,7 @@ class Toolbox:
             "matching_products": len(items),
             "count_by_risk_level": dict(Counter(item.risk_level.value for item in items)),
             "shown": min(len(items), args.limit),
+            **_truncated(args.limit, len(items), "products", "matching_products and count_by_risk_level"),
             "products": [item.model_dump(mode="json", include=fields) for item in items[: args.limit]],
         }
 
@@ -380,6 +437,8 @@ class Toolbox:
         products = self._products.list_products(args.search, args.category)
         return {
             "matching_products": len(products),
+            "shown": min(len(products), args.limit),
+            **_truncated(args.limit, len(products), "products", "matching_products"),
             "products": [product.model_dump(mode="json") for product in products[: args.limit]],
         }
 
@@ -432,10 +491,21 @@ class Toolbox:
         orders = self._procurement.list_orders(
             status=args.status, supplier_id=args.supplier_id, product_id=args.product_id
         )
+        if args.order_id:
+            orders = [order for order in orders if order.id.lower() == args.order_id.strip().lower()]
+            if not orders:
+                raise ToolError(f"Purchase order '{args.order_id}' not found.")
+        today = self.clock.today()
+        overdue = sum(
+            1 for order in orders
+            if order.status == PurchaseOrderStatus.ORDERED and order.actual_delivery is None and order.expected_delivery < today
+        )
         return {
             "matching_orders": len(orders),
             "count_by_status": dict(Counter(order.status.value for order in orders)),
+            "overdue_orders": overdue,  # Ordered, not delivered, expected before today - over all matching orders
             "shown": min(len(orders), args.limit),
+            **_truncated(args.limit, len(orders), "orders", "matching_orders, count_by_status and overdue_orders"),
             "orders": [order.model_dump(mode="json", exclude={"reason", "created_by"}) for order in orders[: args.limit]],
         }
 

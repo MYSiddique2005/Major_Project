@@ -110,6 +110,17 @@ def unmatched_figures(text: str, reference: str) -> tuple[int, list[str]]:
     return len(stated), list(dict.fromkeys(written for written, value in stated if not is_known(value)))
 
 
+SMALL_COUNT = 10
+
+
+def untraced_figures(text: str, reference: str) -> list[str]:
+    """Figures in `text` found nowhere in `reference`, leaving out whole numbers up to SMALL_COUNT: those
+    are nearly always counts of the things an answer lists ("3 products"), not data."""
+    _, unmatched = unmatched_figures(text, reference)
+    values = ((written, float(written.replace(",", ""))) for written in unmatched)
+    return [written for written, value in values if not (value.is_integer() and value <= SMALL_COUNT)]
+
+
 # --- Facts and checks --------------------------------------------------------------------------
 
 
