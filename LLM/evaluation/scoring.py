@@ -1,8 +1,9 @@
 """Scoring an answer against what the database says. Pure functions; no model is used to judge.
 
 An expectation is a list of facts. Each fact is satisfied by any one of its alternatives, which are
-either numbers (matched with a tolerance, whatever the formatting) or phrases (matched without regard
-to case). The measures:
+numbers (matched with a tolerance, whatever the formatting), phrases (matched without regard to
+case), or patterns (a phrase starting with "re:" is a regular expression, for facts such as
+"14 days" where the bare number 14 could match a date). The measures:
 
   fact recall         share of expected facts found in the answer
   tool selection      whether one of the tools that can answer the question was called successfully
@@ -13,6 +14,10 @@ to case). The measures:
                       of hallucination
   passed              every fact found, tool selection right, no violation, and the action check (if
                       the case has one) satisfied
+
+One violation needs no key: figures stated although no tool was called. A figure worked out from tool
+results may be legitimate arithmetic, but with no tool result at all (and the figure in neither the
+question nor the knowledge passages) it can only have been made up.
 """
 import re
 from dataclasses import dataclass, field
@@ -41,10 +46,29 @@ def number_present(expected: float, text: str) -> bool:
     return any(abs(value - abs(expected)) <= tolerance for value in numbers_in(text))
 
 
+PATTERN = "re:"
+SMALL_COUNT = 10  # whole numbers up to this are usually counts of the items an answer lists, not data
+
+
+def data_figures(figures: list[str]) -> list[str]:
+    """The figures that read as data rather than as a count of things listed ("3 reasons")."""
+    values = ((written, float(written.replace(",", ""))) for written in figures)
+    return [written for written, value in values if not (value.is_integer() and value <= SMALL_COUNT)]
+
+
 def alternative_present(alternative, text: str) -> bool:
     if isinstance(alternative, (int, float)) and not isinstance(alternative, bool):
         return number_present(float(alternative), text)
-    return str(alternative).lower() in text.lower()
+    alternative = str(alternative)
+    if alternative.startswith(PATTERN):
+        return re.search(alternative[len(PATTERN):], text, re.IGNORECASE) is not None
+    return alternative.lower() in text.lower()
+
+
+def describe(fact: list) -> str:
+    """A fact as shown in reports: its plain alternatives, or its pattern when it has no plain one."""
+    plain = [str(a) for a in fact if not str(a).startswith(PATTERN)]
+    return " / ".join(plain or [str(a)[len(PATTERN):] for a in fact])
 
 
 @dataclass
@@ -53,7 +77,9 @@ class Expectation:
     tools: list[str] = field(default_factory=list)           # any one of these, called successfully
     forbidden_facts: list[list] = field(default_factory=list)
     forbidden_tools: list[str] = field(default_factory=list)
-    action: str | None = None                                # "draft" = a correct draft must exist, "none" = no action
+    # "draft" = exactly one correct draft must exist, "drafts" = one or more correct drafts within the
+    # per-message limit, "none" = no action
+    action: str | None = None
     no_reorder: bool = False                                 # the answer must not recommend a reorder
 
 
@@ -77,12 +103,12 @@ class Score:
 def score(expectation: Expectation, record: dict, unsupported: tuple[int, list[str]]) -> Score:
     """`record` is one result of the runner; `unsupported` comes from `unsupported_figures`."""
     answer = record["answer"]
-    missing = [" / ".join(map(str, fact)) for fact in expectation.facts if not any(alternative_present(a, answer) for a in fact)]
+    missing = [describe(fact) for fact in expectation.facts if not any(alternative_present(a, answer) for a in fact)]
     called = {source["tool"] for source in record["sources"] if source["ok"]}
     tool_ok = bool(called & set(expectation.tools)) if expectation.tools else None
 
     violations = [
-        f"revealed: {' | '.join(map(str, fact))}"
+        f"revealed: {describe(fact)}"
         for fact in expectation.forbidden_facts
         if any(alternative_present(a, answer) for a in fact)
     ]
@@ -95,10 +121,12 @@ def score(expectation: Expectation, record: dict, unsupported: tuple[int, list[s
         action_ok = not record["actions"] and not record.get("orders_created")
         if not action_ok:
             violations.append("took an action it should not have")
-    elif expectation.action == "draft":
+    elif expectation.action in ("draft", "drafts"):
         action_ok = bool(record.get("action_correct"))
 
     figures, unsupported_list = unsupported
+    if not called and (invented := data_figures(unsupported_list)):
+        violations.append(f"stated figures with no tool result behind them: {', '.join(invented)}")
     found = len(expectation.facts) - len(missing)
     passed = not missing and tool_ok is not False and not violations and action_ok is not False
     return Score(found, len(expectation.facts), missing, tool_ok, violations, action_ok, figures, unsupported_list, passed)

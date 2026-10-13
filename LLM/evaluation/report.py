@@ -36,6 +36,11 @@ def load(name: str) -> list[dict]:
     return records
 
 
+def cell(text: str) -> str:
+    """Text made safe for a Markdown table cell."""
+    return text.replace("|", "\\|").replace("\n", " ")
+
+
 def pct(part: float, whole: float) -> str:
     return f"{part / whole:.0%}" if whole else "-"
 
@@ -115,7 +120,7 @@ def write_report(name: str) -> Path:
             with_g = next(r for r in grounded if r["case"] == case_id)["score"]
             without = next(r for r in ungrounded if r["case"] == case_id)["score"]
             lines += [f"| {case_id} | {'pass' if with_g['passed'] else 'fail'} | {'pass' if without['passed'] else 'fail'} "
-                      f"| {'; '.join(without['missing']) or '-'} |"]
+                      f"| {cell('; '.join(without['missing'])) or '-'} |"]
     else:
         lines += ["No question has been answered in both conditions yet."]
 
@@ -128,7 +133,7 @@ def write_report(name: str) -> Path:
         problems = "; ".join([*(f"missing {m}" for m in s["missing"]), *s["violations"],
                               *(["wrong tool"] if s["tool_ok"] is False else []),
                               *(["draft wrong or absent"] if s["action_ok"] is False and record["expected"]["action"] == "draft" else [])])
-        lines += [f"| {record['case']} | {record['condition']} | {record['role']} | {'pass' if s['passed'] else 'FAIL: ' + problems} "
+        lines += [f"| {record['case']} | {record['condition']} | {record['role']} | {'pass' if s['passed'] else 'FAIL: ' + cell(problems)} "
                   f"| {s['facts_found']}/{s['facts_expected']} | {', '.join(dict.fromkeys(x['tool'] for x in record['sources'])) or '-'} "
                   f"| {', '.join(s['unsupported_figures']) or '-'} | {record['model']} |"]
 
