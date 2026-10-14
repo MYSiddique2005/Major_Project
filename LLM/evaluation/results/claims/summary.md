@@ -12,8 +12,10 @@ whose wording had not been seen while that version was written, and the verifier
 | v1 (3f0e59d6) | Mutation test, word swaps in 108 development texts, 271 mutants, manual review of 40 misses | about 48% of real errors (estimate) | - |
 | v2 (cb172ddc) | **Held-out**: model-written rewrites of 60 texts (`perturbations-v2-test.jsonl`) | **15 of 25 (60%, 95% CI 41-77%)** | **1 of 60 (2%, 0-9%)** |
 | v3 (36154591) | **Held-out**: model-written rewrites of 60 different texts (`test-v3.jsonl`) | **25 of 31 (81%, 95% CI 64-91%)** | **2 of 60 (3%, 1-11%)** |
+| v3 (36154591) | **Held-out, second set**: 64 more texts never used before (`test-v3b.jsonl`, `test-v3b-review.md`) | **23 of 31 (74%, 95% CI 57-86%)** | **0 of 64 (0%, 0-6%)** |
+| v3, both sets | | **48 of 62 (77%, 95% CI 66-86%)** | **2 of 124 (2%, 0-6%)** |
 
-All injected errors, in scope or not: v2 16 of 59 (27%), v3 25 of 60 (42%). "In scope" means a statement
+All injected errors, in scope or not: v2 16 of 59 (27%), v3 25 of 60 (42%) and 23 of 64 (36%). "In scope" means a statement
 about a product's or supplier's current state of one of the verifier's 12 claim kinds; the others are
 permissions, whether something exists, comparisons between products, past events, periods and scenario
 premises, process statements, statements about groups of products, and changed numbers (the figure check's
@@ -32,7 +34,8 @@ reply: one with exactly one qualitative statement made false without changing an
 paraphrase with the same meaning. A rewrite counts when the model's stated change is visible in the text.
 Detection counts only contradictions the rewrite introduced, not ones the original already had. The texts
 are a seeded random sample of answers and insights that name a product; the selection does not depend on
-the verifier, so v2 and v3 were tested on the first and the second 60 texts of the same order.
+the verifier, so v2 and v3 were tested on the first and the second 60 texts of the same order, and v3 again,
+unchanged, on the remaining 64 texts (positions 120-183, the whole rest of the pool).
 
 ## Version 3 test: classification and misses
 
@@ -54,6 +57,6 @@ These were left unfixed so that the test stays a test. A version 4 would need an
 - The injected errors were written by a model told to change one qualitative statement, so their style
   may differ from errors a model makes on its own. The development texts contained only two such natural
   errors (both caught), too few to measure detection of natural errors.
-- 25 and 31 in-scope errors give wide confidence intervals.
+- 25 and 31 in-scope errors per test give wide intervals; pooling the two v3 tests (62) narrows it to 66-86%.
 - Scope was decided by hand, by the authors.
 - The verifier is pattern-based and English-only; a claim worded unlike any pattern is not checked.

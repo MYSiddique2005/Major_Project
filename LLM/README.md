@@ -47,6 +47,7 @@ cd LLM
 ../Backend/.venv/bin/python -m evaluation.claims_mutation                          # word-swap mutation test; no model
 ../Backend/.venv/bin/python -m evaluation.claims_eval perturb-batched --limit 60 --offset 60 --set test-v3
 ../Backend/.venv/bin/python -m evaluation.claims_eval report --set test-v3          # score a set of rewrites
+../Backend/.venv/bin/python -m evaluation.claims_eval perturb-batched --limit 64 --offset 120 --set test-v3b  # the second v3 test
 ```
 
 It uses the model and database configured in `Backend/.env`. Answers are appended to
@@ -146,6 +147,8 @@ with the verifier frozen before scoring:
 |---|---:|---:|
 | version 2 (60 texts) | 15 of 25 (60%, 95% CI 41-77%) | 1 of 60 (2%) |
 | version 3 (60 different texts) | 25 of 31 (81%, 95% CI 64-91%) | 2 of 60 (3%) |
+| version 3, unchanged (64 more texts) | 23 of 31 (74%, 95% CI 57-86%) | 0 of 64 (0%) |
+| **version 3, both sets** | **48 of 62 (77%, 95% CI 66-86%)** | **2 of 124 (2%)** |
 
 On the stored answers it also found two genuine errors that the keyword scoring had passed (U11 in
 fixed-2 and fixed-3: a product with 125 units against a reorder level of 92 called "Low Stock" because "125

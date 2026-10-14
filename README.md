@@ -494,8 +494,8 @@ passed in every repeat. Two other questions failed once after the changes (a sup
 ID in a search that matches names, and a non-existent product described as having no stock).
 
 **Claim verification.** On model-written rewrites of texts not used while it was written (verifier frozen
-before scoring), the final version caught 25 of 31 planted false statements within its scope (81%, 95% CI
-64-91%) and raised false alarms on 2 of 60 paraphrases (3%). It also found two genuine model errors that
+before scoring), the final version caught 48 of 62 planted false statements within its scope over two test sets (77%, 95% CI
+66-86%) and raised false alarms on 2 of 124 paraphrases (2%). It also found two genuine model errors that
 the keyword scoring had passed. See `LLM/evaluation/results/claims/summary.md`.
 
 Two earlier runs on the first 24 questions (6 October) passed 23 and 24 of 24 with grounding and 5 of
