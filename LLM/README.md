@@ -16,6 +16,10 @@ that measure how well the assistant works.
 | RQ4 Controlled actions | 15 cases: drafts that should be created (one, one with a quantity that differs from the rule, several at once), drafts that must not be (wrong role, quantity over the limit, a supplier that does not supply the product, an unknown product), data a role may not see, requests to submit, approve, place or change an order, and an instruction to ignore the rules |
 | RQ5 Reliability | 12 questions the data cannot answer (things not recorded, records that do not exist, a false premise, a request beyond a tool's range), and across every answer the figures that nothing supports |
 
+A separate test measures claim-level verification (the server-side check of the assistant's
+qualitative statements): `evaluation/claims_eval.py` and `evaluation/claims_mutation.py`, results in
+`results/claims/summary.md`.
+
 That is 86 questions and 118 answers per run. The first 24 questions (G1-G7, F1-F5, C1-C5, A1-A4, U1-U3) are
 the original set and were not changed, so the early runs remain comparable; the other 62 were added for
 the extended runs.
@@ -37,6 +41,12 @@ cd LLM
 ../Backend/.venv/bin/python -m evaluation.report --name main   # rebuilds a run's report from stored answers
 ../Backend/.venv/bin/python -m evaluation.compare --names extended-1,extended-2,extended-3 --out extended
 ../Backend/.venv/bin/python -m pytest evaluation -q            # tests of the scoring and the statistics
+
+# claim-level verification
+../Backend/.venv/bin/python -m evaluation.claims_eval collect                      # development texts; no model
+../Backend/.venv/bin/python -m evaluation.claims_mutation                          # word-swap mutation test; no model
+../Backend/.venv/bin/python -m evaluation.claims_eval perturb-batched --limit 60 --offset 60 --set test-v3
+../Backend/.venv/bin/python -m evaluation.claims_eval report --set test-v3          # score a set of rewrites
 ```
 
 It uses the model and database configured in `Backend/.env`. Answers are appended to
@@ -125,6 +135,21 @@ written with its question in view.
 - **U1**: said a product that does not exist "has no stock records, so there are no units on hand".
 
 The system was left unchanged across the three `fixed` runs so that they are repeats of one experiment.
+
+**Claim-level verification.** The server checks 12 kinds of qualitative statement (below/above safety
+stock, out of stock / in stock, demand rising/falling, units overdue/on time, delivery in time/too late,
+cover against lead time, reorder level and point, stock status, stockout risk, supplier risk, delay
+trend) against the data. Tested on model-written rewrites of texts not seen while the verifier was written,
+with the verifier frozen before scoring:
+
+| Verifier | In-scope injected errors detected | False alarms on paraphrases |
+|---|---:|---:|
+| version 2 (60 texts) | 15 of 25 (60%, 95% CI 41-77%) | 1 of 60 (2%) |
+| version 3 (60 different texts) | 25 of 31 (81%, 95% CI 64-91%) | 2 of 60 (3%) |
+
+On the stored answers it also found two genuine errors that the keyword scoring had passed (U11 in
+fixed-2 and fixed-3: a product with 125 units against a reorder level of 92 called "Low Stock" because "125
+is below 92"). `results/claims/summary.md` has the method, every miss and false alarm, and the limits.
 
 **Proactive insights (RQ3).** Of the 23 insights stored by 5 completed scans: all 23 concern a finding
 the analytics had flagged (enforced by the server), all 23 cite evidence from two or more modules, all
