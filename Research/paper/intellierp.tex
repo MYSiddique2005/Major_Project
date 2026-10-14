@@ -1,6 +1,6 @@
 % IntelliERP research paper, IEEE conference format (IEEEtran).
 % Compile on Overleaf (IEEEtran is built in) or locally with: pdflatex, bibtex, pdflatex, pdflatex.
-% and must be replaced with measured values, or removed, before submission.
+% Figures: figures/recommendation.png (screenshot); the other figures are drawn in TikZ/pgfplots.
 
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
@@ -14,6 +14,8 @@
 \usepackage{url}
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,fit}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
 
 
 \begin{document}
@@ -44,9 +46,9 @@ definitions and rules. On a wholesale dataset derived from Microsoft's Wide Worl
 and no model as judge. The system passed 84, 86 and 86 of 86 questions; on 32 paired questions it passed
 32 of 32 with grounding and 8 to 9 without ($p<0.0001$, exact sign test). A first run exposed five failures
 that led to design changes, and 84 of 86 questions then passed in every repeat. A claim verifier covering 12
-kinds of statement, frozen before testing, detected 25 of 31 (81\%) model-injected false statements within
-its scope on unseen text, raised false alarms on 2 of 60 paraphrases (3\%), and found genuine model errors
-that keyword scoring had passed.
+kinds of statement, frozen before testing, detected 48 of 62 (77\%) model-injected false statements within
+its scope on two unseen test sets, raised false alarms on 2 of 124 paraphrases (2\%), and found genuine model
+errors that keyword scoring had passed.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -139,20 +141,23 @@ on every request.
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}[
-  box/.style={draw, rounded corners=2pt, align=center, font=\scriptsize, minimum height=6mm, inner sep=3pt},
+  box/.style={draw, rounded corners=2pt, align=center, font=\scriptsize, minimum height=6mm, inner sep=2pt},
+  L/.style={box, text width=3.3cm}, R/.style={box, text width=3.9cm},
   arr/.style={-{Stealth[length=1.6mm]}, thin}]
-\node[box, minimum width=7.6cm] (ui) {Web UI: chat, insights, approvals};
-\node[box, below=4mm of ui, minimum width=3.4cm] (llm) {LLM (Gemini)\\explains, recommends};
-\node[box, right=3mm of llm, minimum width=3.9cm] (kb) {Knowledge base\\41 passages, BM25};
-\node[box, below=4mm of llm, minimum width=3.4cm] (tools) {15 tools\\permission-checked};
-\node[box, right=3mm of tools, minimum width=3.9cm] (ver) {Verification\\figures + 9 claim kinds};
-\node[box, below=4mm of tools, minimum width=3.4cm] (an) {Analytics (rules)\\risk, forecast, what-if};
-\node[box, right=3mm of an, minimum width=3.9cm] (act) {Draft PO $\rightarrow$ validation\\$\rightarrow$ second-person approval};
-\node[box, below=4mm of an, minimum width=7.6cm, xshift=2.05cm] (db) {ERP data: sales, inventory, procurement, suppliers (PostgreSQL) + audit log};
-\draw[arr] (ui) -- (llm); \draw[arr] (kb) -- (llm); \draw[arr] (llm) -- (tools);
-\draw[arr] (tools) -- (an); \draw[arr] (an.south) -- (an.south |- db.north);
-\draw[arr] (llm.east) to[out=-20,in=160] (ver.west); \draw[arr] (ver) -- (act);
-\draw[arr] (act.south) -- (act.south |- db.north);
+\node[L] (llm) {LLM (Gemini)\\explains, recommends};
+\node[R, right=2.5mm of llm] (kb) {Knowledge base\\41 passages, BM25};
+\node[L, below=4mm of llm] (tools) {15 tools\\permission-checked};
+\node[R, right=2.5mm of tools] (ver) {Verification\\figures + 12 claim kinds};
+\node[L, below=4mm of tools] (an) {Analytics (rules)\\risk, forecast, what-if};
+\node[R, right=2.5mm of an] (act) {Draft PO $\rightarrow$ validation\\$\rightarrow$ second-person approval};
+\path (llm.west) -- (kb.east) coordinate[midway] (mid);
+\node[box, above=4mm of llm.north -| mid, text width=7.6cm] (ui) {Web UI: chat, insights, approvals};
+\node[box, below=4mm of an.south -| mid, text width=7.6cm] (db) {ERP data (PostgreSQL)\\sales, inventory, procurement, suppliers, audit log};
+\draw[arr] (ui.south -| llm) -- (llm); \draw[arr] ([yshift=1.5mm]kb.west) -- ([yshift=1.5mm]llm.east);
+\draw[arr] (llm) -- (tools);
+\draw[arr] (tools) -- (an); \draw[arr] (an) -- (an |- db.north);
+\draw[arr] ([yshift=-1.5mm]llm.east) -- ++(1.25mm,0) |- (ver.west); \draw[arr] (ver) -- (act);
+\draw[arr] (act) -- (act |- db.north);
 \end{tikzpicture}
 \caption{IntelliERP. The analytics decide what is at risk; the LLM explains through tools; its output is
 verified; its only action is a draft that a second person approves.}
@@ -213,6 +218,7 @@ out on\ldots'') and list headings are not treated as claims.
 \label{tab:claims}
 \centering
 \footnotesize
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}ll@{}}
 \toprule
 Claim & Checked against \\
@@ -220,12 +226,12 @@ Claim & Checked against \\
 below / above safety stock & stock on hand vs.\ safety stock \\
 out of stock / in stock & stock on hand $=0$ / $>0$ \\
 demand rising / falling & 28-day demand trend $>0$ / $<0$ \\
-units overdue / on time & overdue units (supplier: overdue orders) \\
-delivery in time / too late & next delivery vs.\ projected stockout \\
+units overdue / on time & overdue units or orders \\
+delivery in time / too late & next delivery vs.\ stockout date \\
 cover below / above lead time & days of cover vs.\ lead time \\
 below / above reorder level & stock on hand vs.\ reorder level \\
-position below / above reorder point & stock $+$ all on order vs.\ reorder point \\
-stock status & status rule applied to the stock record \\
+below / above reorder point & stock $+$ on order vs.\ reorder point \\
+stock status & status rule on the stock record \\
 stockout risk level & assessed risk level \\
 supplier delivery risk level & supplier risk level \\
 supplier delay trend & worsening / improving / stable \\
@@ -237,7 +243,16 @@ What happens to a contradiction depends on where it occurs: a chat answer is ret
 with the contradicted statements and what the data says; a recommendation is returned with an instruction
 to record a corrected one, which replaces it; an insight is not stored until corrected; a draft purchase
 order is flagged for its reviewer and approver. Remaining contradictions are shown to the user. The checks
-are deterministic and need no model call.
+are deterministic and need no model call. Fig.~\ref{fig:screenshot} shows a recommendation with its checks.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/recommendation.png}
+\caption{A reorder recommendation in the assistant (lower part of the card): evidence from each module, the
+company rule applied, the results of the checks, the only action offered (a draft), and the tools and
+knowledge passages used.}
+\label{fig:screenshot}
+\end{figure}
 
 % =====================================================================================================
 \section{Evaluation Setup}
@@ -262,7 +277,7 @@ patterns where a bare number is ambiguous), a tool that can answer was used, not
 (a revealed figure, a forbidden tool, an unwanted action, figures stated with no tool result behind them),
 and, for action cases, exactly the right draft exists. No model is used as a judge. Keys were corrected after
 reading answers in eleven cases (four correct answers worded unexpectedly, one using an unlisted tool, seven
-wrong answers that had passed), applied to all runs and conditions and documented with the results.
+wrong answers that had passed; one key was corrected in both directions), applied to all runs and conditions and documented with the results.
 
 \textit{Runs.} All answers came from \texttt{gemini-3.5-flash-lite} with no fallback model. Run E1 used the
 system as first built; after it, five failures led to changes (Section~\ref{sec:failures}); runs F1--F3
@@ -335,7 +350,8 @@ all three reorder insights carry the quantity the reorder rule gives.
 had not been seen while that version was written, and the verifier's source file was frozen (its hash
 recorded) before the test was scored. Test texts are a seeded random sample of stored answers and insights
 that name a product; the selection does not depend on the verifier, so successive versions were tested on
-successive, disjoint blocks of 60 texts. For each text the model (\texttt{gemini-3.5-flash-lite}, five texts
+successive, disjoint blocks of texts: version 2 on the first 60, version 3 on the next 60 and, unchanged, on
+the remaining 64. For each text the model (\texttt{gemini-3.5-flash-lite}, five texts
 per request) produced two rewrites: one with exactly one qualitative statement made false without changing
 any number, and one paraphrase with the same meaning. An injection counts when its stated change is visible
 in the text; only contradictions the rewrite introduced count as detections. An injected error is
@@ -353,27 +369,53 @@ reorder levels or points, and two over-broad filters.
 
 \textit{Held-out results.} Table~\ref{tab:claimtest} gives the results. Version 2 caught 15 of 25 in-scope
 errors; its misses revealed a defect (a decimal point inside a sentence ended a pattern's search) and
-unrecognised phrasings, which version 3 fixed. Version 3, tested on 60 new texts, caught 25 of 31 in-scope
-errors (81\%). Its six misses were unrecognised phrasings (e.g.\ ``arriving on time'', ``significantly
-higher than the lead time''); its two false alarms were a six-word list heading read as a claim and an
-unknown negation (``stopping the item from hitting Critical risk''). They were left unfixed so the test
-remains a test.
+unrecognised phrasings, which version 3 fixed. Version 3 caught 25 of 31 in-scope errors on its first test set
+and 23 of 31 on the second, 48 of 62 in all (77\%, Fig.~\ref{fig:versions}). Its 14 misses were unrecognised
+phrasings (e.g.\ ``arriving on time'', ``in danger of running out'', ``significantly higher than the lead
+time'', a risk level written as a list field); its two false alarms, both in the first set, were a six-word list heading read as a
+claim and an unknown negation (``stopping the item from hitting Critical risk''). None was fixed, so each
+test remains a test.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[xbar, width=0.72\columnwidth, height=4.1cm, xmin=0, xmax=100, bar width=6pt,
+  xlabel={In-scope injected errors detected (\%)}, xlabel style={font=\scriptsize},
+  ytick=data, yticklabels={v1 (mutation est.): 48\%, v2 (n=25): 60\%, v3 set 1 (n=31): 81\%,
+  v3 set 2 (n=31): 74\%, v3 both (n=62): 77\%},
+  y dir=reverse, ticklabel style={font=\scriptsize}, enlarge y limits=0.15]
+\addplot[fill=gray!40, draw=black, error bars/.cd, x dir=both, x explicit,
+  error bar style={thin}] coordinates {
+  (48,0)
+  (60,1) += (17,0) -= (19,0)
+  (81,2) += (10,0) -= (17,0)
+  (74,3) += (12,0) -= (17,0)
+  (77,4) += (9,0) -= (11,0)
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Claim verifier by version, with Wilson 95\% intervals. v1 is an estimate from a reviewed sample of mutation-test misses. False alarms on paraphrases:
+v2 1 of 60, v3 2 of 124.}
+\label{fig:versions}
+\end{figure}
 
 \begin{table}[t]
 \caption{Claim Verifier on Held-Out Model-Written Rewrites}
 \label{tab:claimtest}
 \centering
 \footnotesize
-\begin{tabular}{@{}lcc@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc@{}}
 \toprule
- & Version 2 & Version 3 \\
+ & v2 & v3, set 1 & v3, set 2 \\
 \midrule
-Valid injected errors & 59 & 60 \\
-In scope & 25 & 31 \\
-Detected, in scope & 15 (60\%) & 25 (81\%) \\
-\quad 95\% CI & 41--77\% & 64--91\% \\
-Detected, all injections & 16 (27\%) & 25 (42\%) \\
-False alarms on 60 paraphrases & 1 (2\%) & 2 (3\%) \\
+Texts & 60 & 60 & 64 \\
+Valid injected errors & 59 & 60 & 64 \\
+In scope & 25 & 31 & 31 \\
+Detected, in scope & 15 (60\%) & 25 (81\%) & 23 (74\%) \\
+\quad 95\% CI & 41--77\% & 64--91\% & 57--86\% \\
+Detected, all & 16 (27\%) & 25 (42\%) & 23 (36\%) \\
+False alarms (paraphrases) & 1 of 60 & 2 of 60 & 0 of 64 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -399,7 +441,7 @@ system covers. Scoring by keyword needed corrections after reading answers. All 
 small model. Supply-side data is simulated. The figure check cannot tell a correct derived figure from an
 invented one. The claim verifier checks only the 12 kinds of statement it recognises, by pattern, in
 English; its tests used errors injected by a model, whose style may differ from errors a model makes on its
-own, and 31 in-scope errors give a wide interval. Scope was judged by the authors. No study with real users was made, so usefulness to managers is not measured.
+own, and even 62 in-scope errors leave an interval of 66--86\%. Scope was judged by the authors. No study with real users was made, so usefulness to managers is not measured.
 
 % =====================================================================================================
 \section{Conclusion}
@@ -408,7 +450,7 @@ IntelliERP shows that an LLM can be made a useful ERP assistant without being tr
 analytics decide what is wrong, the model explains through permission-checked tools, its figures and
 claims are checked against the data before anyone sees them, and its only action is a draft a second person
 must approve. Grounding raised paired-question accuracy from 8--9 to 32 of 32, the repeated runs were
-stable, and the claim verifier caught 81\% of in-scope false statements on unseen text with 3\% false alarms. Future work: questions written by others, other models, a study with real users, broader claim
+stable, and the claim verifier caught 77\% of in-scope false statements on unseen text with 2\% false alarms. Future work: questions written by others, other models, a study with real users, broader claim
 coverage, and a test of indirect prompt injection through ERP text fields.
 
 \bibliographystyle{IEEEtran}
