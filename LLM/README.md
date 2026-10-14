@@ -154,10 +154,11 @@ On the stored answers it also found two genuine errors that the keyword scoring 
 fixed-2 and fixed-3: a product with 125 units against a reorder level of 92 called "Low Stock" because "125
 is below 92"). `results/claims/summary.md` has the method, every miss and false alarm, and the limits.
 
-**Proactive insights (RQ3).** Of the 23 insights stored by 5 completed scans: all 23 concern a finding
-the analytics had flagged (enforced by the server), all 23 cite evidence from two or more modules, all
-317 figures in their text are found in the system data, and all 3 reorder insights carry the quantity
-the reorder rule gives.
+**Proactive insights (RQ3).** Of the 18 insights stored by the 3 scans on the current data (SCAN-0005 to
+SCAN-0007): all 18 concern a finding the analytics had flagged (enforced by the server), all 18 cite
+evidence from two or more modules, all 266 figures in their text are found in the system data, and all 3
+reorder insights carry the quantity the reorder rule gives. (All 29 stored insights, including scans on the
+data before its date was fixed: 419 of 419 figures found, 4 of 4 reorder quantities match.)
 
 Read these with their limits in mind:
 
