@@ -1,6 +1,5 @@
 % IntelliERP research paper, IEEE conference format (IEEEtran).
 % Compile on Overleaf (IEEEtran is built in) or locally with: pdflatex, bibtex, pdflatex, pdflatex.
-% Everything in red [PENDING ...] waits for the claim-verification test (LLM/evaluation/claims_eval.py)
 % and must be replaced with measured values, or removed, before submission.
 
 \documentclass[conference]{IEEEtran}
@@ -16,7 +15,6 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,fit}
 
-\newcommand{\pending}[1]{\textcolor{red}{\textbf{[PENDING: #1]}}}
 
 \begin{document}
 
@@ -45,9 +43,10 @@ definitions and rules. On a wholesale dataset derived from Microsoft's Wide Worl
 72,696 sales lines), we evaluated 86 questions in three repeated runs with keyword- and number-based scoring
 and no model as judge. The system passed 84, 86 and 86 of 86 questions; on 32 paired questions it passed
 32 of 32 with grounding and 8 to 9 without ($p<0.0001$, exact sign test). A first run exposed five failures
-that led to design changes, and 84 of 86 questions then passed in every repeat. A claim verifier covering nine
-kinds of statement \pending{detected X\% of model-injected false statements with Y\% false alarms on
-paraphrases}.
+that led to design changes, and 84 of 86 questions then passed in every repeat. A claim verifier covering 12
+kinds of statement, frozen before testing, detected 25 of 31 (81\%) model-injected false statements within
+its scope on unseen text, raised false alarms on 2 of 60 paraphrases (3\%), and found genuine model errors
+that keyword scoring had passed.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -84,14 +83,15 @@ We address these with IntelliERP and make four contributions:
 recommends, through permission-checked tools, grounded in a knowledge base generated partly from the
 system's own code so it cannot drift from it.
 \item \textit{Run-time verification} of the model's output: every figure is looked up in the data, and
-every qualitative claim (below safety stock, demand rising, a delivery due in time, a risk level, and five
-other kinds) is checked against the same facts; contradicted output is returned to the model to be
+every qualitative claim (below safety stock, demand rising, a delivery due in time, a stock status, a risk
+level, and seven other kinds) is checked against the same facts; contradicted output is returned to the model to be
 corrected, or flagged to the user.
 \item A controlled path from recommendation to transaction: the AI can create only a draft purchase order,
 which passes the same validation as any order, records its AI origin and evidence, and needs approval by a
 different user.
 \item An evaluation with automatically computed answer keys, three repeated runs, an ablation of grounding,
-and a test of the claim verifier on model-written perturbations.
+and held-out tests of the claim verifier on model-written perturbations, with the verifier frozen before
+each test.
 \end{enumerate}
 
 % =====================================================================================================
@@ -200,7 +200,7 @@ request to call a tool or drop them. Figures that still cannot be traced are ret
 unverified. A figure derived correctly by arithmetic is flagged, not blocked.
 
 \textit{Claims.} A real figure can still be used to say something false, and many statements carry no
-figure. The claim verifier finds nine kinds of qualitative statement (Table~\ref{tab:claims}) by pattern,
+figure. The claim verifier finds 12 kinds of qualitative statement (Table~\ref{tab:claims}) by pattern,
 attributes each sentence to the product it names (or the one named most recently; sentences naming several
 products are skipped), and judges each claim against the same facts the model was given. A claim is
 \textit{supported}, \textit{contradicted}, or \textit{unverifiable} when the needed fact is missing (e.g.\ no
@@ -218,11 +218,14 @@ out on\ldots'') and list headings are not treated as claims.
 Claim & Checked against \\
 \midrule
 below / above safety stock & stock on hand vs.\ safety stock \\
-out of stock & stock on hand $=0$ \\
+out of stock / in stock & stock on hand $=0$ / $>0$ \\
 demand rising / falling & 28-day demand trend $>0$ / $<0$ \\
-units overdue & overdue units (supplier: overdue orders) \\
+units overdue / on time & overdue units (supplier: overdue orders) \\
 delivery in time / too late & next delivery vs.\ projected stockout \\
 cover below / above lead time & days of cover vs.\ lead time \\
+below / above reorder level & stock on hand vs.\ reorder level \\
+position below / above reorder point & stock $+$ all on order vs.\ reorder point \\
+stock status & status rule applied to the stock record \\
 stockout risk level & assessed risk level \\
 supplier delivery risk level & supplier risk level \\
 supplier delay trend & worsening / improving / stable \\
@@ -328,18 +331,58 @@ all three reorder insights carry the quantity the reorder rule gives.
 
 \subsection{Claim verification}
 
-\textit{Development set.} The patterns were written while reading the answers of the four runs and the
-insights. On those 490 texts the verifier checks 503 claims; an early version raised 45 flags, all false
-alarms (unrecognised negations, rule descriptions, projections, headings, supplier and stockout risk
-confused), and the final version raises none. In a manual check of 40 random claims judged supported, 38
-were correct and 2 correct only by coincidence. Because the patterns were tuned on this text, these figures
-show only that the verifier does not raise false alarms on it.
+\textit{Method.} The verifier was developed in three versions. Each held-out test used texts whose wording
+had not been seen while that version was written, and the verifier's source file was frozen (its hash
+recorded) before the test was scored. Test texts are a seeded random sample of stored answers and insights
+that name a product; the selection does not depend on the verifier, so successive versions were tested on
+successive, disjoint blocks of 60 texts. For each text the model (\texttt{gemini-3.5-flash-lite}, five texts
+per request) produced two rewrites: one with exactly one qualitative statement made false without changing
+any number, and one paraphrase with the same meaning. An injection counts when its stated change is visible
+in the text; only contradictions the rewrite introduced count as detections. An injected error is
+\textit{in scope} when it states something about a product's or supplier's current state of one of the
+verifier's claim kinds; the rest change permissions, whether something exists, comparisons between products,
+past events, periods, scenario premises, process statements or numbers (the figure check's domain). Scope
+was classified by hand and every classification is published with the results.
 
-\textit{Test set.} The verifier was then frozen. For a seeded sample of 60 texts that discuss a product,
-the model was asked independently to inject exactly one false qualitative statement without changing any
-number, and to paraphrase the text without changing its meaning. \pending{Of N valid injections the verifier
-detected X (X\%, 95\% CI a--b); it raised false alarms on Y of 60 paraphrases (Y\%, 95\% CI c--d); describe the
-missed cases by kind.}
+\textit{Development.} On the stored answers and insights (558 claims for the final version) an early
+version raised 45 flags, all false alarms (unrecognised negations, rule descriptions, projections, headings,
+supplier and stockout risk confused); in a manual check of 40 claims it judged supported, 38 were correct and
+2 correct only by coincidence. A word-swap mutation test (271 mutants, 40 misses reviewed by hand) estimated
+that version 1 caught about 48\% of real errors and showed why: no rules for ``on time'', ``in stock'',
+reorder levels or points, and two over-broad filters.
+
+\textit{Held-out results.} Table~\ref{tab:claimtest} gives the results. Version 2 caught 15 of 25 in-scope
+errors; its misses revealed a defect (a decimal point inside a sentence ended a pattern's search) and
+unrecognised phrasings, which version 3 fixed. Version 3, tested on 60 new texts, caught 25 of 31 in-scope
+errors (81\%). Its six misses were unrecognised phrasings (e.g.\ ``arriving on time'', ``significantly
+higher than the lead time''); its two false alarms were a six-word list heading read as a claim and an
+unknown negation (``stopping the item from hitting Critical risk''). They were left unfixed so the test
+remains a test.
+
+\begin{table}[t]
+\caption{Claim Verifier on Held-Out Model-Written Rewrites}
+\label{tab:claimtest}
+\centering
+\footnotesize
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & Version 2 & Version 3 \\
+\midrule
+Valid injected errors & 59 & 60 \\
+In scope & 25 & 31 \\
+Detected, in scope & 15 (60\%) & 25 (81\%) \\
+\quad 95\% CI & 41--77\% & 64--91\% \\
+Detected, all injections & 16 (27\%) & 25 (42\%) \\
+False alarms on 60 paraphrases & 1 (2\%) & 2 (3\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Errors missed by the evaluation.} On the stored answers the final verifier flags four statements,
+in two answers, and all are genuine model errors that the keyword evaluation had passed: in two runs the
+assistant said a product with 125 units and a reorder level of 92 had status ``Low Stock'' because ``125
+units are below the reorder level of 92''. Its status is In Stock. The rule that caught this was added after
+the mutation review, which included this sentence.
 
 % =====================================================================================================
 \section{Discussion and Limitations}
@@ -348,13 +391,15 @@ Grounding mattered most for the company's own terms and rules, which a general m
 cross-module facts the tools carried the answer. Keeping detection in deterministic analytics and limiting
 the model to explanation removed the run-to-run variation that autonomous ordering agents show
 \cite{long2026reliability} from the decision of what is at risk. Verification adds little cost: it is pattern
-and lookup based and needs no model call.
+and lookup based and needs no model call. It complements keyword scoring: it found errors that answers
+containing the expected facts still made.
 
 The results have clear limits. The questions were written by the system's builders and favour what the
 system covers. Scoring by keyword needed corrections after reading answers. All answers came from one
 small model. Supply-side data is simulated. The figure check cannot tell a correct derived figure from an
-invented one, and the claim verifier checks only the nine kinds of statement it recognises, by pattern, in
-English. No study with real users was made, so usefulness to managers is not measured.
+invented one. The claim verifier checks only the 12 kinds of statement it recognises, by pattern, in
+English; its tests used errors injected by a model, whose style may differ from errors a model makes on its
+own, and 31 in-scope errors give a wide interval. Scope was judged by the authors. No study with real users was made, so usefulness to managers is not measured.
 
 % =====================================================================================================
 \section{Conclusion}
@@ -362,8 +407,8 @@ English. No study with real users was made, so usefulness to managers is not mea
 IntelliERP shows that an LLM can be made a useful ERP assistant without being trusted blindly: the
 analytics decide what is wrong, the model explains through permission-checked tools, its figures and
 claims are checked against the data before anyone sees them, and its only action is a draft a second person
-must approve. Grounding raised paired-question accuracy from 8--9 to 32 of 32, and the repeated runs were
-stable. Future work: questions written by others, other models, a study with real users, broader claim
+must approve. Grounding raised paired-question accuracy from 8--9 to 32 of 32, the repeated runs were
+stable, and the claim verifier caught 81\% of in-scope false statements on unseen text with 3\% false alarms. Future work: questions written by others, other models, a study with real users, broader claim
 coverage, and a test of indirect prompt injection through ERP text fields.
 
 \bibliographystyle{IEEEtran}
