@@ -9,7 +9,7 @@ import json
 from app.core.config import Settings
 from app.knowledge.base import KnowledgeBase, Match
 from app.llm.providers import KEY_NAMES, Provider, ToolCall, ToolResult, Turn
-from app.llm.recommendations import untraced_figures
+from app.llm.recommendations import answer_claims, untraced_figures
 from app.llm.tools import PROPOSE_TOOL, Toolbox, ToolError
 from app.models.entities import User
 from app.models.enums import AuditAction
@@ -89,6 +89,11 @@ NO_SOURCE_CORRECTION = """\
 question or the knowledge passages: {figures}. You may not state ERP figures from memory. If the answer \
 needs them, call the tool that provides them now. Otherwise answer again without them.</check>"""
 
+# Sent back to the model, once, when its answer says something the system's data contradicts.
+CLAIM_CORRECTION = """\
+<check>These statements in your answer contradict the system's data: {claims}. Answer again with them \
+corrected, keeping everything else that was right.</check>"""
+
 
 class AIService:
     def __init__(
@@ -150,6 +155,9 @@ class AIService:
         def untraced() -> list[str]:
             return untraced_figures(text, f"{given} {json.dumps(outputs, default=str)}")
 
+        def contradicted() -> list[str]:
+            return [claim.describe() for claim in answer_claims(self._toolbox.checker, text) if claim.status == "contradicted"]
+
         corrected = False
         replies, allowed = 0, self._settings.llm_max_tool_rounds + 1  # the tool rounds, then the answer
         while replies < allowed:
@@ -165,18 +173,31 @@ class AIService:
             if reply.stop != "tool_use":
                 if reply.stop == "max_tokens":
                     text += "\n\n(The answer was cut off because it reached the length limit.)"
-                # An answer with figures but no tool result behind it has nowhere to have got them from.
-                # The model is told once and may call the tool or drop the figures.
-                elif not corrected and not any(source["ok"] for source in sources) and (missing := untraced()):
-                    corrected = True
-                    allowed += 1  # one more reply, for the corrected answer
-                    conversation.add_user_message(NO_SOURCE_CORRECTION.format(figures=", ".join(missing)))
-                    continue
+                # An answer with figures but no tool result behind it has nowhere to have got them from,
+                # and a statement the data contradicts is wrong whatever its source. The model is told
+                # once and may call a tool, correct the statement or drop it.
+                elif not corrected:
+                    problems = []
+                    if not any(source["ok"] for source in sources) and (missing := untraced()):
+                        problems.append(NO_SOURCE_CORRECTION.format(figures=", ".join(missing)))
+                    if false_claims := contradicted():
+                        problems.append(CLAIM_CORRECTION.format(claims="; ".join(false_claims)))
+                    if problems:
+                        corrected = True
+                        allowed += 1  # one more reply, for the corrected answer
+                        conversation.add_user_message("\n".join(problems))
+                        continue
                 break
             results = [self._run_tool(user, call, sources, outputs) for call in reply.tool_calls]
             # An answer that arrives together with its recommendations is finished: the recommendations
             # are recorded and nothing more is asked of the model.
-            if text and all(call.name == PROPOSE_TOOL for call in reply.tool_calls) and not any(r.is_error for r in results):
+            # A recommendation that contradicts the data goes back to the model to be corrected.
+            if (
+                text
+                and all(call.name == PROPOSE_TOOL for call in reply.tool_calls)
+                and not any(r.is_error for r in results)
+                and not any(isinstance(r.content, dict) and r.content.get("claims_contradicting_data") for r in results)
+            ):
                 break
             conversation.add_tool_results(results)
         else:
@@ -199,6 +220,7 @@ class AIService:
             recommendations=[r.model_dump(mode="json") for r in self._toolbox.recommendations],
             actions=self._toolbox.actions,
             unverified_figures=untraced() if status == "ok" else [],
+            contradicted_claims=contradicted() if status == "ok" else [],
             knowledge=[{**match.entry.summary(), "score": match.score} for match in passages],
             provider=self._provider.name,
             model=model,

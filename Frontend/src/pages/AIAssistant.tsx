@@ -17,6 +17,7 @@ interface Message {
   sources?: ChatSource[]
   knowledge?: ChatKnowledge[]
   unverifiedFigures?: string[]
+  contradictedClaims?: string[]
   recommendations?: Recommendation[]
   actions?: ChatAction[]
   /** Only real answers are sent back to the assistant as conversation history. */
@@ -96,6 +97,7 @@ export default function AIAssistant() {
         recommendations: response.recommendations,
         actions: response.actions,
         unverifiedFigures: response.unverified_figures,
+        contradictedClaims: response.contradicted_claims,
         inHistory: answered,
       })
     } catch (err) {
@@ -224,6 +226,19 @@ export default function AIAssistant() {
                           {sourceLabel(source)}
                         </span>
                       ))}
+                    </div>
+                  )}
+                  {message.contradictedClaims && message.contradictedClaims.length > 0 && (
+                    <div role="alert" className="mt-2 flex items-start gap-1.5 rounded-md border border-red-200 bg-red-50 px-2.5 py-1.5 text-xs text-red-900">
+                      <AlertTriangle className="mt-0.5 size-3.5 shrink-0" aria-hidden />
+                      <div>
+                        <p className="font-medium">This answer contradicts the system data:</p>
+                        <ul className="mt-0.5 list-disc pl-4">
+                          {message.contradictedClaims.map((claim) => (
+                            <li key={claim}>{claim}</li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   )}
                   {message.unverifiedFigures && message.unverifiedFigures.length > 0 && (

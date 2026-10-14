@@ -51,6 +51,12 @@ function checkResults(recommendation: Recommendation): { ok: boolean; text: stri
   } else if (checks.figures_checked > 0) {
     results.push({ ok: true, text: `All ${checks.figures_checked} figures match the system data` })
   }
+  const contradicted = checks.claims_contradicted ?? []
+  if (contradicted.length > 0) {
+    contradicted.forEach((claim) => results.push({ ok: false, text: `Contradicts the system data: ${claim}` }))
+  } else if (checks.claims_checked) {
+    results.push({ ok: true, text: `All ${checks.claims_checked} statements agree with the system data` })
+  }
   results.push(
     checks.cross_module
       ? { ok: true, text: 'Evidence from more than one module' }

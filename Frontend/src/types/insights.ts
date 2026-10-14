@@ -15,6 +15,10 @@ export interface RecommendationChecks {
   supplier_supplies_product: boolean | null
   figures_checked: number
   figures_unmatched: string[]
+  /** Qualitative statements checked against the data (absent on insights stored before this check existed). */
+  claims_checked?: number
+  /** Statements the data contradicts, each with what the data says instead. */
+  claims_contradicted?: string[]
 }
 
 /** A recommendation from the AI assistant, in the chat or from a scan. */

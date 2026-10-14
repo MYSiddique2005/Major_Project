@@ -322,6 +322,12 @@ Three things keep an answer tied to the data rather than to the model's instruct
   traced are returned as `unverified_figures` and shown under the answer as a caution. Whole numbers up
   to 10 are ignored (they are usually counts of the items listed), and a figure the model worked out
   from tool results is flagged, not blocked.
+- **Statements are checked too.** `app/llm/claims.py` finds 12 kinds of qualitative statement (below
+  safety stock, demand rising, units overdue or on time, a delivery due in time, a risk level, a stock
+  status, and others) and checks each against the same facts the model was given. A chat answer that
+  contradicts the data is sent back once; a contradicted recommendation is returned to the model to be
+  re-recorded; an insight that contradicts the data is not stored until corrected; an AI-drafted order is
+  flagged for its reviewer. Contradictions that remain are shown under the answer.
 - **The user's rights are stated.** Each question tells the model what the user's role cannot see and
   what the user may do with purchase orders, so it does not present its own limits as the user's.
 
@@ -486,6 +492,11 @@ the user named swapped for another after the server refused it. The changes are 
 [AI assistant](#ai-assistant-phase-4) and [Controlled actions](#controlled-actions-phase-7). All five
 passed in every repeat. Two other questions failed once after the changes (a supplier looked up by its
 ID in a search that matches names, and a non-existent product described as having no stock).
+
+**Claim verification.** On model-written rewrites of texts not used while it was written (verifier frozen
+before scoring), the final version caught 25 of 31 planted false statements within its scope (81%, 95% CI
+64-91%) and raised false alarms on 2 of 60 paraphrases (3%). It also found two genuine model errors that
+the keyword scoring had passed. See `LLM/evaluation/results/claims/summary.md`.
 
 Two earlier runs on the first 24 questions (6 October) passed 23 and 24 of 24 with grounding and 5 of
 10 without, and are unchanged under the current scoring.

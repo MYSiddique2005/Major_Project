@@ -304,7 +304,10 @@ WRITTEN = [
           f"cannot edit, submit, approve, cancel or place anything. List tools return at most {MAX_ROWS} rows per "
           f"call. The figures in an answer are checked against what the tools returned, the passages supplied and "
           f"the question: an answer that states figures although no tool was called is sent back to be corrected, "
-          f"and any figure that still cannot be traced is listed under the answer as unverified. Every question is "
+          f"and any figure that still cannot be traced is listed under the answer as unverified. Statements about a "
+          f"product or supplier (below safety stock, demand rising, a delivery due in time, a risk level) are "
+          f"checked against the data too; a contradicted statement is sent back once and, if it remains, is listed "
+          f"under the answer. Every question is "
           f"written to the audit log with the tools used.",
           "assistant limits capabilities permissions chatbot LLM"),
     Entry("rule.ai-insights", "Proactive AI insights and how recommendations are checked", "rule",
@@ -314,7 +317,9 @@ WRITTEN = [
           "recommended action (reorder, expedite_delivery, review_supplier or monitor) and its evidence by module. "
           "The server then checks it: severity is set from the analytics; a reorder quantity is compared with the "
           "quantity the reorder rule gives; the supplier must be able to supply the product; and every figure in "
-          "the text is looked up among the system's figures. An insight is New until a user acknowledges or "
+          "the text is looked up among the system's figures; and every statement such as 'below safety stock' or "
+          "'demand rising' is checked against the data, and an insight that contradicts it is sent back to be "
+          "corrected before it is stored. An insight is New until a user acknowledges or "
           "dismisses it. It is superseded when its subject is analysed again, and also, whether New or "
           "Acknowledged, once the analytics no longer flag its subject. "
           "Recommendations made in the chat pass the same checks. An insight creates no order by itself; a user "

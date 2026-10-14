@@ -6,7 +6,8 @@ A scan has a deterministic half and a model half.
      procurement, supplier) and the company rules that apply.
   3. The model receives those facts in one request and records one insight per finding: what is
      happening, why, and what to do, with its evidence.
-  4. Each insight is checked (app/llm/recommendations.py) and stored with the results of the checks.
+  4. Each insight is checked (app/llm/recommendations.py) and stored with the results of the checks;
+     one whose statements contradict the facts is sent back to the model to be corrected.
 The model therefore explains and recommends; it does not decide what counts as a risk, and it cannot
 raise an insight about anything the analytics did not flag.
 """
@@ -203,6 +204,11 @@ class InsightService:
             if any((i.subject_type, i.subject_id) == key for i in recorded):
                 raise RecommendationError(f"An insight for {proposal.subject_id} was already recorded.")
             checked = self._checker.check(proposal, facts[key])
+            if checked.checks.claims_contradicted:
+                raise RecommendationError(
+                    "Not recorded: these statements contradict the facts given: "
+                    + "; ".join(checked.checks.claims_contradicted) + ". Record this insight again with them corrected."
+                )
             recorded.append(AiInsight(
                 id=self._insights.next_id(), scan_id=scan.id, created_at=datetime.now(),
                 **checked.model_dump(exclude={"checks", "evidence"}),

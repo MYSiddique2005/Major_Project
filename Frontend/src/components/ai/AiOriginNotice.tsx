@@ -28,6 +28,9 @@ export function AiOriginNotice({ order, compact = false }: { order: PurchaseOrde
   if (checks.figures_unmatched.length > 0) {
     warnings.push(`Figures in the AI's text not found in the system data: ${checks.figures_unmatched.join(', ')}.`)
   }
+  for (const claim of checks.claims_contradicted ?? []) {
+    warnings.push(`A statement in the AI's reasoning contradicts the system data: ${claim}.`)
+  }
   if (!checks.cross_module) warnings.push("The AI's evidence came from a single module.")
 
   return (

@@ -6,7 +6,9 @@ module. Nothing it proposes is taken on trust. The server
   - compares a reorder quantity with the quantity the reorder rule gives;
   - checks that the supplier named can supply the product;
   - records which modules the evidence draws on, so a single-module answer is visible as such;
-  - looks up every figure in the text among the system's own figures and lists any it cannot find.
+  - looks up every figure in the text among the system's own figures and lists any it cannot find;
+  - checks each qualitative claim ("below safety stock", "demand rising", "delivery due in time",
+    "a low-risk supplier") against the same facts and lists any the data contradicts (claims.py).
 The results travel with the recommendation as `checks`, for the user and for the evaluation.
 """
 import json
@@ -17,6 +19,7 @@ from pydantic import BaseModel, Field
 
 from app.core.exceptions import DomainError
 from app.knowledge.base import KnowledgeBase
+from app.llm.claims import Claim, check_answer, check_subject, summary
 from app.models.enums import RiskLevel
 from app.services.analytics_service import AnalyticsService
 from app.services.supplier_service import SupplierService
@@ -56,6 +59,9 @@ class RecommendationChecks(BaseModel):
     supplier_supplies_product: bool | None
     figures_checked: int
     figures_unmatched: list[str] = Field(description="Figures in the text that are not among the system's figures")
+    # Defaults keep insights stored before the claim check readable.
+    claims_checked: int = Field(default=0, description="Qualitative claims in the text that could be checked")
+    claims_contradicted: list[str] = Field(default=[], description="Claims the system's data contradicts")
 
 
 class Recommendation(RecommendationInput):
@@ -239,8 +245,14 @@ class RecommendationChecker:
 
         modules = sorted({item.module for item in proposal.evidence})
         data_modules = {"procurement" if module == "supplier" else module for module in modules} - {"rule"}
-        text = " ".join([proposal.headline, proposal.explanation, *(item.statement for item in proposal.evidence)])
+        # Joined as separate sentences, so a headline without a full stop does not run into the explanation.
+        text = ". ".join([proposal.headline, proposal.explanation, *(item.statement for item in proposal.evidence)])
         checked, unmatched = unmatched_figures(text, json.dumps(facts) + " " + self._rule_text)
+        claims = (
+            check_subject(text, proposal.subject_id, facts, facts.get("supplier"))
+            if proposal.subject_type == "product"
+            else check_subject(text, proposal.subject_id, None, facts)
+        )
 
         return Recommendation(
             **proposal.model_dump(exclude={"product_id", "supplier_id"}),
@@ -258,8 +270,29 @@ class RecommendationChecker:
                 supplier_supplies_product=supplies,
                 figures_checked=checked,
                 figures_unmatched=unmatched,
+                **summary(claims),
             ),
         )
+
+
+MAX_PRODUCTS_PER_ANSWER = 8  # an answer listing more products is checked for the first ones only
+
+
+def answer_claims(checker: "RecommendationChecker", text: str) -> list[Claim]:
+    """The claims in a chat answer, each checked against the facts of the product it is about."""
+    cache: dict[str, dict | None] = {}
+
+    def facts_for(product_id: str) -> dict | None:
+        if product_id not in cache:
+            if len(cache) >= MAX_PRODUCTS_PER_ANSWER:
+                return None
+            try:
+                cache[product_id] = checker.product_facts(product_id)
+            except (DomainError, RecommendationError):
+                cache[product_id] = None
+        return cache[product_id]
+
+    return check_answer(text, facts_for)
 
 
 def _iso(value) -> str | None:

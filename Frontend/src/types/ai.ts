@@ -43,6 +43,8 @@ export interface ChatResponse {
   actions: ChatAction[]
   /** Figures in the answer that the server found in no tool result, knowledge passage or question. */
   unverified_figures: string[]
+  /** Statements in the answer that the system's data contradicts, even after one correction. */
+  contradicted_claims: string[]
   provider: string | null
   model: string | null
   usage: Record<string, number> | null

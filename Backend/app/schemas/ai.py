@@ -26,6 +26,9 @@ class ChatResponse(BaseModel):
     unverified_figures: list[str] = Field(
         default=[], description="Figures in the answer found in no tool result, knowledge passage or question"
     )
+    contradicted_claims: list[str] = Field(
+        default=[], description="Statements in the answer that the system's data contradicts, after one correction"
+    )
     provider: str | None = None
     model: str | None = None
     usage: dict[str, int] | None = None

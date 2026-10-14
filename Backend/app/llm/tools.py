@@ -146,6 +146,7 @@ class Toolbox:
         self.request_text = ""  # the user's message, set by the assistant: what they actually asked for
         self._refused_suppliers: dict[str, str] = {}  # product -> supplier the user named and the server refused
         self._checker = RecommendationChecker(analytics, suppliers, knowledge)
+        self.checker = self._checker  # used by the assistant to check the claims in its final answer
         self.recommendations: list[Recommendation] = []  # accepted during this request
         self._analytics = analytics
         self._products = products
@@ -367,6 +368,9 @@ class Toolbox:
                 f"The reorder rule gives {recommendation.system_quantity} units, not {recommendation.quantity}. "
                 "The draft is flagged; tell the user both figures."
             )
+        if recommendation.checks.claims_contradicted:
+            result["claims_contradicting_data"] = recommendation.checks.claims_contradicted
+            result["warning"] = "The draft is flagged because its reasoning contains these false statements; correct them in your answer."
         return result
 
     def _get_product_overview(self, args: ProductInput) -> dict:
@@ -380,6 +384,11 @@ class Toolbox:
             recommendation = self._checker.check(args)
         except RecommendationError as error:
             raise ToolError(str(error)) from error
+        # A corrected recommendation replaces the earlier one about the same subject and action.
+        self.recommendations = [
+            r for r in self.recommendations
+            if (r.subject_id, r.action) != (recommendation.subject_id, recommendation.action)
+        ]
         self.recommendations.append(recommendation)
         checks = recommendation.checks
         result: dict[str, Any] = {"recorded": True, "severity": recommendation.severity.value}
@@ -393,6 +402,9 @@ class Toolbox:
             result["warning"] = f"{recommendation.supplier_name} does not supply {recommendation.product_name}."
         if checks.figures_unmatched:
             result["figures_not_in_system_data"] = checks.figures_unmatched
+        if checks.claims_contradicted:
+            result["claims_contradicting_data"] = checks.claims_contradicted
+            result["instruction"] = "These statements are false. Record the recommendation again with them corrected."
         return result
 
     def _search_knowledge(self, args: KnowledgeSearchInput) -> list[dict]:
