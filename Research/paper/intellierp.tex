@@ -38,17 +38,17 @@ natural-language assistants, but their statements about stock, demand and suppli
 and the step from an AI recommendation to an ERP transaction is rarely controlled. We present IntelliERP,
 an ERP decision-support system in which deterministic analytics decide what is at risk and the LLM only
 explains and recommends; every figure and every qualitative claim the model makes is checked against the
-system's data before the user sees it; and the only change the AI can make is a draft purchase order that
-passes the same validation as any order and must be approved by a second person. The assistant answers by
-calling 15 permission-checked tools and is grounded in a 41-passage knowledge base of the company's schema,
-definitions and rules. On a wholesale dataset derived from Microsoft's Wide World Importers (227 products,
+system's data before the user sees it; and the only change the AI makes is a draft purchase order (that
+passes the same validation as any other order) which needs to be approved by a second person. The assistant
+answers by calling 15 permission-checked tools. This assistant is grounded in a 41-passage knowledge base of
+the company's schema, definitions and rules. On a wholesale dataset derived from Microsoft's Wide World Importers (227 products,
 72,696 sales lines), we evaluated 86 questions in three repeated runs with keyword- and number-based scoring
 and no model as judge. The system passed 84, 86 and 86 of 86 questions; on 32 paired questions it passed
-32 of 32 with grounding and 8 to 9 without ($p<0.0001$, exact sign test). A first run exposed five failures
-that led to design changes, and 84 of 86 questions then passed in every repeat. A claim verifier covering 12
-kinds of statement, frozen before testing, detected 48 of 62 (77\%) model-injected false statements within
+32 of 32 with grounding and 8 to 9 without ($p<0.0001$, exact sign test). After fixing 5 bugs found in the first
+run which caused design changes, 84 of 86 questions passed in all 3 runs. A claim verifier for 12 types of
+statements, frozen before testing, detected 48 out of 62 (77\%) false statements injected by a model within
 its scope on two unseen test sets, raised false alarms on 2 of 124 paraphrases (2\%), and found genuine model
-errors that keyword scoring had passed.
+errors that had been missed by the simple keyword-based scoring used for the main evaluation.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -75,7 +75,7 @@ systems claim explainability without checking the explanations \cite{quan2024inv
 found that checks them does so only for their direction, in a single case study \cite{xue2026xai}.
 
 \textit{Uncontrolled actions.} Autonomous ordering agents can cut cost on average yet vary widely from run
-to run \cite{long2026reliability}, and some authors argue for removing the human from the loop altogether
+to run \cite{long2026reliability}, and some authors even suggest removing the human from the loop altogether
 \cite{simchilevi2025decisions}. Governance and trust appear in under 2\% of AI-ERP studies
 \cite{hurbean2026erp}.
 
@@ -89,8 +89,8 @@ every qualitative claim (below safety stock, demand rising, a delivery due in ti
 level, and seven other kinds) is checked against the same facts; contradicted output is returned to the model to be
 corrected, or flagged to the user.
 \item A controlled path from recommendation to transaction: the AI can create only a draft purchase order,
-which passes the same validation as any order, records its AI origin and evidence, and needs approval by a
-different user.
+which passes the same validation as any order (and records its AI origin and the evidence used to generate
+it), and will require approval from a second user.
 \item An evaluation with automatically computed answer keys, three repeated runs, an ablation of grounding,
 and held-out tests of the claim verifier on model-written perturbations, with the verifier frozen before
 each test.
@@ -122,8 +122,8 @@ reliability across repeated trials, measured as pass$^k$ \cite{yao2024taubench}.
 \textit{Verification and abstention.} Self-RAG \cite{asai2024selfrag} and Chain-of-Verification
 \cite{dhuliawala2024cove} let a model critique its own output; FActScore \cite{min2023factscore} scores
 atomic facts against a source; RAGAs \cite{es2024ragas} uses an LLM as judge. IntelliERP's checks are
-deterministic and run against the system's own data, not the model's judgement. Declining to answer is
-surveyed in \cite{wen2025abstention}.
+deterministic and run against the system's own data, not against the model's own judgement. Declining to
+answer is surveyed in \cite{wen2025abstention}.
 
 \textit{Safety and proactive assistance.} Indirect prompt injection \cite{greshake2023injection} and its
 benchmarks \cite{debenedetti2024agentdojo} motivate limiting what an agent may do. Proactive agents learn
@@ -160,7 +160,8 @@ on every request.
 \draw[arr] (act) -- (act |- db.north);
 \end{tikzpicture}
 \caption{IntelliERP. The analytics decide what is at risk; the LLM explains through tools; its output is
-verified; its only action is a draft that a second person approves.}
+verified. When it takes action, this action is limited to producing a draft that a second person must
+then approve.}
 \label{fig:architecture}
 \end{figure}
 
@@ -171,18 +172,19 @@ quantity from an order-up-to rule; weekly forecasts (moving average or linear tr
 error); supplier on-time rate, delays and delay trend; and day-by-day what-if projections. Each result
 carries the facts that produced it.
 
-\textit{Assistant.} For each question the model is offered only the tools the user's role permits; the
-permission is checked again when a tool runs. The tools wrap the same services as the web pages, so the
+\textit{Assistant.} For each question the model is offered only the tools that the user's role allows; this
+permission is then checked again when the tools are actually used. The tools wrap the same services as the web pages, so the
 model never writes SQL and takes every figure from a tool result. One tool returns a product's facts grouped
 by module (sales, inventory, procurement, supplier, assessment). The user's role, what it excludes and what
 it allows with purchase orders are stated with each question. List tools return totals over all matching
-rows and say when rows were cut off.
+rows and indicate whether rows have been cut off.
 
 \textit{Grounding.} A knowledge base of 41 passages describes every table and column (11, generated from
 the database models), definitions (11), rules (8), workflows (4), role permissions (4, generated from the
 permission map) and data notes (3). Thresholds in written passages are filled from the constants of the code
 that applies them, and a test fails if a column lacks a description. The four passages best matching a
-question (BM25 over title, keywords and text) are placed before it; the model can search for others.
+question (BM25 over title, keywords and text) are placed before it; the model can then search for
+additional related information.
 
 \textit{Proactive insights.} A scheduled scan takes every High or Critical finding from the analytics,
 gives the model the cross-module facts and applicable rules for the most severe six, and records one insight
@@ -191,24 +193,24 @@ per finding with a recommended action. The model cannot raise an insight about a
 \textit{Controlled actions.} A reorder recommendation can become a draft purchase order, by a button or on
 request in the chat. The draft passes the validation every order passes (active supplier that supplies the
 product, quantity limits), records its AI origin and the recommendation with its checks, and must be
-submitted by a user with the right and approved by a different user. The assistant has no tool that submits,
-approves or places an order. If the server refuses a draft from a supplier the user named, a draft from a
+submitted by a user with the right and approved by a different user. The assistant has no tool to submit,
+approve or place an order. If the server refuses a draft from a supplier the user named, a draft from a
 supplier the user did not name is refused for the rest of that message.
 
 % =====================================================================================================
 \section{Run-Time Verification of Model Output}
 
-\textit{Figures.} Every number in an answer, recommendation or insight is looked up among the tool results,
-the knowledge passages supplied, the question and earlier turns, allowing for rounding; identifiers and dates
-are ignored. An answer that states figures although no tool was called is returned to the model once with a
+\textit{Figures.} Every number in an answer, recommendation or insight is checked against the tool results,
+the knowledge passages supplied, the question and previous turns, allowing for rounding; identifiers and
+dates are ignored. An answer that states figures although no tool was called is returned to the model once with a
 request to call a tool or drop them. Figures that still cannot be traced are returned to the user as
-unverified. A figure derived correctly by arithmetic is flagged, not blocked.
+unverified. A figure which was correctly calculated by the model will however be flagged, not blocked.
 
 \textit{Claims.} A real figure can still be used to say something false, and many statements carry no
 figure. The claim verifier finds 12 kinds of qualitative statement (Table~\ref{tab:claims}) by pattern,
 attributes each sentence to the product it names (or the one named most recently; sentences naming several
-products are skipped), and judges each claim against the same facts the model was given. A claim is
-\textit{supported}, \textit{contradicted}, or \textit{unverifiable} when the needed fact is missing (e.g.\ no
+products are skipped), and judges each claim: a claim is verified against the same information used by the model to generate
+it, and is \textit{supported}, \textit{contradicted}, or \textit{unverifiable} when the needed fact is missing (e.g.\ no
 demand trend for a product with too few orders). Negations (``not'', ``no'', ``none'', ``0 units'') reverse a
 claim within their clause; rule descriptions and hypotheticals (``Medium risk applies if\ldots'', ``would run
 out on\ldots'') and list headings are not treated as claims.
@@ -240,10 +242,10 @@ supplier delay trend & worsening / improving / stable \\
 \end{table}
 
 What happens to a contradiction depends on where it occurs: a chat answer is returned to the model once
-with the contradicted statements and what the data says; a recommendation is returned with an instruction
+with the contradicted statements and the data; a recommendation is returned with an instruction
 to record a corrected one, which replaces it; an insight is not stored until corrected; a draft purchase
-order is flagged for its reviewer and approver. Remaining contradictions are shown to the user. The checks
-are deterministic and need no model call. Fig.~\ref{fig:screenshot} shows a recommendation with its checks.
+order is flagged for its reviewer and approver. Any remaining unresolved contradictions are displayed to the
+user. The above checks are deterministic and do not require any model calls. Fig.~\ref{fig:screenshot} shows a recommendation with its checks.
 
 \begin{figure}[t]
 \centering
@@ -281,7 +283,7 @@ wrong answers that had passed; one key was corrected in both directions), applie
 
 \textit{Runs.} All answers came from \texttt{gemini-3.5-flash-lite} with no fallback model. Run E1 used the
 system as first built; after it, five failures led to changes (Section~\ref{sec:failures}); runs F1--F3
-repeat the same questions on the changed system, which was not altered between them. Pass rates have Wilson
+repeated the same set of questions on the improved system, which was not changed between them. Pass rates have Wilson
 95\% intervals \cite{wilson1927}; grounding is compared with the exact sign test on paired questions.
 
 % =====================================================================================================
@@ -289,8 +291,8 @@ repeat the same questions on the changed system, which was not altered between t
 
 \subsection{Overall and per group}
 
-Table~\ref{tab:overall} gives the results. After the changes the system passed 84, 86 and 86 of 86
-questions with grounding; 84 questions passed in all three runs and none failed in all three. With grounding,
+The results are shown in Table~\ref{tab:overall}. After the system change, the system passed 84, 86 and 86
+of 86 questions with grounding; 84 questions passed in all three runs and none failed in all three. With grounding,
 the figures not found in the data numbered 1 of 310, 3 of 342 and 2 of 332, all derived correctly from tool
 results (a difference of two projections, a lead time plus a 7-day buffer, 0 units in a warehouse that does
 not exist).
@@ -321,15 +323,16 @@ All (86) & 81 & 84 & 86 & 86 \\
 On the 32 paired questions the system passed all 32 with the knowledge base in every run, against 9, 8, 9
 and 9 without it; in each run 23 or 24 questions passed only with grounding and none only without
 ($p<0.0001$). Without grounding it still answered 5 or 6 of the 7 paired cross-module questions, because the
-tools return those facts, but only 2 to 4 of the 25 questions on the company's terms and rules: it cannot
+tools return those facts, but only 2 to 4 of the 25 questions relating to the company's terms and rules: it cannot
 know the thresholds, and several answers supplied plausible thresholds of its own or stated that the
 simulated supply data was real.
 
 \subsection{Failures and the changes they led to}
 \label{sec:failures}
 
-Run E1 exposed five failures, each a different weakness: (i) counting overdue orders in the 20 rows a list
-tool returned out of 434, giving 1 instead of 7; (ii) declaring a real order missing for the same reason;
+Run E1 exposed five failures, each a different weakness: (i) the list tool returned only 20 of 434 rows,
+and counting overdue orders in those rows gave 1 instead of 7; (ii) it reported a real order missing for the
+same reason;
 (iii) after correctly refusing a request, listing product figures and a supplier that no tool had returned;
 (iv) announcing a draft without creating it and telling a procurement manager they could not submit orders;
 (v) after the server refused a draft from a supplier that does not supply the product, drafting from
@@ -340,9 +343,9 @@ is weak evidence for the changes in general. Two other questions failed once in 
 
 \subsection{Proactive insights}
 
-The 18 insights produced by three scans on the current data all concern a finding the analytics flagged
-(enforced), all cite evidence from at least two modules, all 266 figures in them are found in the data, and
-all three reorder insights carry the quantity the reorder rule gives.
+All 18 proactive insights produced by three scans on the current data concerned a finding the analytics had
+flagged (this is enforced). All include evidence from at least two modules; all 266 figures in them are
+found in the data, and all three reorder insights carry the quantity the reorder rule gives.
 
 \subsection{Claim verification}
 
@@ -360,20 +363,20 @@ verifier's claim kinds; the rest change permissions, whether something exists, c
 past events, periods, scenario premises, process statements or numbers (the figure check's domain). Scope
 was classified by hand and every classification is published with the results.
 
-\textit{Development.} On the stored answers and insights (558 claims for the final version) an early
-version raised 45 flags, all false alarms (unrecognised negations, rule descriptions, projections, headings,
-supplier and stockout risk confused); in a manual check of 40 claims it judged supported, 38 were correct and
-2 correct only by coincidence. A word-swap mutation test (271 mutants, 40 misses reviewed by hand) estimated
-that version 1 caught about 48\% of real errors and showed why: no rules for ``on time'', ``in stock'',
-reorder levels or points, and two over-broad filters.
+\textit{Development.} For the stored answers and insights (558 claims for the final version of the
+verifier), an early version raised 45 flags, all false alarms (unrecognised negations, rule descriptions,
+projections, headings, supplier and stockout risk confused); in a manual check of 40 claims it judged
+supported, 38 were correct and 2 correct only by coincidence. A word-swap mutation test (271 mutants, 40
+misses reviewed by hand) estimated that version 1 caught about 48\% of real errors. The problems were: no
+rule for ``on time'' or ``in stock'', no check for reorder levels or points, and two over-broad filters.
 
 \textit{Held-out results.} Table~\ref{tab:claimtest} gives the results. Version 2 caught 15 of 25 in-scope
 errors; its misses revealed a defect (a decimal point inside a sentence ended a pattern's search) and
-unrecognised phrasings, which version 3 fixed. Version 3 caught 25 of 31 in-scope errors on its first test set
-and 23 of 31 on the second, 48 of 62 in all (77\%, Fig.~\ref{fig:versions}). Its 14 misses were unrecognised
+unrecognised phrasings, which version 3 fixed. Version 3 found 25 of 31 in-scope errors in the first test set
+and 23 of 31 in the second test set, for a total of 48 of 62 (77\%, Fig.~\ref{fig:versions}). Its 14 misses were unrecognised
 phrasings (e.g.\ ``arriving on time'', ``in danger of running out'', ``significantly higher than the lead
-time'', a risk level written as a list field); its two false alarms, both in the first set, were a six-word list heading read as a
-claim and an unknown negation (``stopping the item from hitting Critical risk''). None was fixed, so each
+time'', a risk level written as a list field); its two false alarms, both in the first set of test cases, were a six-word list
+heading misinterpreted as a claim and an unknown negation (``stopping the item from hitting Critical risk''). None was fixed, so each
 test remains a test.
 
 \begin{figure}[t]
@@ -420,8 +423,8 @@ False alarms (paraphrases) & 1 of 60 & 2 of 60 & 0 of 64 \\
 \end{tabular}
 \end{table}
 
-\textit{Errors missed by the evaluation.} On the stored answers the final verifier flags four statements,
-in two answers, and all are genuine model errors that the keyword evaluation had passed: in two runs the
+\textit{Errors missed by the evaluation.} On the stored answers the final verifier found four statements,
+in two answers, that it flags as contradicted, and all are genuine model errors that the keyword evaluation had passed: in two runs the
 assistant said a product with 125 units and a reorder level of 92 had status ``Low Stock'' because ``125
 units are below the reorder level of 92''. Its status is In Stock. The rule that caught this was added after
 the mutation review, which included this sentence.
@@ -429,27 +432,28 @@ the mutation review, which included this sentence.
 % =====================================================================================================
 \section{Discussion and Limitations}
 
-Grounding mattered most for the company's own terms and rules, which a general model cannot know; for
-cross-module facts the tools carried the answer. Keeping detection in deterministic analytics and limiting
+Grounding mainly mattered for company-specific terms and rules, which a general model cannot know, whereas
+for cross-module information the tools provided the correct answer. Keeping detection in deterministic analytics and limiting
 the model to explanation removed the run-to-run variation that autonomous ordering agents show
 \cite{long2026reliability} from the decision of what is at risk. Verification adds little cost: it is pattern
 and lookup based and needs no model call. It complements keyword scoring: it found errors that answers
 containing the expected facts still made.
 
-The results have clear limits. The questions were written by the system's builders and favour what the
+The results have clear limits. The questions were written by the system's builders and favor what the
 system covers. Scoring by keyword needed corrections after reading answers. All answers came from one
 small model. Supply-side data is simulated. The figure check cannot tell a correct derived figure from an
 invented one. The claim verifier checks only the 12 kinds of statement it recognises, by pattern, in
 English; its tests used errors injected by a model, whose style may differ from errors a model makes on its
-own, and even 62 in-scope errors leave an interval of 66--86\%. Scope was judged by the authors. No study with real users was made, so usefulness to managers is not measured.
+own, and even 62 in-scope errors leave an interval of 66--86\%. Scope was defined by the authors themselves.
+No study was conducted with real users; hence, the usefulness of IntelliERP for managers is not measured.
 
 % =====================================================================================================
 \section{Conclusion}
 
 IntelliERP shows that an LLM can be made a useful ERP assistant without being trusted blindly: the
-analytics decide what is wrong, the model explains through permission-checked tools, its figures and
-claims are checked against the data before anyone sees them, and its only action is a draft a second person
-must approve. Grounding raised paired-question accuracy from 8--9 to 32 of 32, the repeated runs were
+analytics decide what is wrong, the model explains through permission-checked tools, and its figures and
+claims are verified against the underlying data prior to their release to end users. The action of the
+LLM is restricted to generating a draft purchase order which another person must then approve. Grounding raised paired-question accuracy from 8--9 to 32 of 32, the repeated runs were
 stable, and the claim verifier caught 77\% of in-scope false statements on unseen text with 2\% false alarms. Future work: questions written by others, other models, a study with real users, broader claim
 coverage, and a test of indirect prompt injection through ERP text fields.
 
