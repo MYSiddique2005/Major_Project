@@ -9,6 +9,7 @@
 #
 #   EVAL_PREFIX=extended ./run_extended.sh                        # another set of runs (default: fixed)
 #   EVAL_PREFIX=flash EVAL_MODEL=gemini-3.5-flash ./run_extended.sh
+#   EVAL_PREFIX=gemma4 EVAL_MODEL=gemma-4-31b-it EVAL_RUNS=1 ./run_extended.sh   # a single run
 set -uo pipefail
 cd "$(dirname "$0")"
 
@@ -17,7 +18,7 @@ export LLM_MODEL="${EVAL_MODEL:-gemini-3.5-flash-lite}"
 export LLM_FALLBACK_MODEL=
 prefix="${EVAL_PREFIX:-fixed}"
 python=../Backend/.venv/bin/python
-runs="$prefix-1,$prefix-2,$prefix-3"
+runs=$(seq -s, -f "$prefix-%g" 1 "${EVAL_RUNS:-3}")
 
 for run in ${runs//,/ }; do
   "$python" -m evaluation.run --name "$run" --retries "${EVAL_RETRIES:-3}" --retry-wait 120

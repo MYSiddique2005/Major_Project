@@ -498,11 +498,14 @@ before scoring), the final version caught 48 of 62 planted false statements with
 66-86%) and raised false alarms on 2 of 124 paraphrases (2%). It also found two genuine model errors that
 the keyword scoring had passed. See `LLM/evaluation/results/claims/summary.md`.
 
+**A second model.** One run on the open-weight `gemma-4-31b-it`, on the same system, passed 86 of 86 with
+grounding and 32 of 32 paired questions against 6 without (p < 0.0001). See `LLM/README.md`.
+
 Two earlier runs on the first 24 questions (6 October) passed 23 and 24 of 24 with grounding and 5 of
 10 without, and are unchanged under the current scoring.
 
 These are indications from a test written by the system's builders, scored by keyword and corrected by
-reading the answers, on one small model; they are not statistically reliable rates. `LLM/README.md`
+reading the answers, on two models from one provider; they are not statistically reliable rates. `LLM/README.md`
 lists the limits, and the `report.md` and `notes.md` in each results folder have every answer and every
 correction to the key.
 

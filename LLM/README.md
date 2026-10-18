@@ -37,6 +37,7 @@ the tool results and the knowledge passages.
 cd LLM
 ../Backend/.venv/bin/python -m evaluation.run --dry-run        # every question with its computed key; asks nothing
 ./run_extended.sh                                              # the three repeated runs, then the summary
+EVAL_PREFIX=gemma4 EVAL_MODEL=gemma-4-31b-it EVAL_RUNS=1 ./run_extended.sh   # one run on another model
 ../Backend/.venv/bin/python -m evaluation.run --name main      # one run: asks whatever has not been asked yet
 ../Backend/.venv/bin/python -m evaluation.report --name main   # rebuilds a run's report from stored answers
 ../Backend/.venv/bin/python -m evaluation.compare --names extended-1,extended-2,extended-3 --out extended
@@ -154,6 +155,16 @@ On the stored answers it also found two genuine errors that the keyword scoring 
 fixed-2 and fixed-3: a product with 125 units against a reorder level of 92 called "Low Stock" because "125
 is below 92"). `results/claims/summary.md` has the method, every miss and false alarm, and the limits.
 
+**A second model.** To check that the results are not tied to one model, the same questions were asked
+once of the open-weight `gemma-4-31b-it` (also free on the Gemini API) on the same, unchanged system
+(`results/gemma4-1/`, `results/gemma4-summary.md`): 86 of 86 with grounding (95% CI 96-100%), and 32 of
+32 paired questions with the knowledge base against 6 without (26 only with, none only without, p <
+0.0001). One of its 251 figures was not found in the data (a correct difference of two projections). The
+claim verifier, unchanged, flagged one statement: on U11 (a false premise: why did an in-stock product run
+out last week?) it gave the right stock but then described a stockout the data cannot show; keyword scoring
+had passed it. `gemini-3.8-flash` was tried too but allows only 20 requests a day on the free tier (about
+15 answers), so it was stopped. Details in `results/gemma4-1/notes.md`.
+
 **Proactive insights (RQ3).** Of the 18 insights stored by the 3 scans on the current data (SCAN-0005 to
 SCAN-0007): all 18 concern a finding the analytics had flagged (enforced by the server), all 18 cite
 evidence from two or more modules, all 266 figures in their text are found in the system data, and all 3
@@ -170,8 +181,9 @@ Read these with their limits in mind:
   without grounding in `extended-1` instead of 9.
 - **Passing is not the same as being right in every sentence.** A pass means the expected facts are
   present and nothing forbidden happened. An answer can pass and still give a muddled reason.
-- **One small model.** The free tier's limits put every answer on the smallest model. Three runs of the
-  same system give some measure of consistency, not of how other models would do.
+- **Two models, one provider.** The main runs use the smallest model; one run of the open-weight Gemma 4
+  31B shows the design is not tied to it, but both come from Google and Gemma was run once, so it says
+  nothing about Gemma's run-to-run consistency.
 - **Questions written by the system's builders**, as before, and **simulated supply data**.
 - **The confidence intervals** describe sampling error on questions like these, nothing more. 100% on
   86 questions means the true rate on similar questions is probably above 96%, not that it is 100%.
