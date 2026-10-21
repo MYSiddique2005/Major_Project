@@ -132,3 +132,89 @@ contribution, and add **option 4** because it is nearly free.
 | [13] Wong et al. 2026, J. Engineering Design | Not found in any search. Do not cite unless the article itself is in hand |
 | [14] Kola and Tejinder 2026 | Not found. Do not cite unless the article itself is in hand |
 | [16]-[26] | Not yet checked; several look generic. Check each before submission |
+
+---
+
+# Part 2: Literature for the journal version (prepared 22 October 2026)
+
+Every paper below was confirmed through the arXiv API (exact title, authors, first-version date), the ACL
+Anthology, the conference or journal page, or Crossref. Descriptions come from each paper's abstract; where
+the full text was read (Agentic ERP), that is stated. Numbering continues from Part 1.
+
+## 6. Thirty-one further papers
+
+### F. LLM agents in ERP and enterprise settings, 2025-2026 (the closest competitors)
+
+| # | Paper | Venue | What it does | Similarity | What it lacks compared with IntelliERP |
+|---|---|---|---|---|---|
+| 31 | Liu, Wang, Wang, Wang, *Agentic ERP: Multi-Agent Large Language Model Architecture for Autonomous Enterprise Resource Planning* | arXiv 2607.17331, 2026 (full text read) | GPT-4o-mini agents execute writes on Odoo 19 (sales, purchasing, inventory, accounting) through a Planner-Executor-Reflector-Responder graph. Risk tiers: low-risk writes run automatically, medium-risk ones are checked by a second agent, high and critical ones (e.g. orders above $10,000) need a human. 36 scenarios at 100% completion; a 365-day simulation with 0 stockouts against 302 for an RPA baseline. Synthetic tea-trading company | **High** (closest 2026 competitor) | Never measures hallucination: the authors call their runtime gate "a structural guarantee, not a bound on how often a hallucinated or mis-calibrated decision is proposed" and say a bound "requires domain-specific measurement of hallucination frequency". Accuracy is scored by an LLM judge "not calibrated against human raters". Names formal verification of agent behaviour as "required for high-stakes deployments". Agents act on their own below the risk threshold |
+| 32 | Zhang, Lu, Ye, Liu, *ERPBench: Evaluating LLM Agents for Enterprise Decision-Making Across Competitive Market Ecologies* | arXiv 2609.04667, 2026 | Six-round ERP simulation coupling pricing, production, procurement, inventory and finance; 100 fixed problems in a solo and a shared-market setting; 1,200 trajectories. Model rankings do not transfer (same winner on 21 of 100 problems) | **High** (enterprise-agent evaluation) | Scores actions and outcomes; does not check whether the agent's statements or explanations are true |
+| 33 | Vishwakarma, Agarwal, Patil, Devaguptapu, Chandran, *Can LLMs Help You at Work? A Sandbox for Evaluating LLM Agents in Enterprise Environments* | EMNLP 2025 | EnterpriseBench: 500 tasks in software engineering, HR, finance and administration with fragmented data and access-control hierarchies; the best model completes 41.8% | Medium-High | Task completion only; no statement verification |
+| 34 | Han, Wang, Qian, Li, Cao, He et al., *Can LLM Agents Be CFOs? Benchmarking Long-Horizon Resource Allocation in an Uncertain Enterprise Environment* | arXiv 2603.23638, 2026 | EnterpriseArena: a 132-month CFO simulation of a FinTech lender; 23 LLMs in four agent frameworks; only 15.4% of runs survive the full horizon; larger models are not reliably better | Medium | Decision quality under uncertainty, not factual grounding |
+| 35 | Yang, Lin, She, Liao, Wang, Zhang et al., *FinRobot: Generative Business Process AI Agents for Enterprise Resource Planning in Finance* | arXiv 2506.01423, 2025 | Generative business-process agents that build finance workflows (wire transfers, reimbursements) at run time with sub-agents and inserted risk controls; reports up to 40% less processing time and 94% fewer errors in case studies | Medium-High | The abstract describes no verification of outputs or hallucination control; baselines and sample sizes are not given |
+| 36 | Agarwal, *Contract2Plan: Verified Contract-Grounded Retrieval-Augmented Optimization for BOM-Aware Procurement and Multi-Echelon Inventory Planning* | arXiv 2601.06164, 2026 | Extracts a **typed constraint schema** from contracts with evidence spans, compiles it to a MILP and puts a solver-based gate (grounding, eligibility, consistency, feasibility) before a plan is emitted; repairs or abstains otherwise. Synthetic 500-instance benchmark | **High** (closest method: typed extraction + verification gate) | Verifies extracted contract constraints for optimisation, not the statements of an assistant against a live ERP; the abstract reports results only for the baseline |
+| 37 | Freeman, Kicklighter, Erdman, Gordon, *Toward Epistemic Stability: Engineering Consistent Procedures for Industrial LLM Hallucination Reduction* | arXiv 2603.10047, 2026 | Five prompt-engineering methods for industrial settings including ERP; 100 runs each judged by an LLM; an "Enhanced Data Registry" (grounding in data) wins 100% of comparisons | Medium | Prompting only; measured by an LLM judge, not against true answers; the authors note correctness cannot be guaranteed |
+| 38 | Misra, Vyas, Gutta, Mercangöz, *ADMITBench: A Safety-Governed Reference Framework for Evaluating the Admissibility of Industrial LLM Advisories* | arXiv 2608.03866, 2026 | Judges each proposed action of an industrial LLM advisory: is it supported by evidence, permitted under the stated authority and procedure, and safe under plant-specific consequence checks, using explicit, non-compensatory checks from a versioned plant profile | **High** (closest in spirit) | An offline reference framework for process plants, at the level of actions; the abstract reports no experiments; does not verify each statement against a live system of record |
+
+### G. Verifying claims against relational and structured data
+
+| # | Paper | Venue | What it does | Similarity | What it lacks compared with IntelliERP |
+|---|---|---|---|---|---|
+| 39 | Chen, Wang, Chen, Zhang, Wang, Li et al., *TabFact: A Large-scale Dataset for Table-based Fact Verification* | ICLR 2020 | 118k human-written statements over 16k Wikipedia tables, labelled entailed or refuted | Medium (background) | Static tables, offline, human statements |
+| 40 | Jo, Trummer, Yu, Liu, Wang, Yu et al., *Verifying Text Summaries of Relational Data Sets* (AggChecker) | SIGMOD 2019 | Translates claims in text into candidate SQL queries with a probabilistic model; on 392 claims in 53 articles it found erroneous claims in about a third; users were about six times faster than with SQL | **High** (prior art for checking data claims) | Offline documents; aggregate claims; pre-LLM |
+| 41 | Karagiannis, Saeed, Papotti, Trummer, *Scrutinizer: A Mixed-Initiative Approach to Large-Scale, Data-Driven Claim Verification* | PVLDB 13(11), 2020 | Helps human fact checkers translate claims into SQL, learning as it goes; user study with professional fact checkers | **High** (prior art) | A human translates; offline |
+| 42 | Jayasekara, Trummer, *CEDAR: A System for Cost-Efficient Data-Driven Claim Verification* | PVLDB 18, 2025 | LLMs map claims to SQL; a cost-based cascade escalates from zero-shot calls to agent-based verification | **High** (closest LLM-era database work) | Checks documents offline; correctness depends on LLM-written SQL; no business-rule or what-if claims; not inside an assistant |
+| 43 | Theologitis, Suciu, *Thucy: An LLM-based Multi-Agent System for Claim Verification across Relational Databases* | arXiv 2512.03278; AAAI 2026 LaMAS workshop | Agents discover and query several databases and return the SQL behind each verdict; 94.3% vs 88.7% on TabFact | **High** | Same as CEDAR; evaluated on a static benchmark |
+| 44 | Pan, Wu, Lu, Luu, Wang, Kan, Nakov, *Fact-Checking Complex Claims with Program-Guided Reasoning* (ProgramFC) | ACL 2023 | An LLM writes a reasoning program; each step goes to a specialised handler; explainable and data-efficient | Medium-High (method kin) | Handlers are neural QA modules over text; open-domain evidence |
+| 45 | Venktesh, Anand, Anand, Setty, *QuanTemp: A real-world open-domain benchmark for fact-checking numerical claims* | SIGIR 2024 | Real numerical claims from fact-checking organisations; best baseline macro-F1 58.32 | Medium | Web evidence; shows numerical claims are hard |
+
+### H. Hallucination detection and factuality evaluation
+
+| # | Paper | Venue | What it does | Similarity | What it lacks compared with IntelliERP |
+|---|---|---|---|---|---|
+| 46 | Manakul, Liusie, Gales, *SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models* | EMNLP 2023 | Samples several answers; facts that vary between samples are likely invented | Medium | No external data; misses errors the model makes consistently |
+| 47 | Farquhar, Kossen, Kuhn, Gal, *Detecting hallucinations in large language models using semantic entropy* | Nature 630:625-630, 2024 | Uncertainty over meanings detects confabulations | Medium | Uncertainty, not truth against data; several times the cost of one answer; misses consistent mistakes |
+| 48 | Wei, Yang, Song, Lu, Hu, Huang et al., *Long-form factuality in large language models* (SAFE, LongFact) | NeurIPS 2024 | An LLM splits an answer into facts and checks each with Google Search; agrees with humans 72% of the time and wins 76% of disagreements, at 20x lower cost | Medium-High (decompose, then verify) | Web evidence and an LLM's judgement |
+| 49 | Tang, Laban, Durrett, *MiniCheck: Efficient Fact-Checking of LLMs on Grounding Documents* | EMNLP 2024 | Small checkers trained on synthetic data reach GPT-4 accuracy on the LLM-AggreFact benchmark at about 400x lower cost | **High** (baseline to compare against) | Checks text against documents; no structured or business-rule semantics |
+| 50 | Niu, Wu, Zhu, Xu, Shum, Zhong et al., *RAGTruth: A Hallucination Corpus for Developing Trustworthy Retrieval-Augmented Language Models* | ACL 2024 | About 18,000 naturally generated RAG answers annotated at case and word level | Medium-High (natural-error annotation method) | Documents, not databases |
+| 51 | Metropolitansky, Larson, *Towards Effective Extraction and Evaluation of Factual Claims* (Claimify) | ACL 2025 | An evaluation framework for claim extraction (coverage, decontextualisation) and an LLM extractor that extracts only when the interpretation is clear | **High** (the extraction step) | Extraction only; verification left to other systems |
+| 52 | Gou, Shao, Gong, Shen, Yang, Duan et al., *CRITIC: Large Language Models Can Self-Correct with Tool-Interactive Critiquing* | ICLR 2024 | The LLM checks and revises its output with tools, in rounds | Medium-High (correction-loop kin) | The LLM decides what is wrong; no deterministic verdict |
+| 53 | Lin, Ning, Zhang, Dong, Liu, Wu et al., *LLM-based Agents Suffer from Hallucinations: A Survey of Taxonomy, Methods, and Directions* | arXiv 2509.18970, 2025 | Taxonomy of agent hallucinations by stage, 18 triggering causes, detection and mitigation methods | Medium (context) | Survey |
+| 54 | Islam, Kannappan, Kiela, Qian, Scherrer, Vidgen, *FinanceBench: A New Benchmark for Financial Question Answering* | arXiv 2311.11944, 2023 | Open-book financial QA; GPT-4-Turbo with retrieval answered wrongly or refused 81% of questions | Medium (evidence of business hallucination) | Documents; no verification method |
+| 55 | Hu, Luo, Wang, Cheng, Liu, Sun, *Won't Get Fooled Again: Answering Questions with False Premises* | ACL 2023 | FalseQA: 2,365 false-premise questions; models can learn to rebut them | Medium (motivates a false-premise experiment) | Open-domain; no external verification |
+
+### I. Runtime enforcement, LLM judges and structured outputs
+
+| # | Paper | Venue | What it does | Similarity | What it lacks compared with IntelliERP |
+|---|---|---|---|---|---|
+| 56 | Wang, Poskitt, Sun, *AgentSpec: Customizable Runtime Enforcement for Safe and Reliable LLM Agents* | ICSE 2026 | A rule language (trigger, predicates, enforcement) applied to agent **actions** at run time; prevents over 90% of unsafe code-agent executions | **High** (positioning) | Governs actions, not the truth of what the agent says |
+| 57 | Wang, Poskitt, Wei, Sun, *ProbGuard: Proactive Runtime Monitoring for LLM Agent Safety via Probabilistic Prediction* | ASE 2026 | Predicts future violations from execution traces (earlier titled Pro2Guard) | Medium | Actions, not statements |
+| 58 | Gu, Jiang, Shi, Tan, Zhai, Xu et al., *A Survey on LLM-as-a-Judge* | arXiv 2411.15594, 2024 (revised 2025) | Reliability of LLM judges: consistency, bias, robustness, and how to evaluate them | **High** (why a deterministic verdict matters; an LLM-judge baseline) | Survey |
+| 59 | Geng, Cooper, Moskal, Jenkins, Berman, Ranchin et al., *JSONSchemaBench: A Rigorous Benchmark of Structured Outputs for Language Models* | arXiv 2501.10868; ICML 2025 workshop | About 10,000 real JSON schemas; structured output remains hard for constrained-decoding frameworks and APIs, including Gemini | Medium (risk for typed extraction) | Benchmark |
+
+### J. People relying on AI advice
+
+| # | Paper | Venue | What it does | Similarity | What it lacks compared with IntelliERP |
+|---|---|---|---|---|---|
+| 60 | Bansal, Wu, Zhou, Fok, Nushi, Kamar et al., *Does the Whole Exceed its Parts? The Effect of AI Explanations on Complementary Team Performance* | CHI 2021 | Explanations made people accept AI recommendations more often, right or wrong; no gain over AI help without explanations | **High** for a decision-support journal (explanations alone can raise over-reliance) | No data-checked signals |
+| 61 | Vasconcelos, Jörke, Grunde-McLaughlin, Gerstenberg, Bernstein, Krishna, *Explanations Can Reduce Overreliance on AI Systems During Decision-Making* | CSCW 2023 | People decide whether to check AI output by weighing effort; explanations that make checking easier reduce over-reliance | **High** (verification badges as "cheap checking") | No data-checked signals |
+
+## 7. What Part 2 changes
+
+1. **The gap is confirmed and sharper.** The 2026 ERP agent papers (31-38) act, plan or are evaluated on
+   outcomes; none verifies what the assistant *says* against the live system of record, and the closest
+   one (31) states that hallucination frequency was not measured.
+2. **The strongest prior art is in databases (40-43)**: claims in published documents are checked by
+   translating them into SQL. IntelliERP differs in when (inside the assistant, before the user sees the
+   answer, with correction), against what (business metrics, rules and simulations computed by tested
+   code, not LLM-written SQL), and for which claims (state, rule and what-if claims, not only aggregates).
+3. **Reviewers will expect baselines (46-52, 58)**: an LLM judge with the same evidence, a trained small
+   checker (MiniCheck) and a self-correction method, compared on the same test items, with the cost and
+   the repeatability of each.
+4. **The current verifier's main weakness is extraction (51, 59)**: hand-written patterns. Typed claim
+   extraction by an LLM, validated by a schema and verified deterministically, follows the direction of
+   Claimify (51), ProgramFC (44) and Contract2Plan (36) while keeping the verdict out of the LLM's hands.
+5. **Natural errors and end-to-end effect (50, 55)**: annotate the assistant's own errors, and test
+   whether verification plus correction actually stops false statements, using false-premise questions.
+
+The design built on these points is in `journal-research-plan.md`.
