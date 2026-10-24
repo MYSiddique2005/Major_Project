@@ -29,6 +29,9 @@ class ChatResponse(BaseModel):
     contradicted_claims: list[str] = Field(
         default=[], description="Statements in the answer that the system's data contradicts, after one correction"
     )
+    verification: dict | None = Field(
+        default=None, description="How the answer's statements were checked: verifier, statements checked, extraction"
+    )
     provider: str | None = None
     model: str | None = None
     usage: dict[str, int] | None = None

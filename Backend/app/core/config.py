@@ -39,6 +39,12 @@ class Settings(BaseSettings):
     # Turn off only to measure what grounding contributes.
     llm_grounding: bool = True
     llm_knowledge_passages: int = 4  # passages retrieved for each question
+    # How the statements in an answer are checked against the data before it is shown:
+    #   patterns   the version-3 claim patterns (app/llm/claims.py); no model call
+    #   trace-rule TRACE with rule-based extraction only (app/llm/trace); no model call
+    #   trace      TRACE, hybrid: rules plus one model call that extracts typed assertions
+    #   off        no statement check (only to measure what checking contributes)
+    llm_verifier: Literal["patterns", "trace-rule", "trace", "off"] = "patterns"
     # Proactive scan: the assistant analyses the current high and critical findings on its own.
     insight_scan_interval_minutes: int = 1440  # 0 switches the scheduled scan off; it can still be run by hand
     insight_max_findings: int = 6  # findings analysed per scan, most severe first

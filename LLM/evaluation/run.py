@@ -19,6 +19,7 @@ from datetime import date, datetime
 from pathlib import Path
 
 from evaluation.cases import Case, build_cases
+from evaluation.fpq_cases import build_fpq_cases
 from evaluation.context import Context, open_context
 from evaluation.scoring import describe, score
 
@@ -86,6 +87,9 @@ def run_case(ctx: Context, case: Case, grounded: bool) -> dict:
         "provider": response.provider,
         "model": response.model,
         "usage": response.usage,
+        "unverified_figures": response.unverified_figures,
+        "contradicted_claims": response.contradicted_claims,
+        "verification": response.verification,
         "seconds": seconds,
         "tool_rounds": len({json.dumps(s["input"], sort_keys=True) + s["tool"] for s in response.sources}),
         "tool_outputs": tool_text[:MAX_STORED_TOOL_OUTPUT],
@@ -106,6 +110,8 @@ def main() -> None:
     parser.add_argument("--retries", type=int, default=0, help="times to wait and ask again when the model is unavailable")
     parser.add_argument("--retry-wait", type=int, default=120, help="seconds to wait before each retry")
     parser.add_argument("--dry-run", action="store_true", help="print the questions and their computed keys; ask nothing")
+    parser.add_argument("--suite", choices=["main", "fpq"], default="main",
+                        help="main: the 86 questions; fpq: the false-premise questions (evaluation/fpq_cases.py)")
     args = parser.parse_args()
     if args.dry_run:
         return dry_run(args)
@@ -124,7 +130,7 @@ def main() -> None:
         if ctx.provider is None:
             raise SystemExit("No model is configured. Set the provider's API key in Backend/.env.")
         cases = [
-            case for case in build_cases(ctx)
+            case for case in (build_fpq_cases(ctx) if args.suite == "fpq" else build_cases(ctx))
             if (not wanted or case.id in wanted) and (not args.category or case.category == args.category)
         ]
         todo = [
@@ -170,7 +176,7 @@ def main() -> None:
 def dry_run(args) -> None:
     """Shows what would be asked and what each answer is checked against, without calling the model."""
     with open_context() as ctx:
-        cases = build_cases(ctx)
+        cases = build_fpq_cases(ctx) if args.suite == "fpq" else build_cases(ctx)
         admin_tools = {tool.name for tool in ctx.assistant(True)[1].available(ctx.user("admin"))}
         problems = []
         for case in cases:

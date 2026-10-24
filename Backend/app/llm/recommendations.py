@@ -21,6 +21,7 @@ from app.core.exceptions import DomainError
 from app.knowledge.base import KnowledgeBase
 from app.llm.claims import Claim, check_answer, check_subject, summary
 from app.models.enums import RiskLevel
+from app.schemas.procurement import MAX_ORDER_QUANTITY
 from app.services.analytics_service import AnalyticsService
 from app.services.supplier_service import SupplierService
 
@@ -48,7 +49,7 @@ class RecommendationInput(BaseModel):
     )
     product_id: str | None = Field(default=None, description="Product the action concerns (reorder, expedite_delivery)")
     supplier_id: str | None = Field(default=None, description="Supplier the action concerns")
-    quantity: int | None = Field(default=None, ge=1, le=100_000, description="Units to order (reorder only)")
+    quantity: int | None = Field(default=None, ge=1, le=MAX_ORDER_QUANTITY, description="Units to order (reorder only)")
     evidence: list[EvidenceItem] = Field(min_length=1, max_length=8)
 
 

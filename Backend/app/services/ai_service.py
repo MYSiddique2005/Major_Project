@@ -11,6 +11,7 @@ from app.knowledge.base import KnowledgeBase, Match
 from app.llm.providers import KEY_NAMES, Provider, ToolCall, ToolResult, Turn
 from app.llm.recommendations import answer_claims, untraced_figures
 from app.llm.tools import PROPOSE_TOOL, Toolbox, ToolError
+from app.llm.trace import TraceResult, TraceVerifier
 from app.models.entities import User
 from app.models.enums import AuditAction
 from app.repositories.base import UnitOfWork
@@ -155,8 +156,46 @@ class AIService:
         def untraced() -> list[str]:
             return untraced_figures(text, f"{given} {json.dumps(outputs, default=str)}")
 
+        verifier = self._settings.llm_verifier
+        checked: dict[str, TraceResult] = {}  # one TRACE check per answer text, reused when it is reported
+        verification_usage = {"input_tokens": 0, "output_tokens": 0}
+
+        def trace(answer: str) -> TraceResult:
+            if answer not in checked:
+                checker = TraceVerifier(
+                    self._toolbox.fact_source(self._settings.separation_of_duties), self._toolbox.checker,
+                    self._provider if verifier == "trace" else None,
+                    "hybrid" if verifier == "trace" else "rule", user.role,
+                )
+                checked[answer] = checker.check(answer, context=f"The user asked: {message[:500]}")
+                if (extraction := checked[answer].extraction) is not None:
+                    verification_usage["input_tokens"] += extraction.input_tokens
+                    verification_usage["output_tokens"] += extraction.output_tokens
+            return checked[answer]
+
         def contradicted() -> list[str]:
-            return [claim.describe() for claim in answer_claims(self._toolbox.checker, text) if claim.status == "contradicted"]
+            if verifier == "off":
+                return []
+            if verifier == "patterns":
+                return [claim.describe() for claim in answer_claims(self._toolbox.checker, text)
+                        if claim.status == "contradicted"]
+            return trace(text).summary()["claims_contradicted"]
+
+        def verification() -> dict:
+            info: dict = {"verifier": verifier, "corrected": corrected}
+            if verifier == "patterns":
+                claims = answer_claims(self._toolbox.checker, text)
+                info["claims_checked"] = sum(claim.status != "unverifiable" for claim in claims)
+            elif verifier != "off":
+                result = trace(text)
+                info["claims_checked"] = result.summary()["claims_checked"]
+                if result.extraction is not None:
+                    info["extraction"] = {
+                        "ok": result.extraction.ok, "error": result.extraction.error, "model": result.extraction.model,
+                        "assertions": len(result.extraction.assertions), "invalid": result.extraction.invalid,
+                    }
+                info["tokens"] = dict(verification_usage)
+            return info
 
         corrected = False
         replies, allowed = 0, self._settings.llm_max_tool_rounds + 1  # the tool rounds, then the answer
@@ -221,6 +260,7 @@ class AIService:
             actions=self._toolbox.actions,
             unverified_figures=untraced() if status == "ok" else [],
             contradicted_claims=contradicted() if status == "ok" else [],
+            verification=verification() if status == "ok" else None,
             knowledge=[{**match.entry.summary(), "score": match.score} for match in passages],
             provider=self._provider.name,
             model=model,

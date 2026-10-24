@@ -15,6 +15,7 @@ from app.db import models  # noqa: F401  (registers the tables on Base.metadata)
 from app.knowledge.base import Entry, KnowledgeBase
 from app.llm.tools import MAX_ROWS
 from app.models.enums import Role
+from app.schemas.procurement import MAX_ORDER_QUANTITY
 from app.security.permissions import ROLE_PERMISSIONS
 from app.services import analytics_service
 
@@ -277,8 +278,10 @@ WRITTEN = [
           "order quantity replenishment how many units should we order purchase recommendation restock"),
     Entry("rule.supplier-risk", "Supplier delivery risk rule (High, Medium, Low)", "rule",
           f"Supplier risk comes from purchase-order history; the first rule that matches gives the level. High: an "
-          f"open order is overdue, or fewer than 50% of deliveries were on time, or delays are worsening and average "
-          f"2 days or more. Medium: average delay is 1 day or more, or fewer than 60% of deliveries were on time. "
+          f"open order is overdue, or fewer than {P.HIGH_RISK_ON_TIME_BELOW_PCT:g}% of deliveries were on time, or "
+          f"delays are worsening and average {P.HIGH_RISK_WORSENING_AVG_DELAY_DAYS:g} days or more. Medium: average "
+          f"delay is {P.MEDIUM_RISK_AVG_DELAY_DAYS:g} day or more, or fewer than {P.MEDIUM_RISK_ON_TIME_BELOW_PCT:g}% of "
+          f"deliveries were on time. "
           f"Low: otherwise, including suppliers with no deliveries. The on-time percentage is only used once a "
           f"supplier has at least {P.MIN_DELIVERIES_FOR_RATE} deliveries, so one late delivery cannot make a "
           f"supplier High.",
@@ -292,7 +295,8 @@ WRITTEN = [
           "scenario simulation projection what happens if demand rises delivery is late"),
     Entry("rule.po-validation", "Purchase order validation rules", "rule",
           "A purchase order is accepted only if: the supplier exists and is Active; the product exists; the "
-          "supplier supplies that product; quantity is positive and at most 100,000; unit price is positive; and "
+          f"supplier supplies that product; quantity is positive and at most {MAX_ORDER_QUANTITY:,}; unit price is "
+          f"positive; and "
           "the expected delivery date is not before the order date. If no unit price is given it defaults to the "
           "product's unit cost. If no expected delivery date is given it defaults to today plus the supplier's "
           "average delivery days, rounded up. The same rules apply to every order, whoever or whatever drafted it.",

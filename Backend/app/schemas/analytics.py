@@ -6,6 +6,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from app.models.enums import RiskLevel, SupplierStatus
+from app.schemas.procurement import MAX_ORDER_QUANTITY
 
 ForecastMethod = Literal["moving_average", "linear_trend"]
 
@@ -89,7 +90,7 @@ class WhatIfRequest(BaseModel):
     product_id: str
     demand_change_pct: float = Field(default=0, ge=-100, le=500, description="e.g. 30 = demand 30% higher")
     lead_time_change_days: int = Field(default=0, ge=-30, le=90, description="e.g. 5 = deliveries 5 days later")
-    order_quantity: int = Field(default=0, ge=0, le=100_000, description="Units ordered today in the scenario")
+    order_quantity: int = Field(default=0, ge=0, le=MAX_ORDER_QUANTITY, description="Units ordered today in the scenario")
     horizon_days: int = Field(default=60, ge=14, le=180)
 
 

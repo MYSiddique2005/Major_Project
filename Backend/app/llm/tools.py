@@ -156,6 +156,13 @@ class Toolbox:
         self._procurement = procurement
         self._tools = {tool.name: tool for tool in self._build()}
 
+    def fact_source(self, separation_of_duties: bool = True):
+        """The services the tools read, as a source of truth for checking the assistant's statements (TRACE)."""
+        from app.llm.trace.facts import FactSource  # imported here: the verifier itself uses this module
+
+        return FactSource(self._analytics, self._products, self._suppliers, self._inventory, self._procurement,
+                          self._sales, self.clock, separation_of_duties)
+
     def available(self, user: User) -> list[Tool]:
         return [tool for tool in self._tools.values() if has_permission(user.role, tool.permission)]
 

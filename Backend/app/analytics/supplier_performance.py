@@ -24,6 +24,12 @@ MIN_DELIVERIES_FOR_RATE = 3
 TREND_WINDOW_DAYS = 60
 MIN_ORDERS_PER_TREND_WINDOW = 2
 TREND_TOLERANCE_DAYS = 0.5
+# Risk thresholds (the rule in the module docstring). Named so the knowledge base and the claim verifier
+# state exactly the values the rule applies.
+HIGH_RISK_ON_TIME_BELOW_PCT = 50
+MEDIUM_RISK_ON_TIME_BELOW_PCT = 60
+MEDIUM_RISK_AVG_DELAY_DAYS = 1
+HIGH_RISK_WORSENING_AVG_DELAY_DAYS = 2
 
 
 @dataclass(frozen=True)
@@ -76,9 +82,13 @@ def assess(orders: list[PurchaseOrder], today: date) -> SupplierPerformance:
             trend = "stable"
 
     rate_is_meaningful = n >= MIN_DELIVERIES_FOR_RATE
-    if overdue or (rate_is_meaningful and on_time_rate < 50) or (trend == "worsening" and avg_delay >= 2):
+    if (
+        overdue
+        or (rate_is_meaningful and on_time_rate < HIGH_RISK_ON_TIME_BELOW_PCT)
+        or (trend == "worsening" and avg_delay >= HIGH_RISK_WORSENING_AVG_DELAY_DAYS)
+    ):
         level = RiskLevel.HIGH
-    elif n and (avg_delay >= 1 or (rate_is_meaningful and on_time_rate < 60)):
+    elif n and (avg_delay >= MEDIUM_RISK_AVG_DELAY_DAYS or (rate_is_meaningful and on_time_rate < MEDIUM_RISK_ON_TIME_BELOW_PCT)):
         level = RiskLevel.MEDIUM
     else:
         level = RiskLevel.LOW

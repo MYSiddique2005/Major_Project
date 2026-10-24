@@ -4,6 +4,8 @@ from pydantic import BaseModel, Field
 
 from app.models.enums import PurchaseOrderOrigin, PurchaseOrderStatus
 
+MAX_ORDER_QUANTITY = 100_000  # the most units one purchase order may carry
+
 
 class PurchaseOrderResponse(BaseModel):
     id: str
@@ -30,7 +32,7 @@ class PurchaseOrderResponse(BaseModel):
 class PurchaseOrderCreate(BaseModel):
     supplier_id: str
     product_id: str
-    quantity: int = Field(gt=0, le=100_000)
+    quantity: int = Field(gt=0, le=MAX_ORDER_QUANTITY)
     unit_price: float | None = Field(default=None, gt=0, description="Defaults to the product's standard unit cost")
     expected_delivery: date | None = Field(
         default=None, description="Defaults to today plus the supplier's average delivery time"
@@ -43,7 +45,7 @@ class PurchaseOrderUpdate(BaseModel):
 
     supplier_id: str | None = None
     product_id: str | None = None
-    quantity: int | None = Field(default=None, gt=0, le=100_000)
+    quantity: int | None = Field(default=None, gt=0, le=MAX_ORDER_QUANTITY)
     unit_price: float | None = Field(default=None, gt=0)
     expected_delivery: date | None = None
     reason: str | None = Field(default=None, max_length=500)
