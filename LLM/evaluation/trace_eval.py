@@ -83,10 +83,10 @@ class Cache:
         return Extraction([Assertion.model_validate(item) for item in record["assertions"]], record["invalid"], None,
                           record["model"], record["input_tokens"], record["output_tokens"])
 
-    def put(self, model: str, text: str, extraction: Extraction) -> None:
+    def put(self, model: str, text: str, extraction: Extraction, seconds: float | None = None) -> None:
         record = {"key": self.key(model, text), "prompt_version": PROMPT_VERSION, "requested_model": model,
                   "model": extraction.model, "invalid": extraction.invalid, "input_tokens": extraction.input_tokens,
-                  "output_tokens": extraction.output_tokens,
+                  "output_tokens": extraction.output_tokens, "seconds": seconds,
                   "assertions": [a.model_dump(exclude_none=True) for a in extraction.assertions]}
         self.records[record["key"]] = record
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -114,7 +114,9 @@ def run_extraction(ctx, texts: list[str], cache: Cache) -> None:
     print(f"{len(texts)} texts, {len(todo)} to extract with {model} (prompt {PROMPT_VERSION})", flush=True)
     for index, text in enumerate(todo, 1):
         for attempt in range(4):
+            started = time.monotonic()
             extraction = extract(provider, text)
+            seconds = round(time.monotonic() - started, 2)
             if extraction.ok or not extraction.error:
                 break
             if "daily limit" in extraction.error:
@@ -127,7 +129,7 @@ def run_extraction(ctx, texts: list[str], cache: Cache) -> None:
         if extraction.model and model not in extraction.model:
             print(f"  answered by {extraction.model}, not {model}: not cached", flush=True)
             continue
-        cache.put(model, text, extraction)
+        cache.put(model, text, extraction, seconds)
         if index % 10 == 0:
             print(f"  {index} of {len(todo)}", flush=True)
 

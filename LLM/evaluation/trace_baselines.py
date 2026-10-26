@@ -2,6 +2,8 @@
 
     LLM_MODEL=gemini-3.5-flash-lite ../Backend/.venv/bin/python -m evaluation.trace_baselines judge --set heldout-gemini
     LLM_MODEL=gemma-4-31b-it        ../Backend/.venv/bin/python -m evaluation.trace_baselines judge --set heldout-gemini
+    ../Backend/.venv/bin/python -m evaluation.trace_baselines minicheck-prep --set heldout-gemini
+    ~/.venvs/minicheck/bin/python evaluation/minicheck_run.py      # local model on the CPU, no account
 
 LLM judge: the model is given the same evidence TRACE checks against (the overview of every product and
 supplier the text names, as the assistant's tools return it, and the knowledge base's rule, workflow and
@@ -70,6 +72,64 @@ def rules_passages() -> str:
                      if entry.category in ("rule", "workflow", "access", "definition"))
 
 
+MINICHECK_INPUT = OUT / "minicheck-input.jsonl"
+MINICHECK_CACHE = OUT / "minicheck.jsonl"
+MINICHECK_THRESHOLD = 0.5  # the MiniCheck paper's decision threshold
+
+
+def fact_sheet(evidence: str) -> str:
+    """The judge's evidence as plain sentences ("P082 on hand: 0."), the form MiniCheck was trained on."""
+    lines = []
+    for block in evidence.split("\n\n"):
+        head, _, body = block.partition(": ")
+        try:
+            facts = json.loads(body)
+        except (json.JSONDecodeError, ValueError):
+            lines.append(block)
+            continue
+
+        def walk(prefix: str, value) -> None:
+            if isinstance(value, dict):
+                for key, inner in value.items():
+                    walk(f"{prefix} {key.replace('_', ' ')}", inner)
+            elif isinstance(value, list):
+                lines.append(f"{prefix}: {', '.join(json.dumps(v, default=str) if isinstance(v, (dict, list)) else str(v) for v in value) or 'none'}.")
+            else:
+                lines.append(f"{prefix}: {value}.")
+        walk(head, facts)
+    return "\n".join(lines)
+
+
+def minicheck_prep(texts: list[str]) -> None:
+    """Writes the documents and claims for the MiniCheck runner; the claims are the texts' sentences."""
+    from evaluation.trace_score import sentences
+
+    done = {json.loads(line)["key"] for line in MINICHECK_INPUT.read_text().splitlines()} if MINICHECK_INPUT.exists() else set()
+    with open_context() as ctx:
+        checker = RecommendationChecker(ctx.analytics, ctx.suppliers)
+        rules_text = rules_passages()
+        with MINICHECK_INPUT.open("a") as handle:
+            for text in dict.fromkeys(texts):
+                key = hashlib.sha256(text.encode()).hexdigest()
+                if not text or key in done:
+                    continue
+                claims = [text[start:end].strip() for start, end in sentences(text) if len(text[start:end].split()) >= 4]
+                handle.write(json.dumps({"key": key, "document": fact_sheet(evidence_for(text, checker, rules_text)),
+                                         "claims": claims}) + "\n")
+
+
+def minicheck_quotes(text: str, _cache: dict = {}) -> list[str] | None:
+    """Sentences MiniCheck finds unsupported (support below the threshold), or None if it has not run."""
+    if not _cache and MINICHECK_CACHE.exists():
+        for line in MINICHECK_CACHE.read_text().splitlines():
+            record = json.loads(line)
+            _cache[record["key"]] = record["scores"]
+    scores = _cache.get(hashlib.sha256(text.encode()).hexdigest())
+    if scores is None:
+        return None
+    return [entry["claim"] for entry in scores if entry["support"] < MINICHECK_THRESHOLD]
+
+
 class JudgeCache:
     def __init__(self, path: Path = JUDGE_CACHE):
         self.path, self.records = path, {}
@@ -123,7 +183,7 @@ def judge_texts(texts: list[str], repeat: int = 0) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run a baseline checker on a rewrite set.")
-    parser.add_argument("step", choices=["judge"])
+    parser.add_argument("step", choices=["judge", "minicheck-prep"])
     parser.add_argument("--set", required=True, help="a rewrite file in results/trace or results/claims, without .jsonl")
     parser.add_argument("--repeat", type=int, default=0)
     args = parser.parse_args()
@@ -132,7 +192,10 @@ def main() -> None:
         path = RESULTS / "claims" / f"{args.set}.jsonl"
     records = [json.loads(line) for line in path.read_text().splitlines()]
     texts = [text for record in records for text in (record.get("original"), record.get("rewritten"))]
-    judge_texts(texts, args.repeat)
+    if args.step == "minicheck-prep":
+        minicheck_prep([text for text in texts if text])
+    else:
+        judge_texts(texts, args.repeat)
 
 
 if __name__ == "__main__":

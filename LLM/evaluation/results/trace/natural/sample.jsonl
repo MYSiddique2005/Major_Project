@@ -1,0 +1,300 @@
+{"answer_id": "extended-1/A1/grounded", "start": 191, "end": 321, "sentence": "The product is currently at critical stockout risk with zero stock on hand, while average daily demand is 75.86 units and growing."}
+{"answer_id": "extended-1/A13/grounded", "start": 125, "end": 279, "sentence": "Please note that A Datum Corporation (S001) does not supply this product, so the draft was placed with its correct active supplier, Fabrikam, Inc. (S004)."}
+{"answer_id": "extended-1/A15/grounded", "start": 751, "end": 801, "sentence": "Please submit another request to draft that order."}
+{"answer_id": "extended-1/A2/grounded", "start": 395, "end": 433, "sentence": "- Suggested reorder quantity: 40 units"}
+{"answer_id": "extended-1/A4/grounded", "start": 0, "end": 107, "sentence": "I cannot approve or place purchase orders, nor can I create orders without going through the draft process."}
+{"answer_id": "extended-1/A4/grounded", "start": 108, "end": 250, "sentence": "Only an authorized user can submit and approve purchase orders, and approvals cannot be done by the same person who created or submitted them."}
+{"answer_id": "extended-1/A8/grounded", "start": 0, "end": 76, "sentence": "Your role as Inventory Manager does not include the list of purchase orders."}
+{"answer_id": "extended-1/C1/grounded", "start": 0, "end": 117, "sentence": "There are 5 products currently at critical risk of stockout because they have zero stock on hand while still selling."}
+{"answer_id": "extended-1/C1/grounded", "start": 219, "end": 241, "sentence": "Here are the products:"}
+{"answer_id": "extended-1/C1/grounded", "start": 1148, "end": 1347, "sentence": "- Tape dispenser (Blue), P205 (Supplier: Litware, Inc., S007): 0 units on hand, average demand of 71.79 units/day, safety stock of 507 units, and 720 overdue inbound units out of 1830 units on order."}
+{"answer_id": "extended-1/C1/ungrounded", "start": 1088, "end": 1152, "sentence": "- Tape dispenser (Blue), P205, supplied by Litware, Inc. (S007)."}
+{"answer_id": "extended-1/C1/ungrounded", "start": 1153, "end": 1303, "sentence": "It has an average daily demand of 71.79 units, 0 units on hand, 720 overdue inbound units out of 1,830 inbound units, and a safety stock of 507 units."}
+{"answer_id": "extended-1/C10/grounded", "start": 182, "end": 299, "sentence": "- 10 mm Anti static bubble wrap (Blue) 50m (P167) has 21 days of cover, with a projected stockout date of 2026-10-26."}
+{"answer_id": "extended-1/C11/grounded", "start": 465, "end": 624, "sentence": "- Ride on big wheel monster truck (Black) 1/12 scale, P075: 0 on hand, 0 days of cover, average daily demand of 4.21 units, and its inbound orders are overdue."}
+{"answer_id": "extended-1/C12/grounded", "start": 0, "end": 142, "sentence": "If the deliveries on order for Shipping carton (Brown) 305x305x305mm (P184) arrive 7 days late, it would first run out of stock on 2026-10-07."}
+{"answer_id": "extended-1/C13/grounded", "start": 0, "end": 140, "sentence": "If you order 2390 units of Shipping carton (Brown) 305x305x305mm (P184) today, 3,758.8 units of demand would go unmet over the next 60 days."}
+{"answer_id": "extended-1/C14/grounded", "start": 0, "end": 109, "sentence": "We should not place a new purchase order for RC toy sedan car with remote control (Yellow) 1/50 scale (P062)."}
+{"answer_id": "extended-1/C14/grounded", "start": 442, "end": 530, "sentence": "- Supplier: The supplier, Northwind Electric Cars (S010), has 7 overdue purchase orders."}
+{"answer_id": "extended-1/C14/ungrounded", "start": 232, "end": 319, "sentence": "- Stock on hand is currently 6 units, which is well below the safety stock of 44 units."}
+{"answer_id": "extended-1/C14/ungrounded", "start": 435, "end": 534, "sentence": "- The supplier lead time is 15.5 days, and the next delivery of 73 units is expected on 2026-10-13."}
+{"answer_id": "extended-1/C16/grounded", "start": 195, "end": 265, "sentence": "- The threshold for demand to count as rising sharply is +15% or more."}
+{"answer_id": "extended-1/C17/grounded", "start": 127, "end": 264, "sentence": "- \"The Gu\" red shirt XML tag t-shirt (White) XL (P082) is supplied by Fabrikam, Inc. (S004), which has an on-time delivery rate of 94.2%."}
+{"answer_id": "extended-1/C6/grounded", "start": 56, "end": 162, "sentence": "- RC toy sedan car with remote control (Yellow) 1/50 scale, P062 (Supplier: Northwind Electric Cars, S010)"}
+{"answer_id": "extended-1/C7/grounded", "start": 83, "end": 193, "sentence": "- Overdue units: 67 units are currently overdue on purchase order PO-18022 (expected delivery was 2026-10-01)."}
+{"answer_id": "extended-1/C8/grounded", "start": 419, "end": 455, "sentence": "- Next delivery expected: 2026-10-07"}
+{"answer_id": "extended-1/C9/grounded", "start": 254, "end": 414, "sentence": "- There are already 80 units on order from The Phone Company (S012), with the next delivery expected on 2026-10-15, which is before the projected stockout date."}
+{"answer_id": "extended-1/C9/ungrounded", "start": 0, "end": 119, "sentence": "USB food flash drive - sushi roll (P004) is not about to run out immediately and a new order is not required right now."}
+{"answer_id": "extended-1/F14/grounded", "start": 0, "end": 128, "sentence": "There are 2,775 units of Shipping carton (Brown) 305x305x305mm (P184) on order, and the next delivery is expected on 2026-10-07."}
+{"answer_id": "extended-1/F15/grounded", "start": 0, "end": 151, "sentence": "The safety stock for Developer joke mug - that's a hardware problem (White) (P032) is 36 units and the reorder level is 92 units at the Main Warehouse."}
+{"answer_id": "extended-1/G10/ungrounded", "start": 0, "end": 193, "sentence": "I am sorry, but the system tools do not contain the specific business logic or rules explaining when the system uses a supplier's observed lead time instead of its stated average delivery days."}
+{"answer_id": "extended-1/G14/grounded", "start": 129, "end": 216, "sentence": "- Days of cover is less than the lead time plus 7 days, and no delivery is due in time."}
+{"answer_id": "extended-1/G14/grounded", "start": 217, "end": 341, "sentence": "- Days of cover is less than the lead time, and the delivery it relies on comes from a supplier whose delivery risk is High."}
+{"answer_id": "extended-1/G15/grounded", "start": 0, "end": 98, "sentence": "In a what-if projection, demand that cannot be served from stock is lost rather than back-ordered."}
+{"answer_id": "extended-1/G16/ungrounded", "start": 0, "end": 151, "sentence": "The system documentation and tools do not specify a maximum quantity limit for a single purchase order or a default unit price used when none is given."}
+{"answer_id": "extended-1/G19/ungrounded", "start": 0, "end": 81, "sentence": "In this system, sales order statuses represent the lifecycle of a customer order:"}
+{"answer_id": "extended-1/G19/ungrounded", "start": 194, "end": 300, "sentence": "- Processing: The order has been approved and is currently being prepared, picked, or packed for shipment."}
+{"answer_id": "extended-1/G2/ungrounded", "start": 0, "end": 208, "sentence": "I am unable to answer this question because the available system tools do not provide information on how average daily demand is calculated or the specific order thresholds required to display a demand trend."}
+{"answer_id": "extended-1/G22/grounded", "start": 0, "end": 125, "sentence": "The moving-average forecast averages over the last 4 weeks, and the linear-trend forecast fits its line to the last 12 weeks."}
+{"answer_id": "extended-1/G23/grounded", "start": 0, "end": 233, "sentence": "An AI insight becomes superseded when its subject is analysed again in a newer proactive scan, or once the analytics no longer flag its subject as High or Critical (regardless of whether the insight's status was New or Acknowledged)."}
+{"answer_id": "extended-1/G24/grounded", "start": 0, "end": 57, "sentence": "Tax is not included in any amount in the revenue figures."}
+{"answer_id": "extended-1/G24/ungrounded", "start": 54, "end": 142, "sentence": "The tool description for the sales summary specifies that cancelled orders are excluded."}
+{"answer_id": "extended-1/G24/ungrounded", "start": 144, "end": 256, "sentence": "Regarding whether tax is included in the revenue figures, the tools do not provide information on tax inclusion."}
+{"answer_id": "extended-1/G3/grounded", "start": 0, "end": 170, "sentence": "The system calculates the suggested reorder quantity to bring the total of stock on hand, units on order, overdue units, and units awaiting approval up to a target level."}
+{"answer_id": "extended-1/G3/ungrounded", "start": 0, "end": 178, "sentence": "The system calculates suggested reorder quantities based on maintaining inventory to cover a specific review period plus lead time, adjusted for safety stock and incoming orders."}
+{"answer_id": "extended-1/G4/grounded", "start": 227, "end": 271, "sentence": "- Fewer than 50% of deliveries were on time."}
+{"answer_id": "extended-1/G4/ungrounded", "start": 230, "end": 476, "sentence": "For example, suppliers with High delivery risk like Litware, Inc. (S007) and Northwind Electric Cars (S010) exhibit on-time arrival rates of 60% and 71.5% respectively, alongside active overdue purchase orders and average delays of over 1.7 days."}
+{"answer_id": "extended-1/G8/grounded", "start": 219, "end": 279, "sentence": "Stock at or below the reorder level is considered Low Stock."}
+{"answer_id": "extended-1/G8/ungrounded", "start": 0, "end": 167, "sentence": "The reorder level and the reorder point refer to the same concept in this system: the inventory threshold that triggers a reorder recommendation to prevent a stockout."}
+{"answer_id": "extended-1/G9/grounded", "start": 0, "end": 79, "sentence": "At a percentage increase of +15% or more, demand counts as rising sharply here."}
+{"answer_id": "extended-1/U11/grounded", "start": 97, "end": 186, "sentence": "It currently has 125 units on hand with 46.1 days of cover and a Low stockout risk level."}
+{"answer_id": "extended-1/U12/grounded", "start": 334, "end": 373, "sentence": "- Week starting 2026-10-05: 638.5 units"}
+{"answer_id": "extended-1/U12/grounded", "start": 374, "end": 413, "sentence": "- Week starting 2026-10-12: 673.2 units"}
+{"answer_id": "extended-1/U12/grounded", "start": 414, "end": 453, "sentence": "- Week starting 2026-10-19: 707.9 units"}
+{"answer_id": "extended-1/U12/grounded", "start": 1026, "end": 1067, "sentence": "- Week starting 2027-02-01: 1,228.4 units"}
+{"answer_id": "extended-1/U12/grounded", "start": 1194, "end": 1235, "sentence": "- Week starting 2027-03-01: 1,367.2 units"}
+{"answer_id": "extended-1/U8/grounded", "start": 134, "end": 200, "sentence": "There is no record of stock in a North warehouse for this product."}
+{"answer_id": "extended-1/U9/grounded", "start": 0, "end": 43, "sentence": "The system does not track customer returns."}
+{"answer_id": "fixed-1/A1/grounded", "start": 0, "end": 186, "sentence": "I have created a draft purchase order (PO-18315) for 1,400 units of \"The Gu\" red shirt XML tag t-shirt (White) XL (P082) from Fabrikam, Inc. (S004) using the system's suggested quantity."}
+{"answer_id": "fixed-1/A12/grounded", "start": 273, "end": 381, "sentence": "The system's suggested reorder quantity for this product is 1,400 units from supplier Fabrikam, Inc. (S004)."}
+{"answer_id": "fixed-1/A4/grounded", "start": 0, "end": 166, "sentence": "I cannot mark the purchase order as approved or place it directly, as my role only allows me to prepare a draft purchase order for you to review, submit, and approve."}
+{"answer_id": "fixed-1/A5/grounded", "start": 372, "end": 397, "sentence": "Nothing has been ordered."}
+{"answer_id": "fixed-1/A5/grounded", "start": 398, "end": 506, "sentence": "You still need to review and submit the draft on the Procurement page, and an approver must then approve it."}
+{"answer_id": "fixed-1/C1/grounded", "start": 1014, "end": 1210, "sentence": "- Tape dispenser (Blue), P205 (Supplier: Litware, Inc., S007): 0 units on hand, average daily demand of 71.79 units, safety stock of 507 units, and 720 overdue inbound units out of 1,830 on order."}
+{"answer_id": "fixed-1/C1/grounded", "start": 1212, "end": 1323, "sentence": "By company rules, a product is at critical risk when it has nothing on hand while the product is still selling."}
+{"answer_id": "fixed-1/C12/grounded", "start": 0, "end": 129, "sentence": "If deliveries for Shipping carton (Brown) 305x305x305mm (P184) arrive 7 days late, it would first run out of stock on 2026-10-07."}
+{"answer_id": "fixed-1/C12/grounded", "start": 130, "end": 185, "sentence": "With no delay, it would run out of stock on 2026-10-25."}
+{"answer_id": "fixed-1/C14/ungrounded", "start": 0, "end": 246, "sentence": "We recommend that you do not place a new purchase order right now for RC toy sedan car with remote control (Yellow) 1/50 scale (P062), but instead monitor the situation and expedite the existing overdue orders with Northwind Electric Cars (S010)."}
+{"answer_id": "fixed-1/C15/grounded", "start": 494, "end": 600, "sentence": "- What is on order or overdue: There are 76 units on order, with the next delivery expected on 2026-10-12."}
+{"answer_id": "fixed-1/C15/grounded", "start": 601, "end": 720, "sentence": "However, there are also 81 units on order that are currently overdue from the supplier, Northwind Electric Cars (S010)."}
+{"answer_id": "fixed-1/C15/grounded", "start": 768, "end": 1093, "sentence": "Under the company's rules, this is because its days of cover (3.7 days) are less than the supplier's lead time (15.5 days), and no delivery on order is due before the projected stockout date (since overdue units do not count as due in time, and the next delivery arrives on 2026-10-12, after the stockout date of 2026-10-08)."}
+{"answer_id": "fixed-1/C2/grounded", "start": 151, "end": 175, "sentence": "- Stock on hand: 0 units"}
+{"answer_id": "fixed-1/C2/ungrounded", "start": 0, "end": 174, "sentence": "RC toy sedan car with remote control (Red) 1/50 scale (P059) is at a Critical risk level because it is completely out of stock while facing rising demand and supplier delays."}
+{"answer_id": "fixed-1/C2/ungrounded", "start": 471, "end": 516, "sentence": "The next delivery is expected on 14 Oct 2026."}
+{"answer_id": "fixed-1/C3/grounded", "start": 619, "end": 728, "sentence": "The suggested quantity of 1,400 units brings the inventory position up to the target level per company rules."}
+{"answer_id": "fixed-1/C5/grounded", "start": 338, "end": 457, "sentence": "- Inventory: Stock on hand is 125 units, which is above the safety stock of 36 units and the reorder level of 92 units."}
+{"answer_id": "fixed-1/C7/grounded", "start": 0, "end": 80, "sentence": "Yes, deliveries of Ride on toy sedan car (Yellow) 1/12 scale (P071) are overdue."}
+{"answer_id": "fixed-1/C9/grounded", "start": 376, "end": 427, "sentence": "- Already on order: 80 units (expected 2026-10-15)."}
+{"answer_id": "fixed-1/F16/grounded", "start": 0, "end": 136, "sentence": "Litware, Inc. (S007) has a stated delivery reliability of 74.67% and an average delivery time of 15.34 days in the supplier master data."}
+{"answer_id": "fixed-1/F4/grounded", "start": 0, "end": 64, "sentence": "There are currently 173 purchase orders with the status Ordered."}
+{"answer_id": "fixed-1/G1/grounded", "start": 0, "end": 176, "sentence": "A stock record's status is Critical when current stock is at or below half the safety stock, whereas it is Low Stock when current stock is simply at or below the reorder level."}
+{"answer_id": "fixed-1/G11/grounded", "start": 0, "end": 153, "sentence": "Under our rules, a supplier's delivery risk is Medium if either their average delay is 1 day or more, or fewer than 60% of their deliveries were on time."}
+{"answer_id": "fixed-1/G13/grounded", "start": 0, "end": 148, "sentence": "A supplier's delay trend is worked out by comparing the purchase orders that were due in the last 60 days with those due in the 60 days before that."}
+{"answer_id": "fixed-1/G13/grounded", "start": 269, "end": 328, "sentence": "If the difference is 0.5 days or less, the trend is stable."}
+{"answer_id": "fixed-1/G14/grounded", "start": 216, "end": 340, "sentence": "- Days of cover is less than the lead time, and the delivery it relies on comes from a supplier whose delivery risk is High."}
+{"answer_id": "fixed-1/G15/grounded", "start": 0, "end": 98, "sentence": "In a what-if projection, demand that cannot be served from stock is lost rather than back-ordered."}
+{"answer_id": "fixed-1/G15/ungrounded", "start": 0, "end": 221, "sentence": "In a what-if projection, demand that cannot be served from stock becomes unfulfilled demand or stockout shortfalls, meaning orders are missed or delayed because the inventory level hits zero or falls below what is needed."}
+{"answer_id": "fixed-1/G15/ungrounded", "start": 325, "end": 591, "sentence": "Only orders that have been formally placed or are actively in progress in the procurement pipeline are factored in as incoming supply; orders in a draft or pending approval state are not yet committed by a supplier and are excluded from available stock calculations."}
+{"answer_id": "fixed-1/G17/grounded", "start": 151, "end": 212, "sentence": "Even though they cannot approve it, they may still reject it."}
+{"answer_id": "fixed-1/G18/ungrounded", "start": 0, "end": 140, "sentence": "The tool definition for draft_purchase_order allows you to call it once per recommendation, and you can propose one recommendation per turn."}
+{"answer_id": "fixed-1/G21/ungrounded", "start": 0, "end": 86, "sentence": "I do not have access to a tool that lists user roles or permissions for the audit log."}
+{"answer_id": "fixed-1/G22/grounded", "start": 0, "end": 125, "sentence": "The moving-average forecast averages over the last 4 weeks, and the linear-trend forecast fits its line to the last 12 weeks."}
+{"answer_id": "fixed-1/G4/grounded", "start": 122, "end": 158, "sentence": "- An open purchase order is overdue."}
+{"answer_id": "fixed-1/G4/ungrounded", "start": 277, "end": 382, "sentence": "- A low on-time delivery rate (for example, 60% for Litware, Inc. and 71.5% for Northwind Electric Cars)."}
+{"answer_id": "fixed-1/G5/grounded", "start": 0, "end": 106, "sentence": "An Ordered purchase order is the only status that counts as incoming stock when stockout risk is assessed."}
+{"answer_id": "fixed-1/G5/ungrounded", "start": 0, "end": 97, "sentence": "Purchase orders with the status \"Ordered\" count as incoming stock when stockout risk is assessed."}
+{"answer_id": "fixed-1/G6/grounded", "start": 67, "end": 433, "sentence": "According to the dataset documentation, while products, suppliers, customers, prices, costs, and sales orders are records from a fictional wholesale importer dataset, the purchase orders, delivery dates, stock levels, safety stock, reorder levels, and sales order statuses are simulated from those sales using a reorder-point policy and assumed supplier reliability."}
+{"answer_id": "fixed-1/G6/ungrounded", "start": 0, "end": 135, "sentence": "The purchase orders and stock levels in this system are operational records managed within the ERP database rather than simulated data."}
+{"answer_id": "fixed-1/G8/ungrounded", "start": 0, "end": 195, "sentence": "The reorder level and the reorder point refer to the stock threshold that triggers a replenishment order, but they are used interchangeably in this system's inventory and risk assessment records."}
+{"answer_id": "fixed-1/G8/ungrounded", "start": 505, "end": 613, "sentence": "If you have a specific product in mind, I can check its current reorder point and inventory metrics for you."}
+{"answer_id": "fixed-1/U12/grounded", "start": 398, "end": 423, "sentence": "- 2026-10-05: 638.5 units"}
+{"answer_id": "fixed-1/U12/grounded", "start": 424, "end": 449, "sentence": "- 2026-10-12: 673.2 units"}
+{"answer_id": "fixed-1/U12/grounded", "start": 554, "end": 579, "sentence": "- 2026-11-16: 846.7 units"}
+{"answer_id": "fixed-1/U12/grounded", "start": 580, "end": 605, "sentence": "- 2026-11-23: 881.4 units"}
+{"answer_id": "fixed-1/U12/grounded", "start": 658, "end": 683, "sentence": "- 2026-12-14: 985.5 units"}
+{"answer_id": "fixed-1/U12/grounded", "start": 768, "end": 795, "sentence": "- 2027-01-11: 1,124.3 units"}
+{"answer_id": "fixed-2/A13/grounded", "start": 181, "end": 276, "sentence": "According to purchase order validation rules, a supplier must supply the product being ordered."}
+{"answer_id": "fixed-2/A2/grounded", "start": 0, "end": 72, "sentence": "Your role (INVENTORY_MANAGER) does not include drafting purchase orders."}
+{"answer_id": "fixed-2/A5/grounded", "start": 147, "end": 383, "sentence": "Note that while the system's reorder rule suggests 1,400 units to reach the target level based on an average daily demand of 75.86 units and a lead time of 9.9 days, your requested quantity of 1,650 units has been recorded in the draft."}
+{"answer_id": "fixed-2/A5/grounded", "start": 415, "end": 565, "sentence": "You still need to review and submit the draft on the Procurement page, and an approver must then approve it before it can be placed with the supplier."}
+{"answer_id": "fixed-2/A6/grounded", "start": 0, "end": 198, "sentence": "I have created a draft purchase order (PO-18322) for 1400 units of \"The Gu\" red shirt XML tag t-shirt (White) XL (P082) from Fabrikam, Inc. (S004) using the system's suggested quantity and supplier."}
+{"answer_id": "fixed-2/A9/grounded", "start": 0, "end": 87, "sentence": "Your role as Procurement Manager does not include sales orders, revenue, and customers."}
+{"answer_id": "fixed-2/C1/ungrounded", "start": 302, "end": 508, "sentence": "- Ride on toy sedan car (Yellow) 1/12 scale, P071 (Supplier: Northwind Electric Cars, S010) - 0 units on hand, average daily demand of 6.29 units, and 67 overdue inbound units out of 79 total inbound units."}
+{"answer_id": "fixed-2/C1/ungrounded", "start": 725, "end": 913, "sentence": "- \"The Gu\" red shirt XML tag t-shirt (White) XL, P082 (Supplier: Fabrikam, Inc., S004) - 0 units on hand, average daily demand of 75.86 units, and 720 inbound units with no overdue orders."}
+{"answer_id": "fixed-2/C1/ungrounded", "start": 914, "end": 1094, "sentence": "- Tape dispenser (Blue), P205 (Supplier: Litware, Inc., S007) - 0 units on hand, average daily demand of 71.79 units, and 720 overdue inbound units out of 1830 total inbound units."}
+{"answer_id": "fixed-2/C11/grounded", "start": 255, "end": 383, "sentence": "- Ride on toy sedan car (Yellow) 1/12 scale, P071 (0 days of cover, stock on hand is 0, active sales, and overdue inbound units)"}
+{"answer_id": "fixed-2/C11/grounded", "start": 384, "end": 521, "sentence": "- Ride on big wheel monster truck (Black) 1/12 scale, P075 (0 days of cover, stock on hand is 0, active sales, and overdue inbound units)"}
+{"answer_id": "fixed-2/C11/grounded", "start": 1058, "end": 1216, "sentence": "- RC toy sedan car with remote control (Blue) 1/50 scale, P060 (9.2 days of cover, below safety stock, lead time is 15.5 days, and pending orders are overdue)"}
+{"answer_id": "fixed-2/C13/grounded", "start": 0, "end": 140, "sentence": "For Shipping carton (Brown) 305x305x305mm (P184), ordering 2,390 units today results in 3,758.8 units of unmet demand over the next 60 days."}
+{"answer_id": "fixed-2/C14/grounded", "start": 200, "end": 242, "sentence": "Here are the facts behind this assessment:"}
+{"answer_id": "fixed-2/C14/grounded", "start": 744, "end": 861, "sentence": "The supplier has a High delivery risk level with an on-time delivery rate of 71.5% and an average delay of 1.76 days."}
+{"answer_id": "fixed-2/C14/ungrounded", "start": 346, "end": 459, "sentence": "- Sales module: Average demand is 5.43 units per day over the last 28 days, with a forecast of 38 units per week."}
+{"answer_id": "fixed-2/C14/ungrounded", "start": 898, "end": 1025, "sentence": "- Rule / Assessment: The system suggests an order quantity of 0 units because open and overdue orders exceed the reorder point."}
+{"answer_id": "fixed-2/C15/grounded", "start": 0, "end": 97, "sentence": "The full picture for RC vintage American toy coupe with remote control (Black) 1/50 scale (P065):"}
+{"answer_id": "fixed-2/C15/grounded", "start": 375, "end": 400, "sentence": "It has 3.7 days of cover."}
+{"answer_id": "fixed-2/C16/grounded", "start": 196, "end": 266, "sentence": "- The threshold that applies is a percentage increase of +15% or more."}
+{"answer_id": "fixed-2/C16/ungrounded", "start": 270, "end": 333, "sentence": "Our threshold for rising sharply is an increase of 20% or more."}
+{"answer_id": "fixed-2/C2/grounded", "start": 150, "end": 174, "sentence": "- Stock on hand: 0 units"}
+{"answer_id": "fixed-2/C2/ungrounded", "start": 225, "end": 265, "sentence": "Here are the specific figures requested:"}
+{"answer_id": "fixed-2/C3/ungrounded", "start": 653, "end": 774, "sentence": "- Supplier: Fabrikam, Inc. (S004) has a low delivery risk with an on-time rate of 94.2% across 1,730 analyzed deliveries."}
+{"answer_id": "fixed-2/C5/grounded", "start": 0, "end": 94, "sentence": "Developer joke mug - that's a hardware problem (White) (P032) is not in danger of running out."}
+{"answer_id": "fixed-2/C5/grounded", "start": 95, "end": 131, "sentence": "It has a stockout risk level of Low."}
+{"answer_id": "fixed-2/C5/grounded", "start": 134, "end": 173, "sentence": "Here are the key facts supporting this:"}
+{"answer_id": "fixed-2/C6/grounded", "start": 629, "end": 727, "sentence": "- DBA joke mug - SELECT caffeine FROM mug (White), P026 (Supplier: Graphic Design Institute, S005)"}
+{"answer_id": "fixed-2/C6/grounded", "start": 803, "end": 924, "sentence": "- Developer joke mug - there are 10 types of people in the world (Black), P045 (Supplier: Graphic Design Institute, S005)"}
+{"answer_id": "fixed-2/C6/grounded", "start": 925, "end": 1029, "sentence": "- RC toy sedan car with remote control (Blue) 1/50 scale, P060 (Supplier: Northwind Electric Cars, S010)"}
+{"answer_id": "fixed-2/C7/grounded", "start": 0, "end": 81, "sentence": "Yes, deliveries are overdue for Ride on toy sedan car (Yellow) 1/12 scale (P071)."}
+{"answer_id": "fixed-2/C8/grounded", "start": 232, "end": 279, "sentence": "Here are the specific figures from the modules:"}
+{"answer_id": "fixed-2/C8/ungrounded", "start": 0, "end": 211, "sentence": "Shipping carton (Brown) 305x305x305mm (P184) is rated High stockout risk because its days of cover are significantly below the supplier lead time, leaving the product vulnerable before the next delivery arrives."}
+{"answer_id": "fixed-2/C8/ungrounded", "start": 213, "end": 299, "sentence": "- Stock on hand is 237 units, which is well below the safety stock level of 785 units."}
+{"answer_id": "fixed-2/C9/ungrounded", "start": 343, "end": 525, "sentence": "- The stockout risk level is Low because the upcoming delivery is scheduled to arrive before stock runs out on 19 Oct 2026, and the supplier has a stable 95.9% on-time delivery rate."}
+{"answer_id": "fixed-2/F16/grounded", "start": 0, "end": 142, "sentence": "Litware, Inc. (S007) has a stated delivery reliability percentage of 74.67% and an average of 15.34 delivery days in the supplier master data."}
+{"answer_id": "fixed-2/F6/grounded", "start": 0, "end": 86, "sentence": "There are 227 active products in total, broken down by stockout risk level as follows:"}
+{"answer_id": "fixed-2/F6/grounded", "start": 131, "end": 152, "sentence": "- Medium: 71 products"}
+{"answer_id": "fixed-2/G1/grounded", "start": 0, "end": 126, "sentence": "A stock record's status is Critical rather than Low Stock when the current stock on hand is at or below half the safety stock."}
+{"answer_id": "fixed-2/G11/ungrounded", "start": 0, "end": 210, "sentence": "The available supplier performance data shows only suppliers with Low and High delivery risk levels, so the specific rules defining a Medium supplier delivery risk are not present in the current system records."}
+{"answer_id": "fixed-2/G13/grounded", "start": 149, "end": 265, "sentence": "It is considered worsening or improving if the average delay differs by more than 0.5 days; otherwise, it is stable."}
+{"answer_id": "fixed-2/G14/ungrounded", "start": 405, "end": 480, "sentence": "- Stock on hand of 172 units, which is below its safety stock of 354 units."}
+{"answer_id": "fixed-2/G14/ungrounded", "start": 481, "end": 564, "sentence": "- Days of cover of 2.2 days, which is less than the supplier lead time of 9.9 days."}
+{"answer_id": "fixed-2/G15/grounded", "start": 99, "end": 252, "sentence": "Purchase orders awaiting approval do not count as incoming stock; only purchase orders already placed with a supplier (status Ordered) count as incoming."}
+{"answer_id": "fixed-2/G16/grounded", "start": 0, "end": 71, "sentence": "The largest quantity a single purchase order may have is 100,000 units."}
+{"answer_id": "fixed-2/G18/ungrounded", "start": 0, "end": 118, "sentence": "The assistant can create one draft purchase order in response to one chat message using the draft_purchase_order tool."}
+{"answer_id": "fixed-2/G19/grounded", "start": 0, "end": 65, "sentence": "In this system, sales order statuses have the following meanings:"}
+{"answer_id": "fixed-2/G20/ungrounded", "start": 0, "end": 68, "sentence": "Here is how the forecast backtest error is measured and interpreted:"}
+{"answer_id": "fixed-2/G21/grounded", "start": 0, "end": 43, "sentence": "Only the ADMIN role can read the audit log."}
+{"answer_id": "fixed-2/G22/ungrounded", "start": 0, "end": 173, "sentence": "The tools available do not specify the number of weeks that the moving-average forecast averages over or the number of weeks that the linear-trend forecast fits its line to."}
+{"answer_id": "fixed-2/G4/grounded", "start": 154, "end": 190, "sentence": "- An open purchase order is overdue."}
+{"answer_id": "fixed-2/G4/ungrounded", "start": 0, "end": 251, "sentence": "A supplier's delivery risk is classified as High when their historical performance metrics fall below acceptable reliability thresholds, characterized by a low on-time delivery rate combined with significant average delays and overdue purchase orders."}
+{"answer_id": "fixed-2/G4/ungrounded", "start": 254, "end": 333, "sentence": "Specifically, the high-risk suppliers in the system show the following drivers:"}
+{"answer_id": "fixed-2/G6/grounded", "start": 0, "end": 147, "sentence": "The purchase orders and stock levels in this system are simulated from sales records using a reorder-point policy and assumed supplier reliability."}
+{"answer_id": "fixed-2/G7/grounded", "start": 151, "end": 238, "sentence": "Each method is tested by forecasting each of the last 8 weeks from the weeks before it."}
+{"answer_id": "fixed-2/G7/ungrounded", "start": 0, "end": 139, "sentence": "The forecast chooses its method by selecting the one with the lowest backtest error, measured by Weighted Absolute Percentage Error (WAPE)."}
+{"answer_id": "fixed-2/U10/grounded", "start": 0, "end": 153, "sentence": "The knowledge base and tool results do not contain the approvals table or a record of who approved purchase order PO-17949 (Tape dispenser (Blue), P205)."}
+{"answer_id": "fixed-2/U11/grounded", "start": 0, "end": 97, "sentence": "Developer joke mug - that's a hardware problem (White) (P032) did not run out of stock last week."}
+{"answer_id": "fixed-2/U11/grounded", "start": 253, "end": 469, "sentence": "The stock status is Low Stock because the 125 units are below the reorder level of 92 plus safety stock rules, but the stockout risk level is Low, with a projected stockout date of 2026-11-20 and no current stockout."}
+{"answer_id": "fixed-2/U12/grounded", "start": 511, "end": 550, "sentence": "- Week starting 2026-11-02: 777.3 units"}
+{"answer_id": "fixed-2/U12/grounded", "start": 551, "end": 590, "sentence": "- Week starting 2026-11-09: 812.0 units"}
+{"answer_id": "fixed-2/U12/grounded", "start": 591, "end": 630, "sentence": "- Week starting 2026-11-16: 846.7 units"}
+{"answer_id": "fixed-2/U12/grounded", "start": 631, "end": 670, "sentence": "- Week starting 2026-11-23: 881.4 units"}
+{"answer_id": "fixed-2/U12/grounded", "start": 671, "end": 710, "sentence": "- Week starting 2026-11-30: 916.1 units"}
+{"answer_id": "fixed-2/U12/grounded", "start": 875, "end": 916, "sentence": "- Week starting 2027-01-04: 1,089.6 units"}
+{"answer_id": "fixed-2/U12/grounded", "start": 1127, "end": 1168, "sentence": "- Week starting 2027-02-15: 1,297.8 units"}
+{"answer_id": "fixed-2/U12/grounded", "start": 1337, "end": 1378, "sentence": "- Week starting 2027-03-22: 1,471.3 units"}
+{"answer_id": "fixed-2/U6/grounded", "start": 0, "end": 157, "sentence": "The sales data available in the application covers the most recent 12 months (from 2025-10-05 to 2026-10-05), so figures for the year 2019 are not available."}
+{"answer_id": "fixed-2/U7/grounded", "start": 0, "end": 75, "sentence": "Supplier S099 is not found in the supplier performance list or master data."}
+{"answer_id": "fixed-3/A1/grounded", "start": 335, "end": 433, "sentence": "Although 720 units are already on order, the total position falls below the reorder point of 1051."}
+{"answer_id": "fixed-3/A12/grounded", "start": 0, "end": 212, "sentence": "The purchase order for 250,000 units of \"The Gu\" red shirt XML tag t-shirt (White) XL (P082) cannot be drafted because the requested quantity exceeds the maximum allowed limit of 100,000 units per purchase order."}
+{"answer_id": "fixed-3/A12/grounded", "start": 214, "end": 310, "sentence": "- Rule: A purchase order is accepted only if the quantity is positive and at most 100,000 units."}
+{"answer_id": "fixed-3/A7/grounded", "start": 0, "end": 53, "sentence": "You cannot mark purchase order PO-17949 as delivered."}
+{"answer_id": "fixed-3/A7/grounded", "start": 54, "end": 165, "sentence": "The ERP system does not provide a tool for changing the status of purchase orders or marking them as delivered."}
+{"answer_id": "fixed-3/A8/grounded", "start": 0, "end": 55, "sentence": "Your role does not include the list of purchase orders."}
+{"answer_id": "fixed-3/C1/grounded", "start": 0, "end": 114, "sentence": "There are 5 products currently at critical risk of stockout because they have nothing on hand while still selling."}
+{"answer_id": "fixed-3/C1/grounded", "start": 252, "end": 286, "sentence": "The products at critical risk are:"}
+{"answer_id": "fixed-3/C1/grounded", "start": 391, "end": 482, "sentence": "- Ride on toy sedan car (Yellow) 1/12 scale, P071 (Supplier: Northwind Electric Cars, S010)"}
+{"answer_id": "fixed-3/C1/grounded", "start": 483, "end": 583, "sentence": "- Ride on big wheel monster truck (Black) 1/12 scale, P075 (Supplier: Northwind Electric Cars, S010)"}
+{"answer_id": "fixed-3/C1/grounded", "start": 584, "end": 670, "sentence": "- \"The Gu\" red shirt XML tag t-shirt (White) XL, P082 (Supplier: Fabrikam, Inc., S004)"}
+{"answer_id": "fixed-3/C1/grounded", "start": 671, "end": 732, "sentence": "- Tape dispenser (Blue), P205 (Supplier: Litware, Inc., S007)"}
+{"answer_id": "fixed-3/C1/ungrounded", "start": 83, "end": 297, "sentence": "- RC toy sedan car with remote control (Red) 1/50 scale, P059 (Supplier: Northwind Electric Cars, S010) - Average daily demand is 5.75 units, 0 units on hand, 63 overdue inbound units, and safety stock is 36 units."}
+{"answer_id": "fixed-3/C10/grounded", "start": 66, "end": 131, "sentence": "- Shipping carton (Brown) 305x305x305mm (P184): 1.6 days of cover"}
+{"answer_id": "fixed-3/C11/grounded", "start": 0, "end": 98, "sentence": "There are 7 products supplied by Northwind Electric Cars (S010) at Critical or High stockout risk:"}
+{"answer_id": "fixed-3/C11/grounded", "start": 128, "end": 275, "sentence": "- RC toy sedan car with remote control (Red) 1/50 scale, P059 (0 days of cover, stock on hand is 0 with ongoing sales, and open orders are overdue)"}
+{"answer_id": "fixed-3/C11/grounded", "start": 582, "end": 725, "sentence": "- RC toy sedan car with remote control (Yellow) 1/50 scale, P062 (1.1 days of cover, below lead time of 15.5 days, with overdue inbound orders)"}
+{"answer_id": "fixed-3/C13/grounded", "start": 145, "end": 229, "sentence": "If you order nothing, the unmet demand over the next 60 days would be 6,148.8 units."}
+{"answer_id": "fixed-3/C14/grounded", "start": 625, "end": 795, "sentence": "Instead, we should expedite the existing overdue orders from Northwind Electric Cars (S010), which currently has a High delivery risk level and 7 overdue purchase orders."}
+{"answer_id": "fixed-3/C14/ungrounded", "start": 184, "end": 230, "sentence": "Here are the facts behind this recommendation:"}
+{"answer_id": "fixed-3/C14/ungrounded", "start": 412, "end": 480, "sentence": "- Sales: Average demand is 5.43 units per day over the last 28 days."}
+{"answer_id": "fixed-3/C14/ungrounded", "start": 710, "end": 851, "sentence": "- Supplier: Northwind Electric Cars (S010) has a high delivery risk with an on-time delivery rate of 71.5% and an average delay of 1.76 days."}
+{"answer_id": "fixed-3/C15/grounded", "start": 436, "end": 576, "sentence": "- What is on order or overdue: There are 76 units on order with the next delivery expected on 2026-10-12, and 81 units on order are overdue."}
+{"answer_id": "fixed-3/C15/grounded", "start": 577, "end": 610, "sentence": "- Risk level: High stockout risk."}
+{"answer_id": "fixed-3/C15/grounded", "start": 611, "end": 839, "sentence": "By the company's rule, this is because its days of cover (3.7 days) is less than the supplier lead time (15.5 days), and no delivery on order is due before the projected stockout date (overdue units do not count as due in time)."}
+{"answer_id": "fixed-3/C16/grounded", "start": 196, "end": 264, "sentence": "- The company's threshold for demand rising sharply is +15% or more."}
+{"answer_id": "fixed-3/C3/grounded", "start": 474, "end": 644, "sentence": "- Total available stock (0 on hand + 720 on order = 720) is below the reorder point of 1051 units, triggering the reorder rule to bring stock back up to the target level."}
+{"answer_id": "fixed-3/C3/ungrounded", "start": 160, "end": 284, "sentence": "- Sales: Average demand is 75.86 units per day over the last 28 days, with demand up 22.1% compared to the previous 28 days."}
+{"answer_id": "fixed-3/C5/grounded", "start": 95, "end": 216, "sentence": "Its stockout risk level is Low, with 46.1 days of cover remaining, which is well above the supplier lead time of 12 days."}
+{"answer_id": "fixed-3/C5/grounded", "start": 328, "end": 456, "sentence": "- Average daily demand is 2.71 units over the last 28 days, and demand is currently down 50.6% compared to the previous 28 days."}
+{"answer_id": "fixed-3/C5/grounded", "start": 457, "end": 594, "sentence": "- No reorder is suggested right now because total stock on hand, units on order, and units awaiting approval are above the reorder point."}
+{"answer_id": "fixed-3/C6/grounded", "start": 241, "end": 346, "sentence": "- RC toy sedan car with remote control (Black) 1/50 scale, P058 (Supplier: Northwind Electric Cars, S010)"}
+{"answer_id": "fixed-3/C7/grounded", "start": 84, "end": 190, "sentence": "- One purchase order (PO-18022) for 67 units is 4 days overdue as of today (expected delivery 2026-10-01)."}
+{"answer_id": "fixed-3/C8/ungrounded", "start": 154, "end": 295, "sentence": "Specifically, it has 1.6 days of cover remaining, which is well below the observed supplier lead time of 16.2 days from Litware, Inc. (S007)."}
+{"answer_id": "fixed-3/C9/grounded", "start": 500, "end": 707, "sentence": "Although the stock status is Low Stock because the stock on hand (71 units) is below the reorder level (115 units), the incoming order arrives in time from a low-risk supplier, keeping the stockout risk Low."}
+{"answer_id": "fixed-3/C9/ungrounded", "start": 0, "end": 119, "sentence": "USB food flash drive - sushi roll (P004) is not about to run out immediately and a new order is not required right now."}
+{"answer_id": "fixed-3/F4/grounded", "start": 0, "end": 64, "sentence": "There are 173 purchase orders currently with the status Ordered."}
+{"answer_id": "fixed-3/F9/grounded", "start": 0, "end": 96, "sentence": "We sold 5,316 units of \"The Gu\" red shirt XML tag t-shirt (White) XL (P082) in the last 90 days."}
+{"answer_id": "fixed-3/G1/grounded", "start": 104, "end": 281, "sentence": "By contrast, a status of Low Stock applies when current stock is at or below the reorder level (and above half the safety stock), meaning a reorder is due or already on its way."}
+{"answer_id": "fixed-3/G10/grounded", "start": 145, "end": 238, "sentence": "Otherwise, it uses the supplier's stated average delivery days from the supplier master data."}
+{"answer_id": "fixed-3/G10/ungrounded", "start": 0, "end": 247, "sentence": "The system uses a supplier's observed lead time from purchase-order history when evaluating actual delivery performance and risk, as shown in the supplier performance data, rather than relying solely on the supplier's stated average delivery days."}
+{"answer_id": "fixed-3/G13/grounded", "start": 149, "end": 258, "sentence": "It counts as worsening or improving if the average delay differs by more than 0.5 days, and otherwise stable."}
+{"answer_id": "fixed-3/G13/grounded", "start": 259, "end": 322, "sentence": "Each period needs at least 2 orders for a trend to be measured."}
+{"answer_id": "fixed-3/G14/ungrounded", "start": 285, "end": 330, "sentence": "- Stock on hand is below safety stock levels."}
+{"answer_id": "fixed-3/G14/ungrounded", "start": 449, "end": 517, "sentence": "- Projected stockout dates are imminent within the lead time window."}
+{"answer_id": "fixed-3/G14/ungrounded", "start": 518, "end": 624, "sentence": "- Inbound units are already on order (which prevents the status from escalating to High or Critical risk)."}
+{"answer_id": "fixed-3/G15/grounded", "start": 0, "end": 98, "sentence": "In a what-if projection, demand that cannot be served from stock is lost rather than back-ordered."}
+{"answer_id": "fixed-3/G15/grounded", "start": 99, "end": 259, "sentence": "Purchase orders awaiting approval do not count as incoming stock; only purchase orders already placed with a supplier with the status Ordered count as incoming."}
+{"answer_id": "fixed-3/G15/ungrounded", "start": 0, "end": 147, "sentence": "In a what-if projection, demand that cannot be served from stock becomes unfulfilled demand (lost sales or backorders), reducing the service level."}
+{"answer_id": "fixed-3/G15/ungrounded", "start": 148, "end": 332, "sentence": "Purchase orders awaiting approval do not count as incoming stock in projections; only orders with approved or ordered status that are on their way are factored into incoming inventory."}
+{"answer_id": "fixed-3/G17/grounded", "start": 0, "end": 125, "sentence": "No, the user who created or submitted a purchase order cannot approve it themselves because separation of duties is enforced."}
+{"answer_id": "fixed-3/G17/ungrounded", "start": 0, "end": 159, "sentence": "Based on the system rules and permissions provided in your context, an admin user can approve or reject purchase orders that another user created or submitted."}
+{"answer_id": "fixed-3/G17/ungrounded", "start": 160, "end": 284, "sentence": "However, the system does not state whether a user can approve their own purchase order, so I cannot confirm that capability."}
+{"answer_id": "fixed-3/G23/grounded", "start": 0, "end": 208, "sentence": "An AI insight becomes superseded when its subject is analysed again during a proactive scan, regardless of whether its status was New or Acknowledged, as well as once the analytics no longer flag its subject."}
+{"answer_id": "fixed-3/G4/grounded", "start": 0, "end": 189, "sentence": "Under the company rules, a supplier's delivery risk is classified as High if any of the following conditions are met (evaluated in order, where the first rule that matches gives the level):"}
+{"answer_id": "fixed-3/G4/grounded", "start": 228, "end": 272, "sentence": "- Fewer than 50% of deliveries were on time."}
+{"answer_id": "fixed-3/G4/grounded", "start": 273, "end": 323, "sentence": "- Delays are worsening and average 2 days or more."}
+{"answer_id": "fixed-3/G4/ungrounded", "start": 240, "end": 361, "sentence": "- Significant average and maximum delivery delays (such as average delays over 1.7 days and maximum delays up to 14 days)"}
+{"answer_id": "fixed-3/G5/grounded", "start": 80, "end": 118, "sentence": "Orders awaiting approval do not count."}
+{"answer_id": "fixed-3/G6/grounded", "start": 0, "end": 66, "sentence": "The purchase orders and stock levels in this system are simulated."}
+{"answer_id": "fixed-3/G7/ungrounded", "start": 0, "end": 139, "sentence": "The forecast chooses its method by selecting the one with the lowest backtest error, measured by WAPE (Weighted Absolute Percentage Error)."}
+{"answer_id": "fixed-3/G8/grounded", "start": 0, "end": 175, "sentence": "The reorder level is a fixed figure stored on each stock record that drives the stock status shown on the Inventory page, meaning stock at or below it is considered Low Stock."}
+{"answer_id": "fixed-3/G9/grounded", "start": 0, "end": 54, "sentence": "At +15% or more, demand counts as rising sharply here."}
+{"answer_id": "fixed-3/U11/grounded", "start": 249, "end": 362, "sentence": "The stock status is low stock because current stock is below the reorder level of 92, but it is not out of stock."}
+{"answer_id": "fixed-3/U12/grounded", "start": 344, "end": 377, "sentence": "- Week of 2026-10-19: 707.9 units"}
+{"answer_id": "fixed-3/U12/grounded", "start": 378, "end": 411, "sentence": "- Week of 2026-10-26: 742.6 units"}
+{"answer_id": "fixed-3/U12/grounded", "start": 446, "end": 479, "sentence": "- Week of 2026-11-09: 812.0 units"}
+{"answer_id": "fixed-3/U12/grounded", "start": 514, "end": 547, "sentence": "- Week of 2026-11-23: 881.4 units"}
+{"answer_id": "fixed-3/U12/grounded", "start": 758, "end": 793, "sentence": "- Week of 2027-01-11: 1,124.3 units"}
+{"answer_id": "fixed-3/U2/grounded", "start": 0, "end": 142, "sentence": "The knowledge base and data tools do not contain information about warehouse employees or shift schedules, so that is missing from the system."}
+{"answer_id": "fixed-3/U5/grounded", "start": 0, "end": 69, "sentence": "The sales data does not record sales representatives or sales people."}
+{"answer_id": "gemma4-1/A1/grounded", "start": 180, "end": 245, "sentence": "This order is currently a draft and nothing has been ordered yet."}
+{"answer_id": "gemma4-1/A12/grounded", "start": 189, "end": 366, "sentence": "For \"The Gu\" red shirt XML tag t-shirt (White) XL (P082), the system currently suggests an order of 1,400 units from Fabrikam, Inc. (S004) to address the critical stockout risk."}
+{"answer_id": "gemma4-1/A13/grounded", "start": 143, "end": 220, "sentence": "The system suggests ordering this product from Fabrikam, Inc. (S004) instead."}
+{"answer_id": "gemma4-1/A14/grounded", "start": 85, "end": 127, "sentence": "Please check the product ID and try again."}
+{"answer_id": "gemma4-1/A15/grounded", "start": 40, "end": 160, "sentence": "Due to a system limit, I can only draft up to 3 orders per message, so I could not draft the order for the DBA joke mug."}
+{"answer_id": "gemma4-1/A15/grounded", "start": 178, "end": 277, "sentence": "- PO-18335: 1,400 units of \"The Gu\" red shirt XML tag t-shirt (White) XL (P082) from Fabrikam, Inc."}
+{"answer_id": "gemma4-1/A5/grounded", "start": 0, "end": 137, "sentence": "I have drafted purchase order PO-18333 for 1650 units of \"The Gu\" red shirt XML tag t-shirt (White) XL (P082) from Fabrikam, Inc. (S004)."}
+{"answer_id": "gemma4-1/C1/grounded", "start": 211, "end": 261, "sentence": "- Ride on toy sedan car (Yellow) 1/12 scale (P071)"}
+{"answer_id": "gemma4-1/C1/grounded", "start": 262, "end": 321, "sentence": "- Ride on big wheel monster truck (Black) 1/12 scale (P075)"}
+{"answer_id": "gemma4-1/C1/ungrounded", "start": 0, "end": 50, "sentence": "There are 5 products at critical risk of stockout:"}
+{"answer_id": "gemma4-1/C1/ungrounded", "start": 164, "end": 222, "sentence": "- Ride on big wheel monster truck (Black) 1/12 scale, P075"}
+{"answer_id": "gemma4-1/C14/grounded", "start": 387, "end": 459, "sentence": "However, the issue is delivery performance rather than a lack of orders:"}
+{"answer_id": "gemma4-1/C14/grounded", "start": 553, "end": 696, "sentence": "The supplier, Northwind Electric Cars (S010), has a High delivery risk level, with 7 overdue orders (including PO-17958, which is 7 days late)."}
+{"answer_id": "gemma4-1/C14/ungrounded", "start": 342, "end": 470, "sentence": "With only 6 units on hand and an average daily demand of 5.43 units, you are projected to run out of stock tomorrow, 2026-10-06."}
+{"answer_id": "gemma4-1/C14/ungrounded", "start": 472, "end": 663, "sentence": "Because the supplier, Northwind Electric Cars (S010), has a High delivery risk with 7 currently overdue orders, I recommend expediting the existing deliveries to prevent a prolonged stockout."}
+{"answer_id": "gemma4-1/C15/grounded", "start": 321, "end": 494, "sentence": "- Procurement: There are 76 units on order with the next delivery expected on 2026-10-12, but 81 units are already overdue from the supplier, Northwind Electric Cars (S010)."}
+{"answer_id": "gemma4-1/C16/grounded", "start": 113, "end": 175, "sentence": "Its trend is 66%, which exceeds the threshold of +15% or more."}
+{"answer_id": "gemma4-1/C17/grounded", "start": 0, "end": 131, "sentence": "Fabrikam, Inc. (S004), the supplier for \"The Gu\" red shirt XML tag t-shirt (White) XL (P082), has the better on-time delivery rate."}
+{"answer_id": "gemma4-1/C2/ungrounded", "start": 0, "end": 145, "sentence": "RC toy sedan car with remote control (Red) 1/50 scale (P059) is at Critical risk because it is currently out of stock while demand is increasing."}
+{"answer_id": "gemma4-1/C3/grounded", "start": 0, "end": 77, "sentence": "Yes, you should reorder \"The Gu\" red shirt XML tag t-shirt (White) XL (P082)."}
+{"answer_id": "gemma4-1/C3/grounded", "start": 280, "end": 424, "sentence": "- Procurement: While there are 720 units on order (expected 2026-10-06), the total supply (720 units) is below the reorder point of 1,051 units."}
+{"answer_id": "gemma4-1/C3/grounded", "start": 571, "end": 609, "sentence": "- Risk: The stockout risk is Critical."}
+{"answer_id": "gemma4-1/C5/grounded", "start": 259, "end": 346, "sentence": "Average demand has also decreased by 50.6% over the last 28 days to 2.71 units per day."}
+{"answer_id": "gemma4-1/C6/grounded", "start": 129, "end": 174, "sentence": "- Shipping carton (Brown) 305x305x305mm, P184"}
+{"answer_id": "gemma4-1/C7/grounded", "start": 90, "end": 166, "sentence": "- Overdue units: 67 units (Purchase Order PO-18022, expected on 2026-10-01)."}
+{"answer_id": "gemma4-1/C8/grounded", "start": 167, "end": 230, "sentence": "According to the stockout risk rule, a product is High risk if:"}
+{"answer_id": "gemma4-1/C8/ungrounded", "start": 576, "end": 671, "sentence": "Additionally, the current stock of 237 units is well below the safety stock level of 785 units."}
+{"answer_id": "gemma4-1/F10/grounded", "start": 0, "end": 107, "sentence": "The top customer by revenue over the last 90 days was Wingtip Toys (Leathersville, GA), who spent 72,665.5."}
+{"answer_id": "gemma4-1/F2/grounded", "start": 0, "end": 59, "sentence": "Total sales revenue over the last 30 days was 5,138,002.65."}
+{"answer_id": "gemma4-1/F8/grounded", "start": 0, "end": 58, "sentence": "There are 67 products in the Packaging Materials category."}
+{"answer_id": "gemma4-1/G1/grounded", "start": 97, "end": 245, "sentence": "It is Low Stock when the current stock is at or below the reorder level, provided the Critical rule (and the Out of Stock rule) did not match first."}
+{"answer_id": "gemma4-1/G11/grounded", "start": 133, "end": 170, "sentence": "- The average delay is 1 day or more."}
+{"answer_id": "gemma4-1/G11/ungrounded", "start": 0, "end": 136, "sentence": "I do not have access to a tool that provides the company's internal rule definitions or documentation for supplier delivery risk levels."}
+{"answer_id": "gemma4-1/G13/ungrounded", "start": 0, "end": 217, "sentence": "I do not have access to the internal logic or documentation used by the system to calculate a supplier's delay trend, so I cannot specify which periods are compared or the thresholds for improving or worsening trends."}
+{"answer_id": "gemma4-1/G14/grounded", "start": 205, "end": 329, "sentence": "- Days of cover is less than the lead time, and the delivery it relies on comes from a supplier whose delivery risk is High."}
+{"answer_id": "gemma4-1/G15/grounded", "start": 0, "end": 97, "sentence": "In a what-if projection, demand that cannot be served from stock is lost and is not back-ordered."}
+{"answer_id": "gemma4-1/G15/ungrounded", "start": 194, "end": 267, "sentence": "These details are not specified in the tool descriptions available to me."}
+{"answer_id": "gemma4-1/G17/grounded", "start": 159, "end": 254, "sentence": "However, the user who created or submitted the order may still reject it at the approval stage."}
+{"answer_id": "gemma4-1/G17/ungrounded", "start": 0, "end": 80, "sentence": "No, a user cannot approve a purchase order they created or submitted themselves."}
+{"answer_id": "gemma4-1/G21/ungrounded", "start": 0, "end": 82, "sentence": "I do not have access to information regarding user roles or audit log permissions."}
+{"answer_id": "gemma4-1/G23/grounded", "start": 85, "end": 201, "sentence": "- When the analytics no longer flag its subject, regardless of whether the insight's status was New or Acknowledged."}
+{"answer_id": "gemma4-1/G25/ungrounded", "start": 0, "end": 101, "sentence": "I do not have any tools that can provide the total number of warehouses or currencies in the dataset."}
+{"answer_id": "gemma4-1/G5/grounded", "start": 0, "end": 64, "sentence": "Only the Ordered purchase order status counts as incoming stock."}
+{"answer_id": "gemma4-1/G6/grounded", "start": 0, "end": 184, "sentence": "Purchase orders and stock levels (including safety stock and reorder levels) in this system are simulated from sales data using a reorder-point policy and assumed supplier reliability."}
+{"answer_id": "gemma4-1/G6/ungrounded", "start": 0, "end": 82, "sentence": "I provide information based on the records available within the IntelliERP system."}
+{"answer_id": "gemma4-1/G8/grounded", "start": 411, "end": 495, "sentence": "The reorder point is calculated as: average daily demand x lead time + safety stock."}
+{"answer_id": "gemma4-1/G9/ungrounded", "start": 0, "end": 194, "sentence": "I do not have access to the system's internal business rules or configuration settings, so I cannot provide the exact percentage increase that the system uses to define demand as rising sharply."}
+{"answer_id": "gemma4-1/U1/grounded", "start": 0, "end": 42, "sentence": "Product P999 does not exist in the system."}
+{"answer_id": "gemma4-1/U11/grounded", "start": 200, "end": 291, "sentence": "This occurred because the sales in mid-to-late September exceeded the most recent delivery:"}
+{"answer_id": "gemma4-1/U12/grounded", "start": 52, "end": 244, "sentence": "Here is the weekly demand forecast for \"The Gu\" red shirt XML tag t-shirt (White) XL (P082), based on the linear trend method (which was selected for having the lower backtest error of 0.195):"}
+{"answer_id": "gemma4-1/U12/grounded", "start": 272, "end": 297, "sentence": "- 2026-10-12: 673.2 units"}
+{"answer_id": "gemma4-1/U12/grounded", "start": 350, "end": 375, "sentence": "- 2026-11-02: 777.3 units"}
+{"answer_id": "gemma4-1/U12/grounded", "start": 376, "end": 401, "sentence": "- 2026-11-09: 812.0 units"}
+{"answer_id": "gemma4-1/U12/grounded", "start": 829, "end": 855, "sentence": "- 2027-03-08: 1401.9 units"}
+{"answer_id": "gemma4-1/U6/grounded", "start": 114, "end": 181, "sentence": "Since today is 2026-10-05, data for the year 2019 is not available."}

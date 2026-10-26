@@ -1,0 +1,435 @@
+\documentclass[11pt]{article}
+% Draft in a neutral format; it moves to the chosen journal's template (e.g. elsarticle) before submission.
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\setlist{nosep}
+\newcommand{\pending}[1]{\textcolor{red}{[#1]}}
+\newcommand{\attr}[1]{\texttt{#1}}
+
+\title{Checking What an Enterprise Assistant Says: Typed Run-Time Assertion Checking of LLM Statements
+against the System of Record}
+\author{Mohammad Yasin Siddique\thanks{\pending{affiliation and co-authors to be settled with the guide}}}
+\date{Draft, \today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Large language models (LLMs) are being connected to enterprise resource planning (ERP) systems to answer
+questions, explain risks and propose actions. The newest ERP agents control what the model is allowed to
+do, but not whether what it says is true: a grounded assistant can still misstate a stock level, invert a
+comparison, invent a threshold or claim a permission it does not have. We present TRACE (Typed Run-time
+Assertion Checking for Enterprise assistants), which turns each factual statement of an assistant's answer
+into a typed assertion in a 64-attribute language with three families (the state of the database, results
+the analytics compute, and the company's rules and permissions) and evaluates it with the system's own
+tested code, before the user sees the answer. A language model is used only to extract assertions; whether
+an assertion is true is decided deterministically, so a verdict is correct whenever the extraction is
+faithful, and every error can be attributed to extraction, coverage of the language, or a defect in a
+verification function. TRACE is built into IntelliERP, a decision-support system for sales, inventory and
+procurement. On three development sets of model-written errors (183 errors, 182 meaning-preserving
+paraphrases) TRACE detected 115 errors (63\%) against 70 (38\%) for the earlier pattern-based verifier, with
+false alarms on 5\% of paraphrases. \pending{Held-out results, comparison with an LLM judge and MiniCheck,
+natural errors and the false-premise experiment to be inserted after the frozen runs.}
+\end{abstract}
+
+\noindent\textbf{Keywords:} enterprise resource planning; large language models; hallucination;
+run-time verification; decision support; claim verification
+
+% =====================================================================================================
+\section{Introduction}
+
+Enterprise software is acquiring conversational assistants. In ERP systems they answer questions such as
+``which products will run out first?'' or ``should we reorder this item, and from whom?'', explain the
+risks an analytics engine has found, and increasingly act: recent systems let LLM agents execute purchasing
+and inventory transactions on a real ERP \cite{liu2026agenticerp, yang2025finrobot}. The research on these
+agents has concentrated on what they \emph{do}. Benchmarks score their actions and business outcomes
+\cite{zhang2026erpbench, vishwakarma2025enterprisebench, han2026cfo}; safety comes from risk tiers that
+route consequential actions to a human \cite{liu2026agenticerp} or from admissibility checks on proposed
+actions \cite{misra2026admitbench}. What the assistant \emph{says} is checked, if at all, by another LLM.
+The closest system states plainly that its run-time gate is ``not a bound on how often a hallucinated or
+mis-calibrated decision is proposed'' and that hallucination frequency was not measured
+\cite{liu2026agenticerp}.
+
+Statements matter because people act on them. A buyer who is told that a product's stock is above its
+reorder point does not reorder; a manager who is told that procurement managers cannot approve orders
+escalates unnecessarily. Explanations can make people accept AI advice whether it is right or wrong
+\cite{bansal2021whole}, while signals that make checking cheap reduce over-reliance
+\cite{vasconcelos2023overreliance}. Grounding the model in tool results and documentation reduces errors
+but does not remove them: in our own system, a grounded assistant that answered all 86 evaluation questions
+correctly on keyword scoring still produced false qualitative statements that the scoring missed (Section
+\ref{sec:v1}).
+
+Checking claims against data is an old idea. Database research has long verified claims in published
+documents by translating them into SQL \cite{jo2019aggchecker, karagiannis2020scrutinizer}, and recent
+systems let LLMs write the queries \cite{jayasekara2025cedar, theologitis2025thucy}. Hallucination
+detectors judge text against reference documents \cite{tang2024minicheck, niu2024ragtruth}, against the web
+\cite{wei2024longform}, or against the model's own samples \cite{manakul2023selfcheckgpt,
+farquhar2024semantic}. None of these checks an assistant's statements \emph{inside} the enterprise system,
+\emph{before} they are shown, against the system's own business semantics: stock and orders, but also risk
+levels, reorder rules, what-if simulations, company thresholds and role permissions.
+
+We take the view of run-time assertion checking from software engineering
+\cite{meyer1992contract, clarke2006rac}: each factual sentence of an answer is an assertion about the
+state of the business, and it can be checked by code. The contributions are:
+\begin{enumerate}
+\item \textbf{A typed assertion language for enterprise assistants} with three families and sources of
+truth: state (the database), derived (the analytics) and policy (executable rules and the permission map),
+covering 64 attributes, 24 rule keys and 21 actions (Section \ref{sec:language}).
+\item \textbf{TRACE}, a verifier in which an LLM only extracts assertions into a validated schema and
+deterministic functions decide them; with a conditional soundness property and an error decomposition
+that attributes every miss and false alarm (Sections \ref{sec:problem}, \ref{sec:trace}).
+\item \textbf{An evaluation protocol} for statement verification in an enterprise assistant: development
+and held-out sets of model-written errors with two writers and stratified error types, rules fixed before
+the test, attributed detection, natural errors found by pooling with two annotators, and false-premise
+questions to measure the end-to-end effect (Section \ref{sec:evaluation}).
+\item \textbf{An empirical comparison} with a pattern-based verifier, an LLM judge given the same evidence
+and a trained small fact-checker, including cost and repeatability (Section \ref{sec:results}).
+\end{enumerate}
+
+% =====================================================================================================
+\section{Related work}
+\label{sec:related}
+
+\paragraph{LLM agents in ERP.} Agentic ERP \cite{liu2026agenticerp} runs a planner--executor--reflector
+graph over Odoo and gates actions by risk tier; FinRobot \cite{yang2025finrobot} builds finance workflows
+with inserted risk controls; ERPBench \cite{zhang2026erpbench}, EnterpriseBench
+\cite{vishwakarma2025enterprisebench} and EnterpriseArena \cite{han2026cfo} evaluate agents on tasks and
+outcomes. Contract2Plan \cite{agarwal2026contract2plan} extracts a typed constraint schema from contracts
+and puts a solver-based gate before a plan is emitted, the closest method to ours, but for optimisation
+inputs rather than an assistant's statements. ADMITBench \cite{misra2026admitbench} judges the admissibility
+of proposed actions of industrial advisories against a plant profile. Freeman et al.\
+\cite{freeman2026epistemic} reduce industrial hallucination by prompting and measure it with an LLM judge.
+Earlier work connects LLMs to enterprise data through SQL \cite{ruizgomez2025erp, sequeda2023kg,
+lei2025spider2, li2023bird} or optimisation models \cite{li2023optiguide}; none verifies the resulting
+statements.
+
+\paragraph{Verifying claims against structured data.} AggChecker \cite{jo2019aggchecker} and Scrutinizer
+\cite{karagiannis2020scrutinizer} translate claims in documents into SQL; CEDAR
+\cite{jayasekara2025cedar} and Thucy \cite{theologitis2025thucy} use LLMs to write the queries; TabFact
+\cite{chen2020tabfact} and QuanTemp \cite{venktesh2024quantemp} are benchmarks for table and numerical
+claims; ProgramFC \cite{pan2023programfc} decomposes claims into programs. These systems work offline on
+documents and depend on generated queries; business rules, permissions and simulations are outside
+relational algebra.
+
+\paragraph{Hallucination detection.} Self-consistency \cite{manakul2023selfcheckgpt} and semantic entropy
+\cite{farquhar2024semantic} detect confabulation without external data but miss consistent mistakes. SAFE
+\cite{wei2024longform} decomposes answers into facts and checks them by search; MiniCheck
+\cite{tang2024minicheck} is a small trained checker against grounding documents; RAGTruth
+\cite{niu2024ragtruth} annotates natural errors in retrieval-augmented answers; Claimify
+\cite{metropolitansky2025claimify} studies claim extraction; CRITIC \cite{gou2024critic} lets the model
+correct itself with tools. In all of them, a model decides whether a statement is true. LLM judges have
+known problems of consistency and bias \cite{gu2024judge}.
+
+\paragraph{Run-time enforcement.} AgentSpec \cite{wang2026agentspec} and ProbGuard \cite{wang2026probguard}
+enforce rules on agent \emph{actions} at run time. TRACE applies the same idea to \emph{statements}.
+
+% =====================================================================================================
+\section{Problem formulation}
+\label{sec:problem}
+
+\paragraph{System of record.} Let $S=(D,R,F)$ be the system of record: the database state $D$, the rule
+registry $R$ (code constants, status and risk rules, the permission map) and deterministic analytics $F$
+(risk assessment, reorder rule, forecasts, what-if simulation, rankings), all implemented as tested code.
+
+\paragraph{Assertions.} An assertion is a tuple
+$a=(q, s, \alpha, \theta, v, \tau, \pi)$: the quoted words $q$ of the text it comes from, a subject $s$
+(a product, supplier, purchase order, role, rule key, risk level or stock status), an attribute $\alpha$
+from a fixed catalogue, a comparator $\theta\in\{=,\neq,<,\le,>,\ge\}$, a value $v$ (a number, date,
+category, entity, truth value, action, or a reference $@\beta$ to another attribute of the same subject or
+$@s'$ to the same attribute of another subject), a tense $\tau\in\{\text{present},\text{past}\}$ and scenario
+parameters $\pi$ (demand change, delay, order quantity, horizon, period). Each attribute has a family
+$\phi(\alpha)\in\{\text{state},\text{derived},\text{policy}\}$, a value kind and a function
+$\mathrm{val}_\alpha(s,\pi;S)$ that returns its true value or fails.
+
+\paragraph{Verdicts.} The verdict is
+\[
+V(a,S)=\begin{cases}
+\text{unverifiable} & \text{if } s \text{ cannot be resolved, } \mathrm{val}_\alpha \text{ fails, } v
+\text{ is ill-typed for } \alpha\text{, or } \tau=\text{past and } \alpha \text{ is not recorded,}\\
+\text{supported} & \text{if } \mathrm{val}_\alpha(s,\pi;S)\ \theta\ v,\\
+\text{contradicted} & \text{otherwise.}
+\end{cases}
+\]
+$V$ is computed from $S$ alone. A subject written as a well-formed identifier that does not exist makes the
+assertion contradicted, since the statement presupposes something false.
+
+\paragraph{Extraction and faithfulness.} An extractor $E$ maps a text $t$ to a set of assertions. An
+assertion is \emph{faithful} to its sentence if a careful reader would agree that the sentence asserts
+exactly $a$: same subject, attribute, direction and value, in the same scenario and tense.
+
+\paragraph{Conditional soundness.} If $a$ is faithful and $\mathrm{val}_\alpha$ is correct, then
+$V(a,S)=\text{supported}$ only if the sentence is true with respect to $S$, and
+$V(a,S)=\text{contradicted}$ only if it is false. This follows from the definition: the comparison is
+evaluated on the true value. The guarantee is conditional, and its value is that it localises error: a
+wrong verdict can only come from (i) an unfaithful extraction, (ii) a sentence the language cannot express,
+or (iii) a defect in a verification function, and each can be measured separately (Section
+\ref{sec:results}). An LLM judge offers no such decomposition.
+
+% =====================================================================================================
+\section{IntelliERP}
+\label{sec:v1}
+
+IntelliERP is a decision-support system for sales, inventory and procurement with a React front end, a
+FastAPI back end and PostgreSQL, on a wholesale dataset derived from Microsoft's Wide World Importers (227
+products, 72,696 sales lines) with simulated stock, suppliers and purchase orders. Deterministic analytics
+compute demand and its trend, days of cover, observed lead times, a four-level stockout risk, an
+order-up-to reorder quantity, forecasts chosen by backtest error, supplier on-time rates and delay trends,
+and day-by-day what-if projections. The assistant answers by calling 15 permission-checked tools that wrap
+the same services as the web pages, and is grounded in a 41-passage knowledge base whose thresholds are
+generated from the code constants. Its only action is a draft purchase order, which passes the same
+validation as any order and must be submitted and approved by people, the approver being different from
+the creator.
+
+The first version verified answers in two ways: every number had to be traceable to a tool result or
+passage, and twelve kinds of qualitative claim (below safety stock, demand rising, delivery in time, risk
+levels and others) were recognised by patterns and checked against the product's facts. On 86 questions in
+repeated runs the grounded assistant passed 84--86 of 86, and an open-weight model passed 86 of 86. The
+claim verifier, frozen before testing, detected 77\% of model-written errors \emph{within its twelve claim
+kinds} on unseen text with 2\% false alarms; over \emph{all} injected errors it detected only 36--42\%. The
+errors it could not express were about permissions, existence, scenario premises, comparisons between
+products, supplier relations, validation rules and forecast methods. TRACE was designed to cover them.
+
+% =====================================================================================================
+\section{The assertion language}
+\label{sec:language}
+
+Table~\ref{tab:families} summarises the language. The catalogue is a single list in code from which both
+the extraction prompt and the verifier are generated, so the two cannot drift apart.
+
+\begin{table}[t]
+\centering\small
+\caption{Assertion families, sources of truth and examples (64 attributes).}
+\label{tab:families}
+\begin{tabular}{@{}p{1.6cm}p{4.2cm}p{8.4cm}@{}}
+\toprule
+Family & Source of truth & Attributes (examples) \\
+\midrule
+State (31) & database, through the services used by the tools & stock on hand, safety stock, reorder level,
+stock status, warehouses, units on order, overdue units, units awaiting approval, next delivery date,
+primary supplier, supplied by, price, units sold and revenue over a period; supplier status and products
+supplied; purchase-order existence, status, quantity, product, supplier, expected and actual delivery;
+counts by stock status \\
+Derived (30) & analytics engine & average daily demand, demand trend, days of cover, projected stockout
+date, lead time, inventory position, reorder point, suggested quantity and supplier, stockout risk level,
+forecast method and weekly forecast, what-if unmet demand, stockout date, ending stock and days below
+safety stock, revenue and units-sold rank; supplier on-time rate, delays, lead time, delivery risk level
+and delay trend; counts by risk level \\
+Policy (3) & code constants and permission map & \attr{policy\_value} over 24 rule keys (e.g.\ the
+rising-demand threshold, the review period, supplier risk thresholds, the maximum order quantity);
+\attr{role\_can} and \attr{assistant\_can} over 21 actions, with separation of duties \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Design choices.}
+\begin{itemize}
+\item \emph{Comparisons are first-class.} ``Stock is below safety stock'' is
+\attr{stock\_on\_hand}~$<$~\attr{@safety\_stock}; ``P184 will run out first'' is
+\attr{days\_of\_cover}~$<$~\attr{@P167}; ``a product's cover is below its supplier's lead time'' reads the
+supplier attribute through the product's primary supplier.
+\item \emph{Scenarios are parameters.} A what-if statement is checked by re-running the simulation with the
+stated parameters; the baseline is the scenario with no change.
+\item \emph{Policy values are read from code.} Rule values are the constants the analytics use, and
+permissions come from the same map that the API enforces, so the verifier cannot disagree with the system
+about its own rules. The extraction prompt lists the rule keys but never their values, so an extractor
+cannot silently correct a wrong threshold.
+\item \emph{Visibility.} An assertion about data the user's role may not see is unverifiable and its true
+value is not disclosed.
+\item \emph{Time.} Present-state attributes are not judged in the past tense (``it ran out last week'');
+recorded facts such as an order's delivery history are.
+\end{itemize}
+
+% =====================================================================================================
+\section{TRACE}
+\label{sec:trace}
+
+\paragraph{Extraction.} Two extractors run. The \emph{model extractor} asks an LLM, through a forced call
+of a single tool whose input is the assertion list, to record every checkable statement; the arguments are
+validated against the schema and invalid items are dropped and counted. The instructions state that the
+comparator must follow the text's words even when the model believes the statement is false. The
+\emph{rule extractor} reuses the frozen patterns of the first version (mapped to the language) and adds
+patterns for existence, the assistant's capabilities and role permissions; it needs no model call. In
+\emph{hybrid} mode both run and a statement contradicted by either is reported.
+
+\paragraph{Verification.} For each assertion: resolve the subject (identifier or exact name), read the true
+value through the system's services, parse the asserted value according to the attribute's kind (numbers
+equal within rounding to whole numbers or one decimal, or within 0.5\%), and compare. Four safeguards keep
+extraction errors from becoming false verdicts:
+\begin{enumerate}
+\item \emph{Grounding}: an assertion about a product, supplier or order that neither the text, the question
+nor the subject of the text names is not judged; the extractor supplied the subject, not the writer.
+\item \emph{Ambiguous terms}: some words fit several attributes (``the reorder threshold'' may be the
+safety stock, reorder level or reorder point; ``a critical stockout'' the stock status or the risk level;
+``pending units'' units on order or awaiting approval). When the quote uses none of the attribute's own
+words, the assertion is supported if it holds for any member of the group.
+\item \emph{Type checks}: a date compared with a number, or a strict comparison with exactly the true figure
+(typically ``falling ($-$50.6\%)'' read as ``less than $-$50.6''), is not judged.
+\item \emph{Records newer than the data}: a missing purchase order numbered after every recorded order may
+have been drafted in the conversation, and is unverifiable rather than contradicted.
+\end{enumerate}
+
+\paragraph{Correction.} As in the first version, a chat answer with contradicted statements is returned
+once to the model with each statement and the true value; a recommendation must be re-recorded; an insight
+is not stored until corrected; a draft purchase order is flagged for its reviewers. Remaining
+contradictions are shown to the user.
+
+\paragraph{Implementation.} TRACE is about 1,600 lines of Python in the IntelliERP back end, with 36 unit
+test cases in which every expected value is read from the same services rather than copied, and an
+integration into the assistant selectable by configuration (patterns, TRACE-rule, TRACE or off).
+
+% =====================================================================================================
+\section{Evaluation design}
+\label{sec:evaluation}
+
+\paragraph{Research questions.}
+RQ1: How well does TRACE detect false statements compared with the pattern-based verifier, an LLM judge and
+MiniCheck? RQ2: Which errors remain undetected, and why? RQ3: Does verification with correction change what
+the user finally sees? RQ4: What does verification cost, and how repeatable is it?
+
+\paragraph{Development sets.} The three test sets of the first version (59, 60 and 64 model-written single
+errors with one paraphrase per text) served as development data for TRACE, because its design was drawn
+from what the first version missed on them. Paraphrases that changed the meaning were identified when a
+method flagged them, checked by hand and excluded from every method's count (two cases).
+
+\paragraph{Held-out test.} 52 texts that were never read during development: 43 answers of the open-weight
+model's run and 9 insights from scans after the development scans. For each text, two writers (Gemini and
+Gemma) each produce one rewrite with exactly one statement made false and one paraphrase. Error types are
+stratified: each text is assigned in turn one of qualitative, figure, existence, permission, rule and
+derived, used when the text allows it. TRACE's source files were frozen by hash before the rewrites were
+generated, and the scoring script refuses to run if they have changed.
+
+\paragraph{Scoring rules (fixed before the test).} An injection is valid if the reported old words occur in
+the original and the new words in the rewrite. A method \emph{detects} it if it reports more contradicted
+statements inside the sentence holding the change than inside the corresponding sentence of the original;
+the changed sentence is located by aligning the two texts. A \emph{false alarm} is a paraphrase with more
+contradicted statements than its original. Rates have Wilson 95\% intervals \cite{wilson1927}; paired
+comparisons use McNemar's exact test \cite{mcnemar1947} with Holm's correction \cite{holm1979}.
+
+\paragraph{Baselines.}
+\begin{itemize}
+\item \emph{Patterns}: the frozen first-version verifier.
+\item \emph{LLM judge}: the model receives the facts of every product and supplier the text names (as the
+assistant's tools return them) and the knowledge base's rule, workflow, access and definition passages,
+and lists every contradicted statement; temperature 0; Gemini and Gemma; repeated runs on a subset to
+measure stability.
+\item \emph{MiniCheck} \cite{tang2024minicheck}: the Flan-T5-Large checker run locally, with the same
+evidence written as plain sentences; a sentence is flagged when its support is below 0.5.
+\end{itemize}
+
+\paragraph{Natural errors.} The 590 stored answers of five runs (430 with and 160 without the knowledge
+base) are checked by every method. Every flagged sentence and a seeded random sample of 300 sentences are
+annotated blind (the annotator sees the question, the answer, the tool results and the current facts, not
+the methods), giving precision for each method and an estimate of the errors all methods miss; a second
+annotator labels 20\% for Cohen's $\kappa$ \cite{cohen1960kappa}. 183 of the answers were originals of the
+development sets and are reported separately.
+
+\paragraph{False-premise questions.} 44 questions generated from the database, each assuming something the
+data or rules contradict \cite{hu2023falseqa} (19 state, 12 policy, 13 derived; e.g.\ ``Why is demand for
+P082 falling so sharply?'' when it is rising). An answer passes when it states the true fact that rebuts the
+premise, scored by the same keyword and number rules as the main evaluation; verification plays no part in
+scoring. Each question is asked with the verifier off, with patterns and with TRACE, on two models.
+
+% =====================================================================================================
+\section{Results}
+\label{sec:results}
+
+\subsection{Development sets}
+
+Table~\ref{tab:dev} shows the four methods on the development sets with the extractor prompt used during
+development. On all errors, TRACE-hybrid detected 115 of 183 (63\%) against 70 of 183 (38\%) for the
+patterns. Within the patterns' own claim kinds the two are close (85\% against 79\%), so the gain comes
+from the error types the patterns cannot express. TRACE-rule, which needs no model call, already adds nine
+detections (existence and capability statements). False alarms rose from 1\% to 5\%; the remaining ones are
+analysed below.
+
+\begin{table}[t]
+\centering\small
+\caption{Development sets (perturbations-v2, test-v3, test-v3b; extraction prompt 2, gemini-3.5-flash-lite).
+Detection: a contradiction the rewrite introduced. In scope: the first version's twelve claim kinds.}
+\label{tab:dev}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Method & Detected, all errors & Detected, in scope & False alarms \\
+\midrule
+Patterns (first version) & 70/183 (38\%; 32--45) & 69/87 (79\%; 70--86) & 2/182 (1\%; 0--4) \\
+TRACE-rule & 79/183 (43\%; 36--50) & 69/87 (79\%; 70--86) & 2/182 (1\%; 0--4) \\
+TRACE-model & 95/183 (52\%; 45--59) & 56/87 (64\%; 54--74) & 7/182 (4\%; 2--8) \\
+TRACE-hybrid & 115/183 (63\%; 56--70) & 74/87 (85\%; 76--91) & 9/182 (5\%; 3--9) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{What development changed.} Analysing every false alarm led to the four safeguards of Section
+\ref{sec:trace}. Two examples: the extractor attached product P001 to a paraphrase that named its product
+only by name, without any identifier (grounding); and ``the 69-unit reorder threshold'', where 69 is the
+reorder point, was extracted as the reorder level (ambiguous terms). Analysing misses showed that the
+extractor tends to \emph{correct} false statements, recording ``cover significantly higher than the lead
+time'' with the true direction, and skips comparisons whose figures are also stated; the final prompt
+requires the comparator to follow the text's words and every comparison to be recorded.
+\pending{Development results with the final prompt (trace-extract-3).}
+
+\subsection{Held-out test (RQ1)}
+\pending{Table: attributed detection and false alarms for patterns, TRACE-rule, TRACE-model, TRACE-hybrid,
+LLM judge (two models) and MiniCheck; by writer and by error type; McNemar tests.}
+
+\subsection{Why errors are missed (RQ2)}
+\pending{Error decomposition of TRACE-hybrid's misses: not extracted, extracted but unverifiable,
+extracted unfaithfully, not expressible, verifier defect; hand-checked.}
+
+\subsection{Natural errors}
+\pending{Precision of each method's flags, recall on the random sample, estimated share of false
+sentences, $\kappa$.}
+
+\subsection{End-to-end effect (RQ3)}
+\pending{False-premise questions: share of answers that rebut the premise with the verifier off, with
+patterns and with TRACE, on two models; and the 86 ordinary questions with TRACE on, to check for harm.}
+
+\subsection{Cost and repeatability (RQ4)}
+\pending{Latency and tokens per answer: TRACE-rule needs no model call; TRACE-model one extraction call
+(on the development texts, a mean of 5,523 input and 483 output tokens
+per text with prompt 2); the judge one call per repeat. Repeatability of judge
+verdicts across repeats against TRACE's identical verdicts given an extraction; variability of extraction
+across repeated calls.}
+
+% =====================================================================================================
+\section{Discussion and threats to validity}
+\label{sec:discussion}
+
+\paragraph{The extractor is the weak point, and it is visible.} Because verdicts are deterministic, every
+error of TRACE on the development sets could be traced to a specific assertion: an extracted subject the
+text never named, a term with two meanings, a corrected direction, a hypothetical read as the present.
+This visibility is what the conditional soundness property buys; with an LLM judge, the same errors would
+appear only as unexplained disagreements.
+
+\paragraph{Coverage.} Statements about what the system can do (``the system does not track customer
+returns'') or about data that is not available are outside the language, as are reasons and causal
+explanations. They are a large share of the remaining misses on the development sets.
+
+\paragraph{Threats.} The errors in the development and held-out sets are written by models and may differ
+from natural ones; the natural-error study addresses this. The development sets were also used to tune
+TRACE, so only the held-out and natural results measure generalisation. Supply data are simulated (sales
+are real); the language is tied to the schema, not to the data. Paraphrase false alarms are counted per
+statement, and a paraphrase that splits a sentence can change counts for any method. The author wrote the
+questions and the first annotations; a second annotator labels a blind share. Both models come from one
+provider family's API, one of them open-weight.
+
+% =====================================================================================================
+\section{Conclusion}
+
+TRACE checks what an enterprise assistant says against the system of record, at run time, before the user
+sees it, and keeps the decision of truth out of the language model. On development data it detected
+clearly more model-written errors than a pattern-based verifier, at a cost in false alarms that the error
+decomposition makes explainable. \pending{Held-out, natural-error and false-premise conclusions.}
+
+\section*{Acknowledgements}
+\pending{Guide, supervisor, the second annotator; AI-use disclosure as in the conference version.}
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
