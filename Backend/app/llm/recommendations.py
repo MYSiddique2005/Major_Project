@@ -137,6 +137,9 @@ class RecommendationChecker:
         self._suppliers = suppliers
         # Rule passages state thresholds (15%, 14 days, ...) that an explanation may legitimately quote.
         self._rule_text = " ".join(entry.text for entry in knowledge.entries) if knowledge else ""
+        # Replaces the version-3 claim check when set: (text, (subject type, subject ID)) -> the summary
+        # {claims_checked, claims_contradicted}. The assistant's toolbox sets it to TRACE when configured.
+        self.statement_check = None
 
     def product_facts(self, product_id: str) -> dict[str, Any]:
         """Everything the system knows about one product's supply position, grouped by the module it comes from."""
@@ -249,11 +252,14 @@ class RecommendationChecker:
         # Joined as separate sentences, so a headline without a full stop does not run into the explanation.
         text = ". ".join([proposal.headline, proposal.explanation, *(item.statement for item in proposal.evidence)])
         checked, unmatched = unmatched_figures(text, json.dumps(facts) + " " + self._rule_text)
-        claims = (
-            check_subject(text, proposal.subject_id, facts, facts.get("supplier"))
-            if proposal.subject_type == "product"
-            else check_subject(text, proposal.subject_id, None, facts)
-        )
+        if self.statement_check is not None:
+            statements = self.statement_check(text, (proposal.subject_type, proposal.subject_id))
+        else:
+            statements = summary(
+                check_subject(text, proposal.subject_id, facts, facts.get("supplier"))
+                if proposal.subject_type == "product"
+                else check_subject(text, proposal.subject_id, None, facts)
+            )
 
         return Recommendation(
             **proposal.model_dump(exclude={"product_id", "supplier_id"}),
@@ -271,7 +277,7 @@ class RecommendationChecker:
                 supplier_supplies_product=supplies,
                 figures_checked=checked,
                 figures_unmatched=unmatched,
-                **summary(claims),
+                **statements,
             ),
         )
 

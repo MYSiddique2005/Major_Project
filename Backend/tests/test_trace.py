@@ -130,6 +130,14 @@ def test_purchase_order_history_is_checkable_in_the_past_tense(source):
     assert status(source, "P012", "stock_on_hand", "eq", "0", tense="past") == "unverifiable"
 
 
+def test_a_missing_order_numbered_after_every_record_may_be_a_new_draft(source):
+    highest = source.highest_order_number()
+    gap = next(n for n in range(1, highest) if not source.order_exists(f"PO-{n}"))
+    assert status(source, f"PO-{highest + 1}", "order_status", "eq", "Draft") == "unverifiable"  # drafted in the chat
+    assert status(source, f"PO-{highest + 1}", "order_exists", "eq", "true") == "unverifiable"
+    assert status(source, f"PO-{gap}", "order_status", "eq", "Draft") == "contradicted"  # an invented number
+
+
 # --- derived -----------------------------------------------------------------------------------------------
 
 
@@ -154,6 +162,50 @@ def test_strict_comparison_with_the_exact_figure_is_not_judged(source):
     trend = source.stock_risk("P001").demand_trend_pct
     # "falling (-50.6%)" mis-read as 'less than -50.6'
     assert status(source, "P001", "demand_trend_pct", "lt", str(trend)) == "unverifiable"
+
+
+def test_sales_rankings_over_a_period(source):
+    ranking = source.sales_ranking(30, "revenue")
+    first, last = ranking[0], ranking[-1]
+    assert status(source, first, "revenue_rank", "eq", "1", period_days=30) == "supported"
+    assert status(source, last, "revenue_rank", "eq", "1", period_days=30) == "contradicted"  # "the most" said of the least
+    assert status(source, last, "revenue_rank", "eq", "last", period_days=30) == "supported"
+    assert status(source, first, "revenue_rank", "eq", "1") == "unverifiable"  # no period given
+
+
+def test_a_product_compared_with_its_suppliers_figure(source):
+    product = source.product("P005")
+    cover, lead = source.stock_risk("P005").days_of_cover, source.supplier_performance(product.supplier_id).avg_lead_time_days
+    expected = "supported" if cover < lead else "contradicted"
+    assert status(source, "P005", "days_of_cover", "lt", "@supplier_lead_time_days") == expected
+
+
+def test_a_date_compared_with_a_number_is_not_judged(source):
+    # "the delivery arrives within the 14.3 days of cover", extracted as date <= days
+    assert judge(source, "P004", "next_delivery_date", "le", "@days_of_cover").reason == "a date compared with something else"
+
+
+def test_words_that_fit_either_reorder_figure_are_checked_against_both(source):
+    risk = next(item for item in source.analytics.list_stock_risk() if abs(item.reorder_point - item.reorder_level) > 5)
+    point, product = round(risk.reorder_point), risk.product_id
+
+    def reorder_level(quote, value):
+        return verify(Assertion(quote=quote, subject=product, attribute="reorder_level", comparator="eq", value=str(value)), source)
+
+    loose = reorder_level(f"the {point}-unit reorder threshold", point)  # the model picked the level; the text meant the point
+    assert (loose.status, loose.attribute) == ("supported", "reorder_point")
+    assert reorder_level(f"a reorder level of {point}", point).status == "contradicted"  # the text says which one
+    assert reorder_level(f"the {point + 37}-unit reorder threshold", point + 37).status == "contradicted"  # fits neither
+
+
+def test_a_record_the_text_does_not_name_is_not_judged(source):
+    wrong = source.stock_risk("P005").on_hand + 10
+    assertion = Assertion(quote=f"{wrong} units on hand", subject="P005", attribute="stock_on_hand", comparator="eq",
+                          value=str(wrong))
+    assert verify(assertion, source, named_in=f"There are {wrong} units on hand.").reason == "the text does not name P005"
+    assert verify(assertion, source, named_in=f"P005 has {wrong} units on hand.").status == "contradicted"
+    named = f"{source.product('P005').name} has {wrong} units on hand."
+    assert verify(assertion, source, named_in=named).status == "contradicted"
 
 
 def test_what_if_statements_are_checked_by_rerunning_the_simulation(services, source):

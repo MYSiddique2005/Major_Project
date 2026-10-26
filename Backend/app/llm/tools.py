@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING, Any, Callable, Literal
 from pydantic import BaseModel, Field, ValidationError
 
 from app.core.clock import Clock
+from app.core.config import get_settings
 from app.core.exceptions import DomainError
 from app.knowledge.base import CATEGORIES, KnowledgeBase
 from app.llm.recommendations import Recommendation, RecommendationChecker, RecommendationError, RecommendationInput
@@ -147,6 +148,9 @@ class Toolbox:
         self._refused_suppliers: dict[str, str] = {}  # product -> supplier the user named and the server refused
         self._checker = RecommendationChecker(analytics, suppliers, knowledge)
         self.checker = self._checker  # used by the assistant to check the claims in its final answer
+        if get_settings().llm_verifier in ("trace", "trace-rule"):
+            # Recommendations are checked by TRACE's rule-based extraction (no extra model call per proposal).
+            self._checker.statement_check = self._trace_statements
         self.recommendations: list[Recommendation] = []  # accepted during this request
         self._analytics = analytics
         self._products = products
@@ -155,6 +159,14 @@ class Toolbox:
         self._suppliers = suppliers
         self._procurement = procurement
         self._tools = {tool.name: tool for tool in self._build()}
+
+    def _trace_statements(self, text: str, subject: tuple[str, str]) -> dict:
+        from app.llm.trace import TraceVerifier
+
+        user = getattr(self, "_user", None)
+        verifier = TraceVerifier(self.fact_source(get_settings().separation_of_duties), self._checker, None, "rule",
+                                 user.role if user else None)
+        return verifier.check(text, subject).summary()
 
     def fact_source(self, separation_of_duties: bool = True):
         """The services the tools read, as a source of truth for checking the assistant's statements (TRACE)."""

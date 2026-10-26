@@ -70,6 +70,12 @@ ATTRIBUTES: tuple[Attribute, ...] = (
        uses=("period_days",), permission=Permission.SALES_VIEW),
     _a("revenue", "state", "product", "number", "Revenue over the last period_days days (Cancelled orders excluded)",
        uses=("period_days",), permission=Permission.SALES_VIEW),
+    _a("revenue_rank", "derived", "product", "number",
+       "Position by revenue among the products sold over the last period_days days (1 = the most; last = the least)",
+       uses=("period_days",), permission=Permission.SALES_VIEW),
+    _a("units_sold_rank", "derived", "product", "number",
+       "Position by units sold among the products sold over the last period_days days (1 = the most; last = the least)",
+       uses=("period_days",), permission=Permission.SALES_VIEW),
     # --- product: what the analytics compute ----------------------------------------------------------
     _a("avg_daily_demand", "derived", "product", "number", "Average units sold per day over the last 28 days"),
     _a("demand_trend_pct", "derived", "product", "number",
@@ -136,3 +142,20 @@ ATTRIBUTES: tuple[Attribute, ...] = (
 
 BY_NAME: dict[str, Attribute] = {attribute.name: attribute for attribute in ATTRIBUTES}
 NAMES: tuple[str, ...] = tuple(BY_NAME)
+
+# Groups that everyday words do not tell apart ("the threshold of 112", "a critical stockout", "73 units
+# pending"), with the words that name each member. A quote that uses none of an attribute's own words may
+# mean any member of its group.
+_GROUPS = (("safety_stock", "reorder_level", "reorder_point"), ("stock_status", "stockout_risk_level"),
+           ("units_on_order", "units_awaiting_approval"))
+SIBLINGS: dict[str, tuple[str, ...]] = {name: tuple(other for other in group if other != name)
+                                        for group in _GROUPS for name in group}
+OWN_WORDS: dict[str, str] = {
+    "safety_stock": r"\bsafety\b",
+    "reorder_level": r"\breorder level\b",
+    "reorder_point": r"\breorder point\b",
+    "stock_status": r"\b(?:stock status|in stock|out of stock|low stock)\b",
+    "stockout_risk_level": r"\brisk\b",
+    "units_on_order": r"\b(?:on order|ordered)\b",
+    "units_awaiting_approval": r"\bapprov",
+}

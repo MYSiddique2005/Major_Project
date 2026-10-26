@@ -95,12 +95,15 @@ class TraceVerifier:
         verdicts += [verify(assertion, self.source, self.role, origin="rule") for assertion in rule_assertions(text, role)]
         return verdicts
 
-    def model_verdicts(self, assertions: list[Assertion], subject: tuple[str, str] | None = None) -> list[Verdict]:
+    def model_verdicts(self, assertions: list[Assertion], subject: tuple[str, str] | None = None,
+                       named_in: str | None = None) -> list[Verdict]:
+        """`named_in` is the text, the question and the given subject: an assertion about a record none of
+        them names is not judged (the model filled the subject in)."""
         verdicts = []
         for assertion in assertions:
             if subject and not assertion.subject:
                 assertion = assertion.model_copy(update={"subject": subject[1]})
-            verdicts.append(verify(assertion, self.source, self.role, origin="model"))
+            verdicts.append(verify(assertion, self.source, self.role, origin="model", named_in=named_in))
         return verdicts
 
     def check(self, text: str, subject: tuple[str, str] | None = None, context: str = "",
@@ -114,5 +117,6 @@ class TraceVerifier:
             if extraction is None:
                 role_note = f"The user's role is {self.role.value}." if self.role else ""
                 extraction = extract(self.provider, text, " ".join(part for part in (role_note, context) if part))
-            verdicts += self.model_verdicts(extraction.assertions, subject)
+            named_in = "\n".join(part for part in (text, context, subject[1] if subject else "") if part)
+            verdicts += self.model_verdicts(extraction.assertions, subject, named_in)
         return TraceResult(_dedupe(verdicts), extraction)

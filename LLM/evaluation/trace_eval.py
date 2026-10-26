@@ -49,6 +49,14 @@ SCOPE = {
     "test-v3b": ("all", {2, 7, 11, 14, 21, 22, 23, 24, 27, 28, 29, 32, 33, 34, 37, 41, 43, 44, 46, 48, 52, 55, 61,
                          25, 26, 39, 47, 56, 59, 60, 63}),
 }
+# Paraphrases that changed the meaning (found when a checker flagged them and read by hand): the statement
+# flagged is false, so flagging it is no false alarm. Left out of every method's false-alarm count.
+FAULTY_PARAPHRASES = {
+    ("perturbations-v2-test", "fixed-1/U1/grounded"):
+        "says the database contains entries for P999; the original says it has no stock records",
+    ("test-v3", "fixed-2/U11/grounded"):
+        "says '92 reorder point'; the original says 'reorder level of 92' (the reorder point is 69)",
+}
 
 
 class DailyLimit(Exception):
@@ -216,7 +224,7 @@ def dev_report(ctx, cache: Cache, model: str) -> Path:
         per = {method: Counter() for method in METHODS}
         injections = [r for r in records if r["kind"] == "inject"]
         valid_position = 0
-        missing = 0
+        missing = faulty = 0
         for position, record in enumerate(injections, 1):
             if not valid_injection(record):
                 continue
@@ -238,6 +246,10 @@ def dev_report(ctx, cache: Cache, model: str) -> Path:
                 detail_lines.append(f"- MISS {name} #{number}{' (in scope)' if scoped else ''} {record['id']}: "
                                     f"\"{record.get('changed_from', '')}\" -> \"{record.get('changed_to', '')}\"")
         for record in (r for r in records if r["kind"] == "paraphrase"):
+            if (reason := FAULTY_PARAPHRASES.get((name, record["id"]))):
+                faulty += 1
+                detail_lines.append(f"- FAULTY PARAPHRASE {name} {record['id']}, left out: {reason}")
+                continue
             item = items_by_id[record["id"]]
             before, after = judge_all(ctx, item, item["text"], cache, model), judge_all(ctx, item, record["rewritten"], cache, model)
             if before is None or after is None:
@@ -252,7 +264,10 @@ def dev_report(ctx, cache: Cache, model: str) -> Path:
                 detail_lines.append(f"- FALSE ALARM {name} {record['id']}: " + "; ".join(
                     f"[{d['source']}] {d['attribute']} {d['subject']} {d['asserted']} vs {d['actual']} \"{d['quote'][:80]}\""
                     for d in details))
-        lines += [f"## {name}" + (f" ({missing} items without extraction, left out)" if missing else ""), "",
+        notes = [f"{missing} items without extraction" if missing else "",
+                 f"{faulty} paraphrase{'s' * (faulty != 1)} that changed the meaning" if faulty else ""]
+        notes = [note for note in notes if note]
+        lines += [f"## {name}" + (f" ({'; '.join(notes)}: left out)" if notes else ""), "",
                   "| Method | Detected, all valid | Detected, in scope | False alarms |", "|---|---:|---:|---:|"]
         for method in METHODS:
             c = per[method]

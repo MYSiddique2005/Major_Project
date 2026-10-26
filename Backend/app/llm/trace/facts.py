@@ -5,6 +5,7 @@ assessment, the supplier performance analysis, the what-if simulation, the procu
 verdict compares the assistant's statement with exactly what the system shows. Lookups are cached for
 the life of one verifier, which is one answer.
 """
+import re
 from collections import Counter
 from datetime import date, timedelta
 from typing import Any
@@ -21,6 +22,10 @@ from app.services.procurement_service import ProcurementService
 from app.services.product_service import ProductService
 from app.services.sales_service import SalesService
 from app.services.supplier_service import SupplierService
+
+
+def _number(order_id: str) -> int:
+    return int(re.sub(r"\D", "", order_id) or 0)
 
 
 class Missing(Exception):
@@ -125,6 +130,21 @@ class FactSource:
             return sum(order.quantity for order in orders), round(sum(order.total_amount for order in orders), 2)
         return self._cached(("sales", product_id, days), compute)
 
+    def sales_ranking(self, days: int, by: str) -> list[str]:
+        """Product IDs sold over the last `days` days, most first by "revenue" or "units", as the sales summary
+        tool ranks its top products."""
+        def compute():
+            since = self.today() - timedelta(days=days)
+            totals: dict[str, list[float]] = {}
+            for order in self.sales.list_orders():
+                if order.order_date > since and order.status != SalesStatus.CANCELLED:
+                    entry = totals.setdefault(order.product_id, [0, 0.0])
+                    entry[0] += order.quantity
+                    entry[1] += order.total_amount
+            index = 1 if by == "revenue" else 0
+            return sorted(totals, key=lambda product_id: totals[product_id][index], reverse=True)
+        return self._cached(("ranking", days, by), compute)
+
     def find_product(self, name: str) -> str | None:
         """The ID of the one product whose name is `name` (ignoring case), or None."""
         wanted = " ".join(name.lower().split())
@@ -176,8 +196,16 @@ class FactSource:
             try:
                 return self.procurement.get_order(order_id)
             except DomainError as error:
+                if _number(order_id) > self.highest_order_number():
+                    # Numbered after every order on record: it may have been drafted after the data was read
+                    # (the assistant drafts orders in the conversation), so its absence proves nothing.
+                    raise Missing(f"{order_id} is newer than every recorded order") from error
                 raise NoSuchSubject(f"no purchase order {order_id}") from error
         return self._cached(("order", order_id), compute)
+
+    def highest_order_number(self) -> int:
+        return self._cached(("highest order",), lambda: max((_number(order.id) for order in self.procurement.list_orders()),
+                                                            default=0))
 
     def order_exists(self, order_id: str) -> bool:
         try:

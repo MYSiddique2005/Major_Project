@@ -20,7 +20,7 @@ from app.llm.trace.schema import Assertion, AssertionList
 from app.security.permissions import Permission
 
 RECORD_TOOL = "record_assertions"
-PROMPT_VERSION = "trace-extract-2"
+PROMPT_VERSION = "trace-extract-3"
 
 _GROUPS = (
     ("product", "About a product (subject: product ID such as P059)"),
@@ -38,10 +38,18 @@ You turn the factual statements in a text written by an ERP assistant into asser
 can check each one against the company's database and rules. You do not decide whether they are true, and \
 you never correct them: record exactly what the text says, even if you think it is wrong.
 
+The comparator follows the text's own words, never what you believe is true: "above", "higher", "more", \
+"exceeds", "after", "later" -> gt (or ge); "below", "lower", "fewer", "under", "before", "earlier" -> lt (or le). \
+A text that says "650 is above the reorder point of 900" gets inventory_position gt @reorder_point, \
+although 650 is smaller: that contradiction is exactly what the software must see.
+
 Record a statement when it says something checkable about a product, supplier or purchase order; about a \
 result the system computes (risk levels, reorder point and suggested quantity, days of cover, forecasts, \
 what-if projections, counts); about a company rule's threshold, window or limit; or about what a role or \
 the assistant itself can or cannot do.
+
+Record every comparison as its own assertion, even when the figures on both sides are also stated, and \
+record statements given as reasons ("because there is nothing on hand", "since the delivery arrives late").
 
 Do not record: advice ("you should reorder"), offers and questions, general descriptions of how a rule \
 works that state no specific value, statements about the conversation, or anything you would have to guess.
@@ -76,6 +84,17 @@ How common wording maps:
 eq -50.6; never combine them into lt -50.6
 - an order's history ("PO-17713 arrived on 2026-09-11") is recorded data: order_actual_delivery eq 2026-09-11; \
 do not mark it past
+- what-if results: a statement about a scenario ("if demand rises 25%", "with a 7-day delay") or its \
+baseline ("with no change", "without any delay", "under normal conditions") uses the scenario_* attributes \
+with the scenario's figures (0 for no change), never stockout dates, cover or stock of the present
+- "in danger of / at risk of running out" -> stockout_risk_level ne Low; "not in danger of running out" -> \
+stockout_risk_level eq Low
+- "the system has no record of returns for P082" says what data the system keeps, not that P082 is missing: \
+leave it out. Use product_exists only for "the product does not exist / is not in the system"
+- comparisons between named records: "S004 has the better on-time rate than S010" -> on_time_rate_pct gt @S010; \
+"P120 will run out first" (of P120 and P133) -> days_of_cover lt @P133
+- rankings over a period: "P140 brought in the most revenue over the last 30 days" -> revenue_rank eq 1 with \
+period_days 30; "the fewest units sold" -> units_sold_rank eq last
 - "I cannot approve orders" -> subject assistant, assistant_can ne approve_purchase_order
 - "you can submit orders" (said to the user) -> role_can eq submit_purchase_order with the user's role \
 if the text or question gives it; otherwise leave it out

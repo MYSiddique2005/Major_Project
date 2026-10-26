@@ -7,11 +7,13 @@ unverifiable, with the reason. So a wrong verdict can only come from an assertio
 its sentence (an extraction error), never from this module guessing.
 """
 import re
+from dataclasses import replace
 from datetime import date
 
 from app.llm.trace import policy
 from app.llm.trace import values as V
-from app.llm.trace.catalogue import BY_NAME, STOCK_STATUSES, STOCKOUT_LEVELS, SUPPLIER_LEVELS, Attribute
+from app.llm.trace.catalogue import (BY_NAME, OWN_WORDS, SIBLINGS, STOCK_STATUSES, STOCKOUT_LEVELS, SUPPLIER_LEVELS,
+                                     Attribute)
 from app.llm.trace.facts import FactSource, Missing, NoSuchSubject
 from app.llm.trace.schema import Assertion, Verdict
 from app.models.enums import Role
@@ -54,6 +56,24 @@ def resolve(kind: str, text: str, source: FactSource) -> tuple[str, bool]:
     return match, False
 
 
+def _named(kind: str, identifier: str, text: str, source: FactSource) -> bool:
+    """True when `text` names the record: by its ID or, for a product or supplier, by its name."""
+    if re.search(rf"\b{identifier.replace('-', '-?')}\b", text, re.IGNORECASE):
+        return True
+    try:
+        if kind == "product":
+            names = [re.sub(r"\s*\([^)]*\)\s*$", "", source.product(identifier).name)]  # without "(White)"
+        elif kind == "supplier":
+            name = source.supplier(identifier).name
+            names = [name, name.split(",")[0]]  # "Fabrikam, Inc." or "Fabrikam"
+        else:
+            return False
+    except NoSuchSubject:
+        return False
+    flat = " ".join(text.lower().split())
+    return any(" ".join(name.lower().split()) in flat for name in names if name.strip())
+
+
 def _resolve_subject(attribute: Attribute, text: str, source: FactSource) -> tuple[str, bool]:
     kind = attribute.subject
     if kind in _IDS:
@@ -92,6 +112,11 @@ def _suppliers_of(product_id: str, source: FactSource) -> set[str]:
             if any(item.id == product_id for item in supplier.products_supplied)}
 
 
+def _ranking(name: str, assertion: Assertion, source: FactSource) -> list[str]:
+    days = _required(assertion.period_days, "the statement gives no period")
+    return source.sales_ranking(days, "revenue" if name == "revenue_rank" else "units")
+
+
 def _required(value, reason: str):
     if value is None:
         raise Missing(reason)
@@ -119,6 +144,11 @@ def read(attribute: Attribute, subject: str, assertion: Assertion, source: FactS
             return {V.normalise(item) for item in source.warehouses(subject)}
         if name == "supplied_by":
             return _suppliers_of(subject, source)
+        if name in ("revenue_rank", "units_sold_rank"):
+            ranking = _ranking(name, assertion, source)
+            if subject not in ranking:
+                raise Missing(f"{subject} sold nothing in the period")
+            return ranking.index(subject) + 1
         if name in ("units_sold", "revenue"):
             days = _required(assertion.period_days, "the statement gives no period")
             units, revenue = source.sales_totals(subject, days)
@@ -263,6 +293,10 @@ def _reference(attribute: Attribute, subject: str, text: str, assertion: Asserti
     target = text.strip()[1:].strip()
     other = BY_NAME.get(target)
     if other is not None:
+        if other.subject == "supplier" and attribute.subject == "product":
+            # "days of cover below the supplier lead time": the product's primary supplier
+            supplier = source.product(subject).supplier_id
+            return read(other, supplier, assertion, source, role), f"{target.replace('_', ' ')} of {supplier}"
         if other.subject != attribute.subject:
             raise Unresolved(f"@{target} is about a {other.subject}, not a {attribute.subject}")
         return read(other, subject, assertion, source, role), f"{target.replace('_', ' ')} of {subject}"
@@ -285,12 +319,18 @@ def _shown(value) -> str:
     return V.display(value)
 
 
+def _date_like(value) -> bool:
+    return isinstance(value, date) or value is _NO_DELIVERY
+
+
 def _holds(attribute: Attribute, actual, comparator: str, asserted) -> bool:
     if attribute.kind == "action":
         return actual if comparator == "eq" else not actual if comparator == "ne" else False
     if isinstance(actual, set):
         member = asserted in actual
         return member if comparator == "eq" else not member if comparator == "ne" else False
+    if _date_like(actual) != _date_like(asserted):
+        raise Unresolved("a date compared with something else")  # "delivery within the 14.3 days of cover"
     if actual is _NO_DELIVERY or asserted is _NO_DELIVERY:
         # Nothing on order arrives at no date: "arrives in time / by a date" is false, "too late" is true.
         late_side = actual is _NO_DELIVERY
@@ -306,7 +346,10 @@ def _holds(attribute: Attribute, actual, comparator: str, asserted) -> bool:
     return V.compare(actual, comparator, asserted)
 
 
-def verify(assertion: Assertion, source: FactSource, role: Role | None = None, origin: str = "model") -> Verdict:
+def verify(assertion: Assertion, source: FactSource, role: Role | None = None, origin: str = "model",
+           named_in: str | None = None, siblings: bool = True) -> Verdict:
+    """`named_in`, when given, is the text the assertion came from: a product, supplier or order it does
+    not name (by ID or name) was supplied by the extractor, not the writer, so it is not judged."""
     attribute = BY_NAME[assertion.attribute]
     asserted_text = f"{assertion.comparator} {assertion.value}"
 
@@ -322,6 +365,8 @@ def verify(assertion: Assertion, source: FactSource, role: Role | None = None, o
         subject, written_as_id = _resolve_subject(attribute, assertion.subject, source)
     except Unresolved as error:
         return verdict("unverifiable", None, str(error))
+    if named_in is not None and attribute.subject in _IDS and not _named(attribute.subject, subject, named_in, source):
+        return verdict("unverifiable", None, f"the text does not name {subject}", subject)
     try:
         actual = read(attribute, subject, assertion, source, role)
         if attribute.kind == "name" and isinstance(actual, str):
@@ -330,7 +375,10 @@ def verify(assertion: Assertion, source: FactSource, role: Role | None = None, o
             asserted, compared_with = _reference(attribute, subject, assertion.value, assertion, source, role)
             shown = f"{attribute.name.replace('_', ' ')} is {_shown(actual)}, {compared_with} is {_shown(asserted)}"
         else:
-            asserted = _asserted(attribute, subject, assertion.value, source)
+            if attribute.name.endswith("_rank") and assertion.value.strip().lower() in ("last", "least", "bottom"):
+                asserted = float(len(_ranking(attribute.name, assertion, source)))
+            else:
+                asserted = _asserted(attribute, subject, assertion.value, source)
             shown = _shown(actual) if attribute.kind != "action" else ("allowed" if actual else "not allowed")
             if (assertion.comparator in ("lt", "gt") and isinstance(asserted, float) and isinstance(actual, (int, float))
                     and not isinstance(actual, bool) and V.numbers_equal(asserted, float(actual))):
@@ -345,4 +393,11 @@ def verify(assertion: Assertion, source: FactSource, role: Role | None = None, o
         return verdict("unverifiable", None, str(error), subject)
     except (Missing, Unresolved) as error:
         return verdict("unverifiable", None, str(error), subject)
+    if not holds and siblings and attribute.name in SIBLINGS and not re.search(OWN_WORDS[attribute.name], assertion.quote, re.IGNORECASE):
+        # "the 69-unit reorder threshold" is true when 69 is the reorder point, whichever one was extracted
+        for sibling in SIBLINGS[attribute.name]:
+            other = verify(assertion.model_copy(update={"attribute": sibling}), source, role, origin, named_in, siblings=False)
+            if other.status == "supported":
+                return replace(other, reason=f"the words do not say {attribute.name.replace('_', ' ')}; they fit "
+                                             f"{sibling.replace('_', ' ')}, which holds")
     return verdict("supported" if holds else "contradicted", shown, "", subject)
