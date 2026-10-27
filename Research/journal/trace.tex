@@ -8,6 +8,8 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
 \setlist{nosep}
 \newcommand{\pending}[1]{\textcolor{red}{[#1]}}
 \newcommand{\attr}[1]{\texttt{#1}}
@@ -227,6 +229,34 @@ rising-demand threshold, the review period, supplier risk thresholds, the maximu
 \end{tabular}
 \end{table}
 
+Table~\ref{tab:examples} shows statements from the three families as the verifier judges them on the
+system's data.
+
+\begin{table}[t]
+\centering\small
+\caption{Statements, their assertions and TRACE's verdicts on the system's data (output of the verifier).}
+\label{tab:examples}
+\begin{tabular}{@{}p{4.6cm}p{4.4cm}p{1.9cm}p{3.6cm}@{}}
+\toprule
+Statement & Assertion & Verdict & What the data says \\
+\midrule
+``71 units on hand, above the reorder point of 112'' & \attr{stock\_on\_hand}(P004) $>$ \attr{@reorder\_point} &
+contradicted & 71 on hand, reorder point 112 \\
+``24 open orders, 9 of them overdue'' & \attr{overdue\_orders}(S010) $=$ 9 & contradicted & 7 \\
+``demand counts as rising sharply at 25\% or more'' & \attr{policy\_value}(rising\_sharply\_pct) $=$ 25 &
+contradicted & 15 \\
+``a procurement manager cannot approve purchase orders'' & \attr{role\_can}(procurement manager) $\neq$
+approve & contradicted & allowed \\
+``I can approve purchase orders for you'' & \attr{assistant\_can} $=$ approve & contradicted & not allowed \\
+``if demand rises 25\%, 328.4 units would go unmet over 60 days'' & \attr{scenario\_unmet\_demand}(P062;
+$+$25\%, 60 days) $=$ 328.4 & supported & 328.4 (simulation re-run) \\
+``P184 will run out before P155'' & \attr{days\_of\_cover}(P184) $<$ \attr{@P155} & supported & 1.6 against
+39 days \\
+``Product P999 is out of stock'' & \attr{stock\_on\_hand}(P999) $=$ 0 & contradicted & no product P999 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \paragraph{Design choices.}
 \begin{itemize}
 \item \emph{Comparisons are first-class.} ``Stock is below safety stock'' is
@@ -249,7 +279,27 @@ recorded facts such as an order's delivery history are.
 \section{TRACE}
 \label{sec:trace}
 
-\paragraph{Extraction.} Two extractors run. The \emph{model extractor} asks an LLM, through a forced call
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, minimum height=8mm,
+  inner sep=3pt}, arr/.style={-{Stealth[length=2mm]}}]
+\node[box, text width=2.2cm] (text) {Assistant's answer\\(not yet shown)};
+\node[box, text width=2.8cm, above right=1mm and 8mm of text] (rule) {Rule extractor\\patterns, no model};
+\node[box, text width=2.8cm, below right=1mm and 8mm of text] (llm) {Model extractor\\forced tool call,\\schema-validated};
+\node[box, text width=2.4cm, right=32mm of text] (assert) {Typed assertions\\$(s,\alpha,\theta,v,\tau,\pi)$};
+\node[box, text width=3.2cm, right=8mm of assert] (verify) {Deterministic verifier\\resolve, read true value,\\compare};
+\node[box, text width=3.2cm, above=8mm of verify] (sor) {System of record\\database $D$, rules $R$,\\analytics $F$};
+\node[box, text width=3.2cm, below=8mm of verify] (out) {Verdicts $\rightarrow$ correction\\(answer returned once\\to the model)};
+\draw[arr] (text) -- (rule); \draw[arr] (text) -- (llm);
+\draw[arr] (rule) -- (assert); \draw[arr] (llm) -- (assert);
+\draw[arr] (assert) -- (verify); \draw[arr] (sor) -- (verify); \draw[arr] (verify) -- (out);
+\end{tikzpicture}
+\caption{TRACE. A language model only extracts assertions; their truth is decided by code that reads the
+system of record through the same services as the assistant's tools.}
+\label{fig:trace}
+\end{figure}
+
+\paragraph{Extraction.} Figure~\ref{fig:trace} shows the pipeline. Two extractors run. The \emph{model extractor} asks an LLM, through a forced call
 of a single tool whose input is the assertion list, to record every checkable statement; the arguments are
 validated against the schema and invalid items are dropped and counted. The instructions state that the
 comparator must follow the text's words even when the model believes the statement is false. The
@@ -391,9 +441,12 @@ sentences, $\kappa$.}
 patterns and with TRACE, on two models; and the 86 ordinary questions with TRACE on, to check for harm.}
 
 \subsection{Cost and repeatability (RQ4)}
-\pending{Latency and tokens per answer: TRACE-rule needs no model call; TRACE-model one extraction call
-(on the development texts, a mean of 5,523 input and 483 output tokens
-per text with prompt 2); the judge one call per repeat. Repeatability of judge
+Deterministic verification, measured on 120 development texts with nothing cached between answers (as in
+the assistant), took a median of 1.1\,s per answer in rule mode (90th percentile 1.15\,s) and a median of
+0.6\,s to verify the model's assertions (90th percentile 1.8\,s; the slowest, 12\,s, re-ran what-if
+simulations and sales rankings). Extraction is one model call, with a mean of 5,523 input and 483 output
+tokens per text on the development sets (prompt 2).
+\pending{Extraction latency; the judge's tokens and latency; repeatability of judge
 verdicts across repeats against TRACE's identical verdicts given an extraction; variability of extraction
 across repeated calls.}
 
