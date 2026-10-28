@@ -35,8 +35,8 @@ an assertion is true is decided deterministically, so a verdict is correct whene
 faithful, and every error can be attributed to extraction, coverage of the language, or a defect in a
 verification function. TRACE is built into IntelliERP, a decision-support system for sales, inventory and
 procurement. On three development sets of model-written errors (183 errors, 182 meaning-preserving
-paraphrases) TRACE detected 115 errors (63\%) against 70 (38\%) for the earlier pattern-based verifier, with
-false alarms on 5\% of paraphrases. \pending{Held-out results, comparison with an LLM judge and MiniCheck,
+paraphrases) TRACE detected 126 errors (69\%) against 70 (38\%) for the earlier pattern-based verifier, with
+false alarms on 7\% of paraphrases, every one of them traced to a specific extraction error. \pending{Held-out results, comparison with an LLM judge and MiniCheck,
 natural errors and the false-premise experiment to be inserted after the frozen runs.}
 \end{abstract}
 
@@ -318,8 +318,11 @@ nor the subject of the text names is not judged; the extractor supplied the subj
 safety stock, reorder level or reorder point; ``a critical stockout'' the stock status or the risk level;
 ``pending units'' units on order or awaiting approval). When the quote uses none of the attribute's own
 words, the assertion is supported if it holds for any member of the group.
-\item \emph{Type checks}: a date compared with a number, or a strict comparison with exactly the true figure
-(typically ``falling ($-$50.6\%)'' read as ``less than $-$50.6''), is not judged.
+\item \emph{Type checks}: a date compared with a number (in either direction, as in ``October~7'' recorded as
+a quantity), a count of orders whose quote gives the figure in units (``73 units pending'' recorded as open
+orders), a warehouse said to hold zero units recorded as holding the product, and a strict comparison with
+exactly the true figure (typically ``falling ($-$50.6\%)'' read as ``less than $-$50.6'') are not judged.
+Names are compared ignoring case and generic words (``Main'' and ``main warehouse'').
 \item \emph{Records newer than the data}: a missing purchase order numbered after every recorded order may
 have been drafted in the conversation, and is unverifiable rather than contradicted.
 \end{enumerate}
@@ -329,7 +332,7 @@ once to the model with each statement and the true value; a recommendation must 
 is not stored until corrected; a draft purchase order is flagged for its reviewers. Remaining
 contradictions are shown to the user.
 
-\paragraph{Implementation.} TRACE is about 1,600 lines of Python in the IntelliERP back end, with 36 unit
+\paragraph{Implementation.} TRACE is about 1,600 lines of Python in the IntelliERP back end, with 38 unit
 test cases in which every expected value is read from the same services rather than copied, and an
 integration into the assistant selectable by configuration (patterns, TRACE-rule, TRACE or off).
 
@@ -391,16 +394,16 @@ scoring. Each question is asked with the verifier off, with patterns and with TR
 
 \subsection{Development sets}
 
-Table~\ref{tab:dev} shows the four methods on the development sets with the extractor prompt used during
-development. On all errors, TRACE-hybrid detected 115 of 183 (63\%) against 70 of 183 (38\%) for the
-patterns. Within the patterns' own claim kinds the two are close (85\% against 79\%), so the gain comes
-from the error types the patterns cannot express. TRACE-rule, which needs no model call, already adds nine
-detections (existence and capability statements). False alarms rose from 1\% to 5\%; the remaining ones are
-analysed below.
+Table~\ref{tab:dev} shows the four methods on the development sets with the final extraction prompt and
+verifier, the configuration that was then frozen. On all errors, TRACE-hybrid detected 126 of 183 (69\%)
+against 70 of 183 (38\%) for the patterns, and within the patterns' own claim kinds 78 of 87 (90\%) against
+69 (79\%). Most of the gain therefore comes from the error types the patterns cannot express. TRACE-rule,
+which needs no model call, already adds nine detections (existence and capability statements). False alarms
+rose from 1\% to 7\%; all of them are analysed below.
 
 \begin{table}[t]
 \centering\small
-\caption{Development sets (perturbations-v2, test-v3, test-v3b; extraction prompt 2, gemini-3.5-flash-lite).
+\caption{Development sets (perturbations-v2, test-v3, test-v3b; final extraction prompt, gemini-3.5-flash-lite).
 Detection: a contradiction the rewrite introduced. In scope: the first version's twelve claim kinds.}
 \label{tab:dev}
 \begin{tabular}{@{}lrrr@{}}
@@ -409,8 +412,8 @@ Method & Detected, all errors & Detected, in scope & False alarms \\
 \midrule
 Patterns (first version) & 70/183 (38\%; 32--45) & 69/87 (79\%; 70--86) & 2/182 (1\%; 0--4) \\
 TRACE-rule & 79/183 (43\%; 36--50) & 69/87 (79\%; 70--86) & 2/182 (1\%; 0--4) \\
-TRACE-model & 95/183 (52\%; 45--59) & 56/87 (64\%; 54--74) & 7/182 (4\%; 2--8) \\
-TRACE-hybrid & 115/183 (63\%; 56--70) & 74/87 (85\%; 76--91) & 9/182 (5\%; 3--9) \\
+TRACE-model & 112/183 (61\%; 54--68) & 66/87 (76\%; 66--84) & 10/182 (5\%; 3--10) \\
+TRACE-hybrid & 126/183 (69\%; 62--75) & 78/87 (90\%; 81--94) & 12/182 (7\%; 4--11) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -421,8 +424,18 @@ only by name, without any identifier (grounding); and ``the 69-unit reorder thre
 reorder point, was extracted as the reorder level (ambiguous terms). Analysing misses showed that the
 extractor tends to \emph{correct} false statements, recording ``cover significantly higher than the lead
 time'' with the true direction, and skips comparisons whose figures are also stated; the final prompt
-requires the comparator to follow the text's words and every comparison to be recorded.
-\pending{Development results with the final prompt (trace-extract-3).}
+requires the comparator to follow the text's words and every comparison to be recorded. With the earlier
+prompt, TRACE-hybrid detected 115 of 183 errors (63\%) with 9 false alarms; the final prompt added 11
+detections, and the type checks for dates, units and warehouses removed five of the new false alarms it
+caused without losing a detection.
+
+\paragraph{The remaining false alarms.} Of the 12 paraphrases TRACE-hybrid flags, two come from the
+first version's patterns, which TRACE-rule reuses unchanged, and are the patterns' own two false alarms.
+The other ten are extraction errors, each visible in the assertion: five attach a figure to the wrong
+attribute (``7 late shipments'' recorded as the number of deliveries analysed, weekly forecasts as the
+average), four to the wrong scope (one warehouse's zero stock recorded as the product's total; a supplier's
+orders for one product recorded as all its open orders), and one reads ``lacks any documented metric'' as
+a product that does not exist. None is a defect of a verification function.
 
 \subsection{Held-out test (RQ1)}
 \pending{Table: attributed detection and false alarms for patterns, TRACE-rule, TRACE-model, TRACE-hybrid,
