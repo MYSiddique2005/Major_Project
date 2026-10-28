@@ -184,6 +184,31 @@ def test_a_date_compared_with_a_number_is_not_judged(source):
     # "the delivery arrives within the 14.3 days of cover", extracted as date <= days
     assert judge(source, "P004", "next_delivery_date", "le", "@days_of_cover").reason == "a date compared with something else"
 
+    # "October 7 under standard conditions", extracted as a number
+    assert judge(source, "P004", "days_of_cover", "eq", "2026-10-07").reason == "'2026-10-07' is a date, not a number"
+
+
+def test_warehouse_names_ignore_case_and_the_word_warehouse(source):
+    held = sorted(source.warehouses("P004"))[0]  # e.g. "Main Warehouse"
+    short = held.lower().removesuffix(" warehouse")
+    assert status(source, "P004", "warehouse", "eq", short.title()) == "supported"  # "stocked at the Main"
+    assert status(source, "P004", "warehouse", "eq", held.upper()) == "supported"
+    assert status(source, "P004", "warehouse", "eq", "Nowhere") == "contradicted"
+    nothing = verify(Assertion(quote="The North warehouse stores 0 units of it", subject="P004", attribute="warehouse",
+                               comparator="eq", value="North warehouse"), source)
+    assert nothing.reason == "the text says nothing is held there"
+
+
+def test_units_are_not_a_count_of_orders(source):
+    open_orders = judge(source, "S010", "open_orders", "ge", "0").actual  # the true count, as shown
+    wrong = str(int(float(open_orders)) + 49)
+
+    def check(quote):
+        return verify(Assertion(quote=quote, subject="S010", attribute="open_orders", comparator="eq", value=wrong), source)
+
+    assert check(f"S010 already has {wrong} units pending").reason == "the text counts units, not orders"
+    assert check(f"S010 has {wrong} open orders").status == "contradicted"
+
 
 def test_words_that_fit_either_reorder_figure_are_checked_against_both(source):
     risk = next(item for item in source.analytics.list_stock_risk() if abs(item.reorder_point - item.reorder_level) > 5)

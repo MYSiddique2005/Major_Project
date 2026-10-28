@@ -12,8 +12,8 @@ from datetime import date
 
 from app.llm.trace import policy
 from app.llm.trace import values as V
-from app.llm.trace.catalogue import (BY_NAME, OWN_WORDS, SIBLINGS, STOCK_STATUSES, STOCKOUT_LEVELS, SUPPLIER_LEVELS,
-                                     Attribute)
+from app.llm.trace.catalogue import (BY_NAME, ORDER_COUNTS, OWN_WORDS, SIBLINGS, STOCK_STATUSES, STOCKOUT_LEVELS,
+                                     SUPPLIER_LEVELS, Attribute)
 from app.llm.trace.facts import FactSource, Missing, NoSuchSubject
 from app.llm.trace.schema import Assertion, Verdict
 from app.models.enums import Role
@@ -141,7 +141,7 @@ def read(attribute: Attribute, subject: str, assertion: Assertion, source: FactS
         if name in simple:
             return simple[name]
         if name == "warehouse":
-            return {V.normalise(item) for item in source.warehouses(subject)}
+            return {_name(attribute, item) for item in source.warehouses(subject)}
         if name == "supplied_by":
             return _suppliers_of(subject, source)
         if name in ("revenue_rank", "units_sold_rank"):
@@ -258,6 +258,8 @@ def _asserted(attribute: Attribute, subject: str, text: str, source: FactSource)
             return V.parse_boolean(text)
         if text.strip().lower() in ("half", "one half"):
             return 0.5
+        if V.parse_date(text, source.today().year) is not None:
+            raise Unresolved(f"'{text}' is a date, not a number")  # "October 7 under standard conditions"
         number = V.parse_number(text)
         if number is None:
             raise Unresolved(f"'{text}' is not a number")
@@ -275,7 +277,7 @@ def _asserted(attribute: Attribute, subject: str, text: str, source: FactSource)
             raise Unresolved(f"'{text}' is not one of {', '.join(attribute.choices)}")
         return choice
     if kind == "name":
-        return V.normalise(text)
+        return _name(attribute, text)
     if kind == "entity":
         return resolve(attribute.entity, text, source)[0]
     if kind == "boolean":
@@ -317,6 +319,21 @@ def _shown(value) -> str:
     if isinstance(value, set):
         return ", ".join(sorted(value)) or "none"
     return V.display(value)
+
+
+def _name(attribute: Attribute, text: str) -> str:
+    """'Main Warehouse', 'main warehouse' and 'Main' are one warehouse."""
+    name = V.normalise(text)
+    return re.sub(r"\s*\bwarehouse$", "", name) if attribute.name == "warehouse" else name
+
+
+_NOTHING_HELD = re.compile(r"\b(?:0|zero|no)\s+(?:units?|inventory|stock)\b", re.IGNORECASE)
+
+
+def _counts_units(quote: str, number: float) -> bool:
+    """The quote gives this number as a count of units ('73 units pending')."""
+    return any(V.parse_number(figure) is not None and V.numbers_equal(V.parse_number(figure), number)
+               for figure in re.findall(r"(\d[\d,]*(?:\.\d+)?)[\s-]*units?\b", quote, re.IGNORECASE))
 
 
 def _date_like(value) -> bool:
@@ -367,10 +384,12 @@ def verify(assertion: Assertion, source: FactSource, role: Role | None = None, o
         return verdict("unverifiable", None, str(error))
     if named_in is not None and attribute.subject in _IDS and not _named(attribute.subject, subject, named_in, source):
         return verdict("unverifiable", None, f"the text does not name {subject}", subject)
+    if attribute.name == "warehouse" and assertion.comparator == "eq" and _NOTHING_HELD.search(assertion.quote):
+        return verdict("unverifiable", None, "the text says nothing is held there", subject)  # "0 units at North"
     try:
         actual = read(attribute, subject, assertion, source, role)
         if attribute.kind == "name" and isinstance(actual, str):
-            actual = V.normalise(actual)
+            actual = _name(attribute, actual)
         if assertion.value.strip().startswith("@"):
             asserted, compared_with = _reference(attribute, subject, assertion.value, assertion, source, role)
             shown = f"{attribute.name.replace('_', ' ')} is {_shown(actual)}, {compared_with} is {_shown(asserted)}"
@@ -385,6 +404,8 @@ def verify(assertion: Assertion, source: FactSource, role: Role | None = None, o
                 # "falling (-50.6%)" read as 'less than -50.6': a strict comparison with the exact true figure is
                 # far more often a mis-read figure than a claim, so it is not judged.
                 return verdict("unverifiable", None, "a strict comparison with the true figure itself is ambiguous", subject)
+            if attribute.name in ORDER_COUNTS and isinstance(asserted, float) and _counts_units(assertion.quote, asserted):
+                return verdict("unverifiable", None, f"the text counts units, not {ORDER_COUNTS[attribute.name]}", subject)
         holds = _holds(attribute, actual, assertion.comparator, asserted)
     except NoSuchSubject as error:
         # A statement about a well-formed ID that does not exist presupposes something false.

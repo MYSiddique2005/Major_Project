@@ -143,6 +143,9 @@ ATTRIBUTES: tuple[Attribute, ...] = (
 BY_NAME: dict[str, Attribute] = {attribute.name: attribute for attribute in ATTRIBUTES}
 NAMES: tuple[str, ...] = tuple(BY_NAME)
 
+# Counts of orders or deliveries, not of units: "73 units pending" is not a number of open orders.
+ORDER_COUNTS: dict[str, str] = {"open_orders": "orders", "overdue_orders": "orders", "deliveries_analyzed": "deliveries"}
+
 # Groups that everyday words do not tell apart ("the threshold of 112", "a critical stockout", "73 units
 # pending"), with the words that name each member. A quote that uses none of an attribute's own words may
 # mean any member of its group.

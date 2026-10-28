@@ -10,11 +10,18 @@ As in the MiniCheck paper: the document is split into chunks of about CHUNK_WORD
 pair is scored, and the sentence's support is the highest over the chunks. The model reads
 "premise: <chunk> hypothesis: <sentence>" and answers 1 (supported) or 0; support is the probability of 1.
 Resumable: texts already scored are skipped.
+
+Runs offline from the Hugging Face cache: online, transformers starts a background download (a safetensors copy
+of the weights) that keeps the process from exiting. Download the model once first with
+HF_HUB_OFFLINE=0 ~/.venvs/minicheck/bin/python -c "from transformers import AutoModelForSeq2SeqLM as M; M.from_pretrained('lytang/MiniCheck-Flan-T5-Large')"
 """
 import argparse
 import json
+import os
 import time
 from pathlib import Path
+
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
 
 import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
