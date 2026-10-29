@@ -4,7 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb}
-\usepackage{booktabs}
+\usepackage{booktabs,array}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{enumitem}
@@ -16,8 +16,10 @@
 
 \title{Checking What an Enterprise Assistant Says: Typed Run-Time Assertion Checking of LLM Statements
 against the System of Record}
-\author{Mohammad Yasin Siddique\thanks{\pending{affiliation and co-authors to be settled with the guide}}}
-\date{Draft, \today}
+\author{Mohammad Yasin Siddique\\[2pt]
+\small Department of Computer Science and Engineering, G H Raisoni College of Engineering, Nagpur, India\\
+\small\texttt{my.siddique2005@gmail.com}}
+\date{}
 
 \begin{document}
 \maketitle
@@ -88,7 +90,7 @@ deterministic functions decide them; with a conditional soundness property and a
 that attributes every miss and false alarm (Sections \ref{sec:problem}, \ref{sec:trace}).
 \item \textbf{An evaluation protocol} for statement verification in an enterprise assistant: development
 and held-out sets of model-written errors with two writers and stratified error types, rules fixed before
-the test, attributed detection, natural errors found by pooling with two annotators, and false-premise
+the test, attributed detection, natural errors found by pooling, and false-premise
 questions to measure the end-to-end effect (Section \ref{sec:evaluation}).
 \item \textbf{An empirical comparison} with a pattern-based verifier, an LLM judge given the same evidence
 and a trained small fact-checker, including cost and repeatability (Section \ref{sec:results}).
@@ -152,8 +154,9 @@ $\mathrm{val}_\alpha(s,\pi;S)$ that returns its true value or fails.
 \paragraph{Verdicts.} The verdict is
 \[
 V(a,S)=\begin{cases}
-\text{unverifiable} & \text{if } s \text{ cannot be resolved, } \mathrm{val}_\alpha \text{ fails, } v
-\text{ is ill-typed for } \alpha\text{, or } \tau=\text{past and } \alpha \text{ is not recorded,}\\
+\text{unverifiable} & \text{if } s \text{ cannot be resolved, } \mathrm{val}_\alpha \text{ fails, or } v
+\text{ is ill-typed for } \alpha\text{,}\\
+& \text{or if } \tau=\text{past and } \alpha \text{ is not recorded,}\\
 \text{supported} & \text{if } \mathrm{val}_\alpha(s,\pi;S)\ \theta\ v,\\
 \text{contradicted} & \text{otherwise.}
 \end{cases}
@@ -233,17 +236,17 @@ Table~\ref{tab:examples} shows statements from the three families as the verifie
 system's data.
 
 \begin{table}[t]
-\centering\small
+\centering\footnotesize
 \caption{Statements, their assertions and TRACE's verdicts on the system's data (output of the verifier).}
 \label{tab:examples}
-\begin{tabular}{@{}p{4.6cm}p{4.4cm}p{1.9cm}p{3.6cm}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{4.6cm}p{1.8cm}>{\raggedright\arraybackslash}p{3.2cm}@{}}
 \toprule
 Statement & Assertion & Verdict & What the data says \\
 \midrule
 ``71 units on hand, above the reorder point of 112'' & \attr{stock\_on\_hand}(P004) $>$ \attr{@reorder\_point} &
 contradicted & 71 on hand, reorder point 112 \\
 ``24 open orders, 9 of them overdue'' & \attr{overdue\_orders}(S010) $=$ 9 & contradicted & 7 \\
-``demand counts as rising sharply at 25\% or more'' & \attr{policy\_value}(rising\_sharply\_pct) $=$ 25 &
+``demand counts as rising sharply at 25\% or more'' & \attr{policy\_value}(rising\_\allowbreak sharply\_\allowbreak pct) $=$ 25 &
 contradicted & 15 \\
 ``a procurement manager cannot approve purchase orders'' & \attr{role\_can}(procurement manager) $\neq$
 approve & contradicted & allowed \\
@@ -260,8 +263,8 @@ $+$25\%, 60 days) $=$ 328.4 & supported & 328.4 (simulation re-run) \\
 \paragraph{Design choices.}
 \begin{itemize}
 \item \emph{Comparisons are first-class.} ``Stock is below safety stock'' is
-\attr{stock\_on\_hand}~$<$~\attr{@safety\_stock}; ``P184 will run out first'' is
-\attr{days\_of\_cover}~$<$~\attr{@P167}; ``a product's cover is below its supplier's lead time'' reads the
+\attr{stock\_on\_hand} $<$ \attr{@safety\_stock}; ``P184 will run out first'' is
+\attr{days\_of\_cover} $<$ \attr{@P167}; ``a product's cover is below its supplier's lead time'' reads the
 supplier attribute through the product's primary supplier.
 \item \emph{Scenarios are parameters.} A what-if statement is checked by re-running the simulation with the
 stated parameters; the baseline is the scenario with no change.
@@ -378,9 +381,12 @@ evidence written as plain sentences; a sentence is flagged when its support is b
 \paragraph{Natural errors.} The 590 stored answers of five runs (430 with and 160 without the knowledge
 base) are checked by every method. Every flagged sentence and a seeded random sample of 300 sentences are
 annotated blind (the annotator sees the question, the answer, the tool results and the current facts, not
-the methods), giving precision for each method and an estimate of the errors all methods miss; a second
-annotator labels 20\% for Cohen's $\kappa$ \cite{cohen1960kappa}. 183 of the answers were originals of the
-development sets and are reported separately.
+the methods), giving precision for each method and an estimate of the errors all methods miss. The random
+sample was drawn, and labelled, before any method had been run on these answers. Labels follow a written
+guide: \emph{false} if anything checkable in the sentence is contradicted, \emph{true} if everything
+checkable holds, \emph{no-claim} for advice, offers and lead-ins, and \emph{unsure} when the evidence cannot
+decide (for example, a claim about last week). Policy statements are judged against the system's rules and
+permission map. 183 of the answers were originals of the development sets and are reported separately.
 
 \paragraph{False-premise questions.} 44 questions generated from the database, each assuming something the
 data or rules contradict \cite{hu2023falseqa} (19 state, 12 policy, 13 derived; e.g.\ ``Why is demand for
@@ -446,8 +452,37 @@ LLM judge (two models) and MiniCheck; by writer and by error type; McNemar tests
 extracted unfaithfully, not expressible, verifier defect; hand-checked.}
 
 \subsection{Natural errors}
-\pending{Precision of each method's flags, recall on the random sample, estimated share of false
-sentences, $\kappa$.}
+Table~\ref{tab:natural} gives the labels of the random sample. Of the 261 sentences with a checkable claim,
+14 (5.4\%; Wilson 95\% interval 3.2--8.8\%) are false. The knowledge base makes the largest difference:
+with it, 3 of 207 checkable sentences are false (1.4\%; 0.5--4.2\%); without it, 11 of 54 (20.4\%;
+11.8--32.9\%). All eleven state a company rule or definition wrongly: the threshold for rising demand (20\%
+instead of 15\%), the number of drafts per message (one instead of three), what a sales order status means,
+whether reorder level and reorder point are the same figure, whether unserved demand is back-ordered, which
+purchase order statuses count as incoming stock, whether the data are simulated, and whether a product can
+be at Critical risk while units are on order. The three false sentences with the
+knowledge base are figures: a suggested quantity of 40 units (the rule gives 1,400) and, twice, a stock
+status explained as ``below the reorder level of 92'' for 125 units on hand. Policy statements are exactly
+the family that output-checking methods without access to the rules cannot verify.
+
+\begin{table}[t]
+\centering\small
+\caption{Random sample of 300 sentences from the 590 stored answers.}
+\label{tab:natural}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Answers & Sentences & True & False & No claim & Unsure & False among checkable \\
+\midrule
+All & 300 & 247 & 14 & 34 & 5 & 14/261 (5.4\%) \\
+With knowledge base & 222 & 204 & 3 & 13 & 2 & 3/207 (1.4\%) \\
+Without knowledge base & 78 & 43 & 11 & 21 & 3 & 11/54 (20.4\%) \\
+Gemini runs & 245 & 204 & 14 & 23 & 4 & 14/218 (6.4\%) \\
+Gemma run & 55 & 43 & 0 & 11 & 1 & 0/43 (0\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\pending{Precision of each method's flags on the pooled sentences and recall on the 14 false sentences of
+the sample, once every method has been run on the 590 answers.}
 
 \subsection{End-to-end effect (RQ3)}
 \pending{False-premise questions: share of answers that rebut the premise with the verifier off, with
@@ -482,8 +517,11 @@ from natural ones; the natural-error study addresses this. The development sets 
 TRACE, so only the held-out and natural results measure generalisation. Supply data are simulated (sales
 are real); the language is tied to the schema, not to the data. Paraphrase false alarms are counted per
 statement, and a paraphrase that splits a sentence can change counts for any method. The author wrote the
-questions and the first annotations; a second annotator labels a blind share. Both models come from one
-provider family's API, one of them open-weight.
+questions. The natural-error sample was labelled by a single annotator, a language model (Claude Opus 5.5)
+that is not used anywhere else in the study and that labelled the sample before any method had been run on
+it; inter-annotator agreement has therefore not been measured, and every label is released with the words
+it marks as wrong and the evidence it rests on, so that each can be checked. Both evaluated models come from
+one provider family's API, one of them open-weight.
 
 % =====================================================================================================
 \section{Conclusion}
@@ -494,7 +532,13 @@ clearly more model-written errors than a pattern-based verifier, at a cost in fa
 decomposition makes explainable. \pending{Held-out, natural-error and false-premise conclusions.}
 
 \section*{Acknowledgements}
-\pending{Guide, supervisor, the second annotator; AI-use disclosure as in the conference version.}
+AI tools were used to assist with programming and with editing the text, and a language model labelled the
+natural-error sample as described in Section~\ref{sec:discussion}; the author reviewed all content and takes
+responsibility for it.
+
+\section*{Data availability}
+The code of IntelliERP and TRACE, the evaluation scripts, the frozen hashes, the test items, every model
+output and all labels are available from the author on request.
 
 \bibliographystyle{plain}
 \bibliography{references}

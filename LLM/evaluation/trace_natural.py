@@ -17,6 +17,9 @@ statements all methods miss. Annotators see the question, the answer, the senten
 results the assistant was given and the current facts), never which method flagged it. A second annotator
 labels a seeded 20% of the rows blind, for Cohen's kappa.
 
+Labels already given are kept in labels-annotator-1.jsonl (by answer and sentence span) and filled into
+annotator 1's sheet when it is written, so the random sample can be labelled before any method has run.
+
 The answers of the four Gemini runs include the originals of TRACE's development sets, so results are reported
 separately for answers TRACE was developed on and for the Gemma answers it never saw.
 """
@@ -124,6 +127,8 @@ def evidence_text(item: dict, checker: RecommendationChecker) -> str:
 
 
 SHEET_COLUMNS = ("row", "answer_id", "question", "sentence", "label", "wrong_words", "what_the_evidence_says", "note")
+LABEL_FIELDS = SHEET_COLUMNS[4:]
+GIVEN = OUT / "labels-annotator-1.jsonl"
 
 
 def write_sheets(ctx, items: list[dict]) -> None:
@@ -140,16 +145,20 @@ def write_sheets(ctx, items: list[dict]) -> None:
             for index, (answer_id, start, end) in enumerate(units, 1)]
     (OUT / "units.jsonl").write_text("".join(json.dumps(row) + "\n" for row in rows))
 
-    def write(path: Path, selected: list[dict]) -> None:
+    given = {(row["answer_id"], row["start"], row["end"]): row
+             for row in map(json.loads, GIVEN.read_text().splitlines())} if GIVEN.exists() else {}
+
+    def write(path: Path, selected: list[dict], labelled: dict) -> None:
         with path.open("w", newline="") as handle:
             writer = csv.DictWriter(handle, fieldnames=SHEET_COLUMNS, extrasaction="ignore")
             writer.writeheader()
             for row in selected:
-                writer.writerow({**row, "label": "", "wrong_words": "", "what_the_evidence_says": "", "note": ""})
+                known = labelled.get((row["answer_id"], row["start"], row["end"]), {})
+                writer.writerow({**row, **{field: known.get(field, "") for field in LABEL_FIELDS}})
 
-    write(OUT / "sheet-annotator-1.csv", rows)
+    write(OUT / "sheet-annotator-1.csv", rows, given)
     second = sorted(random.Random(SEED + 2).sample(rows, round(len(rows) * SECOND_SHARE)), key=lambda row: row["row"])
-    write(OUT / "sheet-annotator-2.csv", second)
+    write(OUT / "sheet-annotator-2.csv", second, {})
     checker = RecommendationChecker(ctx.analytics, ctx.suppliers)
     needed = dict.fromkeys(row["answer_id"] for row in rows)
     (OUT / "evidence.md").write_text("# Evidence for annotation\n\n" + "\n".join(evidence_text(by_id[a], checker) for a in needed))

@@ -1,2 +1,4 @@
 # Rebuilt from the data by: python -m evaluation.trace_natural minicheck-prep
 results/trace/minicheck-input.jsonl
+results/trace/pipeline.log
+results/fpq-gemma.log
