@@ -20,11 +20,11 @@
 
 \begin{document}
 
-\title{IntelliERP: Verified, Grounded LLM Decision Support for Cross-Module ERP Operations with Human-Approved Actions}
+\title{IntelliERP: Evidence Grounding and Run-Time Verification Against Hallucination in LLM-Based ERP Decision Support}
 
 % Co-authors (guide, internship supervisor) are added only with their agreement: copy the block below
 % after "\and", e.g. \IEEEauthorblockN{Ashish K. Soni} or \IEEEauthorblockN{Zeyad Ahmed}.
-\author{\IEEEauthorblockN{Mohammad Yasin}
+\author{\IEEEauthorblockN{Mohammad Yasin Siddique}
 \IEEEauthorblockA{\textit{Department of Computer Science and Engineering} \\
 \textit{G H Raisoni College of Engineering}\\
 Nagpur, India \\
@@ -35,27 +35,28 @@ my.siddique2005@gmail.com}
 
 \begin{abstract}
 Large language models (LLMs) are being added to enterprise resource planning (ERP) systems as
-natural-language assistants, but their statements about stock, demand and suppliers are rarely checked,
-and the step from an AI recommendation to an ERP transaction is rarely controlled. We present IntelliERP,
-an ERP decision-support system in which deterministic analytics decide what is at risk and the LLM only
-explains and recommends; every figure and every qualitative claim the model makes is checked against the
-system's data before the user sees it; and the only change the AI makes is a draft purchase order (that
-passes the same validation as any other order) which needs to be approved by a second person. The assistant
-answers by calling 15 permission-checked tools. This assistant is grounded in a 41-passage knowledge base of
-the company's schema, definitions and rules. On a wholesale dataset derived from Microsoft's Wide World Importers (227 products,
-72,696 sales lines), we evaluated 86 questions in three repeated runs with keyword- and number-based scoring
-and no model as judge. The system passed 84, 86 and 86 of 86 questions; on 32 paired questions it passed
-32 of 32 with grounding and 8 to 9 without ($p<0.0001$, exact sign test). After fixing 5 bugs found in the first
-run which caused design changes, 84 of 86 questions passed in all 3 runs. An open-weight model (Gemma 4 31B)
-on the same system also passed 86 of 86, and 32 of 32 paired questions against 6 without grounding. A claim verifier for 12 types of
-statements, frozen before testing, detected 48 out of 62 (77\%) false statements injected by a model within
-its scope on two unseen test sets, raised false alarms on 2 of 124 paraphrases (2\%), and found genuine model
-errors that had been missed by the simple keyword-based scoring used for the main evaluation.
+natural-language assistants, but what they say about stock, demand and suppliers is rarely checked, and a
+fluent answer can state a wrong figure, trend, risk level or company rule. We address this one problem,
+hallucination in ERP decision support, in two ways, both based on the system's own evidence. To
+\emph{prevent} false statements, IntelliERP lets deterministic analytics decide what is at risk, makes the
+LLM take every figure from 15 permission-checked tools, and grounds it in a 41-passage knowledge base of
+the company's schema, definitions and rules generated partly from the code. To \emph{detect} the false
+statements that remain, every figure and every qualitative claim the model makes is checked against the
+system's data before the user sees it, and a contradicted answer is returned to the model for correction.
+On a wholesale dataset derived from Microsoft's Wide World Importers (227 products, 72,696 sales lines), we
+evaluated 86 questions in three repeated runs with keyword- and number-based scoring and no model as judge.
+The system passed 84, 86 and 86 of 86 questions; grounding raised the paired questions answered correctly
+from 8--9 to 32 of 32 ($p<0.0001$, exact sign test), mainly by removing invented company thresholds and
+rules. An open-weight model (Gemma 4 31B) on the same system also passed 86 of 86, and 32 of 32 paired
+questions against 6 without grounding. A claim verifier for 12 types of statements, frozen before testing,
+detected 48 of 62 (77\%) false statements injected by a model within its scope on two unseen test sets,
+raised false alarms on 2 of 124 paraphrases (2\%), and found genuine model errors that the keyword-based
+scoring had missed.
 \end{abstract}
 
 \begin{IEEEkeywords}
-enterprise resource planning, large language models, decision support, grounding, hallucination,
-human-in-the-loop, supply chain
+enterprise resource planning, large language models, hallucination, grounding, run-time
+verification, decision support
 \end{IEEEkeywords}
 
 % =====================================================================================================
@@ -66,37 +67,36 @@ inventory shows stock, and procurement shows what is on order and how reliable e
 signals are spread across modules, so recognising, for example, that a product will run out before its
 next delivery means reading several screens and applying the company's own rules. LLM assistants promise to
 do this from a question in plain language, and research on AI in ERP is growing by 11.3\% a year
-\cite{hurbean2026erp}. Three problems stand in the way.
+\cite{hurbean2026erp}. What stands in the way is whether their answers are true.
 
-\textit{Accuracy on enterprise data.} LLMs that write SQL over realistic enterprise schemas solve as few as
-21\% of tasks \cite{lei2025spider2}, and business context is the main lever for improving them
-\cite{sequeda2023kg,li2023bird}.
+An LLM assistant can hallucinate in two ways that matter here. It can be wrong about the enterprise data:
+LLMs that write SQL over realistic enterprise schemas solve as few as 21\% of tasks \cite{lei2025spider2},
+and business context is the main lever for improving them \cite{sequeda2023kg,li2023bird}. And it can be
+wrong about what the data means: a fluent answer can state a wrong trend, risk level or company threshold,
+even when its figures are right. Agentic inventory systems claim explainability without checking the
+explanations \cite{quan2024invagent}; the one system we found that checks them does so only for their
+direction, in a single case study \cite{xue2026xai}. People act on such statements: a buyer told that stock
+is above its reorder point does not reorder. Where agents may act on their own conclusions, the harm grows:
+autonomous ordering agents vary widely from run to run \cite{long2026reliability}, and governance and trust
+appear in under 2\% of AI-ERP studies \cite{hurbean2026erp}.
 
-\textit{Unchecked statements.} A fluent answer can state a wrong trend or risk level. Agentic inventory
-systems claim explainability without checking the explanations \cite{quan2024invagent}; the one system we
-found that checks them does so only for their direction, in a single case study \cite{xue2026xai}.
-
-\textit{Uncontrolled actions.} Autonomous ordering agents can cut cost on average yet vary widely from run
-to run \cite{long2026reliability}, and some authors even suggest removing the human from the loop altogether
-\cite{simchilevi2025decisions}. Governance and trust appear in under 2\% of AI-ERP studies
-\cite{hurbean2026erp}.
-
-We address these with IntelliERP and make four contributions:
+We address this one problem, false statements by an ERP assistant, with IntelliERP, using the system's own
+evidence both to prevent such statements and to detect them. The contributions are:
 \begin{enumerate}
-\item An architecture in which rule-based analytics decide what is at risk and the LLM only explains and
-recommends, through permission-checked tools, grounded in a knowledge base generated partly from the
-system's own code so it cannot drift from it.
-\item \textit{Run-time verification} of the model's output: every figure is looked up in the data, and
+\item \textit{Evidence grounding to prevent hallucination}: an architecture in which rule-based analytics
+decide what is at risk and the LLM only explains and recommends, taking every figure from permission-checked
+tools, grounded in a knowledge base generated partly from the system's own code so it cannot drift from it.
+\item \textit{Run-time verification to detect hallucination}: every figure is looked up in the data, and
 every qualitative claim (below safety stock, demand rising, a delivery due in time, a stock status, a risk
-level, and seven other kinds) is checked against the same facts; contradicted output is returned to the model to be
-corrected, or flagged to the user.
-\item A controlled path from recommendation to transaction: the AI can create only a draft purchase order,
-which passes the same validation as any order (and records its AI origin and the evidence used to generate
-it), and will require approval from a second user.
-\item An evaluation with automatically computed answer keys, three repeated runs, an ablation of grounding,
-and held-out tests of the claim verifier on model-written perturbations, with the verifier frozen before
-each test.
+level, and seven other kinds) is checked against the same facts; contradicted output is returned to the
+model to be corrected, or flagged to the user.
+\item An evaluation of both with automatically computed answer keys, three repeated runs, an ablation of
+grounding, a second model, and held-out tests of the claim verifier on model-written false statements, with
+the verifier frozen before each test.
 \end{enumerate}
+To limit the harm of any error that still gets through, the assistant's only possible action is a draft
+purchase order that passes normal validation and must be approved by a second person
+(Section~\ref{sec:architecture}).
 
 % =====================================================================================================
 \section{Related Work}
@@ -134,7 +134,8 @@ business-insight generation. Human-AI design guidelines ask that a system make c
 \cite{amershi2019guidelines}.
 
 % =====================================================================================================
-\section{System Architecture}
+\section{Preventing Hallucination: Evidence-Grounded Architecture}
+\label{sec:architecture}
 
 Fig.~\ref{fig:architecture} shows the system. A React web application calls a FastAPI back end over REST;
 data is stored in PostgreSQL behind repository interfaces. Role-based access control (four roles) is enforced
@@ -200,7 +201,7 @@ approve or place an order. If the server refuses a draft from a supplier the use
 supplier the user did not name is refused for the rest of that message.
 
 % =====================================================================================================
-\section{Run-Time Verification of Model Output}
+\section{Detecting Hallucination: Run-Time Verification}
 
 \textit{Figures.} Every number in an answer, recommendation or insight is checked against the tool results,
 the knowledge passages supplied, the question and previous turns, allowing for rounding; identifiers and
@@ -449,7 +450,7 @@ the mutation review, which included this sentence.
 % =====================================================================================================
 \section{Discussion and Limitations}
 
-Grounding mainly mattered for company-specific terms and rules, which a general model cannot know, whereas
+The two defences worked on different kinds of hallucination. Grounding mainly mattered for company-specific terms and rules, which a general model cannot know, whereas
 for cross-module information the tools provided the correct answer. Keeping detection in deterministic analytics and limiting
 the model to explanation removed the run-to-run variation that autonomous ordering agents show
 \cite{long2026reliability} from the decision of what is at risk. Verification adds little cost: it is pattern
@@ -467,12 +468,16 @@ No study was conducted with real users; hence, the usefulness of IntelliERP for 
 % =====================================================================================================
 \section{Conclusion}
 
-IntelliERP shows that an LLM can be made a useful ERP assistant without being trusted blindly: the
-analytics decide what is wrong, the model explains through permission-checked tools, and its figures and
-claims are verified against the underlying data prior to their release to end users. The action of the
-LLM is restricted to generating a draft purchase order which another person must then approve. Grounding raised paired-question accuracy from 8--9 to 32 of 32, the repeated runs were
-stable, an open-weight model passed all 86 questions, and the claim verifier caught 77\% of in-scope false statements on unseen text with 2\% false alarms. Future work: questions written by others, models from other providers, a study with real users, broader claim
-coverage, and a test of indirect prompt injection through ERP text fields.
+IntelliERP shows that the system's own evidence can be used against an ERP assistant's hallucinations
+twice: before the answer, by making the model take its figures from tools and its rules from a knowledge base
+generated from the code, and after it, by checking its figures and claims against the same data before the
+user sees them. Grounding raised paired-question accuracy from 8--9 to 32 of 32, mostly by stopping the model
+from inventing company thresholds; the repeated runs were stable; an open-weight model passed all 86
+questions; and the claim verifier caught 77\% of in-scope false statements on unseen text with 2\% false
+alarms. Its limit is coverage: a pattern verifier recognises only the statements it was written for. Future
+work: verification of every factual statement rather than 12 patterns, questions written by others, models
+from other providers, natural (not injected) errors, a study with real users, and a test of indirect prompt
+injection through ERP text fields.
 
 \section*{Acknowledgment}
 The author thanks Prof.\ Ashish K.\ Soni (G H Raisoni College of Engineering, Nagpur) and Dr.\ Zeyad Ahmed
