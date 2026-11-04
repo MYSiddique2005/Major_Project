@@ -1,6 +1,6 @@
 """MiniCheck (Tang, Laban and Durrett, EMNLP 2024): a small trained fact-checker, run locally on the CPU.
 
-    ~/.venvs/minicheck/bin/python evaluation/minicheck_run.py [--limit N] [--newest-first]
+    ~/.venvs/minicheck/bin/python evaluation/minicheck_run.py [--limit N] [--newest-first] [--keys FILE]
 
 Reads results/trace/minicheck-input.jsonl (written by trace_baselines minicheck-prep: a fact sheet and the
 sentences to check), writes results/trace/minicheck.jsonl with each sentence's support probability. Needs only
@@ -74,11 +74,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Score sentences with MiniCheck on the CPU.")
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--newest-first", action="store_true", help="score the most recently prepared texts first")
+    parser.add_argument("--keys", type=Path, help="a file of text keys (one per line): score only these texts")
     args = parser.parse_args()
     cache_path = OUT / "minicheck.jsonl"
     done = {json.loads(line)["key"] for line in cache_path.read_text().splitlines()} if cache_path.exists() else set()
     todo = [record for record in map(json.loads, (OUT / "minicheck-input.jsonl").read_text().splitlines())
             if record["key"] not in done]
+    if args.keys:
+        wanted = set(args.keys.read_text().split())
+        todo = [record for record in todo if record["key"] in wanted]
     if args.newest_first:
         todo.reverse()
     if args.limit:

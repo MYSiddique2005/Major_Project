@@ -14,8 +14,8 @@
 \newcommand{\pending}[1]{\textcolor{red}{[#1]}}
 \newcommand{\attr}[1]{\texttt{#1}}
 
-\title{Checking What an Enterprise Assistant Says: Typed Run-Time Assertion Checking of LLM Statements
-against the System of Record}
+\title{IntelliERP: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision
+Support}
 \author{Mohammad Yasin Siddique\\[2pt]
 \small Department of Computer Science and Engineering, G H Raisoni College of Engineering, Nagpur, India\\
 \small\texttt{my.siddique2005@gmail.com}}
@@ -444,12 +444,91 @@ orders for one product recorded as all its open orders), and one reads ``lacks a
 a product that does not exist. None is a defect of a verification function.
 
 \subsection{Held-out test (RQ1)}
-\pending{Table: attributed detection and false alarms for patterns, TRACE-rule, TRACE-model, TRACE-hybrid,
-LLM judge (two models) and MiniCheck; by writer and by error type; McNemar tests.}
+Of the 104 injections the two writers produced, 102 are valid: in the other two, the change the writer
+reported is not in the texts. Table~\ref{tab:heldout} gives the results. TRACE-hybrid detected 70 of the 102
+errors (69\%), against 15 (15\%) for the patterns, with false alarms on 4 of 103 paraphrases (4\%). The gain
+over the patterns is significant (55 errors detected only by TRACE-hybrid, none only by the patterns; Holm-adjusted
+McNemar $p<10^{-15}$). The detection rate equals the development rate (69\%), so the frozen configuration
+generalised to texts written after the freeze by a writer it had never seen. False alarms were lower than on
+the development sets (4\% against 7\%). The model-based extraction does most of the work: TRACE-rule detected
+20 errors and TRACE-model 66; hybrid mode added four qualitative errors found only by the patterns, and
+lost none (Holm-adjusted $p=0.49$ against TRACE-model). Detection was
+higher on Gemma's rewrites (40 of 52, 77\%) than on Gemini's (30 of 50, 60\%).
+
+\begin{table}[t]
+\centering\small
+\caption{Held-out test: 102 valid injections and 103 paraphrases by two writers, generated after TRACE was
+frozen. Detection is attributed to the sentence holding the planted error (Wilson 95\% intervals).
+$^\dagger$Judged only on the texts that model completed (Section~\ref{sec:heldout-baselines}).}
+\label{tab:heldout}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Method & Detected & Gemini writer & Gemma writer & False alarms \\
+\midrule
+Patterns (first version) & 15/102 (15\%; 9--23) & 4/50 & 11/52 & 2/103 (2\%; 1--7) \\
+TRACE-rule & 20/102 (20\%; 13--28) & 5/50 & 15/52 & 2/103 (2\%; 1--7) \\
+TRACE-model & 66/102 (65\%; 55--73) & 29/50 & 37/52 & 3/103 (3\%; 1--8) \\
+TRACE-hybrid & 70/102 (69\%; 59--77) & 30/50 & 40/52 & 4/103 (4\%; 2--10) \\
+LLM judge (gemini-3.5-flash-lite) & 80/102 (78\%; 69--85) & 38/50 & 42/52 & 17/103 (17\%; 11--25) \\
+\HELDOUTBASELINES
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{By error type.} TRACE-hybrid detected most derived (13 of 15), figure (21 of 26) and rule errors
+(11 of 14), and most qualitative errors (14 of 20, four of them only through the patterns that hybrid mode
+adds). It was weakest on existence statements (9 of 18) and permissions (2 of 9). The patterns detected no
+figure, existence or permission error at all.
+
+\paragraph{Comparison with the LLM judge.}
+\label{sec:heldout-baselines}
+The Gemini judge, given the same evidence, detected more errors than TRACE-hybrid (80 against 70), but the
+difference is not significant (12 errors detected only by TRACE-hybrid, 22 only by the judge; Holm-adjusted
+$p=0.49$). It was better on existence statements (16 of 18) and qualitative errors (17 of 20), where TRACE's
+language or extraction falls short. Its false-alarm rate, however, was four times TRACE-hybrid's (17\% against
+4\%). The judge's false alarms are disagreements with wording, not with facts: a product name written with
+its colour in another position, ``63 late deliveries'' for 63 overdue units, ``the previous 28 days'' for
+``the last 28 days'', or statements the evidence ``does not mention'', which the prompt told it not to list.
+In an assistant that sends flagged answers back for correction, one false alarm in six paraphrases would
+mean frequent needless rewrites of correct answers. Its verdicts also vary between repeated calls
+(Section~\ref{sec:rq4}), and a judge's flag cannot be traced to a fact the way an assertion can.
+\HELDOUTMINIGEMMA
 
 \subsection{Why errors are missed (RQ2)}
-\pending{Error decomposition of TRACE-hybrid's misses: not extracted, extracted but unverifiable,
-extracted unfaithfully, not expressible, verifier defect; hand-checked.}
+Every one of TRACE-hybrid's 32 held-out misses was traced by hand to its assertions
+(Table~\ref{tab:misses}). Nearly half (15) are statements the extractor did not record at all, typically
+the one changed clause in a sentence whose other figures it did record: ``demand over the last
+\emph{14} days'' (the demand window is a rule key), ``the \emph{worse} on-time rate'', ``\emph{200} units in
+the Main Warehouse''. Six were recorded unfaithfully: ``You cannot view this forecast'' became a statement
+about the assistant rather than the user, a supplier name the rewrite had replaced was recorded as the
+correct supplier (S004), and ``including the person who submitted it'' was recorded for a role called
+``submitter''. Four are unverifiable by design: three refer to draft orders created during the
+conversation, which are newer than the data and are not judged (Section~\ref{sec:trace}), and one names an
+item ``X999'' that is not a well-formed identifier. Five cannot be expressed in the language: a rule that
+does not exist (``company rules mandate a minimum reorder quantity of 5,000 units''), generic statements
+about what ``users'' may view, and an assumption of the simulation (unserved demand is lost). One is the
+numeric tolerance: 2,776 units on order was judged equal to the true 2,775 (within 0.5\%). One test item
+was faulty: the rewrite replaced the product P999 the question asked about by P998 in ``P998 does not
+exist'', which is also true. No miss came from a defect in a verification function.
+
+\begin{table}[t]
+\centering\small
+\caption{Causes of TRACE-hybrid's 32 held-out misses (hand-checked).}
+\label{tab:misses}
+\begin{tabular}{@{}lrl@{}}
+\toprule
+Cause & Misses & Where the error lies \\
+\midrule
+Changed statement not extracted & 15 & extractor (recall) \\
+Extracted unfaithfully (subject, action or value) & 6 & extractor (faithfulness) \\
+Unverifiable by design (newer draft orders; malformed identifier) & 4 & safeguards \\
+Not expressible in the language & 5 & coverage \\
+Numeric tolerance & 1 & verifier design \\
+Faulty test item & 1 & test set \\
+Defect in a verification function & 0 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Natural errors}
 Table~\ref{tab:natural} gives the labels of the random sample. Of the 261 sentences with a checkable claim,
@@ -485,18 +564,63 @@ Gemma run & 55 & 43 & 0 & 11 & 1 & 0/43 (0\%) \\
 the sample, once every method has been run on the 590 answers.}
 
 \subsection{End-to-end effect (RQ3)}
-\pending{False-premise questions: share of answers that rebut the premise with the verifier off, with
-patterns and with TRACE, on two models; and the 86 ordinary questions with TRACE on, to check for harm.}
+Table~\ref{tab:fpq} gives the share of false-premise answers that rebut the premise. Both models already
+rebut most premises with the verifier off (Gemini 89\%, Gemma 93\%), so the room for an end-to-end effect is
+small, and none of the differences is significant. With Gemini, TRACE passed three questions that the run
+without a verifier failed and failed one that it passed (McNemar $p=0.63$); the patterns passed none that
+the run without a verifier failed and failed two ($p=0.5$). With Gemma, all three settings failed the same
+three questions (FS16--FS18). In those answers the model rejects the premise (``nothing on order is
+overdue'') and names the overdue order, but omits the overdue quantity that the pre-registered scoring
+requires; we report them as scored.
+
+TRACE sent 12 of the 44 Gemini answers back for correction, against 7 for the patterns. Of the four
+questions on which TRACE and the run without a verifier differ, three were corrected (FD2, FP3 and FS18
+passed; FS16 failed). Because each setting asks the model again, these differences mix the effect of
+correction with the model's own variation, and the experiment cannot separate the two. It shows that adding
+TRACE did not lower the share of correct rebuttals. It does not show that TRACE raised it. Two corrected
+answers still carried a flagged statement after correction (FS16 and FS17, both about overdue orders), and
+one flag was a false alarm (``demand is not falling'' recorded as contradicting ``rising''). The 86 ordinary
+evaluation questions were not re-run with TRACE on, so a possible harm to ordinary answers has not been
+measured.
+
+\begin{table}[t]
+\centering\small
+\caption{False-premise questions: answers that state the fact rebutting the premise (Wilson 95\% intervals),
+and answers the verifier sent back for correction. McNemar's exact test compares each setting with the
+verifier off.}
+\label{tab:fpq}
+\begin{tabular}{@{}llrrrrr@{}}
+\toprule
+Model & Verifier & Passed & State & Policy & Derived & Corrected \\
+\midrule
+gemini-3.5-flash-lite & off & 39/44 (89\%; 76--95) & 17/19 & 11/12 & 11/13 & -- \\
+ & patterns & 37/44 (84\%; 71--92) & 16/19 & 11/12 & 10/13 & 7 \\
+ & TRACE & 41/44 (93\%; 82--98) & 17/19 & 12/12 & 12/13 & 12 \\
+\FPQGEMMA
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Cost and repeatability (RQ4)}
+\label{sec:rq4}
 Deterministic verification, measured on 120 development texts with nothing cached between answers (as in
 the assistant), took a median of 1.1\,s per answer in rule mode (90th percentile 1.15\,s) and a median of
 0.6\,s to verify the model's assertions (90th percentile 1.8\,s; the slowest, 12\,s, re-ran what-if
 simulations and sales rankings). Extraction is one model call, with a mean of 5,523 input and 483 output
-tokens per text on the development sets (prompt 2).
-\pending{Extraction latency; the judge's tokens and latency; repeatability of judge
-verdicts across repeats against TRACE's identical verdicts given an extraction; variability of extraction
-across repeated calls.}
+tokens per text on the development sets (prompt 2). On the 252 held-out texts the final prompt used a
+median of 6,028 input and 316 output tokens (90th percentiles 6,206 and 1,217), took a median of 2.0\,s
+(90th percentile 4.1\,s) and returned 8.9 assertions per text on average; 4 of the 2,241 returned items
+failed schema validation and were dropped. The Gemini judge took a median of 1.4\,s per text (90th
+percentile 4.6\,s). Gemma's latencies are not reported, because its free API was overloaded throughout and
+its times are dominated by retries.
+
+Given an extraction, TRACE's verdicts are reproducible: verifying the same 50 held-out texts in two separate
+processes gave identical verdicts for all 420 assertions. The LLM judge, run twice at temperature 0 on the
+same 50 texts with the same evidence, made the same flag/no-flag decision for 47 texts but returned the same
+set of contradicted statements for only 34; of the 28 texts flagged in either run, only 12 received
+identical lists. Whether the extraction itself is stable across repeated calls was not measured: the
+evaluation caches one extraction per text, so the figures above measure the verifier and the judge, not the
+extractor.
 
 % =====================================================================================================
 \section{Discussion and threats to validity}

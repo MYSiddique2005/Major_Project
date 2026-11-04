@@ -174,11 +174,18 @@ def judge_texts(texts: list[str], repeat: int = 0) -> None:
     with open_context() as ctx:
         checker = RecommendationChecker(ctx.analytics, ctx.suppliers)
         rules_text = rules_passages()
+        skipped = 0
         for index, text in enumerate(todo, 1):
-            items, used, seconds = ask_judge(JUDGE_PROMPT.format(evidence=evidence_for(text, checker, rules_text), text=text))
+            try:
+                items, used, seconds = ask_judge(JUDGE_PROMPT.format(evidence=evidence_for(text, checker, rules_text), text=text))
+            except RuntimeError:  # the model stayed overloaded; the text is judged on the next run
+                skipped += 1
+                continue
             cache.put(model, repeat, text, items, used, seconds)
             if index % 10 == 0:
                 print(f"  {index} of {len(todo)}", flush=True)
+        if skipped:
+            print(f"{skipped} texts skipped (model unavailable); run again to judge them", flush=True)
 
 
 def main() -> None:

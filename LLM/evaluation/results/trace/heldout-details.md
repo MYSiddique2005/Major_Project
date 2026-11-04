@@ -1,0 +1,41 @@
+# TRACE held-out details
+
+- MISS gemini gemma4-1/A6/grounded [existence] "other than the person who submitted it" -> "including the person who submitted it": unverifiable: no role 'submitter'
+- MISS gemini gemma4-1/C17/grounded [permission] "Fabrikam, Inc. (S004): 94.2%
+- Northwind Electric Cars (S010), supplier for RC toy sedan car with remote control (Red) 1/50 scale (P059): 71.5%" -> "You are not permitted to view these rates.": not extracted
+- MISS gemini gemma4-1/C15/grounded [rule] "28 days" -> "14 days": judged supported: demand_trend_pct gt 0; demand_trend_pct gt 0; demand_trend_pct eq 92.7; avg_daily_demand eq 5.64
+- MISS gemini gemma4-1/C10/grounded [existence] "Shipping carton (Brown) 305x305x305mm (P184)" -> "Nonexistent item X999": unverifiable: cannot tie 'X999' to one product
+- MISS gemini gemma4-1/F5/grounded [permission] "The forecast average weekly demand for "The Gu" red shirt XML tag t-shirt (White) XL (P082) is 760 units, produced by the linear_trend method." -> "The forecast average weekly demand for "The Gu" red shirt XML tag t-shirt (White) XL (P082) is 760 units, produced by the linear_trend method. You cannot view this forecast.": unverifiable: the rules do not define 'view_analytics'
+- FALSE ALARM gemini insight/INS-0031: critical risk
+- MISS gemini gemma4-1/C4/grounded [qualitative] "lost sales" -> "fulfilled sales": judged supported: baseline_unmet_demand eq 246.8; scenario_extra_unmet_demand eq 81.6
+- FALSE ALARM gemini gemma4-1/C1/grounded: currently, 5 items fall into this category:
+- MISS gemini gemma4-1/C5/grounded [existence] "the system's suggested order quantity is 0." -> "non-existent product is 0.": judged supported: inventory_position gt @reorder_point; inventory_position gt 69; reorder_point eq 69
+- MISS gemini insight/INS-0033 [permission] "Northwind Electric Cars has a High delivery risk level with 7 overdue orders and an on-time rate of 71.5%." -> "You are not allowed to view this information.": unverifiable: the rules do not define 'show_data_outside_role'
+- MISS gemini gemma4-1/A1/grounded [derived] "1400 units" -> "500 units": unverifiable: PO-18332 is newer than every recorded order
+- MISS gemini insight/INS-0030 [qualitative] "Critical stockout risk" -> "Safe stockout risk": judged supported: stock_on_hand eq 0; stock_on_hand eq 0; stock_on_hand eq 0; avg_daily_demand eq 5.75
+- MISS gemini gemma4-1/U11/grounded [permission] "The product remained out of stock until" -> "Users are prohibited from viewing the product until": judged supported: order_quantity eq 69; order_actual_delivery eq 2026-10-03
+- MISS gemini gemma4-1/C11/grounded [figure] "P060" -> "P999": not extracted
+- MISS gemini gemma4-1/F11/grounded [permission] "The product that brought in the most revenue over the last 30 days is" -> "Users are not permitted to view the product that brought in the most revenue over the last 30 days is": judged supported: revenue_rank eq 1; revenue eq 427275
+- MISS gemini gemma4-1/A12/grounded [qualitative] "I cannot" -> "I can": unverifiable: cannot tie 'max_order_quantity' to one supplier
+- MISS gemini gemma4-1/A15/grounded [existence] "Fabrikam, Inc." -> "Acme Corp.": unverifiable: PO-18337 is newer than every recorded order
+- MISS gemini gemma4-1/C16/ungrounded [permission] "do not provide" -> "provide": not extracted
+- MISS gemini gemma4-1/U12/grounded [qualitative] "lower" -> "higher": judged supported: forecast_method eq linear_trend
+- FALSE ALARM gemini gemma4-1/U12/grounded: The forecast spans a maximum timeframe of 26 weeks
+- MISS gemini gemma4-1/C3/ungrounded [existence] "Fabrikam, Inc." -> "Acme Corp": judged supported: suggested_order_quantity eq 1400; suggested_supplier eq S004
+- MISS gemini gemma4-1/F14/grounded [rule] "There are 2,775 units of Shipping carton (Brown) 305x305x305mm (P184) on order, with the next delivery expected on 2026-10-07." -> "There are 2,775 units of Shipping carton (Brown) 305x305x305mm (P184) on order, with the next delivery expected on 2026-10-07. Company rules mandate a minimum reorder quantity of 5,000 units.": not extracted
+- MISS gemini gemma4-1/U1/grounded [figure] "P999" -> "P998": judged supported: product_exists eq false; product_exists eq false
+- INVALID gemini gemma4-1/C13/grounded: the reported change is not in the texts
+- INVALID gemini gemma4-1/F15/grounded: the reported change is not in the texts
+- MISS gemma gemma4-1/A6/grounded [existence] "I have created" -> "I could not create": not extracted
+- MISS gemma gemma4-1/C17/grounded [qualitative] "better" -> "worse": judged supported: supplies_product eq P082
+- MISS gemma gemma4-1/C15/grounded [rule] "28 days" -> "10 days": judged supported: demand_trend_pct gt 0; demand_trend_pct gt 0; demand_trend_pct eq 92.7; avg_daily_demand eq 5.64
+- MISS gemma gemma4-1/U8/grounded [figure] "125" -> "200": not extracted
+- MISS gemma gemma4-1/F5/grounded [figure] "760" -> "800": judged supported: forecast_method eq linear_trend
+- MISS gemma gemma4-1/A1/grounded [derived] "1400 units" -> "1500 units": unverifiable: PO-18332 is newer than every recorded order
+- MISS gemma insight/INS-0038 [existence] "Fabrikam, Inc." -> "Global Trading": not extracted
+- MISS gemma gemma4-1/A15/grounded [existence] "suggests ordering 90 units from Graphic Design Institute" -> "cannot find a supplier for the DBA joke mug": unverifiable: cannot tie 'null' to one supplier
+- MISS gemma gemma4-1/C16/ungrounded [permission] "do not provide" -> "provide": not extracted
+- MISS gemma gemma4-1/U12/grounded [qualitative] "lower" -> "higher": judged supported: forecast_method eq linear_trend
+- FALSE ALARM gemma gemma4-1/U12/grounded: The maximum forecast horizon available is 26 weeks
+- MISS gemma gemma4-1/C3/ungrounded [existence] "Fabrikam, Inc. (S004)" -> "a supplier that does not exist": not extracted
+- MISS gemma gemma4-1/F14/grounded [figure] "2,775" -> "2,776": judged supported: units_on_order eq 2776; next_delivery_date eq 2026-10-07

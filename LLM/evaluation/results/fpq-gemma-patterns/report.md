@@ -1,7 +1,7 @@
 # Evaluation report: fpq-gemma-patterns
 
-15 answers (15 grounded, 0 ungrounded). Models that answered: gemma-4-31b-it (15).
-Collected between 2026-10-29T10:40:37 and 2026-10-29T11:47:53.
+44 answers (44 grounded, 0 ungrounded). Models that answered: gemma-4-31b-it (44).
+Collected between 2026-10-29T10:40:37 and 2026-10-30T14:03:18.
 
 ## Results with grounding (the system as built)
 
@@ -12,7 +12,7 @@ Collected between 2026-10-29T10:40:37 and 2026-10-29T11:47:53.
 | Cross-module reasoning | 0 | - | - | - | - | - | - |
 | Controlled actions and permissions | 0 | - | - | - | - | - | - |
 | Abstention (data cannot answer) | 0 | - | - | - | - | - | - |
-| **All** | 15 | 93% | 97% | - | 0 of 61 | 176s | 1.3 |
+| **All** | 44 | 93% | 97% | - | 13 of 262 | 161s | 1.2 |
 
 ## Effect of grounding (RQ1)
 
@@ -36,6 +36,31 @@ Detection itself (which products and suppliers are flagged) is done by the rule-
 
 | Case | Condition | Role | Result | Facts | Tools called | Unsupported figures | Model |
 |---|---|---|---|---|---|---|---|
+| FD1 | grounded | admin | pass | 1/1 | get_product_overview | 103 | gemma-4-31b-it |
+| FD10 | grounded | admin | pass | 2/2 | get_product_overview | - | gemma-4-31b-it |
+| FD11 | grounded | admin | pass | 2/2 | get_product_overview | - | gemma-4-31b-it |
+| FD12 | grounded | admin | pass | 1/1 | run_what_if, get_product_overview | - | gemma-4-31b-it |
+| FD13 | grounded | admin | pass | 1/1 | get_product_overview, run_what_if | 5.3, 131, 453 | gemma-4-31b-it |
+| FD2 | grounded | admin | pass | 1/1 | get_product_overview, list_purchase_orders | - | gemma-4-31b-it |
+| FD3 | grounded | admin | pass | 1/1 | get_product_overview | - | gemma-4-31b-it |
+| FD4 | grounded | admin | pass | 1/1 | get_product_overview | - | gemma-4-31b-it |
+| FD5 | grounded | admin | pass | 1/1 | get_product_overview | 103, 188.54, 85.54 | gemma-4-31b-it |
+| FD6 | grounded | admin | pass | 1/1 | get_product_overview, get_stock_risk, get_inventory | 163.86, 70.86 | gemma-4-31b-it |
+| FD7 | grounded | admin | pass | 1/1 | get_product_overview, get_stock_risk, get_inventory | 8.57, 268.82, 260, 124 | gemma-4-31b-it |
+| FD8 | grounded | admin | pass | 1/1 | list_stock_risk | - | gemma-4-31b-it |
+| FD9 | grounded | admin | pass | 2/2 | get_stock_risk | - | gemma-4-31b-it |
+| FP1 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
+| FP10 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
+| FP11 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
+| FP12 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
+| FP2 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
+| FP3 | grounded | procurement | pass | 1/1 | - | - | gemma-4-31b-it |
+| FP4 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
+| FP5 | grounded | admin | pass | 1/1 | search_knowledge | - | gemma-4-31b-it |
+| FP6 | grounded | admin | pass | 1/1 | search_knowledge | - | gemma-4-31b-it |
+| FP7 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
+| FP8 | grounded | admin | pass | 1/1 | search_knowledge | - | gemma-4-31b-it |
+| FP9 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
 | FS1 | grounded | admin | pass | 2/2 | get_product_overview | - | gemma-4-31b-it |
 | FS10 | grounded | admin | pass | 2/2 | get_product_overview | - | gemma-4-31b-it |
 | FS11 | grounded | admin | pass | 2/2 | get_product_overview | - | gemma-4-31b-it |
@@ -43,7 +68,11 @@ Detection itself (which products and suppliers are flagged) is done by the rule-
 | FS13 | grounded | admin | pass | 1/1 | list_supplier_performance | - | gemma-4-31b-it |
 | FS14 | grounded | admin | pass | 1/1 | list_supplier_performance | - | gemma-4-31b-it |
 | FS16 | grounded | admin | FAIL: missing 85 | 1/2 | list_purchase_orders | - | gemma-4-31b-it |
+| FS17 | grounded | admin | FAIL: missing 63 | 1/2 | list_purchase_orders | - | gemma-4-31b-it |
+| FS18 | grounded | admin | FAIL: missing 67 | 1/2 | list_purchase_orders | - | gemma-4-31b-it |
+| FS19 | grounded | admin | pass | 1/1 | get_product_overview, search_products | - | gemma-4-31b-it |
 | FS2 | grounded | admin | pass | 2/2 | get_product_overview | - | gemma-4-31b-it |
+| FS20 | grounded | admin | pass | 1/1 | get_product_overview, search_products | - | gemma-4-31b-it |
 | FS3 | grounded | admin | pass | 2/2 | get_product_overview, get_sales_summary | - | gemma-4-31b-it |
 | FS4 | grounded | admin | pass | 2/2 | get_product_overview, get_sales_summary | - | gemma-4-31b-it |
 | FS5 | grounded | admin | pass | 1/1 | get_product_overview | - | gemma-4-31b-it |
@@ -65,6 +94,30 @@ Detection itself (which products and suppliers are flagged) is done by the rule-
 > The next delivery for RC toy sedan car with remote control (Black) 1/50 scale (P058) is due on 2026-10-15 (PO-18258).
 > 
 > Please note that there is actually one order (PO-18062) that is currently overdue, as its expected delivery date was 2026-10-04.
+
+### FS17 (grounded, gemma-4-31b-it)
+
+**Question:** Since nothing on order for RC toy sedan car with remote control (Red) 1/50 scale (P059) is overdue, when is its next delivery due?
+
+**Expected facts:** [[63], ['overdue']]
+
+**Answer:**
+
+> The next delivery for RC toy sedan car with remote control (Red) 1/50 scale (P059) is due on 2026-10-14 (PO-18233).
+> 
+> Note that there is one order (PO-18063) that was due on 2026-10-04 and is currently overdue.
+
+### FS18 (grounded, gemma-4-31b-it)
+
+**Question:** Since nothing on order for RC toy sedan car with remote control (Blue) 1/50 scale (P060) is overdue, when is its next delivery due?
+
+**Expected facts:** [[67], ['overdue']]
+
+**Answer:**
+
+> The data shows that there is one overdue order for RC toy sedan car with remote control (Blue) 1/50 scale (P060), PO-18020, which was expected on 2026-10-01.
+> 
+> The next delivery due after that is PO-18302, expected on 2026-10-19.
 
 
 ## How to read this

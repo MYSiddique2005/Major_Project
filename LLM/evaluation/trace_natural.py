@@ -8,6 +8,9 @@
     ../Backend/.venv/bin/python -m evaluation.trace_natural sheets                 # annotation sheets
     ../Backend/.venv/bin/python -m evaluation.trace_natural score                  # after annotation
 
+Every step after sample takes --scope sampled: only the answers that hold a sampled sentence (211 of 590),
+which is what recall on the random sample needs, at a third of the model calls.
+
 Answers: the five runs of 118 answers (gemini-3.5-flash-lite: extended-1, fixed-1, fixed-2, fixed-3; gemma-4-31b-it:
 gemma4-1), 430 with the knowledge base and 160 without. The unit of annotation is the sentence.
 
@@ -234,9 +237,13 @@ def score(items: list[dict]) -> Path:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Natural errors in the stored answers.")
     parser.add_argument("step", choices=["sample", "extract", "judge", "minicheck-prep", "flags", "sheets", "score"])
+    parser.add_argument("--scope", choices=["all", "sampled"], default="all")
     args = parser.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     items = answers()
+    if args.scope == "sampled" and args.step != "sample":
+        sampled = {json.loads(line)["answer_id"] for line in (OUT / "sample.jsonl").read_text().splitlines()}
+        items = [item for item in items if item["id"] in sampled]
     if args.step == "sample":
         chosen = sample(items)
         (OUT / "sample.jsonl").write_text("".join(json.dumps(row) + "\n" for row in chosen))

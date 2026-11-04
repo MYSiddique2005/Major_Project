@@ -2,3 +2,4 @@
 results/trace/minicheck-input.jsonl
 results/trace/pipeline.log
 results/fpq-gemma.log
+results/trace/lane-*.log
