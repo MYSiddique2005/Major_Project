@@ -12,6 +12,13 @@
 \usetikzlibrary{arrows.meta,positioning}
 \setlist{nosep}
 \newcommand{\pending}[1]{\textcolor{red}{[#1]}}
+% Results still running (MiniCheck, Gemma judge, Gemma false-premise with TRACE); replaced when complete.
+\newcommand{\ABSMINI}{\pending{MiniCheck result.}}
+\newcommand{\HELDOUTBASELINES}{\multicolumn{5}{l}{\pending{Gemma judge and MiniCheck rows}} \\}
+\newcommand{\HELDOUTMINIGEMMA}{\pending{Gemma judge and MiniCheck paragraph.}}
+\newcommand{\NATURALBASELINES}{\multicolumn{3}{l}{\pending{Gemma judge and MiniCheck rows}} \\}
+\newcommand{\FPQGEMMA}{\multicolumn{7}{l}{\pending{gemma-4-31b-it rows}} \\}
+\newcommand{\GEMMASCOPE}{\pending{scope}}
 \newcommand{\attr}[1]{\texttt{#1}}
 
 \title{IntelliERP: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision
@@ -36,10 +43,19 @@ tested code, before the user sees the answer. A language model is used only to e
 an assertion is true is decided deterministically, so a verdict is correct whenever the extraction is
 faithful, and every error can be attributed to extraction, coverage of the language, or a defect in a
 verification function. TRACE is built into IntelliERP, a decision-support system for sales, inventory and
-procurement. On three development sets of model-written errors (183 errors, 182 meaning-preserving
-paraphrases) TRACE detected 126 errors (69\%) against 70 (38\%) for the earlier pattern-based verifier, with
-false alarms on 7\% of paraphrases, every one of them traced to a specific extraction error. \pending{Held-out results, comparison with an LLM judge and MiniCheck,
-natural errors and the false-premise experiment to be inserted after the frozen runs.}
+procurement. On three development sets of model-written errors, TRACE detected 69\% of 183 errors against
+38\% for the earlier pattern-based verifier. On a held-out test generated after the system was frozen (102
+errors and 103 meaning-preserving paraphrases by two writer models), it again detected 69\% (patterns:
+15\%; McNemar $p<10^{-15}$) with false alarms on 4\% of paraphrases. An LLM judge given the same evidence
+detected 78\%, not significantly more, but raised false alarms on 17\% of paraphrases and gave different
+verdicts when asked twice; TRACE's verdicts were identical across runs. \ABSMINI Every miss and false alarm
+was traced by hand: none came from a verification function; they came from the extractor and from
+statements outside the language. On the assistant's own answers (a random sample of 300 sentences, 5.4\%
+of checkable sentences false), TRACE found only 4 of 14 errors against the judge's 10, because most natural
+errors misstate definitions the language does not cover; with the knowledge base the natural error rate
+fell from 20\% to 1.4\%. On 44 false-premise questions, verification did not measurably change how often
+answers rebut the premise. The results show where deterministic verification is strong (figures, derived
+results, rule values) and what it still needs (a more faithful extractor and coverage of definitions).
 \end{abstract}
 
 \noindent\textbf{Keywords:} enterprise resource planning; large language models; hallucination;
@@ -378,8 +394,11 @@ measure stability.
 evidence written as plain sentences; a sentence is flagged when its support is below 0.5.
 \end{itemize}
 
-\paragraph{Natural errors.} The 590 stored answers of five runs (430 with and 160 without the knowledge
-base) are checked by every method. Every flagged sentence and a seeded random sample of 300 sentences are
+\paragraph{Natural errors.} The random sample is drawn from the 590 stored answers of five runs (430 with
+and 160 without the knowledge base). The protocol planned to run every method on all 590 answers. To stay
+within the free API quota, the methods were run only on the 211 answers that contain a sampled sentence,
+which is all that recall on the sample requires. Precision therefore covers the flags in those 211 answers
+only. This deviation was decided before any method had been run on the answers. Every flagged sentence and the seeded random sample of 300 sentences are
 annotated blind (the annotator sees the question, the answer, the tool results and the current facts, not
 the methods), giving precision for each method and an estimate of the errors all methods miss. The random
 sample was drawn, and labelled, before any method had been run on these answers. Labels follow a written
@@ -461,9 +480,10 @@ higher on Gemma's rewrites (40 of 52, 77\%) than on Gemini's (30 of 50, 60\%).
 frozen. Detection is attributed to the sentence holding the planted error (Wilson 95\% intervals).
 $^\dagger$Judged only on the texts that model completed (Section~\ref{sec:heldout-baselines}).}
 \label{tab:heldout}
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
-Method & Detected & Gemini writer & Gemma writer & False alarms \\
+Method & Detected & Gemini wr. & Gemma wr. & False alarms \\
 \midrule
 Patterns (first version) & 15/102 (15\%; 9--23) & 4/50 & 11/52 & 2/103 (2\%; 1--7) \\
 TRACE-rule & 20/102 (20\%; 13--28) & 5/50 & 15/52 & 2/103 (2\%; 1--7) \\
@@ -560,8 +580,49 @@ Gemma run & 55 & 43 & 0 & 11 & 1 & 0/43 (0\%) \\
 \end{tabular}
 \end{table}
 
-\pending{Precision of each method's flags on the pooled sentences and recall on the 14 false sentences of
-the sample, once every method has been run on the 590 answers.}
+\paragraph{Detection of natural errors.} Table~\ref{tab:naturalmethods} gives each method's recall on the
+14 false sentences of the random sample, and the precision of its flags in the 211 answers. All 435 pooled
+sentences (the sample and every flagged sentence) were labelled. Natural errors turned out to be a
+different problem from the injected ones. TRACE-hybrid found 4 of the 14 (29\%), against 10 (71\%) for the
+Gemini judge. Of TRACE's ten misses, eight are statements its language cannot express: what a sales order
+status means, whether reorder level and reorder point are the same figure, whether unserved demand is
+back-ordered in a projection, whether the data are simulated, which statuses count as incoming stock, and
+whether stock on order prevents Critical risk. The other two state the number of drafts per message wrongly,
+a rule key TRACE can check, but the extractor did not record them. The judge was given the knowledge base's
+passages as evidence and could compare such definitions with them directly. The four errors TRACE found are
+a figure (a suggested quantity of 40 units for 1,400), a rule threshold (20\% for 15\%) and the two stock
+status explanations described above.
+
+Precision was low for both. Of the 78 sentences TRACE-hybrid flagged, 12 are false (15\%), against 24 of
+117 for the judge (21\%). Every wrong TRACE flag is an extraction error, and one kind dominates: 50 of the 66
+are the weekly figures of two 26-week forecast lists, each of which the extractor recorded as the
+\emph{average} weekly forecast. The others are of the kinds seen on the held-out test: a supplier's stated
+reliability recorded as its observed on-time rate, the next delivery date recorded as the stockout date,
+``demand is up 23\%'' extracted as 237, and a statement about one user's permission recorded as one about
+the role. Leaving out the three forecast-list answers, which hurt both methods (the judge also flagged 27
+correct weekly figures in one of them), precision is 12 of 28 for TRACE (43\%) and 24 of 89 for the judge
+(27\%). Flags were spread very differently. TRACE flagged sentences in 25 of the 211 answers, the judge in
+72. On the Gemma run, which TRACE never saw during development, the sample contains no false sentence; both
+methods' flags there (6 for TRACE, 12 for the judge) were all wrong.
+
+\begin{table}[t]
+\centering\small
+\caption{Natural errors: recall on the 14 false sentences of the random sample, and precision of the
+flags in the 211 answers that hold a sampled sentence (Wilson 95\% intervals).}
+\label{tab:naturalmethods}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Method & Recall (sample) & Precision of flags \\
+\midrule
+Patterns (first version) & 2/14 (14\%; 4--40) & 2/2 \\
+TRACE-rule & 2/14 (14\%; 4--40) & 2/2 \\
+TRACE-model & 4/14 (29\%; 12--55) & 12/78 (15\%; 9--25) \\
+TRACE-hybrid & 4/14 (29\%; 12--55) & 12/78 (15\%; 9--25) \\
+LLM judge (gemini-3.5-flash-lite) & 10/14 (71\%; 45--88) & 24/117 (21\%; 14--29) \\
+\NATURALBASELINES
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{End-to-end effect (RQ3)}
 Table~\ref{tab:fpq} gives the share of false-premise answers that rebut the premise. Both models already
@@ -632,20 +693,47 @@ text never named, a term with two meanings, a corrected direction, a hypothetica
 This visibility is what the conditional soundness property buys; with an LLM judge, the same errors would
 appear only as unexplained disagreements.
 
+\paragraph{Injected and natural errors differ.} On model-written injections TRACE matched the LLM judge
+(69\% against 78\% detection, not significantly different) with a quarter of its false alarms. On the
+assistant's own errors it found 4 of 14 against the judge's 10. The reason is the error mix, not the
+verifier. Eleven of the fourteen natural errors were made without the knowledge base. All eleven state a
+company rule or definition wrongly, and eight of them a definition that the language does not cover: what a
+status means, whether two figures are the same, how a projection treats unserved demand. The injected errors
+were mostly figures, derived results and rule values, which the language was designed for. A deployment would therefore pair TRACE with grounding: with the knowledge base, the
+natural error rate fell from 20\% to 1.4\% of checkable sentences, and the residual errors with it were
+figures, the kind TRACE checks well.
+
 \paragraph{Coverage.} Statements about what the system can do (``the system does not track customer
-returns'') or about data that is not available are outside the language, as are reasons and causal
-explanations. They are a large share of the remaining misses on the development sets.
+returns''), definitions of terms and statuses, assumptions of the simulation, and reasons and causal
+explanations are outside the language. They account for five of the 32 held-out misses and eight of the
+ten natural-error misses. Each could be added as a typed policy attribute with an executable source (the
+status lifecycle and the projection's assumptions are already code), but every addition must be built and
+tested by hand, which is the price of deterministic verdicts.
+
+\paragraph{False alarms come from one place.} Apart from the reused patterns' own errors (two on the
+development sets, one on the held-out test), every TRACE false alarm we examined, on the development and
+held-out sets and in the natural answers, was an extraction error visible in the assertion: a figure attached
+to the wrong attribute or the wrong scope, or a garbled value. None came from a verification function. The
+largest single cause in the natural answers was a list of 26 weekly forecasts recorded as 26 claims about
+the average forecast. This is the kind of defect a schema-level check can remove (a list of dated values is
+not an average), but adding that check would have meant changing the frozen system, so it is left for future
+work.
 
 \paragraph{Threats.} The errors in the development and held-out sets are written by models and may differ
 from natural ones; the natural-error study addresses this. The development sets were also used to tune
 TRACE, so only the held-out and natural results measure generalisation. Supply data are simulated (sales
 are real); the language is tied to the schema, not to the data. Paraphrase false alarms are counted per
 statement, and a paraphrase that splits a sentence can change counts for any method. The author wrote the
-questions. The natural-error sample was labelled by a single annotator, a language model (Claude Opus 5.5)
-that is not used anywhere else in the study and that labelled the sample before any method had been run on
-it; inter-annotator agreement has therefore not been measured, and every label is released with the words
+questions. The natural-error sentences were labelled by a single annotator, a language model (Claude Opus 5.5)
+that is not one of the evaluated models or methods. It labelled the random sample before any method had been
+run on it. It labelled the 135 flagged sentences outside the sample afterwards, without being told which
+method had flagged them, and kept the conventions of the sample labels. Inter-annotator agreement has
+therefore not been measured, and every label is released with the words
 it marks as wrong and the evidence it rests on, so that each can be checked. Both evaluated models come from
-one provider family's API, one of them open-weight.
+one provider family's API, one of them open-weight. The free API limited the study in three ways: the
+methods were run on the 211 answers that hold a sampled sentence instead of all 590; the Gemma judge \GEMMASCOPE;
+and the 86 ordinary questions were not re-run with TRACE on. The false-premise experiment re-asks the model
+in each setting, so it cannot separate the effect of correction from the model's own variation.
 
 % =====================================================================================================
 \section{Conclusion}
@@ -653,7 +741,16 @@ one provider family's API, one of them open-weight.
 TRACE checks what an enterprise assistant says against the system of record, at run time, before the user
 sees it, and keeps the decision of truth out of the language model. On development data it detected
 clearly more model-written errors than a pattern-based verifier, at a cost in false alarms that the error
-decomposition makes explainable. \pending{Held-out, natural-error and false-premise conclusions.}
+decomposition makes explainable. On a held-out test written after the system was frozen, by a writer it
+had never seen, it kept the same detection rate (69\%) with fewer false alarms (4\%), detected 55 errors the
+pattern-based verifier missed and none that it found, and matched an LLM judge given the same evidence
+while raising a quarter of the judge's false alarms. Unlike the judge, its verdicts were identical when
+repeated, and every miss and false alarm could be traced to a specific extraction or coverage gap; no error
+came from a verification function. On the assistant's own errors, however, it found only 4 of 14, because
+most natural errors misstate definitions that its language does not cover, and on false-premise questions
+it did not measurably change how often answers rebut the premise. The results locate the remaining work
+precisely: a more faithful extractor, and a language that also covers the definitions and assumptions of
+the system. Both can be measured with the protocol and data released here.
 
 \section*{Acknowledgements}
 AI tools were used to assist with programming and with editing the text, and a language model labelled the

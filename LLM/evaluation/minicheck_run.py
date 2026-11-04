@@ -51,8 +51,10 @@ class MiniCheck:
     def __init__(self):
         self.tokenizer = AutoTokenizer.from_pretrained(MODEL)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(MODEL).eval()
-        self.one = self.tokenizer("1", add_special_tokens=False).input_ids[-1]
-        self.zero = self.tokenizer("0", add_special_tokens=False).input_ids[-1]
+        # The first token the model writes for each answer: "1" is one token ("▁1") but "0" is two ("▁", "0"),
+        # so comparing the first tokens compares the two answers.
+        self.one = self.tokenizer("1", add_special_tokens=False).input_ids[0]
+        self.zero = self.tokenizer("0", add_special_tokens=False).input_ids[0]
 
     @torch.inference_mode()
     def support(self, pieces: list[str], claims: list[str], batch: int = 8) -> list[float]:

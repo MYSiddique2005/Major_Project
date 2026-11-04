@@ -298,3 +298,138 @@
 {"answer_id": "gemma4-1/U12/grounded", "start": 376, "end": 401, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "gemma4-1/U12/grounded", "start": 829, "end": 855, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "gemma4-1/U6/grounded", "start": 114, "end": 181, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C6/grounded", "start": 592, "end": 654, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C8/grounded", "start": 364, "end": 499, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/G5/grounded", "start": 65, "end": 157, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 908, "end": 935, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C3/ungrounded", "start": 285, "end": 393, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C1/ungrounded", "start": 509, "end": 724, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "figures match the tool ('out of' as in the labelled sample)"}
+{"answer_id": "fixed-3/U12/grounded", "start": 1118, "end": 1153, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C14/ungrounded", "start": 0, "end": 230, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C15/grounded", "start": 260, "end": 310, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 942, "end": 983, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C8/grounded", "start": 0, "end": 229, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 796, "end": 823, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 0, "end": 112, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C6/grounded", "start": 513, "end": 591, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/A12/grounded", "start": 0, "end": 270, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 1278, "end": 1319, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C6/grounded", "start": 0, "end": 54, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 984, "end": 1025, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C8/ungrounded", "start": 432, "end": 633, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 1046, "end": 1081, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 938, "end": 973, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C1/grounded", "start": 573, "end": 802, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "figures match the tool ('out of' as in the labelled sample)"}
+{"answer_id": "fixed-1/U12/grounded", "start": 450, "end": 475, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C8/ungrounded", "start": 428, "end": 575, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A2/grounded", "start": 309, "end": 333, "label": "false", "wrong_words": "10 units", "what_the_evidence_says": "safety_stock 299", "note": ""}
+{"answer_id": "gemma4-1/U11/grounded", "start": 351, "end": 470, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C14/ungrounded", "start": 134, "end": 293, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C7/grounded", "start": 82, "end": 227, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 130, "end": 330, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 606, "end": 631, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 574, "end": 613, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A5/grounded", "start": 139, "end": 253, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/A12/grounded", "start": 311, "end": 428, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C8/grounded", "start": 0, "end": 226, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A1/grounded", "start": 324, "end": 498, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C3/ungrounded", "start": 337, "end": 494, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G8/ungrounded", "start": 198, "end": 503, "label": "false", "wrong_words": "combining demand forecasts from sales, current stock levels from inventory, and supplier lead times from procurement, rather than relying on a single static formula", "what_the_evidence_says": "reorder point = average daily demand x lead time + safety stock", "note": ""}
+{"answer_id": "fixed-2/C8/grounded", "start": 528, "end": 688, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 858, "end": 899, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C6/grounded", "start": 803, "end": 924, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 654, "end": 693, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C14/grounded", "start": 329, "end": 441, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 794, "end": 829, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G14/grounded", "start": 341, "end": 385, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 824, "end": 851, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 902, "end": 937, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 454, "end": 493, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 694, "end": 733, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U11/grounded", "start": 0, "end": 198, "label": "unsure", "wrong_words": "", "what_the_evidence_says": "", "note": "past event; the evidence shows today's stock only"}
+{"answer_id": "fixed-2/G14/ungrounded", "start": 565, "end": 702, "label": "false", "wrong_words": "preventing it from reaching a Critical risk level", "what_the_evidence_says": "Critical means nothing on hand while selling; P101 has 172 on hand, whatever is on order", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 964, "end": 991, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A2/grounded", "start": 434, "end": 460, "label": "false", "wrong_words": "S023", "what_the_evidence_says": "suggested supplier S004 (Fabrikam, Inc.); S023 does not exist", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 412, "end": 445, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 992, "end": 1019, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/G17/ungrounded", "start": 225, "end": 354, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C3/grounded", "start": 137, "end": 268, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/G8/ungrounded", "start": 170, "end": 402, "label": "false", "wrong_words": "average weekly demand", "what_the_evidence_says": "reorder point = average daily demand x lead time + safety stock", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 686, "end": 721, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 548, "end": 581, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C9/grounded", "start": 564, "end": 782, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A2/grounded", "start": 0, "end": 111, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/ungrounded", "start": 679, "end": 823, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "figures match the tool ('out of' as in the labelled sample)"}
+{"answer_id": "extended-1/C12/grounded", "start": 143, "end": 207, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 722, "end": 757, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 1154, "end": 1189, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C6/grounded", "start": 925, "end": 1029, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/grounded", "start": 705, "end": 938, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "figures match the tool ('out of' as in the labelled sample)"}
+{"answer_id": "fixed-1/U12/grounded", "start": 632, "end": 657, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/G3/ungrounded", "start": 286, "end": 317, "label": "false", "wrong_words": "30 days", "what_the_evidence_says": "rule review_period_days = 14", "note": ""}
+{"answer_id": "fixed-2/G7/ungrounded", "start": 140, "end": 220, "label": "false", "wrong_words": "26 weeks", "what_the_evidence_says": "each method is tested on the last 8 weeks (26 weeks is the history used)", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 1082, "end": 1117, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 650, "end": 685, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/A13/grounded", "start": 0, "end": 180, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 774, "end": 815, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A12/grounded", "start": 0, "end": 187, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C6/grounded", "start": 803, "end": 924, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C8/grounded", "start": 603, "end": 711, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 866, "end": 901, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 1076, "end": 1103, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 1320, "end": 1361, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 816, "end": 857, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 740, "end": 767, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C9/ungrounded", "start": 286, "end": 519, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 476, "end": 501, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 616, "end": 649, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C6/grounded", "start": 0, "end": 54, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C6/grounded", "start": 0, "end": 54, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 502, "end": 527, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C3/grounded", "start": 393, "end": 473, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 480, "end": 513, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C1/ungrounded", "start": 713, "end": 914, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/G19/ungrounded", "start": 83, "end": 193, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/G4/ungrounded", "start": 135, "end": 239, "label": "false", "wrong_words": "60 percent to 71.5 percent", "what_the_evidence_says": "the on-time condition for High is below 50%; these suppliers are High because an open order is overdue", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 1010, "end": 1045, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 494, "end": 533, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 900, "end": 941, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U11/grounded", "start": 471, "end": 581, "label": "unsure", "wrong_words": "", "what_the_evidence_says": "", "note": "past event; the evidence shows today's stock only"}
+{"answer_id": "extended-1/U11/grounded", "start": 189, "end": 327, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 528, "end": 553, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 830, "end": 865, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 534, "end": 573, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C14/ungrounded", "start": 481, "end": 709, "label": "false", "wrong_words": "across 7 overdue orders", "what_the_evidence_says": "the 7 overdue orders are the supplier's, across several products", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 974, "end": 1009, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C5/grounded", "start": 458, "end": 583, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "literally true: the supplier has 25 open orders (none for this product)"}
+{"answer_id": "extended-1/U12/grounded", "start": 1236, "end": 1277, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C14/grounded", "start": 449, "end": 610, "label": "false", "wrong_words": "across 7 purchase orders", "what_the_evidence_says": "the 7 overdue orders are the supplier's, across several products", "note": ""}
+{"answer_id": "fixed-3/A1/grounded", "start": 436, "end": 465, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 852, "end": 879, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 582, "end": 615, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A2/grounded", "start": 360, "end": 394, "label": "false", "wrong_words": "2 units per week", "what_the_evidence_says": "average daily demand 75.86 units", "note": ""}
+{"answer_id": "gemma4-1/U11/grounded", "start": 292, "end": 350, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/G17/grounded", "start": 128, "end": 189, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/G15/ungrounded", "start": 0, "end": 193, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": "statement about the assistant's own information"}
+{"answer_id": "fixed-3/C6/grounded", "start": 925, "end": 1029, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C14/grounded", "start": 611, "end": 743, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G18/ungrounded", "start": 141, "end": 234, "label": "false", "wrong_words": "one draft purchase order", "what_the_evidence_says": "rule max_drafts_per_message = 3", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 712, "end": 739, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 1362, "end": 1403, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/G3/ungrounded", "start": 318, "end": 497, "label": "false", "wrong_words": "multiple of the supplier's minimum order quantity (MOQ) or standard pack size", "what_the_evidence_says": "rule: rounded up to a multiple of 10", "note": ""}
+{"answer_id": "fixed-3/G14/ungrounded", "start": 331, "end": 448, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 734, "end": 773, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 1020, "end": 1047, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 880, "end": 907, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 614, "end": 653, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/G7/ungrounded", "start": 142, "end": 259, "label": "false", "wrong_words": "26 weeks", "what_the_evidence_says": "each method is tested on the last 8 weeks (26 weeks is the history used)", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 936, "end": 963, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/U12/grounded", "start": 310, "end": 343, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G5/ungrounded", "start": 100, "end": 274, "label": "false", "wrong_words": "Draft or", "what_the_evidence_says": "awaiting approval means Pending Approval or Approved; drafts count for nothing", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 1068, "end": 1109, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 1048, "end": 1075, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 1110, "end": 1151, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 1152, "end": 1193, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C3/ungrounded", "start": 294, "end": 336, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 684, "end": 711, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A2/grounded", "start": 334, "end": 359, "label": "false", "wrong_words": "20 units", "what_the_evidence_says": "reorder_point 1051", "note": ""}

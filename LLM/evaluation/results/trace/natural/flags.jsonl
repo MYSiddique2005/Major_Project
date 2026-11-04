@@ -1,0 +1,689 @@
+{"answer_id": "extended-1/G9/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C14/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "There are already 155 units on order in total, comprising 73 units on order and 82 overdue units.", "start": 329, "end": 441}
+{"answer_id": "extended-1/C14/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/U8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G3/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G4/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G14/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G22/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G22/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G23/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G23/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G24/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G24/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/F14/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/F14/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/F15/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The safety stock for Developer joke mug - that's a hardware problem (White) (P032) is 36 units and the reorder level is 92 units at the Main Warehouse.", "start": 0, "end": 151}
+{"answer_id": "extended-1/F15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/F15/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C1/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "and 68 overdue inbound units out of 67 units on order.", "start": 705, "end": 938}
+{"answer_id": "extended-1/C1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "There are 10 products at High stockout risk right now:", "start": 0, "end": 54}
+{"answer_id": "extended-1/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Developer joke mug - there are 10 types of people in the world (Black), P045 (Supplier: Graphic Design Institute, S005)", "start": 803, "end": 924}
+{"answer_id": "extended-1/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- RC toy sedan car with remote control (Blue) 1/50 scale, P060 (Supplier: Northwind Electric Cars, S010)", "start": 925, "end": 1029}
+{"answer_id": "extended-1/C6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C7/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Overdue units: 67 units are currently overdue on purchase order PO-18022 (expected delivery was 2026-10-01).", "start": 83, "end": 193}
+{"answer_id": "extended-1/C7/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C7/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C8/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Shipping carton (Brown) 305x305x305mm (P184) is rated High stockout risk because it matches the High risk rule: its days of cover are less than its lead time, and no delivery on order is due before the projected stockout date.", "start": 0, "end": 226}
+{"answer_id": "extended-1/C8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C8/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C9/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "this simply means the inventory is below the reorder point", "start": 564, "end": 782}
+{"answer_id": "extended-1/C9/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C9/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C10/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C10/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C11/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C11/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "If the deliveries on order for Shipping carton (Brown) 305x305x305mm (P184) arrive 7 days late, it would first run out of stock on 2026-10-07.", "start": 0, "end": 142}
+{"answer_id": "extended-1/C12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "With no delivery delay, it would run out of stock on 2026-10-25.", "start": 143, "end": 207}
+{"answer_id": "extended-1/C12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C12/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C13/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C13/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C16/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C16/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C17/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C17/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/A1/grounded", "method": "TRACE-model", "quote": "nothing has been ordered yet", "start": 324, "end": 498}
+{"answer_id": "extended-1/A1/grounded", "method": "TRACE-hybrid", "quote": "nothing has been ordered yet", "start": 324, "end": 498}
+{"answer_id": "extended-1/A1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/A1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-model", "quote": "so I cannot draft this order for you", "start": 0, "end": 111}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-model", "quote": "Safety stock: 10 units", "start": 309, "end": 333}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-model", "quote": "Reorder point: 20 units", "start": 334, "end": 359}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-model", "quote": "Suggested reorder quantity: 40 units", "start": 395, "end": 433}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-model", "quote": "Suggested supplier: S023", "start": 434, "end": 460}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-hybrid", "quote": "so I cannot draft this order for you", "start": 0, "end": 111}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-hybrid", "quote": "Safety stock: 10 units", "start": 309, "end": 333}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-hybrid", "quote": "Reorder point: 20 units", "start": 334, "end": 359}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-hybrid", "quote": "Suggested reorder quantity: 40 units", "start": 395, "end": 433}
+{"answer_id": "extended-1/A2/grounded", "method": "TRACE-hybrid", "quote": "Suggested supplier: S023", "start": 434, "end": 460}
+{"answer_id": "extended-1/A2/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Safety stock: 10 units", "start": 309, "end": 333}
+{"answer_id": "extended-1/A2/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Reorder point: 20 units", "start": 334, "end": 359}
+{"answer_id": "extended-1/A2/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Average demand: 2 units per week", "start": 360, "end": 394}
+{"answer_id": "extended-1/A2/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Suggested reorder quantity: 40 units", "start": 395, "end": 433}
+{"answer_id": "extended-1/A2/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Suggested supplier: S023", "start": 434, "end": 460}
+{"answer_id": "extended-1/A2/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/A2/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/A4/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/A4/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/A8/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Your role as Inventory Manager does not include the list of purchase orders.", "start": 0, "end": 76}
+{"answer_id": "extended-1/A8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/A8/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/A13/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/A13/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/A15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/A15/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/U9/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/U9/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/U11/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "purchase order PO-18074 for 69 units was successfully delivered on schedule on 2026-10-03 by Graphic Design Institute (S005)", "start": 189, "end": 327}
+{"answer_id": "extended-1/U11/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/U11/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-10-12: 673.2 units", "start": 374, "end": 413}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-10-19: 707.9 units", "start": 414, "end": 453}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-10-26: 742.6 units", "start": 454, "end": 493}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-11-02: 777.3 units", "start": 494, "end": 533}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-11-09: 812.0 units", "start": 534, "end": 573}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-11-16: 846.7 units", "start": 574, "end": 613}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-11-23: 881.4 units", "start": 614, "end": 653}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-11-30: 916.1 units", "start": 654, "end": 693}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-12-07: 950.8 units", "start": 694, "end": 733}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-12-14: 985.5 units", "start": 734, "end": 773}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-12-21: 1,020.2 units", "start": 774, "end": 815}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2026-12-28: 1,054.9 units", "start": 816, "end": 857}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-01-04: 1,089.6 units", "start": 858, "end": 899}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-01-11: 1,124.3 units", "start": 900, "end": 941}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-01-18: 1,159.0 units", "start": 942, "end": 983}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-01-25: 1,193.7 units", "start": 984, "end": 1025}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-02-01: 1,228.4 units", "start": 1026, "end": 1067}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-02-08: 1,263.1 units", "start": 1068, "end": 1109}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-02-15: 1,297.8 units", "start": 1110, "end": 1151}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-02-22: 1,332.5 units", "start": 1152, "end": 1193}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-03-01: 1,367.2 units", "start": 1194, "end": 1235}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-03-08: 1,401.9 units", "start": 1236, "end": 1277}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-03-15: 1,436.6 units", "start": 1278, "end": 1319}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-03-22: 1,471.3 units", "start": 1320, "end": 1361}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-model", "quote": "Week starting 2027-03-29: 1,506.0 units", "start": 1362, "end": 1403}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-10-12: 673.2 units", "start": 374, "end": 413}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-10-19: 707.9 units", "start": 414, "end": 453}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-10-26: 742.6 units", "start": 454, "end": 493}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-11-02: 777.3 units", "start": 494, "end": 533}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-11-09: 812.0 units", "start": 534, "end": 573}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-11-16: 846.7 units", "start": 574, "end": 613}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-11-23: 881.4 units", "start": 614, "end": 653}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-11-30: 916.1 units", "start": 654, "end": 693}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-12-07: 950.8 units", "start": 694, "end": 733}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-12-14: 985.5 units", "start": 734, "end": 773}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-12-21: 1,020.2 units", "start": 774, "end": 815}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2026-12-28: 1,054.9 units", "start": 816, "end": 857}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-01-04: 1,089.6 units", "start": 858, "end": 899}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-01-11: 1,124.3 units", "start": 900, "end": 941}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-01-18: 1,159.0 units", "start": 942, "end": 983}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-01-25: 1,193.7 units", "start": 984, "end": 1025}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-02-01: 1,228.4 units", "start": 1026, "end": 1067}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-02-08: 1,263.1 units", "start": 1068, "end": 1109}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-02-15: 1,297.8 units", "start": 1110, "end": 1151}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-02-22: 1,332.5 units", "start": 1152, "end": 1193}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-03-01: 1,367.2 units", "start": 1194, "end": 1235}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-03-08: 1,401.9 units", "start": 1236, "end": 1277}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-03-15: 1,436.6 units", "start": 1278, "end": 1319}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-03-22: 1,471.3 units", "start": 1320, "end": 1361}
+{"answer_id": "extended-1/U12/grounded", "method": "TRACE-hybrid", "quote": "Week starting 2027-03-29: 1,506.0 units", "start": 1362, "end": 1403}
+{"answer_id": "extended-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The system provides demand forecasts for a maximum horizon of 26 weeks, so a 104-week forecast is not available.", "start": 0, "end": 112}
+{"answer_id": "extended-1/U12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/U12/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G2/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "I am unable to answer this question because the available system tools do not provide information on how average daily demand is calculated or the specific order thresholds required to display a demand trend.", "start": 0, "end": 208}
+{"answer_id": "extended-1/G2/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G2/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G3/ungrounded", "method": "TRACE-model", "quote": "The review period is 30 days", "start": 286, "end": 317}
+{"answer_id": "extended-1/G3/ungrounded", "method": "TRACE-hybrid", "quote": "The review period is 30 days", "start": 286, "end": 317}
+{"answer_id": "extended-1/G3/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The review period is 30 days.", "start": 286, "end": 317}
+{"answer_id": "extended-1/G3/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Reorder quantities are rounded up to the nearest multiple of the supplier's minimum order quantity (MOQ) or standard pack size as defined in the product and procurement records.", "start": 318, "end": 497}
+{"answer_id": "extended-1/G3/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G3/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G4/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G4/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G8/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The reorder level and the reorder point refer to the same concept in this system", "start": 0, "end": 167}
+{"answer_id": "extended-1/G8/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "taking into account average weekly demand, lead time, and safety stock", "start": 170, "end": 402}
+{"answer_id": "extended-1/G8/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G8/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G10/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "I am sorry, but the system tools do not contain the specific business logic or rules explaining when the system uses a supplier's observed lead time instead of its stated average delivery days.", "start": 0, "end": 193}
+{"answer_id": "extended-1/G10/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G10/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G16/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The system documentation and tools do not specify a maximum quantity limit for a single purchase order or a default unit price used when none is given.", "start": 0, "end": 151}
+{"answer_id": "extended-1/G16/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G16/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G19/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Pending: The order has been placed by the customer but has not yet been reviewed or approved for processing.", "start": 83, "end": 193}
+{"answer_id": "extended-1/G19/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Processing: The order has been approved and is currently being prepared, picked, or packed for shipment.", "start": 194, "end": 300}
+{"answer_id": "extended-1/G19/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G19/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/G24/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/G24/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C1/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "68 overdue inbound units out of 67 inbound units", "start": 679, "end": 823}
+{"answer_id": "extended-1/C1/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C1/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C9/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "with the next delivery expected on 15 Oct 2026, which is within the 14.3 days of cover and well before the projected stockout date of 19 Oct 2026.", "start": 286, "end": 519}
+{"answer_id": "extended-1/C9/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C9/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "extended-1/C14/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "No, we should not place a new purchase order right now because there are already 73 units on order and 82 overdue units from Northwind Electric Cars (S010), totaling 155 inbound units, which exceeds the reorder point of 129 units.", "start": 0, "end": 230}
+{"answer_id": "extended-1/C14/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "extended-1/C14/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G4/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G4/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G5/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G11/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G11/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G13/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G13/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G14/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Overdue units do not count as due in time.", "start": 341, "end": 385}
+{"answer_id": "fixed-1/G14/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G14/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G15/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G17/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Even though they cannot approve it, they may still reject it.", "start": 151, "end": 212}
+{"answer_id": "fixed-1/G17/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G17/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G22/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G22/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/F4/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/F4/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/F16/grounded", "method": "TRACE-model", "quote": "a stated delivery reliability of 74.67%", "start": 0, "end": 136}
+{"answer_id": "fixed-1/F16/grounded", "method": "TRACE-model", "quote": "an average delivery time of 15.34 days", "start": 0, "end": 136}
+{"answer_id": "fixed-1/F16/grounded", "method": "TRACE-hybrid", "quote": "a stated delivery reliability of 74.67%", "start": 0, "end": 136}
+{"answer_id": "fixed-1/F16/grounded", "method": "TRACE-hybrid", "quote": "an average delivery time of 15.34 days", "start": 0, "end": 136}
+{"answer_id": "fixed-1/F16/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/F16/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C1/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Ride on big wheel monster truck (Black) 1/12 scale, P075 (Supplier: Northwind Electric Cars, S010): 0 units on hand, average daily demand of 4.21 units, safety stock of 42 units, and 68 overdue inbound units out of 67 on order.", "start": 573, "end": 802}
+{"answer_id": "fixed-1/C1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C2/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C2/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C3/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Current stock on hand is 0 units with 0 days of cover, and the product is at a Critical stockout risk level.", "start": 137, "end": 268}
+{"answer_id": "fixed-1/C3/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C3/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C5/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "There are 25 open orders with its primary supplier, Graphic Design Institute (S005)", "start": 458, "end": 583}
+{"answer_id": "fixed-1/C5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C5/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C7/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "PO-18022 is overdue by 4 days, with an expected delivery date of 2026-10-01 (today being 2026-10-05) and a quantity of 67 units.", "start": 82, "end": 227}
+{"answer_id": "fixed-1/C7/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C7/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C9/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C9/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "If deliveries for Shipping carton (Brown) 305x305x305mm (P184) arrive 7 days late, it would first run out of stock on 2026-10-07. With no delay, it would run out of stock on 2026-10-25.", "start": 0, "end": 129}
+{"answer_id": "fixed-1/C12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C12/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C15/grounded", "method": "TRACE-model", "quote": "The weekly demand forecast is 30.9 units per week", "start": 260, "end": 310}
+{"answer_id": "fixed-1/C15/grounded", "method": "TRACE-hybrid", "quote": "The weekly demand forecast is 30.9 units per week", "start": 260, "end": 310}
+{"answer_id": "fixed-1/C15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C15/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/A1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/A1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/A4/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/A4/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/A5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/A5/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/A12/grounded", "method": "TRACE-model", "quote": "I cannot draft a purchase order for 250,000 units of \"The Gu\" red shirt XML tag t-shirt (White) XL (P082)", "start": 0, "end": 270}
+{"answer_id": "fixed-1/A12/grounded", "method": "TRACE-hybrid", "quote": "I cannot draft a purchase order for 250,000 units of \"The Gu\" red shirt XML tag t-shirt (White) XL (P082)", "start": 0, "end": 270}
+{"answer_id": "fixed-1/A12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/A12/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "For \"The Gu\" red shirt XML tag t-shirt (White) XL (P082), the system provides a 26-week forecast using the linear_trend method (chosen for its lower backtest WAPE of 0.195 compared to moving_average).", "start": 130, "end": 330}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-10-05: 638.5 units", "start": 398, "end": 423}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-10-12: 673.2 units", "start": 424, "end": 449}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-10-19: 707.9 units", "start": 450, "end": 475}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-10-26: 742.6 units", "start": 476, "end": 501}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-11-02: 777.3 units", "start": 502, "end": 527}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-11-09: 812.0 units", "start": 528, "end": 553}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-11-16: 846.7 units", "start": 554, "end": 579}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-11-23: 881.4 units", "start": 580, "end": 605}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-11-30: 916.1 units", "start": 606, "end": 631}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-12-07: 950.8 units", "start": 632, "end": 657}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-12-14: 985.5 units", "start": 658, "end": 683}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-12-21: 1,020.2 units", "start": 684, "end": 711}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2026-12-28: 1,054.9 units", "start": 712, "end": 739}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-01-04: 1,089.6 units", "start": 740, "end": 767}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-01-11: 1,124.3 units", "start": 768, "end": 795}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-01-18: 1,159.0 units", "start": 796, "end": 823}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-01-25: 1,193.7 units", "start": 824, "end": 851}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-02-01: 1,228.4 units", "start": 852, "end": 879}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-02-08: 1,263.1 units", "start": 880, "end": 907}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-02-15: 1,297.8 units", "start": 908, "end": 935}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-02-22: 1,332.5 units", "start": 936, "end": 963}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-03-01: 1,367.2 units", "start": 964, "end": 991}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-03-08: 1,401.9 units", "start": 992, "end": 1019}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-03-15: 1,436.6 units", "start": 1020, "end": 1047}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-03-22: 1,471.3 units", "start": 1048, "end": 1075}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 2027-03-29: 1,506.0 units", "start": 1076, "end": 1103}
+{"answer_id": "fixed-1/U12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/U12/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G4/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G4/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G5/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Orders awaiting approval (such as those in Draft or Pending Approval status) do not count as incoming stock, because they have not yet been officially placed with a supplier.", "start": 100, "end": 274}
+{"answer_id": "fixed-1/G5/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G5/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G6/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G6/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G8/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "they are used interchangeably in this system's inventory and risk assessment records.", "start": 0, "end": 195}
+{"answer_id": "fixed-1/G8/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "rather than relying on a single static formula available in the master data.", "start": 198, "end": 503}
+{"answer_id": "fixed-1/G8/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G8/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G15/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "demand that cannot be served from stock becomes unfulfilled demand or stockout shortfalls, meaning orders are missed or delayed because the inventory level hits zero or falls below what is needed.", "start": 0, "end": 221}
+{"answer_id": "fixed-1/G15/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G15/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G18/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Therefore, the assistant can create one draft purchase order in response to one chat message.", "start": 141, "end": 234}
+{"answer_id": "fixed-1/G18/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G18/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/G21/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "I do not have access to a tool that lists user roles or permissions for the audit log.", "start": 0, "end": 86}
+{"answer_id": "fixed-1/G21/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/G21/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C2/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C2/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-1/C14/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-1/C14/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G4/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G4/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G7/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G7/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G13/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G13/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G15/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G16/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G19/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G19/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G21/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G21/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/F6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/F6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/F16/grounded", "method": "TRACE-model", "quote": "stated delivery reliability percentage of 74.67%", "start": 0, "end": 142}
+{"answer_id": "fixed-2/F16/grounded", "method": "TRACE-model", "quote": "average of 15.34 delivery days", "start": 0, "end": 142}
+{"answer_id": "fixed-2/F16/grounded", "method": "TRACE-hybrid", "quote": "stated delivery reliability percentage of 74.67%", "start": 0, "end": 142}
+{"answer_id": "fixed-2/F16/grounded", "method": "TRACE-hybrid", "quote": "average of 15.34 delivery days", "start": 0, "end": 142}
+{"answer_id": "fixed-2/F16/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Litware, Inc. (S007) has a stated delivery reliability percentage of 74.67% and an average of 15.34 delivery days in the supplier master data.", "start": 0, "end": 142}
+{"answer_id": "fixed-2/F16/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/F16/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C2/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C2/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C5/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "There are 10 products at High stockout risk right now:", "start": 0, "end": 54}
+{"answer_id": "fixed-2/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Developer joke mug - there are 10 types of people in the world (Black), P045 (Supplier: Graphic Design Institute, S005)", "start": 803, "end": 924}
+{"answer_id": "fixed-2/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- RC toy sedan car with remote control (Blue) 1/50 scale, P060 (Supplier: Northwind Electric Cars, S010)", "start": 925, "end": 1029}
+{"answer_id": "fixed-2/C6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C7/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C7/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C8/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "and no delivery is due before the projected stockout date.", "start": 0, "end": 229}
+{"answer_id": "fixed-2/C8/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "and the next delivery is expected on 2026-10-07, which is after the projected stockout date of 2026-10-06.", "start": 528, "end": 688}
+{"answer_id": "fixed-2/C8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C8/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C11/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C11/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C13/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C13/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C14/grounded", "method": "TRACE-model", "quote": "across 7 purchase orders from Northwind Electric Cars (S010)", "start": 449, "end": 610}
+{"answer_id": "fixed-2/C14/grounded", "method": "TRACE-hybrid", "quote": "across 7 purchase orders from Northwind Electric Cars (S010)", "start": 449, "end": 610}
+{"answer_id": "fixed-2/C14/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The suggested order quantity is 0 because the open purchase orders already exceed the reorder point of 129 units.", "start": 611, "end": 743}
+{"answer_id": "fixed-2/C14/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C14/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C15/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C16/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C16/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/A2/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Your role (INVENTORY_MANAGER) does not include drafting purchase orders.", "start": 0, "end": 72}
+{"answer_id": "fixed-2/A2/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/A2/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/A5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/A5/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/A6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/A6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/A9/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/A9/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/A13/grounded", "method": "TRACE-model", "quote": "I cannot draft the purchase order", "start": 0, "end": 180}
+{"answer_id": "fixed-2/A13/grounded", "method": "TRACE-hybrid", "quote": "I cannot draft the purchase order", "start": 0, "end": 180}
+{"answer_id": "fixed-2/A13/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/A13/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/U6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/U6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/U7/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/U7/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/U10/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/U10/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/U11/grounded", "method": "v3 patterns", "quote": "stock status is Low Stock", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "v3 patterns", "quote": "below the reorder level", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "TRACE-rule", "quote": "stock status is Low Stock", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "TRACE-rule", "quote": "below the reorder level", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "TRACE-model", "quote": "The stock status is Low Stock", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "TRACE-model", "quote": "the 125 units are below the reorder level of 92 plus safety stock rules", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "TRACE-hybrid", "quote": "stock status is Low Stock", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "TRACE-hybrid", "quote": "below the reorder level", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "TRACE-hybrid", "quote": "the 125 units are below the reorder level of 92 plus safety stock rules", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The stock status is Low Stock because the 125 units are below the reorder level of 92 plus safety stock rules", "start": 253, "end": 469}
+{"answer_id": "fixed-2/U11/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/U11/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/U12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/U12/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G4/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G4/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G7/ungrounded", "method": "TRACE-model", "quote": "tested over 26 weeks of historical weekly demand data", "start": 140, "end": 220}
+{"answer_id": "fixed-2/G7/ungrounded", "method": "TRACE-hybrid", "quote": "tested over 26 weeks of historical weekly demand data", "start": 140, "end": 220}
+{"answer_id": "fixed-2/G7/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The available methods are tested over 26 weeks of historical weekly demand data.", "start": 140, "end": 220}
+{"answer_id": "fixed-2/G7/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G7/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G11/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The available supplier performance data shows only suppliers with Low and High delivery risk levels, so the specific rules defining a Medium supplier delivery risk are not present in the current system records.", "start": 0, "end": 210}
+{"answer_id": "fixed-2/G11/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G11/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G14/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- 1,020 units already on order with Fabrikam, Inc. (S004) scheduled to arrive shortly, preventing it from reaching a Critical risk level.", "start": 565, "end": 702}
+{"answer_id": "fixed-2/G14/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G14/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G18/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The assistant can create one draft purchase order in response to one chat message using the draft_purchase_order tool.", "start": 0, "end": 118}
+{"answer_id": "fixed-2/G18/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G18/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G20/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G20/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/G22/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The tools available do not specify the number of weeks that the moving-average forecast averages over or the number of weeks that the linear-trend forecast fits its line to.", "start": 0, "end": 173}
+{"answer_id": "fixed-2/G22/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/G22/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C1/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Ride on big wheel monster truck (Black) 1/12 scale, P075 (Supplier: Northwind Electric Cars, S010) - 0 units on hand, average daily demand of 4.21 units, and 68 overdue inbound units out of 67 total inbound units.", "start": 509, "end": 724}
+{"answer_id": "fixed-2/C1/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C1/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C2/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C2/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C3/ungrounded", "method": "TRACE-model", "quote": "Forecasted demand is 690.6 units per week", "start": 294, "end": 336}
+{"answer_id": "fixed-2/C3/ungrounded", "method": "TRACE-hybrid", "quote": "Forecasted demand is 690.6 units per week", "start": 294, "end": 336}
+{"answer_id": "fixed-2/C3/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Inventory: Stock on hand is currently 0 units, leaving 0 days of cover, with a projected stockout date of 2026-10-05 and a safety stock level of 299 units.", "start": 337, "end": 494}
+{"answer_id": "fixed-2/C3/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C3/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C8/ungrounded", "method": "TRACE-model", "quote": "before the next order arrives on 07 Oct 2026", "start": 432, "end": 633}
+{"answer_id": "fixed-2/C8/ungrounded", "method": "TRACE-hybrid", "quote": "before the next order arrives on 07 Oct 2026", "start": 432, "end": 633}
+{"answer_id": "fixed-2/C8/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "the product will run out of stock before the next order arrives on 07 Oct 2026", "start": 432, "end": 633}
+{"answer_id": "fixed-2/C8/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C8/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C9/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C9/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C14/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C14/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-2/C16/ungrounded", "method": "TRACE-model", "quote": "Our threshold for rising sharply is an increase of 20% or more", "start": 270, "end": 333}
+{"answer_id": "fixed-2/C16/ungrounded", "method": "TRACE-hybrid", "quote": "Our threshold for rising sharply is an increase of 20% or more", "start": 270, "end": 333}
+{"answer_id": "fixed-2/C16/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Our threshold for rising sharply is an increase of 20% or more.", "start": 270, "end": 333}
+{"answer_id": "fixed-2/C16/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-2/C16/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G1/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "By contrast, a status of Low Stock applies when current stock is at or below the reorder level (and above half the safety stock)", "start": 104, "end": 281}
+{"answer_id": "fixed-3/G1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G4/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G4/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G5/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G8/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G9/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G9/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G10/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G10/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G13/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G13/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G15/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G17/grounded", "method": "TRACE-model", "quote": "they may still reject it", "start": 128, "end": 189}
+{"answer_id": "fixed-3/G17/grounded", "method": "TRACE-hybrid", "quote": "they may still reject it", "start": 128, "end": 189}
+{"answer_id": "fixed-3/G17/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Even though they cannot approve it, they may still reject it.", "start": 128, "end": 189}
+{"answer_id": "fixed-3/G17/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G17/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G23/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G23/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/F4/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/F4/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/F9/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/F9/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C3/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "There are 720 simulated units currently on order due to arrive on 06 Oct 2026.", "start": 393, "end": 473}
+{"answer_id": "fixed-3/C3/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C3/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C5/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "No reorder is suggested right now because total stock on hand, units on order, and units awaiting approval are above the reorder point.", "start": 457, "end": 594}
+{"answer_id": "fixed-3/C5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C5/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "There are 10 products at High stockout risk right now:", "start": 0, "end": 54}
+{"answer_id": "fixed-3/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Developer joke mug - there are 10 types of people in the world (Black), P045 (Supplier: Graphic Design Institute, S005)", "start": 803, "end": 924}
+{"answer_id": "fixed-3/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- RC toy sedan car with remote control (Blue) 1/50 scale, P060 (Supplier: Northwind Electric Cars, S010)", "start": 925, "end": 1029}
+{"answer_id": "fixed-3/C6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C7/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C7/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C9/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C9/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C10/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C10/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C11/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C11/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C13/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C13/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C14/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C14/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C15/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C16/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C16/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/A1/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Nothing has been ordered yet.", "start": 436, "end": 465}
+{"answer_id": "fixed-3/A1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/A1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/A7/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/A7/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/A8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/A8/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/A12/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "and is at Critical stockout risk.", "start": 311, "end": 428}
+{"answer_id": "fixed-3/A12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/A12/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/U2/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/U2/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/U5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/U5/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/U11/grounded", "method": "v3 patterns", "quote": "stock status is low stock", "start": 249, "end": 362}
+{"answer_id": "fixed-3/U11/grounded", "method": "v3 patterns", "quote": "below the reorder level", "start": 249, "end": 362}
+{"answer_id": "fixed-3/U11/grounded", "method": "TRACE-rule", "quote": "stock status is low stock", "start": 249, "end": 362}
+{"answer_id": "fixed-3/U11/grounded", "method": "TRACE-rule", "quote": "below the reorder level", "start": 249, "end": 362}
+{"answer_id": "fixed-3/U11/grounded", "method": "TRACE-model", "quote": "stock status is low stock", "start": 249, "end": 362}
+{"answer_id": "fixed-3/U11/grounded", "method": "TRACE-model", "quote": "current stock is below the reorder level of 92", "start": 249, "end": 362}
+{"answer_id": "fixed-3/U11/grounded", "method": "TRACE-hybrid", "quote": "stock status is low stock", "start": 249, "end": 362}
+{"answer_id": "fixed-3/U11/grounded", "method": "TRACE-hybrid", "quote": "below the reorder level", "start": 249, "end": 362}
+{"answer_id": "fixed-3/U11/grounded", "method": "TRACE-hybrid", "quote": "current stock is below the reorder level of 92", "start": 249, "end": 362}
+{"answer_id": "fixed-3/U11/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/U11/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-10-12: 673.2 units", "start": 310, "end": 343}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-10-19: 707.9 units", "start": 344, "end": 377}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-10-26: 742.6 units", "start": 378, "end": 411}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-11-02: 777.3 units", "start": 412, "end": 445}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-11-09: 812.0 units", "start": 446, "end": 479}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-11-16: 846.7 units", "start": 480, "end": 513}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-11-23: 881.4 units", "start": 514, "end": 547}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-11-30: 916.1 units", "start": 548, "end": 581}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-12-07: 950.8 units", "start": 582, "end": 615}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-12-14: 985.5 units", "start": 616, "end": 649}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-12-21: 1,020.2 units", "start": 650, "end": 685}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2026-12-28: 1,054.9 units", "start": 686, "end": 721}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-01-04: 1,089.6 units", "start": 722, "end": 757}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-01-11: 1,124.3 units", "start": 758, "end": 793}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-01-18: 1,159.0 units", "start": 794, "end": 829}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-01-25: 1,193.7 units", "start": 830, "end": 865}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-02-01: 1,228.4 units", "start": 866, "end": 901}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-02-08: 1,263.1 units", "start": 902, "end": 937}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-02-15: 1,297.8 units", "start": 938, "end": 973}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-02-22: 1,332.5 units", "start": 974, "end": 1009}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-03-01: 1,367.2 units", "start": 1010, "end": 1045}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-03-08: 1,401.9 units", "start": 1046, "end": 1081}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-03-15: 1,436.6 units", "start": 1082, "end": 1117}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-03-22: 1,471.3 units", "start": 1118, "end": 1153}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-model", "quote": "Week of 2027-03-29: 1,506.0 units", "start": 1154, "end": 1189}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-10-12: 673.2 units", "start": 310, "end": 343}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-10-19: 707.9 units", "start": 344, "end": 377}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-10-26: 742.6 units", "start": 378, "end": 411}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-11-02: 777.3 units", "start": 412, "end": 445}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-11-09: 812.0 units", "start": 446, "end": 479}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-11-16: 846.7 units", "start": 480, "end": 513}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-11-23: 881.4 units", "start": 514, "end": 547}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-11-30: 916.1 units", "start": 548, "end": 581}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-12-07: 950.8 units", "start": 582, "end": 615}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-12-14: 985.5 units", "start": 616, "end": 649}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-12-21: 1,020.2 units", "start": 650, "end": 685}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2026-12-28: 1,054.9 units", "start": 686, "end": 721}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-01-04: 1,089.6 units", "start": 722, "end": 757}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-01-11: 1,124.3 units", "start": 758, "end": 793}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-01-18: 1,159.0 units", "start": 794, "end": 829}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-01-25: 1,193.7 units", "start": 830, "end": 865}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-02-01: 1,228.4 units", "start": 866, "end": 901}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-02-08: 1,263.1 units", "start": 902, "end": 937}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-02-15: 1,297.8 units", "start": 938, "end": 973}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-02-22: 1,332.5 units", "start": 974, "end": 1009}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-03-01: 1,367.2 units", "start": 1010, "end": 1045}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-03-08: 1,401.9 units", "start": 1046, "end": 1081}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-03-15: 1,436.6 units", "start": 1082, "end": 1117}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-03-22: 1,471.3 units", "start": 1118, "end": 1153}
+{"answer_id": "fixed-3/U12/grounded", "method": "TRACE-hybrid", "quote": "Week of 2027-03-29: 1,506.0 units", "start": 1154, "end": 1189}
+{"answer_id": "fixed-3/U12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/U12/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G4/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- A low on-time delivery rate (for example, 60 percent to 71.5 percent in the current high-risk records)", "start": 135, "end": 239}
+{"answer_id": "fixed-3/G4/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G4/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G7/ungrounded", "method": "TRACE-model", "quote": "tested over 26 weeks of historical weekly demand", "start": 142, "end": 259}
+{"answer_id": "fixed-3/G7/ungrounded", "method": "TRACE-hybrid", "quote": "tested over 26 weeks of historical weekly demand", "start": 142, "end": 259}
+{"answer_id": "fixed-3/G7/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The available methods, such as moving average and linear trend, are tested over 26 weeks of historical weekly demand.", "start": 142, "end": 259}
+{"answer_id": "fixed-3/G7/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G7/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G10/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G10/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G14/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Days of cover are fewer than the supplier's lead time (for example, 2.2 days of cover against a 9.9-day lead time).", "start": 331, "end": 448}
+{"answer_id": "fixed-3/G14/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Projected stockout dates are imminent within the lead time window.", "start": 449, "end": 517}
+{"answer_id": "fixed-3/G14/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G14/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G15/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "demand that cannot be served from stock becomes unfulfilled demand (lost sales or backorders), reducing the service level", "start": 0, "end": 147}
+{"answer_id": "fixed-3/G15/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "only orders with approved or ordered status that are on their way are factored into incoming inventory", "start": 148, "end": 332}
+{"answer_id": "fixed-3/G15/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G15/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/G17/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "However, the system does not state whether a user can approve their own purchase order, so I cannot confirm that capability.", "start": 160, "end": 284}
+{"answer_id": "fixed-3/G17/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/G17/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C1/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- \"The Gu\" red shirt XML tag t-shirt (White) XL, P082 (Supplier: Fabrikam, Inc., S004) - Average daily demand is 75.86 units, 0 units on hand, 720 inbound units on order, and safety stock is 299 units.", "start": 713, "end": 914}
+{"answer_id": "fixed-3/C1/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- \"The Gu\" red shirt XML tag t-shirt (White) XL, P082 (Supplier: Fabrikam, Inc., S004) - Average daily demand is 75.86 units, 0 units on hand, 720 inbound units on order, and safety stock is 299 units.", "start": 713, "end": 914}
+{"answer_id": "fixed-3/C1/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C1/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C3/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "leaving 0 days of cover and a critical stockout risk level.", "start": 285, "end": 393}
+{"answer_id": "fixed-3/C3/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "leaving 0 days of cover and a critical stockout risk level.", "start": 285, "end": 393}
+{"answer_id": "fixed-3/C3/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C3/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C8/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C8/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C9/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C9/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "fixed-3/C14/ungrounded", "method": "TRACE-model", "quote": "There are already 155 total units on order", "start": 481, "end": 709}
+{"answer_id": "fixed-3/C14/ungrounded", "method": "TRACE-hybrid", "quote": "There are already 155 total units on order", "start": 481, "end": 709}
+{"answer_id": "fixed-3/C14/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "fixed-3/C14/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G1/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G5/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Orders awaiting approval (those with a status of Pending Approval or Approved) do not count.", "start": 65, "end": 157}
+{"answer_id": "gemma4-1/G5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G5/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G8/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G11/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G11/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G14/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G14/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G15/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G17/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G17/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G23/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G23/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/F2/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/F2/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/F8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/F8/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/F10/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/F10/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/C1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/C3/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/C5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- Developer joke mug - there are 10 types of people in the world (Black), P045", "start": 513, "end": 591}
+{"answer_id": "gemma4-1/C6/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- RC toy sedan car with remote control (Blue) 1/50 scale, P060", "start": 592, "end": 654}
+{"answer_id": "gemma4-1/C7/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/C8/grounded", "method": "TRACE-model", "quote": "demand is up 23%", "start": 364, "end": 499}
+{"answer_id": "gemma4-1/C8/grounded", "method": "TRACE-model", "quote": "the next delivery is not expected until 2026-10-07", "start": 603, "end": 711}
+{"answer_id": "gemma4-1/C8/grounded", "method": "TRACE-hybrid", "quote": "demand is up 23%", "start": 364, "end": 499}
+{"answer_id": "gemma4-1/C8/grounded", "method": "TRACE-hybrid", "quote": "the next delivery is not expected until 2026-10-07", "start": 603, "end": 711}
+{"answer_id": "gemma4-1/C8/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/C14/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/A1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/A5/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "I have drafted purchase order PO-18333 for 1650 units of \"The Gu\" red shirt XML tag t-shirt (White) XL (P082) from Fabrikam, Inc. (S004).", "start": 0, "end": 137}
+{"answer_id": "gemma4-1/A5/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "Please note that while I have used your requested quantity of 1650, the system's reorder rule suggests 1400 units.", "start": 139, "end": 253}
+{"answer_id": "gemma4-1/A5/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/A12/grounded", "method": "TRACE-model", "quote": "I cannot draft this purchase order", "start": 0, "end": 187}
+{"answer_id": "gemma4-1/A12/grounded", "method": "TRACE-hybrid", "quote": "I cannot draft this purchase order", "start": 0, "end": 187}
+{"answer_id": "gemma4-1/A12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/A14/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/A15/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/U1/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/U6/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/U6/grounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/U11/grounded", "method": "v3 patterns", "quote": "out of stock", "start": 471, "end": 581}
+{"answer_id": "gemma4-1/U11/grounded", "method": "TRACE-rule", "quote": "out of stock", "start": 471, "end": 581}
+{"answer_id": "gemma4-1/U11/grounded", "method": "TRACE-model", "quote": "sales of 26 units the week of 2026-09-14", "start": 351, "end": 470}
+{"answer_id": "gemma4-1/U11/grounded", "method": "TRACE-model", "quote": "48 units the week of 2026-09-21", "start": 351, "end": 470}
+{"answer_id": "gemma4-1/U11/grounded", "method": "TRACE-hybrid", "quote": "out of stock", "start": 471, "end": 581}
+{"answer_id": "gemma4-1/U11/grounded", "method": "TRACE-hybrid", "quote": "sales of 26 units the week of 2026-09-14", "start": 351, "end": 470}
+{"answer_id": "gemma4-1/U11/grounded", "method": "TRACE-hybrid", "quote": "48 units the week of 2026-09-21", "start": 351, "end": 470}
+{"answer_id": "gemma4-1/U11/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "it experienced a temporary stockout last week.", "start": 0, "end": 198}
+{"answer_id": "gemma4-1/U11/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "This occurred because the sales in mid-to-late September exceeded the most recent delivery:", "start": 200, "end": 291}
+{"answer_id": "gemma4-1/U11/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- A delivery of 72 units (PO-17713) arrived on 2026-09-11.", "start": 292, "end": 350}
+{"answer_id": "gemma4-1/U11/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- This was followed by sales of 26 units the week of 2026-09-14 and 48 units the week of 2026-09-21, totaling 74 units.", "start": 351, "end": 470}
+{"answer_id": "gemma4-1/U11/grounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "- The product remained out of stock until the next replenishment of 69 units (PO-18074) arrived on 2026-10-03.", "start": 471, "end": 581}
+{"answer_id": "gemma4-1/U11/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/U12/grounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G6/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G6/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G9/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G9/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G11/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G11/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G13/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "I do not have access to the internal logic or documentation used by the system to calculate a supplier's delay trend, so I cannot specify which periods are compared or the thresholds for improving or worsening trends.", "start": 0, "end": 217}
+{"answer_id": "gemma4-1/G13/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G13/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G15/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "I do not have information on how the system handles demand that cannot be served from stock in a what-if projection", "start": 0, "end": 193}
+{"answer_id": "gemma4-1/G15/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "nor whether purchase orders awaiting approval are counted as incoming stock.", "start": 0, "end": 193}
+{"answer_id": "gemma4-1/G15/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G15/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G17/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "The provided permissions do not indicate that a user can edit or modify a purchase order once it has been submitted for approval.", "start": 225, "end": 354}
+{"answer_id": "gemma4-1/G17/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G17/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G21/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "I do not have access to information regarding user roles or audit log permissions.", "start": 0, "end": 82}
+{"answer_id": "gemma4-1/G21/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G21/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/G25/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/G25/ungrounded", "method": "MiniCheck", "missing": true}
+{"answer_id": "gemma4-1/C1/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/C2/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/C8/ungrounded", "method": "TRACE-model", "quote": "next delivery from Litware, Inc. (S007) is not expected until 2026-10-07", "start": 428, "end": 575}
+{"answer_id": "gemma4-1/C8/ungrounded", "method": "TRACE-hybrid", "quote": "next delivery from Litware, Inc. (S007) is not expected until 2026-10-07", "start": 428, "end": 575}
+{"answer_id": "gemma4-1/C8/ungrounded", "method": "LLM judge (gemini-3.5-flash-lite)", "quote": "This is confirmed by the projected stockout date of 2026-10-06, while the next delivery from Litware, Inc. (S007) is not expected until 2026-10-07.", "start": 428, "end": 575}
+{"answer_id": "gemma4-1/C8/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
+{"answer_id": "gemma4-1/C14/ungrounded", "method": "TRACE-model", "quote": "155 units in the pipeline", "start": 134, "end": 293}
+{"answer_id": "gemma4-1/C14/ungrounded", "method": "TRACE-hybrid", "quote": "155 units in the pipeline", "start": 134, "end": 293}
+{"answer_id": "gemma4-1/C14/ungrounded", "method": "LLM judge (gemma-4-31b-it)", "missing": true}
