@@ -23,12 +23,12 @@ Questions failed: off: FD2, FD6, FP3, FS17, FS18; patterns: FD2, FD6, FD7, FP3, 
 |---|---:|---:|---:|---:|---:|---:|---:|
 | off | 44 | 41 of 44 (93%, 95% CI 82%-98%) | 16 of 19 (84%, 95% CI 62%-94%) | 12 of 12 (100%, 95% CI 76%-100%) | 13 of 13 (100%, 95% CI 77%-100%) | 0 | 105 |
 | patterns | 44 | 41 of 44 (93%, 95% CI 82%-98%) | 16 of 19 (84%, 95% CI 62%-94%) | 12 of 12 (100%, 95% CI 76%-100%) | 13 of 13 (100%, 95% CI 77%-100%) | 4 | 161 |
-| trace | 37 | 34 of 37 (92%, 95% CI 79%-97%) | 16 of 19 (84%, 95% CI 62%-94%) | 12 of 12 (100%, 95% CI 76%-100%) | 6 of 6 (100%, 95% CI 61%-100%) | 5 | 240 |
+| trace | 44 | 41 of 44 (93%, 95% CI 82%-98%) | 16 of 19 (84%, 95% CI 62%-94%) | 12 of 12 (100%, 95% CI 76%-100%) | 13 of 13 (100%, 95% CI 77%-100%) | 8 | 276 |
 
 | Compared with off | Questions both answered | Only this setting passed | Only off passed | p |
 |---|---:|---:|---:|---:|
 | patterns | 44 | 0 | 0 | 1 |
-| trace | 37 | 0 | 0 | 1 |
+| trace | 44 | 0 | 0 | 1 |
 
 Questions failed: off: FS16, FS17, FS18; patterns: FS16, FS17, FS18; trace: FS16, FS17, FS18
 

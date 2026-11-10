@@ -1,7 +1,7 @@
 # Evaluation report: fpq-gemma-trace
 
-37 answers (37 grounded, 0 ungrounded). Models that answered: gemma-4-31b-it (37).
-Collected between 2026-10-30T14:47:38 and 2026-11-03T12:37:29.
+44 answers (44 grounded, 0 ungrounded). Models that answered: gemma-4-31b-it (44).
+Collected between 2026-10-30T14:47:38 and 2026-11-11T04:12:51.
 
 ## Results with grounding (the system as built)
 
@@ -12,7 +12,7 @@ Collected between 2026-10-30T14:47:38 and 2026-11-03T12:37:29.
 | Cross-module reasoning | 0 | - | - | - | - | - | - |
 | Controlled actions and permissions | 0 | - | - | - | - | - | - |
 | Abstention (data cannot answer) | 0 | - | - | - | - | - | - |
-| **All** | 37 | 92% | 95% | - | 8 of 178 | 240s | 1.0 |
+| **All** | 44 | 93% | 95% | - | 11 of 259 | 276s | 1.2 |
 
 ## Effect of grounding (RQ1)
 
@@ -20,7 +20,7 @@ No question has been answered in both conditions yet.
 
 ## Proactive insights (RQ3)
 
-From the 38 insights stored by 8 completed scans (4 scans failed, mostly on rate limits).
+From the 38 insights stored by 8 completed scans (5 scans failed, mostly on rate limits).
 
 | Measure | Result |
 |---|---|
@@ -37,11 +37,18 @@ Detection itself (which products and suppliers are flagged) is done by the rule-
 | Case | Condition | Role | Result | Facts | Tools called | Unsupported figures | Model |
 |---|---|---|---|---|---|---|---|
 | FD1 | grounded | admin | pass | 1/1 | get_product_overview | 103 | gemma-4-31b-it |
+| FD10 | grounded | admin | pass | 2/2 | get_product_overview | - | gemma-4-31b-it |
+| FD11 | grounded | admin | pass | 2/2 | get_stock_risk | - | gemma-4-31b-it |
+| FD12 | grounded | admin | pass | 1/1 | get_product_overview, run_what_if | - | gemma-4-31b-it |
+| FD13 | grounded | admin | pass | 1/1 | get_product_overview, run_what_if | - | gemma-4-31b-it |
 | FD2 | grounded | admin | pass | 1/1 | get_product_overview, list_purchase_orders | - | gemma-4-31b-it |
 | FD3 | grounded | admin | pass | 1/1 | get_product_overview | - | gemma-4-31b-it |
 | FD4 | grounded | admin | pass | 1/1 | get_product_overview | - | gemma-4-31b-it |
 | FD5 | grounded | admin | pass | 1/1 | get_product_overview, list_purchase_orders | 188.54, 103, 87 | gemma-4-31b-it |
 | FD6 | grounded | admin | pass | 1/1 | get_product_overview, get_stock_risk | 26, 132.86, 163.86, 70.86 | gemma-4-31b-it |
+| FD7 | grounded | admin | pass | 1/1 | get_product_overview, get_stock_risk | 257.64, 121.64, 260 | gemma-4-31b-it |
+| FD8 | grounded | admin | pass | 1/1 | list_stock_risk | - | gemma-4-31b-it |
+| FD9 | grounded | admin | pass | 2/2 | get_stock_risk, get_product_overview | - | gemma-4-31b-it |
 | FP1 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
 | FP10 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
 | FP11 | grounded | admin | pass | 1/1 | - | - | gemma-4-31b-it |
