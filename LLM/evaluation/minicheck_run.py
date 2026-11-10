@@ -59,6 +59,7 @@ class MiniCheck:
     @torch.inference_mode()
     def support(self, pieces: list[str], claims: list[str], batch: int = 8) -> list[float]:
         pairs = [(index, f"premise: {piece} hypothesis: {claim}") for index, claim in enumerate(claims) for piece in pieces]
+        pairs.sort(key=lambda pair: len(pair[1]))  # similar lengths per batch: less padding, same scores
         best = [0.0] * len(claims)
         for start in range(0, len(pairs), batch):
             group = pairs[start:start + batch]
