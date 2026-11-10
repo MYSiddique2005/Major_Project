@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#111}
+#fig{display:inline-block;padding:18px;background:#fff}
+.box{border:1.6px solid #1f3b73;border-radius:6px;padding:8px 10px;background:#f3f6fc;font-size:13px;text-align:center}
+.title{font-weight:bold;font-size:14px;margin-bottom:4px}
+.small{font-size:11.5px;color:#333}</style>
+<script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
+<script src="../node_modules/chart.js/dist/chart.umd.js"></script></head>
+<body><div id="fig"><div style="width:1000px"><pre class="mermaid">flowchart TB
+  subgraph FE[Frontend: React 19 + TypeScript + Vite + Tailwind]
+    P[Pages: Dashboard, Sales, Inventory, Procurement,<br/>Analytics, Approvals, AI Insights, AI Assistant, Audit]
+    S[Services: Axios clients, AuthContext, JWT storage]
+  end
+  subgraph BE[Backend: Python + FastAPI]
+    R[API routers /api/v1: one per module]
+    SEC[Security: JWT, bcrypt, role to permission map]
+    SV[Services: business logic and workflows]
+    AN[Analytics: demand, forecast, stock risk,<br/>supplier performance, what-if]
+    LL[LLM layer: providers, 15 tools, knowledge base,<br/>recommendation checks, TRACE verifier]
+    RP[Repositories: PostgreSQL / in-memory]
+  end
+  DB[(PostgreSQL 11 tables)]
+  EXT[[Gemini API]]
+  P --> S --> R
+  R --> SEC
+  R --> SV --> RP --> DB
+  SV --> AN
+  SV --> LL --> EXT
+  LL --> AN</pre></div></div><script>window.__ready=false; mermaid.initialize({startOnLoad:false, theme:'neutral', fontFamily:'Arial', flowchart:{htmlLabels:true}});
+     mermaid.run().then(()=>{window.__ready=true});</script></body></html>

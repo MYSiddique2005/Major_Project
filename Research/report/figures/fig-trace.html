@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#111}
+#fig{display:inline-block;padding:18px;background:#fff}
+.box{border:1.6px solid #1f3b73;border-radius:6px;padding:8px 10px;background:#f3f6fc;font-size:13px;text-align:center}
+.title{font-weight:bold;font-size:14px;margin-bottom:4px}
+.small{font-size:11.5px;color:#333}</style>
+<script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
+<script src="../node_modules/chart.js/dist/chart.umd.js"></script></head>
+<body><div id="fig"><div style="width:1250px"><pre class="mermaid">flowchart LR
+  A[Assistant's draft answer] --> B[LLM extractor<br/>prompt trace-extract-3<br/>JSON assertions]
+  A --> C[Rule extractor<br/>12 claim patterns]
+  B --> D{Schema validation<br/>64 attributes, 3 families}
+  D -- invalid --> X[dropped and counted]
+  D -- valid --> E[Grounding and type checks<br/>subject named in text,<br/>ambiguous terms, units, dates]
+  C --> F
+  E --> F[Deterministic verifier:<br/>evaluates each assertion with<br/>the system's own tested code]
+  F --> G[supported]
+  F --> H[contradicted]
+  F --> I[unverifiable]
+  H --> J[sent back once for correction,<br/>then shown as a warning]</pre></div></div><script>window.__ready=false; mermaid.initialize({startOnLoad:false, theme:'neutral', fontFamily:'Arial', flowchart:{htmlLabels:true}});
+     mermaid.run().then(()=>{window.__ready=true});</script></body></html>

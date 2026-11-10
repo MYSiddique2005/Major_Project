@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#111}
+#fig{display:inline-block;padding:18px;background:#fff}
+.box{border:1.6px solid #1f3b73;border-radius:6px;padding:8px 10px;background:#f3f6fc;font-size:13px;text-align:center}
+.title{font-weight:bold;font-size:14px;margin-bottom:4px}
+.small{font-size:11.5px;color:#333}</style>
+<script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
+<script src="../node_modules/chart.js/dist/chart.umd.js"></script></head>
+<body><div id="fig"><div style="width:1050px;position:relative">
+<div style="display:grid;grid-template-columns:200px 60px 360px 60px 300px;align-items:center;row-gap:16px">
+ <div>
+  <div class="box" style="margin:6px 0">👤 Administrator</div><div class="box" style="margin:6px 0">👤 Inventory Manager</div><div class="box" style="margin:6px 0">👤 Procurement Manager</div><div class="box" style="margin:6px 0">👤 Employee (read-only)</div>
+ </div>
+ <div style="font-size:24px;text-align:center;color:#1f3b73">⇄</div>
+ <div>
+  <div class="box" style="background:#e8eef9"><div class="title">IntelliERP web application (React)</div>
+   <div class="small">Dashboard · Sales · Inventory · Procurement · Suppliers · Analytics · Approvals · AI Insights · AI Assistant · Audit log</div></div>
+  <div style="text-align:center;font-size:20px;color:#1f3b73">⇅ REST + JWT</div>
+  <div class="box"><div class="title">FastAPI back end</div>
+   <div class="small">Role-based access control · ERP services · Analytics engine (deterministic rules)<br>
+   AI assistant: 15 permission-checked tools · Knowledge base (41 passages)<br>
+   <b>Verification: figures + typed assertions (TRACE)</b> · Draft-only actions · Audit log</div></div>
+  <div style="text-align:center;font-size:20px;color:#1f3b73">⇅ SQLAlchemy</div>
+  <div class="box"><div class="title">PostgreSQL</div><div class="small">Wide World Importers: 227 products, 7 suppliers, 72,696 sales lines, 5,443 purchase-order lines</div></div>
+ </div>
+ <div style="font-size:24px;text-align:center;color:#1f3b73">⇄</div>
+ <div>
+  <div class="box" style="background:#fff4e5;border-color:#c55a11"><div class="title">LLM provider (external)</div>
+  <div class="small">Google Gemini API (free tier)<br>gemini-3.5-flash-lite, Gemma 4 31B<br>receives the question, tool results and knowledge passages; never the database</div></div>
+ </div>
+</div></div></div><script></script></body></html>

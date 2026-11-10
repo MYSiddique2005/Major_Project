@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#111}
+#fig{display:inline-block;padding:18px;background:#fff}
+.box{border:1.6px solid #1f3b73;border-radius:6px;padding:8px 10px;background:#f3f6fc;font-size:13px;text-align:center}
+.title{font-weight:bold;font-size:14px;margin-bottom:4px}
+.small{font-size:11.5px;color:#333}</style>
+<script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
+<script src="../node_modules/chart.js/dist/chart.umd.js"></script></head>
+<body><div id="fig"><div style="width:1100px"><pre class="mermaid">erDiagram
+  SUPPLIERS ||--o{ SUPPLIER_PRODUCTS : supplies
+  PRODUCTS ||--o{ SUPPLIER_PRODUCTS : "supplied by"
+  PRODUCTS ||--o{ INVENTORY : "stocked as"
+  PRODUCTS ||--o{ SALES_ORDERS : "sold in"
+  PRODUCTS ||--o{ PURCHASE_ORDERS : "ordered in"
+  SUPPLIERS ||--o{ PURCHASE_ORDERS : receives
+  PURCHASE_ORDERS ||--o| APPROVALS : "decided by"
+  USERS ||--o{ APPROVALS : decides
+  USERS ||--o{ AUDIT_LOGS : performs
+  AI_SCANS ||--o{ AI_INSIGHTS : produces
+  AI_INSIGHTS |o--o{ PURCHASE_ORDERS : "drafted from"
+  PRODUCTS { string id PK
+    string name
+    float price
+    float unit_cost }
+  INVENTORY { string id PK
+    string product_id FK
+    string warehouse
+    int current_stock
+    int safety_stock
+    int reorder_level }
+  PURCHASE_ORDERS { string id PK
+    string product_id FK
+    string supplier_id FK
+    int quantity
+    string status
+    string origin
+    json ai_recommendation }
+  SALES_ORDERS { string id PK
+    string product_id FK
+    int quantity
+    date order_date
+    string status }</pre></div></div><script>window.__ready=false; mermaid.initialize({startOnLoad:false, theme:'neutral', fontFamily:'Arial', flowchart:{htmlLabels:true}});
+     mermaid.run().then(()=>{window.__ready=true});</script></body></html>

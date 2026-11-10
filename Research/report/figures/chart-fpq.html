@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#111}
+#fig{display:inline-block;padding:18px;background:#fff}
+.box{border:1.6px solid #1f3b73;border-radius:6px;padding:8px 10px;background:#f3f6fc;font-size:13px;text-align:center}
+.title{font-weight:bold;font-size:14px;margin-bottom:4px}
+.small{font-size:11.5px;color:#333}</style>
+<script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
+<script src="../node_modules/chart.js/dist/chart.umd.js"></script></head>
+<body><div id="fig"><div style="width:900px;height:400px"><canvas id="c"></canvas></div></div><script>Chart.defaults.font.family='Arial'; Chart.defaults.font.size=14; Chart.defaults.color='#111';
+     const cfg={"type":"bar","data":{"labels":["Verifier off","Patterns","TRACE"],"datasets":[{"label":"gemini-3.5-flash-lite (44 questions)","data":[89,84,93],"backgroundColor":"#2f5597"},{"label":"gemma-4-31b-it (44 questions)","data":[93,93,93],"backgroundColor":"#548235"}]},"options":{"plugins":{"title":{"display":true,"text":"False-premise questions: answers that rebut the premise (%)"}},"scales":{"y":{"min":0,"max":100}}}};
+     cfg.options=Object.assign({animation:false,responsive:true,maintainAspectRatio:false},cfg.options||{});
+     cfg.plugins=[{id:'labels',afterDatasetsDraw(chart){const {ctx}=chart;ctx.save();ctx.font='12px Arial';ctx.fillStyle='#111';
+       chart.data.datasets.forEach((ds,i)=>{chart.getDatasetMeta(i).data.forEach((bar,j)=>{const v=ds.data[j];if(v==null)return;
+       const horiz=chart.options.indexAxis==='y';const t=(ds.labelSuffix!==undefined?v+ds.labelSuffix:v+'%');
+       if(horiz){ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(t,bar.x+4,bar.y);}else{ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(t,bar.x,bar.y-3);}});});ctx.restore();}}];
+     new Chart(document.getElementById('c'),cfg);</script></body></html>
