@@ -567,7 +567,8 @@ verdict and label is in `LLM/evaluation/results/trace/`.
   (`dev-report.md`).
 - **Natural errors** (`natural/`): in a random sample of 300 sentences from 590 stored answers, 19 of 261
   checkable sentences were false (7.3%): 2.4% with the knowledge base, 25.9% without it. TRACE found 4 of
-  the 19 and the Gemini judge 10. Most natural errors misstate a definition, or relate two correct figures
+  the 19, the Gemini judge 10 and MiniCheck 14 (by flagging 55% of all sentences; 8% of its flags were
+  real errors). The Gemma judge found 11 of 14 on the 203 answers its API would judge. Most natural errors misstate a definition, or relate two correct figures
   wrongly, which the language does not cover. Nine labels were corrected after a consistency check; the
   log is `natural/label-corrections.jsonl` and both versions are reported.
 - **False-premise questions** (`../fpq-report.md`): 44 questions that assume something false. Answers
@@ -577,7 +578,7 @@ verdict and label is in `LLM/evaluation/results/trace/`.
   patterns). TRACE sent 10 answers back; two false alarms made a correct answer wrong.
 - **Repeatability** (`repeat-extraction.md`, `repeat-judge.md`): given an extraction, verdicts are identical
   (420 of 420). Two extractions of the same 50 texts led to the same flag decision for 47 and the same
-  flagged statements for 41; the Gemini judge asked twice: 47 and 34.
+  flagged statements for 41; the Gemini judge asked twice: 47 and 34; the Gemma judge asked twice: 49 and 49.
 
 ### Running the TRACE evaluation
 

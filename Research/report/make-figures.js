@@ -335,9 +335,9 @@ chartPage('chart-errortype', { type: 'bar', data: { labels: ['Derived (15)', 'Ex
   options: { plugins: { title: { display: true, text: 'Held-out errors detected by error type (%)' } }, scales: { y: { min: 0, max: 100 } } } }, 950, 430);
 
 // LLM/evaluation/results/trace/natural/report.md
-chartPage('chart-natural', { type: 'bar', data: { labels: ['Patterns (v3)', 'TRACE-hybrid', 'LLM judge (Gemini)'],
-  datasets: [{ label: 'Recall on the 19 false sentences of the sample', data: [11, 21, 53], backgroundColor: BLUE },
-             { label: 'Precision of flags', data: [100, 15, 24], backgroundColor: ORANGE }] },
+chartPage('chart-natural', { type: 'bar', data: { labels: ['Patterns (v3)', 'TRACE-hybrid', 'Gemini judge', 'Gemma judge (203 answers)', 'MiniCheck'],
+  datasets: [{ label: 'Recall on the false sentences of the sample', data: [11, 21, 53, 79, 74], backgroundColor: BLUE },
+             { label: 'Precision of flags', data: [100, 15, 24, 17, 8], backgroundColor: ORANGE }] },
   options: { plugins: { title: { display: true, text: "The assistant's own errors (%)" } }, scales: { y: { min: 0, max: 110 } } } }, 900, 420);
 
 // LLM/evaluation/results/fpq-report.md (both models complete)

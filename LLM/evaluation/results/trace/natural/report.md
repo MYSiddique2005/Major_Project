@@ -43,3 +43,17 @@ False sentences in the random sample: 9 of 148 (6%, 95% CI 3%-11%).
 | TRACE-rule | - | - |
 
 False sentences in the random sample: 0 of 55 (0%, 95% CI 0%-7%).
+
+## answers every method judged (all but 8)
+
+| Method | Precision of flags | Recall on the random sample |
+|---|---:|---:|
+| LLM judge (gemini-3.5-flash-lite) | 21 of 110 (19%, 95% CI 13%-27%) | 9 of 14 (64%, 95% CI 39%-84%) |
+| MiniCheck | 28 of 479 (6%, 95% CI 4%-8%) | 10 of 14 (71%, 95% CI 45%-88%) |
+| LLM judge (gemma-4-31b-it) | 25 of 145 (17%, 95% CI 12%-24%) | 11 of 14 (79%, 95% CI 52%-92%) |
+| TRACE-model | 11 of 77 (14%, 95% CI 8%-24%) | 4 of 14 (29%, 95% CI 12%-55%) |
+| TRACE-hybrid | 11 of 77 (14%, 95% CI 8%-24%) | 4 of 14 (29%, 95% CI 12%-55%) |
+| v3 patterns | 2 of 2 (100%, 95% CI 34%-100%) | 2 of 14 (14%, 95% CI 4%-40%) |
+| TRACE-rule | 2 of 2 (100%, 95% CI 34%-100%) | 2 of 14 (14%, 95% CI 4%-40%) |
+
+False sentences in the random sample: 14 of 284 (5%, 95% CI 3%-8%).

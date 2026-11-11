@@ -188,6 +188,13 @@ Read these with their limits in mind:
 - **The confidence intervals** describe sampling error on questions like these, nothing more. 100% on
   86 questions means the true rate on similar questions is probably above 96%, not that it is 100%.
 
+## Phase 9: TRACE
+
+The typed run-time verifier TRACE has its own evaluation in this folder (`evaluation/trace_*.py`,
+`judge_repeat.py`, `judge_shard.py`, `minicheck_run.py`, `fpq_report.py`, `harm_report.py`,
+`natural_sample_report.py`), with results in `evaluation/results/trace/`. The design, the results table and
+the commands to repeat every experiment are in the main [README](../README.md#typed-run-time-verification-trace-phase-9).
+
 ## Earlier runs: the first 24 questions
 
 Two runs of 34 answers each were made on 6 October 2026, on Gemini's free tier (almost all on

@@ -210,8 +210,12 @@ def score(items: list[dict]) -> Path:
     value, shared = kappa(labels, second)
     if value is not None:
         lines.append(f"Agreement on {shared} sentences labelled by both: Cohen's kappa {value:.2f}.")
-    for group, keep in (("all answers", lambda item: True), ("answers TRACE was developed on", lambda item: item["development"]),
-                        ("answers TRACE never saw (Gemma run)", lambda item: item["run"] == "gemma4-1")):
+    unjudged = set().union(*missing.values()) if missing else set()
+    groups = [("all answers", lambda item: True), ("answers TRACE was developed on", lambda item: item["development"]),
+              ("answers TRACE never saw (Gemma run)", lambda item: item["run"] == "gemma4-1")]
+    if unjudged:  # a like-for-like comparison when a method could not judge some answers
+        groups.append((f"answers every method judged (all but {len(unjudged)})", lambda item: item["id"] not in unjudged))
+    for group, keep in groups:
         lines += ["", f"## {group}", "",
                   "| Method | Precision of flags | Recall on the random sample |", "|---|---:|---:|"]
         in_group = {row_id for row_id, unit in units.items() if keep(by_id[unit["answer_id"]])}

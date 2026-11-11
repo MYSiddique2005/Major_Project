@@ -26,11 +26,12 @@ ongoing sales as a Critical stockout hazard''), a sentence combining several fig
 actions (``a draft purchase order has been generated'', ``I am unable to approve or submit this order''). A
 checker trained on general-domain entailment cannot tell a reworded rule from a wrong one; the typed
 assertions and the rule keys of TRACE make that comparison explicit.}
-\newcommand{\NATURALBASELINES}{\multicolumn{3}{l}{\pending{Gemma judge and MiniCheck rows}} \\}
+\newcommand{\NATURALBASELINES}{LLM judge (Gemma)$^{*}$ & 11/14 (79\%; 52--92) & 25/145 (17\%; 12--24) \\
+MiniCheck & 14/19 (74\%; 51--88) & 41/503 (8\%; 6--11) \\}
 \newcommand{\FPQGEMMA}{gemma-4-31b-it & off & 41/44 (93\%; 82--98) & 16/19 & 12/12 & 13/13 & -- \\
  & patterns & 41/44 (93\%; 82--98) & 16/19 & 12/12 & 13/13 & 4 \\
  & TRACE & 41/44 (93\%; 82--98) & 16/19 & 12/12 & 13/13 & 8 \\}
-\newcommand{\GEMMASCOPE}{\pending{scope}}
+\newcommand{\GEMMASCOPE}{could not judge 8 of those answers, for which its API returned a server error on every attempt}
 \newcommand{\attr}[1]{\texttt{#1}}
 
 \begin{document}
@@ -531,8 +532,8 @@ The Gemma judge flagged only 7 paraphrases (7\%), which does not differ signific
 come close to TRACE on both measures on this test, and the claim that deterministic verification raises
 fewer false alarms holds against one judge model and not the other. What separates the approaches is
 not accuracy alone. A judge's quality depends on the model, and the small, fast model that an assistant
-could call on every answer was the one with the high false-alarm rate; both judges' verdicts vary between
-repeated calls (Section~\ref{sec:rq4}); and a judge's flag cannot be traced to a fact the way an
+could call on every answer was the one with the high false-alarm rate and the one whose verdicts varied
+between repeated calls (Section~\ref{sec:rq4}); and a judge's flag cannot be traced to a fact the way an
 assertion can.
 
 \HELDOUTMINIGEMMA
@@ -617,7 +618,7 @@ Gemma run & 55 & 43 & 0 & 11 & 1 & 0/43 (0\%) \\
 \end{table}
 
 \paragraph{Detection of natural errors.} Table~\ref{tab:naturalmethods} gives each method's recall on the
-19 false sentences of the random sample, and the precision of its flags in the 211 answers. All 649 pooled
+19 false sentences of the random sample, and the precision of its flags in the 211 answers. All 686 pooled
 sentences (the sample and every flagged sentence) were labelled. Natural errors turned out to be a
 different problem from the injected ones. TRACE-hybrid found 4 of the 19 (21\%), against 10 (53\%) for the
 Gemini judge. Of TRACE's fifteen misses, five are the overdue-unit sentences: the extractor recorded both
@@ -643,11 +644,22 @@ correct weekly figures in one of them), precision is 12 of 28 for TRACE (43\%) a
 72. On the Gemma run, which TRACE never saw during development, the sample contains no false sentence; both
 methods' flags there (6 for TRACE, 12 for the judge) were all wrong.
 
+The other two baselines found more of the errors, at different costs. The Gemma judge could not judge 8 of
+the 211 answers (its API returned a server error on every attempt). On the other 203, which hold 14 of the
+19 false sentences, it found 11 (79\%), against 9 for the Gemini judge, 10 for MiniCheck and 4 for
+TRACE-hybrid on the same 14; 25 of its 145 labelled flags were false sentences (17\%), in 62 answers.
+MiniCheck found 14 of the 19 (74\%), but it flagged 511 of the 932 sentences in the 211 answers (55\%), in
+146 answers, and 41 of its 503 labelled flags were false sentences (8\%). A checker that flags more than
+half of all sentences finds most errors without separating them from correct text. No method combined
+useful recall with useful precision on natural errors: the two judges found half to three quarters of them
+with four or five wrong flags for each right one, and TRACE's flags were as imprecise and found fewer.
+
 \begin{table}[t]
 \centering\footnotesize
 \setlength{\tabcolsep}{4pt}
 \caption{Natural errors: recall on the 19 false sentences of the random sample, and precision of the
-flags in the 211 answers that hold a sampled sentence (Wilson 95\% intervals).}
+flags in the 211 answers that hold a sampled sentence (Wilson 95\% intervals). $^{*}$Scored on the 203
+answers the Gemma judge could judge, which hold 14 of the 19 false sentences.}
 \label{tab:naturalmethods}
 \begin{tabular}{@{}lrr@{}}
 \toprule
@@ -746,15 +758,18 @@ percentile 4.6\,s). Gemma's latencies are not reported, because its free API was
 its times are dominated by retries.
 
 Given an extraction, TRACE's verdicts are reproducible: verifying the same 50 held-out texts in two separate
-processes gave identical verdicts for all 420 assertions. The LLM judge, run twice at temperature 0 on the
+processes gave identical verdicts for all 420 assertions. The Gemini judge, run twice at temperature 0 on the
 same 50 texts with the same evidence, made the same flag/no-flag decision for 47 texts but returned the same
 set of contradicted statements for only 34; of the 28 texts flagged in either run, only 12 received
-identical lists. The extraction itself is less stable. Extracting the same 50 texts a second time (same
+identical lists. The Gemma judge was far more stable: it made the same decision for 49 of the 50 texts and
+returned the same set for the same 49 (23 of the 24 texts flagged in either run). The extraction itself is
+less stable. Extracting the same 50 texts a second time (same
 prompt, temperature 0) returned identical assertion lists for only 6 texts; after verification, the two
 extractions led to the same flag decision for 47 texts and the same set of contradicted statements for 41,
 and of the 18 texts flagged in either run, 9 received identical lists. End to end, TRACE is therefore about
-as stable as the judge in its flag decisions and somewhat more stable in what it flags; its determinism
-holds for the verifier, not for the pipeline.
+as stable as the Gemini judge in its flag decisions and somewhat more stable in what it flags, and less
+stable than the Gemma judge; its determinism holds for the verifier, not for the pipeline. Repeatability is
+a property of the model that reads the text, whether it is asked for a verdict or for assertions.
 
 % =====================================================================================================
 \section{Discussion and threats to validity}
@@ -766,9 +781,10 @@ text never named, a term with two meanings, a corrected direction, a hypothetica
 This visibility is what the conditional soundness property buys; with an LLM judge, the same errors would
 appear only as unexplained disagreements.
 
-\paragraph{Injected and natural errors differ.} On model-written injections TRACE matched the LLM judge
-(69\% against 78\% detection, not significantly different) with a quarter of its false alarms. On the
-assistant's own errors it found 4 of 19 against the judge's 10. The reason is the error mix, not the
+\paragraph{Injected and natural errors differ.} On model-written injections TRACE was not significantly behind
+either LLM judge in detection (69\% against 78\% and 75\%), with a quarter of the Gemini judge's false
+alarms and about as many as the Gemma judge. On the
+assistant's own errors it found 4 of 19, against 10 for the Gemini judge and 14 for MiniCheck. The reason is the error mix, not the
 verifier. Fourteen of the nineteen natural errors were made without the knowledge base; eleven of them state a
 company rule or definition wrongly, and eight of those a definition that the language does not cover: what a
 status means, whether two figures are the same, how a projection treats unserved demand. Five more relate two
@@ -800,7 +816,7 @@ are real); the language is tied to the schema, not to the data. Paraphrase false
 statement, and a paraphrase that splits a sentence can change counts for any method. The author wrote the
 questions. The natural-error sentences were labelled by a single annotator, a language model (Claude Opus 5.5)
 that is not one of the evaluated models or methods. It labelled the random sample before any method had been
-run on it. It labelled the 349 flagged sentences outside the sample afterwards, without being told which
+run on it. It labelled the 386 flagged sentences outside the sample afterwards, without being told which
 method had flagged them, and kept the conventions of the sample labels. Nine labels, five of them in the
 sample, were corrected afterwards by one rule taken from the code; the correction was prompted by MiniCheck's
 flags and favours MiniCheck's recall, so both versions are reported. Inter-annotator agreement has
@@ -819,8 +835,8 @@ sees it, and keeps the decision of truth out of the language model. On developme
 clearly more model-written errors than a pattern-based verifier, at a cost in false alarms that the error
 decomposition makes explainable. On a held-out test written after the system was frozen, by a writer it
 had never seen, it kept the same detection rate (69\%) with fewer false alarms (4\%), detected 55 errors the
-pattern-based verifier missed and none that it found, and matched an LLM judge given the same evidence
-while raising a quarter of the judge's false alarms. Given an extraction, its verdicts were identical when
+pattern-based verifier missed and none that it found, and was not significantly behind two LLM judges given
+the same evidence, raising a quarter of the false alarms of one and about as many as the other. Given an extraction, its verdicts were identical when
 repeated, and every miss and false alarm could be traced to a specific extraction or coverage gap; no error
 came from a verification function. On the assistant's own errors, however, it found only 4 of 19, because
 most natural errors misstate definitions, or relations between figures, that its language does not cover, and on false-premise questions
