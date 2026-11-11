@@ -6,7 +6,7 @@
 <script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
 <script src="../node_modules/chart.js/dist/chart.umd.js"></script></head>
 <body><div id="fig"><div style="width:950px;height:430px"><canvas id="c"></canvas></div></div><script>Chart.defaults.font.family='Arial'; Chart.defaults.font.size=14; Chart.defaults.color='#111';
-     const cfg={"type":"bar","data":{"labels":["Derived (15)","Existence (18)","Figure (26)","Permission (9)","Qualitative (20)","Rule (14)"],"datasets":[{"label":"TRACE-hybrid","data":[87,50,81,22,70,79],"backgroundColor":"#2f5597"},{"label":"LLM judge (Gemini)","data":[73,89,77,33,85,93],"backgroundColor":"#8c8c8c"}]},"options":{"plugins":{"title":{"display":true,"text":"Held-out errors detected by error type (%)"}},"scales":{"y":{"min":0,"max":100}}}};
+     const cfg={"type":"bar","data":{"labels":["Derived (15)","Existence (18)","Figure (26)","Permission (9)","Qualitative (20)","Rule (14)"],"datasets":[{"label":"TRACE-hybrid","data":[87,50,81,22,70,79],"backgroundColor":"#2f5597"},{"label":"LLM judge (Gemini)","data":[73,89,77,33,85,93],"backgroundColor":"#8c8c8c"},{"label":"LLM judge (Gemma)","data":[67,72,77,44,75,100],"backgroundColor":"#548235"}]},"options":{"plugins":{"title":{"display":true,"text":"Held-out errors detected by error type (%)"}},"scales":{"y":{"min":0,"max":100}}}};
      cfg.options=Object.assign({animation:false,responsive:true,maintainAspectRatio:false},cfg.options||{});
      cfg.plugins=[{id:'labels',afterDatasetsDraw(chart){const {ctx}=chart;ctx.save();ctx.font='12px Arial';ctx.fillStyle='#111';
        chart.data.datasets.forEach((ds,i)=>{chart.getDatasetMeta(i).data.forEach((bar,j)=>{const v=ds.data[j];if(v==null)return;

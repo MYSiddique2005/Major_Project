@@ -251,6 +251,7 @@ def report() -> Path:
         names = methods.names()
         detected = {name: {} for name in names}  # name -> {(writer, id): bool}
         alarms = {name: Counter() for name in names}
+        alarmed = {name: {} for name in names}  # name -> {(writer, id): bool}, for the paired comparison
         by_type = {name: defaultdict(Counter) for name in names}
         reasons = Counter()
         valid_count = Counter()
@@ -286,6 +287,7 @@ def report() -> Path:
                         alarm = len(after[name]) > len(before[name])
                         alarms[name]["paraphrases"] += 1
                         alarms[name]["false_alarms"] += alarm
+                        alarmed[name][(writer, record["id"])] = alarm
                         if alarm and name == "TRACE-hybrid":
                             details.append(f"- FALSE ALARM {writer} {record['id']}: "
                                            + "; ".join(q[:90] for q in after[name] if q not in before[name]))
@@ -323,6 +325,23 @@ def report() -> Path:
         adjusted = holm(p_values)
         lines += ["", "## TRACE-hybrid against each method (McNemar exact, Holm-adjusted)", "",
                   "| Method | Injections both judged | Only TRACE-hybrid detected | Only the other detected | p (Holm) |",
+                  "|---|---:|---:|---:|---:|"]
+        for name, (shared, only_trace, only_other) in pairs.items():
+            lines.append(f"| {name} | {shared} | {only_trace} | {only_other} | {adjusted[name]:.3g} |")
+
+        # Added after the results were seen (not among the rules fixed before the test): the same paired test on
+        # false alarms, because the two judges' false-alarm rates turned out to differ widely.
+        p_values, pairs = {}, {}
+        for name in names:
+            if name == "TRACE-hybrid":
+                continue
+            shared = set(alarmed["TRACE-hybrid"]) & set(alarmed[name])
+            only_trace = sum(alarmed["TRACE-hybrid"][key] and not alarmed[name][key] for key in shared)
+            only_other = sum(alarmed[name][key] and not alarmed["TRACE-hybrid"][key] for key in shared)
+            p_values[name], pairs[name] = mcnemar(only_trace, only_other), (len(shared), only_trace, only_other)
+        adjusted = holm(p_values)
+        lines += ["", "## False alarms: TRACE-hybrid against each method (McNemar exact, Holm-adjusted; post hoc)", "",
+                  "| Method | Paraphrases both judged | Only TRACE-hybrid raised one | Only the other raised one | p (Holm) |",
                   "|---|---:|---:|---:|---:|"]
         for name, (shared, only_trace, only_other) in pairs.items():
             lines.append(f"| {name} | {shared} | {only_trace} | {only_other} | {adjusted[name]:.3g} |")

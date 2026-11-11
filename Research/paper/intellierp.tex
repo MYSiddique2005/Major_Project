@@ -207,7 +207,7 @@ supplier the user did not name is refused for the rest of that message.
 the knowledge passages supplied, the question and previous turns, allowing for rounding; identifiers and
 dates are ignored. An answer that states figures although no tool was called is returned to the model once with a
 request to call a tool or drop them. Figures that still cannot be traced are returned to the user as
-unverified. A figure which was correctly calculated by the model will however be flagged, not blocked.
+unverified. A figure that the model calculated correctly from tool results is therefore flagged, but not blocked.
 
 \textit{Claims.} A real figure can still be used to say something false, and many statements carry no
 figure. The claim verifier finds 12 kinds of qualitative statement (Table~\ref{tab:claims}) by pattern,
@@ -457,12 +457,12 @@ the model to explanation removed the run-to-run variation that autonomous orderi
 and lookup based and needs no model call. It complements keyword scoring: it found errors that answers
 containing the expected facts still made.
 
-The results have clear limits. The questions were written by the system's builders and favor what the
+The results have clear limits. The questions were written by the system's author and favor what the
 system covers. Scoring by keyword needed corrections after reading answers. Answers came from two models of one provider (a small closed one and an open-weight one), and the open-weight
 model was run once. Supply-side data is simulated. The figure check cannot tell a correct derived figure from an
 invented one. The claim verifier checks only the 12 kinds of statement it recognises, by pattern, in
 English; its tests used errors injected by a model, whose style may differ from errors a model makes on its
-own, and even 62 in-scope errors leave an interval of 66--86\%. Scope was defined by the authors themselves.
+own, and even 62 in-scope errors leave an interval of 66--86\%. Scope was defined by the author.
 No study was conducted with real users; hence, the usefulness of IntelliERP for managers is not measured.
 
 % =====================================================================================================

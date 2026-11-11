@@ -20,7 +20,7 @@ No question has been answered in both conditions yet.
 
 ## Proactive insights (RQ3)
 
-From the 38 insights stored by 8 completed scans (4 scans failed, mostly on rate limits).
+From the 38 insights stored by 8 completed scans (5 scans failed, mostly on rate limits).
 
 | Measure | Result |
 |---|---|

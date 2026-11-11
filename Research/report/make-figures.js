@@ -323,14 +323,15 @@ chartPage('chart-dev', { type: 'bar', data: { labels: ['Patterns (v3)', 'TRACE-r
   options: { plugins: { title: { display: true, text: 'Development sets: 183 errors, 182 paraphrases (%)' } }, scales: { y: { min: 0, max: 100 } } } });
 
 // LLM/evaluation/results/trace/heldout-report.md
-chartPage('chart-heldout', { type: 'bar', data: { labels: ['Patterns (v3)', 'TRACE-rule', 'TRACE-model', 'TRACE-hybrid', 'LLM judge (Gemini)', 'MiniCheck'],
-  datasets: [{ label: 'Errors detected (of 102)', data: [15, 20, 65, 69, 78, 37], backgroundColor: BLUE },
-             { label: 'False alarms (of 103 paraphrases)', data: [2, 2, 3, 4, 17, 21], backgroundColor: ORANGE }] },
+chartPage('chart-heldout', { type: 'bar', data: { labels: ['Patterns (v3)', 'TRACE-rule', 'TRACE-model', 'TRACE-hybrid', 'LLM judge (Gemini)', 'LLM judge (Gemma)', 'MiniCheck'],
+  datasets: [{ label: 'Errors detected (of 102)', data: [15, 20, 65, 69, 78, 75, 37], backgroundColor: BLUE },
+             { label: 'False alarms (of 103 paraphrases)', data: [2, 2, 3, 4, 17, 7, 21], backgroundColor: ORANGE }] },
   options: { plugins: { title: { display: true, text: 'Held-out test, written after TRACE was frozen (%)' } }, scales: { y: { min: 0, max: 100 } } } }, 950, 430);
 
 chartPage('chart-errortype', { type: 'bar', data: { labels: ['Derived (15)', 'Existence (18)', 'Figure (26)', 'Permission (9)', 'Qualitative (20)', 'Rule (14)'],
   datasets: [{ label: 'TRACE-hybrid', data: [87, 50, 81, 22, 70, 79], backgroundColor: BLUE },
-             { label: 'LLM judge (Gemini)', data: [73, 89, 77, 33, 85, 93], backgroundColor: GREY }] },
+             { label: 'LLM judge (Gemini)', data: [73, 89, 77, 33, 85, 93], backgroundColor: GREY },
+             { label: 'LLM judge (Gemma)', data: [67, 72, 77, 44, 75, 100], backgroundColor: GREEN }] },
   options: { plugins: { title: { display: true, text: 'Held-out errors detected by error type (%)' } }, scales: { y: { min: 0, max: 100 } } } }, 950, 430);
 
 // LLM/evaluation/results/trace/natural/report.md

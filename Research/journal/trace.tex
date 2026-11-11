@@ -1,26 +1,21 @@
-\documentclass[11pt]{article}
-% Draft in a neutral format; it moves to the chosen journal's template (e.g. elsarticle) before submission.
-\usepackage[margin=2.5cm]{geometry}
+% IntelliERP / TRACE journal article, IEEE journal format (IEEEtran).
+% Compile on Overleaf (IEEEtran is built in) or locally with: pdflatex, bibtex, pdflatex, pdflatex.
+\documentclass[journal]{IEEEtran}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage{cite}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs,array}
 \usepackage{xcolor}
-\usepackage{hyperref}
-\usepackage{enumitem}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning}
-\setlist{nosep}
+\usepackage[hidelinks]{hyperref}
 \newcommand{\pending}[1]{\textcolor{red}{[#1]}}
+% Run-in italic paragraph headings (IEEEtran would letter them as a), b), ...).
+\renewcommand{\paragraph}[1]{\par\textit{#1}\enspace}
 % Results still running (Gemma judge; MiniCheck on natural answers); replaced when complete.
-\newcommand{\ABSMINI}{A trained fact-checker, MiniCheck, detected 37\% with false alarms on 21\%.}
-\newcommand{\HELDOUTGEMMAROW}{\multicolumn{5}{l}{\pending{Gemma judge row}} \\}
-\newcommand{\HELDOUTBASELINES}{\HELDOUTGEMMAROW
+\newcommand{\HELDOUTBASELINES}{LLM judge (gemma-4-31b-it) & 76/102 (75\%; 65--82) & 38/50 & 38/52 & 7/103 (7\%; 3--13) \\
 MiniCheck & 38/102 (37\%; 28--47) & 20/50 & 18/52 & 22/103 (21\%; 15--30) \\}
-\newcommand{\HELDOUTGEMMA}{\pending{Gemma judge paragraph.}}
-\newcommand{\HELDOUTMINIGEMMA}{\HELDOUTGEMMA
-
-\paragraph{Comparison with MiniCheck.} MiniCheck detected 38 of the 102 errors (37\%), significantly fewer than
+\newcommand{\HELDOUTMINIGEMMA}{\paragraph{Comparison with MiniCheck.} MiniCheck detected 38 of the 102 errors (37\%), significantly fewer than
 TRACE-hybrid (46 errors detected only by TRACE-hybrid, 14 only by MiniCheck; Holm-adjusted $p<0.001$), and
 raised false alarms on 22 of 103 paraphrases (21\%). It was best on rule values (9 of 14) and weakest on
 derived results (4 of 15) and permissions (2 of 9). MiniCheck asks whether the evidence \emph{entails} a
@@ -38,47 +33,44 @@ assertions and the rule keys of TRACE make that comparison explicit.}
 \newcommand{\GEMMASCOPE}{\pending{scope}}
 \newcommand{\attr}[1]{\texttt{#1}}
 
+\begin{document}
+
 \title{IntelliERP: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision
 Support}
-\author{Mohammad Yasin Siddique\\[2pt]
-\small Department of Computer Science and Engineering, G H Raisoni College of Engineering, Nagpur, India\\
-\small\texttt{my.siddique2005@gmail.com}}
-\date{}
+\author{Mohammad Yasin Siddique%
+\thanks{M. Y. Siddique is with the Department of Computer Science and Engineering, G H Raisoni College of
+Engineering, Nagpur, India (e-mail: my.siddique2005@gmail.com).}}
+\markboth{}{Siddique: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision Support}
 
-\begin{document}
 \maketitle
 
 \begin{abstract}
 Large language models (LLMs) are being connected to enterprise resource planning (ERP) systems to answer
-questions, explain risks and propose actions. The newest ERP agents control what the model is allowed to
-do, but not whether what it says is true: a grounded assistant can still misstate a stock level, invert a
-comparison, invent a threshold or claim a permission it does not have. We present TRACE (Typed Run-time
-Assertion Checking for Enterprise assistants), which turns each factual statement of an assistant's answer
-into a typed assertion in a 64-attribute language with three families (the state of the database, results
-the analytics compute, and the company's rules and permissions) and evaluates it with the system's own
-tested code, before the user sees the answer. A language model is used only to extract assertions; whether
-an assertion is true is decided deterministically, so a verdict is correct whenever the extraction is
-faithful, and every error can be attributed to extraction, coverage of the language, or a defect in a
-verification function. TRACE is built into IntelliERP, a decision-support system for sales, inventory and
-procurement. On three development sets of model-written errors, TRACE detected 69\% of 183 errors against
-38\% for the earlier pattern-based verifier. On a held-out test generated after the system was frozen (102
-errors and 103 meaning-preserving paraphrases by two writer models), it again detected 69\% (patterns:
-15\%; McNemar $p<10^{-15}$) with false alarms on 4\% of paraphrases. An LLM judge given the same evidence
-detected 78\%, not significantly more, but raised false alarms on 17\% of paraphrases and gave different
-verdicts when asked twice; given an extraction, TRACE's verdicts were identical across runs, but two
-extractions of the same text led to the same flag decision for only 47 of 50 texts. \ABSMINI Every miss and false alarm
-was traced by hand: none came from a verification function; they came from the extractor and from
-statements outside the language. On the assistant's own answers (a random sample of 300 sentences, 7.3\%
-of checkable sentences false), TRACE found only 4 of 19 errors against the judge's 10, because most natural
-errors misstate definitions, or relations between figures, that the language does not cover; with the
-knowledge base the natural error rate fell from 26\% to 2.4\%. On 44 false-premise questions, verification did not measurably change how often
-answers rebut the premise; on the 86 ordinary evaluation questions it did not change the pass rate, but
-two of its false alarms led the model to make a correct answer wrong. The results show where deterministic verification is strong (figures, derived
-results, rule values) and what it still needs (a more faithful extractor and coverage of definitions).
+questions, explain risks and propose actions. Current ERP agents control what the model may do, but not
+whether what it says is true: a grounded assistant can still misstate a stock level, invent a threshold or
+claim a permission it lacks. We present TRACE (Typed Run-time Assertion Checking for Enterprise assistants),
+built into IntelliERP, a decision-support system for sales, inventory and procurement. TRACE turns each
+factual statement of an answer into a typed assertion over the database state, the analytics' results and
+the company's rules and permissions (64 attributes), and evaluates it with the system's own code before
+the user sees the answer. A language model only extracts assertions; their truth is decided
+deterministically, so every error can be attributed to extraction, coverage of the language or a
+verification function. On a held-out test generated after TRACE was frozen (102 model-written errors and
+103 paraphrases by two writer models), TRACE detected 69\% of the errors with false alarms on 4\% of the
+paraphrases, against 15\% for a pattern-based verifier ($p<10^{-15}$) and 37\% with 21\% false alarms for
+MiniCheck. Two LLM judges given the same evidence detected 78\% and 75\%, not significantly more; one raised
+significantly more false alarms (17\%), the other did not (7\%). No miss and no false alarm came from a
+verification function. On the assistant's own answers (300 sampled sentences, 7.3\% of the checkable ones
+false), TRACE found only 4 of 19 errors, because most natural errors misstate definitions or relations
+between figures that the language does not cover; grounding in a knowledge base lowered the natural error
+rate from 26\% to 2.4\%. Verification did not measurably change answers to false-premise questions, and two
+of its false alarms made correct answers wrong. The results show where deterministic verification is strong
+and what it still needs.
 \end{abstract}
 
-\noindent\textbf{Keywords:} enterprise resource planning; large language models; hallucination;
-run-time verification; decision support; claim verification
+\begin{IEEEkeywords}
+Enterprise resource planning, large language models, hallucination, run-time verification, decision
+support, claim verification.
+\end{IEEEkeywords}
 
 % =====================================================================================================
 \section{Introduction}
@@ -186,12 +178,12 @@ parameters $\pi$ (demand change, delay, order quantity, horizon, period). Each a
 $\phi(\alpha)\in\{\text{state},\text{derived},\text{policy}\}$, a value kind and a function
 $\mathrm{val}_\alpha(s,\pi;S)$ that returns its true value or fails.
 
-\paragraph{Verdicts.} The verdict is
+\paragraph{Verdicts.} An assertion is \emph{decidable} in $S$ if its subject $s$ can be resolved,
+$\mathrm{val}_\alpha$ returns a value, $v$ is well-typed for $\alpha$, and, when $\tau$ is past, $\alpha$ is
+a recorded fact. The verdict is
 \[
 V(a,S)=\begin{cases}
-\text{unverifiable} & \text{if } s \text{ cannot be resolved, } \mathrm{val}_\alpha \text{ fails, or } v
-\text{ is ill-typed for } \alpha\text{,}\\
-& \text{or if } \tau=\text{past and } \alpha \text{ is not recorded,}\\
+\text{unverifiable} & \text{if } a \text{ is not decidable in } S,\\
 \text{supported} & \text{if } \mathrm{val}_\alpha(s,\pi;S)\ \theta\ v,\\
 \text{contradicted} & \text{otherwise.}
 \end{cases}
@@ -242,11 +234,11 @@ products, supplier relations, validation rules and forecast methods. TRACE was d
 Table~\ref{tab:families} summarises the language. The catalogue is a single list in code from which both
 the extraction prompt and the verifier are generated, so the two cannot drift apart.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering\small
 \caption{Assertion families, sources of truth and examples (64 attributes).}
 \label{tab:families}
-\begin{tabular}{@{}p{1.6cm}p{4.2cm}p{8.4cm}@{}}
+\begin{tabular}{@{}p{1.8cm}p{4.3cm}p{11.0cm}@{}}
 \toprule
 Family & Source of truth & Attributes (examples) \\
 \midrule
@@ -265,16 +257,16 @@ rising-demand threshold, the review period, supplier risk thresholds, the maximu
 \attr{role\_can} and \attr{assistant\_can} over 21 actions, with separation of duties \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 Table~\ref{tab:examples} shows statements from the three families as the verifier judges them on the
 system's data.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering\footnotesize
 \caption{Statements, their assertions and TRACE's verdicts on the system's data (output of the verifier).}
 \label{tab:examples}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{4.6cm}p{1.8cm}>{\raggedright\arraybackslash}p{3.2cm}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}p{5.8cm}p{1.8cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
 \toprule
 Statement & Assertion & Verdict & What the data says \\
 \midrule
@@ -293,7 +285,7 @@ $+$25\%, 60 days) $=$ 328.4 & supported & 328.4 (simulation re-run) \\
 ``Product P999 is out of stock'' & \attr{stock\_on\_hand}(P999) $=$ 0 & contradicted & no product P999 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \paragraph{Design choices.}
 \begin{itemize}
@@ -317,7 +309,7 @@ recorded facts such as an order's delivery history are.
 \section{TRACE}
 \label{sec:trace}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
 \begin{tikzpicture}[box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, minimum height=8mm,
   inner sep=3pt}, arr/.style={-{Stealth[length=2mm]}}]
@@ -335,7 +327,7 @@ recorded facts such as an order's delivery history are.
 \caption{TRACE. A language model only extracts assertions; their truth is decided by code that reads the
 system of record through the same services as the assistant's tools.}
 \label{fig:trace}
-\end{figure}
+\end{figure*}
 
 \paragraph{Extraction.} Figure~\ref{fig:trace} shows the pipeline. Two extractors run. The \emph{model extractor} asks an LLM, through a forced call
 of a single tool whose input is the assertion list, to record every checkable statement; the arguments are
@@ -445,7 +437,7 @@ against 70 of 183 (38\%) for the patterns, and within the patterns' own claim ki
 which needs no model call, already adds nine detections (existence and capability statements). False alarms
 rose from 1\% to 7\%; all of them are analysed below.
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering\small
 \caption{Development sets (perturbations-v2, test-v3, test-v3b; final extraction prompt, gemini-3.5-flash-lite).
 Detection: a contradiction the rewrite introduced. In scope: the first version's twelve claim kinds.}
@@ -460,7 +452,7 @@ TRACE-model & 112/183 (61\%; 54--68) & 66/87 (76\%; 66--84) & 10/182 (5\%; 3--10
 TRACE-hybrid & 126/183 (69\%; 62--75) & 78/87 (90\%; 81--94) & 12/182 (7\%; 4--11) \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \paragraph{What development changed.} Analysing every false alarm led to the four safeguards of Section
 \ref{sec:trace}. Two examples: the extractor attached product P001 to a paraphrase that named its product
@@ -490,14 +482,13 @@ McNemar $p<10^{-15}$). The detection rate equals the development rate (69\%), so
 generalised to texts written after the freeze by a writer it had never seen. False alarms were lower than on
 the development sets (4\% against 7\%). The model-based extraction does most of the work: TRACE-rule detected
 20 errors and TRACE-model 66; hybrid mode added four qualitative errors found only by the patterns, and
-lost none (Holm-adjusted $p=0.49$ against TRACE-model). Detection was
+lost none (Holm-adjusted $p=0.36$ against TRACE-model). Detection was
 higher on Gemma's rewrites (40 of 52, 77\%) than on Gemini's (30 of 50, 60\%).
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering\small
 \caption{Held-out test: 102 valid injections and 103 paraphrases by two writers, generated after TRACE was
-frozen. Detection is attributed to the sentence holding the planted error (Wilson 95\% intervals).
-$^\dagger$Judged only on the texts that model completed (Section~\ref{sec:heldout-baselines}).}
+frozen. Detection is attributed to the sentence holding the planted error (Wilson 95\% intervals).}
 \label{tab:heldout}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lrrrr@{}}
@@ -512,25 +503,38 @@ LLM judge (gemini-3.5-flash-lite) & 80/102 (78\%; 69--85) & 38/50 & 42/52 & 17/1
 \HELDOUTBASELINES
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \paragraph{By error type.} TRACE-hybrid detected most derived (13 of 15), figure (21 of 26) and rule errors
 (11 of 14), and most qualitative errors (14 of 20, four of them only through the patterns that hybrid mode
 adds). It was weakest on existence statements (9 of 18) and permissions (2 of 9). The patterns detected no
 figure, existence or permission error at all.
 
-\paragraph{Comparison with the LLM judge.}
+\paragraph{Comparison with the LLM judges.}
 \label{sec:heldout-baselines}
-The Gemini judge, given the same evidence, detected more errors than TRACE-hybrid (80 against 70), but the
-difference is not significant (12 errors detected only by TRACE-hybrid, 22 only by the judge; Holm-adjusted
-$p=0.49$). It was better on existence statements (16 of 18) and qualitative errors (17 of 20), where TRACE's
-language or extraction falls short. Its false-alarm rate, however, was four times TRACE-hybrid's (17\% against
-4\%). The judge's false alarms are disagreements with wording, not with facts: a product name written with
-its colour in another position, ``63 late deliveries'' for 63 overdue units, ``the previous 28 days'' for
-``the last 28 days'', or statements the evidence ``does not mention'', which the prompt told it not to list.
-In an assistant that sends flagged answers back for correction, one false alarm in six paraphrases would
-mean frequent needless rewrites of correct answers. Its verdicts also vary between repeated calls
-(Section~\ref{sec:rq4}), and a judge's flag cannot be traced to a fact the way an assertion can.
+Both judges, given the same evidence, detected more errors than TRACE-hybrid (Gemini 80 and Gemma 76,
+against 70), but neither difference is significant (Gemini: 12 errors detected only by TRACE-hybrid, 22 only
+by the judge; Gemma: 10 and 16; Holm-adjusted $p=0.36$ for both). The judges were better on existence
+statements (16 and 13 of 18, against 9) and qualitative errors (17 and 15 of 20, against 14), where TRACE's
+language or extraction falls short, and the Gemma judge found all 14 rule errors.
+
+On false alarms the two judges differ widely. The Gemini judge flagged 17 of 103 paraphrases, four times as
+many as TRACE-hybrid, and the paired difference is significant (4 paraphrases flagged only by TRACE-hybrid,
+17 only by the judge, none by both; Holm-adjusted $p=0.036$). This paired test on false alarms was added
+after the results were seen and is exploratory. The Gemini judge's false alarms are disagreements with
+wording, not with facts: a product name written with its colour in another position, ``63 late deliveries''
+for 63 overdue units, ``the previous 28 days'' for ``the last 28 days'', or statements the evidence ``does
+not mention'', which the prompt told it not to list. In an assistant that sends flagged answers back for
+correction, one false alarm in six paraphrases would mean frequent needless rewrites of correct answers.
+The Gemma judge flagged only 7 paraphrases (7\%), which does not differ significantly from TRACE-hybrid
+(4 flagged only by TRACE-hybrid, 7 only by the judge; adjusted $p=1$). A capable judge can therefore
+come close to TRACE on both measures on this test, and the claim that deterministic verification raises
+fewer false alarms holds against one judge model and not the other. What separates the approaches is
+not accuracy alone. A judge's quality depends on the model, and the small, fast model that an assistant
+could call on every answer was the one with the high false-alarm rate; both judges' verdicts vary between
+repeated calls (Section~\ref{sec:rq4}); and a judge's flag cannot be traced to a fact the way an
+assertion can.
+
 \HELDOUTMINIGEMMA
 
 \subsection{Why errors are missed (RQ2)}
@@ -551,10 +555,11 @@ was faulty: the rewrite replaced the product P999 the question asked about by P9
 exist'', which is also true. No miss came from a defect in a verification function.
 
 \begin{table}[t]
-\centering\small
+\centering\footnotesize
 \caption{Causes of TRACE-hybrid's 32 held-out misses (hand-checked).}
 \label{tab:misses}
-\begin{tabular}{@{}lrl@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.3cm}r>{\raggedright\arraybackslash}p{2.6cm}@{}}
 \toprule
 Cause & Misses & Where the error lies \\
 \midrule
@@ -593,16 +598,18 @@ correction log is released with the labels; with the original labels the sample 
 the family that output-checking methods without access to the rules cannot verify.
 
 \begin{table}[t]
-\centering\small
-\caption{Random sample of 300 sentences from the 590 stored answers.}
+\centering\footnotesize
+\caption{Random sample of 300 sentences from the 590 stored answers. KB: knowledge base. Last column: false
+among checkable (true or false) sentences.}
 \label{tab:natural}
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Answers & Sentences & True & False & No claim & Unsure & False among checkable \\
+Answers & Sent. & True & False & No claim & Unsure & False / checkable \\
 \midrule
 All & 300 & 242 & 19 & 34 & 5 & 19/261 (7.3\%) \\
-With knowledge base & 222 & 202 & 5 & 13 & 2 & 5/207 (2.4\%) \\
-Without knowledge base & 78 & 40 & 14 & 21 & 3 & 14/54 (25.9\%) \\
+With KB & 222 & 202 & 5 & 13 & 2 & 5/207 (2.4\%) \\
+Without KB & 78 & 40 & 14 & 21 & 3 & 14/54 (25.9\%) \\
 Gemini runs & 245 & 199 & 19 & 23 & 4 & 19/218 (8.7\%) \\
 Gemma run & 55 & 43 & 0 & 11 & 1 & 0/43 (0\%) \\
 \bottomrule
@@ -637,7 +644,8 @@ correct weekly figures in one of them), precision is 12 of 28 for TRACE (43\%) a
 methods' flags there (6 for TRACE, 12 for the judge) were all wrong.
 
 \begin{table}[t]
-\centering\small
+\centering\footnotesize
+\setlength{\tabcolsep}{4pt}
 \caption{Natural errors: recall on the 19 false sentences of the random sample, and precision of the
 flags in the 211 answers that hold a sampled sentence (Wilson 95\% intervals).}
 \label{tab:naturalmethods}
@@ -649,7 +657,7 @@ Patterns (first version) & 2/19 (11\%; 3--31) & 2/2 \\
 TRACE-rule & 2/19 (11\%; 3--31) & 2/2 \\
 TRACE-model & 4/19 (21\%; 9--43) & 12/78 (15\%; 9--25) \\
 TRACE-hybrid & 4/19 (21\%; 9--43) & 12/78 (15\%; 9--25) \\
-LLM judge (gemini-3.5-flash-lite) & 10/19 (53\%; 32--73) & 28/117 (24\%; 17--32) \\
+LLM judge (Gemini) & 10/19 (53\%; 32--73) & 28/117 (24\%; 17--32) \\
 \NATURALBASELINES
 \bottomrule
 \end{tabular}
@@ -690,7 +698,7 @@ wrong, a model may make a correct answer wrong. Showing the warning instead of c
 a flag rests on a single extracted assertion, would avoid this.
 
 \begin{table}[t]
-\centering\small
+\centering\footnotesize
 \caption{Harm check: the 86 evaluation questions with TRACE (trace-1) and with the pattern verifier (runs
 F1--F3), all on gemini-3.5-flash-lite. McNemar's exact test compares trace-1 with each earlier run.}
 \label{tab:harm}
@@ -706,7 +714,7 @@ F3 (patterns) & 86/86 & 2 of 332 & 3.0 & 0.5 \\
 \end{tabular}
 \end{table}
 
-\begin{table}[t]
+\begin{table*}[t]
 \centering\small
 \caption{False-premise questions: answers that state the fact rebutting the premise (Wilson 95\% intervals),
 and answers the verifier sent back for correction. McNemar's exact test compares each setting with the
@@ -722,7 +730,7 @@ gemini-3.5-flash-lite & off & 39/44 (89\%; 76--95) & 17/19 & 11/12 & 11/13 & -- 
 \FPQGEMMA
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 \subsection{Cost and repeatability (RQ4)}
 \label{sec:rq4}
@@ -821,7 +829,7 @@ ordinary questions, two of them led the model to correct a true answer into a fa
 precisely: a more faithful extractor, and a language that also covers the definitions and assumptions of
 the system. Both can be measured with the protocol and data released here.
 
-\section*{Acknowledgements}
+\section*{Acknowledgment}
 AI tools were used to assist with programming and with editing the text, and a language model labelled the
 natural-error sample as described in Section~\ref{sec:discussion}; the author reviewed all content and takes
 responsibility for it.
@@ -830,6 +838,6 @@ responsibility for it.
 The code of IntelliERP and TRACE, the evaluation scripts, the frozen hashes, the test items, every model
 output and all labels are available from the author on request.
 
-\bibliographystyle{plain}
+\bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}

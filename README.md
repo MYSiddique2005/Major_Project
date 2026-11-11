@@ -1,21 +1,28 @@
 # IntelliERP
 
-**IntelliERP: An LLM-Grounded Intelligent ERP Decision-Support System for Cross-Module Operational
-Reasoning and Controlled Enterprise Actions** — university major/research project.
+**IntelliERP: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision
+Support** — university major/research project.
 
-The research goal is to study how an LLM can be grounded in enterprise data and rules, reason across
-Sales, Inventory and Procurement, surface operational risks, and turn recommendations into ERP actions
-that are validated, permission-checked, approved by a person and audited.
+The research problem is hallucination in LLM-based ERP decision support: an assistant that states a wrong
+figure, trend, risk level, company rule or permission. The project addresses it in two ways, both based on
+the system's own evidence. It **prevents** false statements by grounding the LLM in enterprise data and
+rules (deterministic analytics, permission-checked tools, a knowledge base generated partly from the code),
+and it **detects** the ones that remain by verifying every statement at run time against the system of
+record (figure tracing, a pattern-based claim checker, and TRACE, a typed assertion verifier). The only
+action the AI can take is a draft purchase order that is validated, approved by a second person and audited.
 
-**All eight phases are built. The repository contains the ERP foundation, PostgreSQL persistence, a rule-based
+**All nine phases are built. The repository contains the ERP foundation, PostgreSQL persistence, a rule-based
 analytics engine, and an LLM assistant that is grounded in the company's schema and rules, reasons
 across sales, inventory and procurement, raises insights on its own, makes recommendations that the
 server checks against its own figures, and can turn a recommendation into a draft purchase order that
 a person must review, submit and approve.**
 
-An evaluation of the assistant on 86 questions, before and after fixes and repeated three times, is in `LLM/` (Phase 8).
+An evaluation of the assistant on 86 questions, before and after fixes and repeated three times, is in `LLM/`
+(Phase 8). The typed run-time verifier TRACE and its evaluation on development, held-out, natural-error and
+false-premise sets are described under [TRACE](#typed-run-time-verification-trace-phase-9) (Phase 9). The
+papers and the project report are in `Research/` (see [Research documents](#research-documents)).
 
-## Scope (Phases 1–8)
+## Scope (Phases 1–9)
 
 Implemented:
 
@@ -49,6 +56,10 @@ Implemented:
 
 - Evaluation: a resumable harness in `LLM/evaluation` asks questions whose correct answers are computed
   from the database, with and without grounding, and scores the answers without using a model as judge
+
+- Typed run-time verification (TRACE): an LLM extracts each factual statement of an answer as a typed
+  assertion (64 attributes, 24 rule keys, 21 actions), and deterministic code decides whether it is true
+  against the database, the analytics and the rule and permission registry (`LLM_VERIFIER=trace`)
 
 Not planned: Text-to-SQL (the model never writes SQL), a vector database, machine-learning models,
 production deployment.
@@ -509,6 +520,102 @@ reading the answers, on two models from one provider; they are not statistically
 lists the limits, and the `report.md` and `notes.md` in each results folder have every answer and every
 correction to the key.
 
+## Typed run-time verification: TRACE (Phase 9)
+
+The pattern-based claim checker of Phase 8 recognises twelve kinds of statement. **TRACE** (Typed Run-time
+Assertion Checking for Enterprise assistants, `Backend/app/llm/trace/`) checks any statement its assertion
+language can express:
+
+- **Language** (`catalogue.py`, `schema.py`): an assertion is (quote, subject, attribute, comparator, value,
+  tense, scenario). 64 attributes in three families by source of truth: *state* (the database), *derived*
+  (the analytics: risk levels, reorder rule, forecasts, what-if simulations, rankings) and *policy* (24 rule
+  constants read from the code, and what each role and the assistant may do, over 21 actions).
+- **Extraction** (`extract_llm.py`, `extract_rule.py`): a model records the statements through one forced,
+  schema-validated tool call; a rule extractor reuses the Phase 8 patterns. Hybrid mode runs both.
+- **Verification** (`verify.py`, `engine.py`): deterministic. It resolves the subject, reads the true value
+  through the application's services and compares. Four safeguards keep extraction errors from becoming
+  false verdicts (subjects must be named in the text, ambiguous terms, type checks, records newer than the
+  data). A contradicted chat answer is returned to the model once; what remains is shown to the user.
+- **Setting:** `LLM_VERIFIER` in `Backend/.env`: `patterns` (default), `trace-rule` (no model call),
+  `trace` (hybrid) or `off`.
+
+TRACE was frozen (file hashes in `LLM/evaluation/results/trace/frozen.json`) before the held-out test was
+generated, and `trace_score` refuses to run if the files have changed.
+
+### Results
+
+All on the Wide World Importers dataset; extraction with `gemini-3.5-flash-lite`. Every answer, extraction,
+verdict and label is in `LLM/evaluation/results/trace/`.
+
+| Held-out test (102 model-written errors, 103 paraphrases, two writer models) | Errors detected | False alarms |
+|---|---:|---:|
+| Patterns (Phase 8) | 15 (15%) | 2 (2%) |
+| TRACE-rule (no model call) | 20 (20%) | 2 (2%) |
+| TRACE-hybrid | 70 (69%, 95% CI 59-77%) | 4 (4%) |
+| LLM judge, `gemini-3.5-flash-lite`, same evidence | 80 (78%) | 17 (17%) |
+| LLM judge, `gemma-4-31b-it`, same evidence | 76 (75%) | 7 (7%) |
+| MiniCheck (Flan-T5-Large) | 38 (37%) | 22 (21%) |
+
+- TRACE-hybrid against the patterns: 55 errors only TRACE found, none only the patterns (McNemar exact,
+  Holm-adjusted p < 1e-15). Against the two judges the difference in detection is not significant
+  (p = 0.36). TRACE raised significantly fewer false alarms than the Gemini judge (p = 0.036) and
+  MiniCheck, but not than the Gemma judge.
+- Every one of TRACE's 32 misses and 4 false alarms was traced by hand: none came from a verification
+  function; they came from the extractor (statement not recorded, or recorded unfaithfully) and from
+  statements the language cannot express (`heldout-details.md`).
+- On the development sets (183 errors), TRACE-hybrid detected 69% against 38% for the patterns
+  (`dev-report.md`).
+- **Natural errors** (`natural/`): in a random sample of 300 sentences from 590 stored answers, 19 of 261
+  checkable sentences were false (7.3%): 2.4% with the knowledge base, 25.9% without it. TRACE found 4 of
+  the 19 and the Gemini judge 10. Most natural errors misstate a definition, or relate two correct figures
+  wrongly, which the language does not cover. Nine labels were corrected after a consistency check; the
+  log is `natural/label-corrections.jsonl` and both versions are reported.
+- **False-premise questions** (`../fpq-report.md`): 44 questions that assume something false. Answers
+  rebutted the premise 89-93% of the time with the verifier off, and verification did not change this
+  significantly on either model.
+- **Harm check** (`harm-report.md`): the 86 questions with TRACE passed 84 of 86 (84, 86, 86 with the
+  patterns). TRACE sent 10 answers back; two false alarms made a correct answer wrong.
+- **Repeatability** (`repeat-extraction.md`, `repeat-judge.md`): given an extraction, verdicts are identical
+  (420 of 420). Two extractions of the same 50 texts led to the same flag decision for 47 and the same
+  flagged statements for 41; the Gemini judge asked twice: 47 and 34.
+
+### Running the TRACE evaluation
+
+```bash
+cd LLM
+PY=../Backend/.venv/bin/python
+$PY -m evaluation.trace_eval extract && $PY -m evaluation.trace_eval dev      # development sets
+$PY -m evaluation.trace_testset pool                                          # held-out pool (TRACE must be frozen)
+LLM_MODEL=gemini-3.5-flash-lite $PY -m evaluation.trace_testset perturb --writer gemini
+LLM_MODEL=gemma-4-31b-it        $PY -m evaluation.trace_testset perturb --writer gemma
+$PY -m evaluation.trace_score extract                                         # TRACE extractions, cached
+$PY -m evaluation.trace_baselines judge --set heldout-gemini                  # LLM judge (model = LLM_MODEL)
+$PY -m evaluation.trace_baselines minicheck-prep --set heldout-gemini         # then: evaluation/minicheck_run.py
+$PY -m evaluation.trace_score report                                          # results/trace/heldout-report.md
+$PY -m evaluation.trace_natural sample                                        # natural errors: sample, extract, judge,
+$PY -m evaluation.trace_natural score --scope sampled                         #   flags, sheets (labels), score
+$PY -m evaluation.natural_sample_report                                       # the sample by condition
+$PY -m evaluation.run --suite fpq --name fpq-gemini-trace --conditions grounded   # with LLM_VERIFIER=off|patterns|trace
+$PY -m evaluation.fpq_report
+bash evaluation/run_trace_harm.sh && $PY -m evaluation.harm_report            # the 86 questions with TRACE
+$PY -m evaluation.extract_repeat extract && $PY -m evaluation.extract_repeat compare
+$PY -m evaluation.judge_repeat && $PY -m evaluation.judge_repeat compare
+```
+
+All model calls are cached and resumable, because the free API tier limits and interrupts them.
+`run_remaining.sh`, `run_gemma_shards.sh` and `run_gemma_repeat.sh` run the long jobs in loops.
+
+## Research documents
+
+| Document | Source | Build |
+|---|---|---|
+| Conference paper (IEEE conference format): the system, grounding and the pattern-based verifier | `Research/paper/intellierp.tex` | `pdflatex`, `bibtex`, `pdflatex` twice (or Overleaf) |
+| Journal article (IEEE journal format): TRACE and its evaluation | `Research/journal/trace.tex` | the same |
+| Final-year project report (Word) | `Research/report/` (`src/*.js` chapters, `build.js`) | `npm install`, `node make-figures.js`, `node render.js`, `node build.js` |
+
+`Research/literature-review.md` and `Research/trace/annotation-guide.md` hold the literature notes and the
+guide the natural-error labels follow.
+
 ## Data model
 
 Tables: `users`, `suppliers`, `products`, `supplier_products` (which suppliers can deliver which
@@ -553,6 +660,11 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
   They were left as they are so that the repeated runs measured one unchanged system.
 - **Further evaluation:** questions written by other people, and the same runs on other models
   (`EVAL_MODEL` and `EVAL_PREFIX` with `run_extended.sh`).
+- **TRACE:** a more faithful and more stable extractor (it misses or misrecords the changed statement in 21
+  of 32 held-out misses, and two extractions of a text often differ); attributes for definitions, status
+  meanings and relations between figures (most natural errors); a warning instead of automatic correction
+  when a flag rests on one uncertain assertion; a second, human annotation of the natural-error labels
+  (`LLM/evaluation/results/trace/natural/sheet-annotator-2.csv` is prepared for it); a user study.
 
 ## Roadmap
 
@@ -566,3 +678,4 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 | 6 (done) | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
 | 7 (done) | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
 | 8 (done) | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |
+| 9 (done) | TRACE: typed run-time verification of the assistant's statements; held-out, natural-error, false-premise and harm experiments |
