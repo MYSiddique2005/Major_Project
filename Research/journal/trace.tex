@@ -12,10 +12,25 @@
 \usetikzlibrary{arrows.meta,positioning}
 \setlist{nosep}
 \newcommand{\pending}[1]{\textcolor{red}{[#1]}}
-% Results still running (MiniCheck, Gemma judge); replaced when complete.
-\newcommand{\ABSMINI}{\pending{MiniCheck result.}}
-\newcommand{\HELDOUTBASELINES}{\multicolumn{5}{l}{\pending{Gemma judge and MiniCheck rows}} \\}
-\newcommand{\HELDOUTMINIGEMMA}{\pending{Gemma judge and MiniCheck paragraph.}}
+% Results still running (Gemma judge; MiniCheck on natural answers); replaced when complete.
+\newcommand{\ABSMINI}{A trained fact-checker, MiniCheck, detected 37\% with false alarms on 21\%.}
+\newcommand{\HELDOUTGEMMAROW}{\multicolumn{5}{l}{\pending{Gemma judge row}} \\}
+\newcommand{\HELDOUTBASELINES}{\HELDOUTGEMMAROW
+MiniCheck & 38/102 (37\%; 28--47) & 20/50 & 18/52 & 22/103 (21\%; 15--30) \\}
+\newcommand{\HELDOUTGEMMA}{\pending{Gemma judge paragraph.}}
+\newcommand{\HELDOUTMINIGEMMA}{\HELDOUTGEMMA
+
+\paragraph{Comparison with MiniCheck.} MiniCheck detected 38 of the 102 errors (37\%), significantly fewer than
+TRACE-hybrid (46 errors detected only by TRACE-hybrid, 14 only by MiniCheck; Holm-adjusted $p<0.001$), and
+raised false alarms on 22 of 103 paraphrases (21\%). It was best on rule values (9 of 14) and weakest on
+derived results (4 of 15) and permissions (2 of 9). MiniCheck asks whether the evidence \emph{entails} a
+sentence, not whether it contradicts it, so every sentence the evidence does not state in so many words is
+flagged: it flagged at least one sentence in 45 of the 52 original texts. Its false alarms on paraphrases were
+correct sentences of three kinds: a company rule in other words (``company policy classifies zero stock with
+ongoing sales as a Critical stockout hazard''), a sentence combining several figures, and the assistant's own
+actions (``a draft purchase order has been generated'', ``I am unable to approve or submit this order''). A
+checker trained on general-domain entailment cannot tell a reworded rule from a wrong one; the typed
+assertions and the rule keys of TRACE make that comparison explicit.}
 \newcommand{\NATURALBASELINES}{\multicolumn{3}{l}{\pending{Gemma judge and MiniCheck rows}} \\}
 \newcommand{\FPQGEMMA}{gemma-4-31b-it & off & 41/44 (93\%; 82--98) & 16/19 & 12/12 & 13/13 & -- \\
  & patterns & 41/44 (93\%; 82--98) & 16/19 & 12/12 & 13/13 & 4 \\

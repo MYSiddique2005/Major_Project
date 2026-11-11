@@ -6,7 +6,7 @@
 <script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
 <script src="../node_modules/chart.js/dist/chart.umd.js"></script></head>
 <body><div id="fig"><div style="width:950px;height:430px"><canvas id="c"></canvas></div></div><script>Chart.defaults.font.family='Arial'; Chart.defaults.font.size=14; Chart.defaults.color='#111';
-     const cfg={"type":"bar","data":{"labels":["Patterns (v3)","TRACE-rule","TRACE-model","TRACE-hybrid","LLM judge (Gemini)"],"datasets":[{"label":"Errors detected (of 102)","data":[15,20,65,69,78],"backgroundColor":"#2f5597"},{"label":"False alarms (of 103 paraphrases)","data":[2,2,3,4,17],"backgroundColor":"#c55a11"}]},"options":{"plugins":{"title":{"display":true,"text":"Held-out test, written after TRACE was frozen (%)"}},"scales":{"y":{"min":0,"max":100}}}};
+     const cfg={"type":"bar","data":{"labels":["Patterns (v3)","TRACE-rule","TRACE-model","TRACE-hybrid","LLM judge (Gemini)","MiniCheck"],"datasets":[{"label":"Errors detected (of 102)","data":[15,20,65,69,78,37],"backgroundColor":"#2f5597"},{"label":"False alarms (of 103 paraphrases)","data":[2,2,3,4,17,21],"backgroundColor":"#c55a11"}]},"options":{"plugins":{"title":{"display":true,"text":"Held-out test, written after TRACE was frozen (%)"}},"scales":{"y":{"min":0,"max":100}}}};
      cfg.options=Object.assign({animation:false,responsive:true,maintainAspectRatio:false},cfg.options||{});
      cfg.plugins=[{id:'labels',afterDatasetsDraw(chart){const {ctx}=chart;ctx.save();ctx.font='12px Arial';ctx.fillStyle='#111';
        chart.data.datasets.forEach((ds,i)=>{chart.getDatasetMeta(i).data.forEach((bar,j)=>{const v=ds.data[j];if(v==null)return;
