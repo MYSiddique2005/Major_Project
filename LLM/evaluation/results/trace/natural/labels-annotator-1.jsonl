@@ -7,9 +7,9 @@
 {"answer_id": "extended-1/A8/grounded", "start": 0, "end": 76, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "Inventory Manager has no purchase-order permission"}
 {"answer_id": "extended-1/C1/grounded", "start": 0, "end": 117, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/C1/grounded", "start": 219, "end": 241, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
-{"answer_id": "extended-1/C1/grounded", "start": 1148, "end": 1347, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/grounded", "start": 1148, "end": 1347, "label": "false", "wrong_words": "720 overdue inbound units out of 1830 units on order", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": "corrected from 'true' (see label-corrections.jsonl)"}
 {"answer_id": "extended-1/C1/ungrounded", "start": 1088, "end": 1152, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
-{"answer_id": "extended-1/C1/ungrounded", "start": 1153, "end": 1303, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/ungrounded", "start": 1153, "end": 1303, "label": "false", "wrong_words": "720 overdue inbound units out of 1,830 inbound units", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": "corrected from 'true' (see label-corrections.jsonl)"}
 {"answer_id": "extended-1/C10/grounded", "start": 182, "end": 299, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/C11/grounded", "start": 465, "end": 624, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/C12/grounded", "start": 0, "end": 142, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "what-if scenario stockout 2026-10-07"}
@@ -60,7 +60,7 @@
 {"answer_id": "fixed-1/A4/grounded", "start": 0, "end": 166, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-1/A5/grounded", "start": 372, "end": 397, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-1/A5/grounded", "start": 398, "end": 506, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
-{"answer_id": "fixed-1/C1/grounded", "start": 1014, "end": 1210, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C1/grounded", "start": 1014, "end": 1210, "label": "false", "wrong_words": "720 overdue inbound units out of 1,830 on order", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": "corrected from 'true' (see label-corrections.jsonl)"}
 {"answer_id": "fixed-1/C1/grounded", "start": 1212, "end": 1323, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-1/C12/grounded", "start": 0, "end": 129, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-1/C12/grounded", "start": 130, "end": 185, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
@@ -109,9 +109,9 @@
 {"answer_id": "fixed-2/A5/grounded", "start": 415, "end": 565, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-2/A6/grounded", "start": 0, "end": 198, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-2/A9/grounded", "start": 0, "end": 87, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "Procurement Manager has no sales permission"}
-{"answer_id": "fixed-2/C1/ungrounded", "start": 302, "end": 508, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C1/ungrounded", "start": 302, "end": 508, "label": "false", "wrong_words": "67 overdue inbound units out of 79 total inbound units", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": "corrected from 'true' (see label-corrections.jsonl)"}
 {"answer_id": "fixed-2/C1/ungrounded", "start": 725, "end": 913, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
-{"answer_id": "fixed-2/C1/ungrounded", "start": 914, "end": 1094, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C1/ungrounded", "start": 914, "end": 1094, "label": "false", "wrong_words": "720 overdue inbound units out of 1830 total inbound units", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": "corrected from 'true' (see label-corrections.jsonl)"}
 {"answer_id": "fixed-2/C11/grounded", "start": 255, "end": 383, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-2/C11/grounded", "start": 384, "end": 521, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-2/C11/grounded", "start": 1058, "end": 1216, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
@@ -303,7 +303,7 @@
 {"answer_id": "gemma4-1/G5/grounded", "start": 65, "end": 157, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-1/U12/grounded", "start": 908, "end": 935, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-3/C3/ungrounded", "start": 285, "end": 393, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
-{"answer_id": "fixed-2/C1/ungrounded", "start": 509, "end": 724, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "figures match the tool ('out of' as in the labelled sample)"}
+{"answer_id": "fixed-2/C1/ungrounded", "start": 509, "end": 724, "label": "false", "wrong_words": "68 overdue inbound units out of 67 total inbound units", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": "corrected from 'true' (see label-corrections.jsonl)"}
 {"answer_id": "fixed-3/U12/grounded", "start": 1118, "end": 1153, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/C14/ungrounded", "start": 0, "end": 230, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-1/C15/grounded", "start": 260, "end": 310, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
@@ -319,7 +319,7 @@
 {"answer_id": "fixed-2/C8/ungrounded", "start": 432, "end": 633, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-3/U12/grounded", "start": 1046, "end": 1081, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-3/U12/grounded", "start": 938, "end": 973, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
-{"answer_id": "fixed-1/C1/grounded", "start": 573, "end": 802, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "figures match the tool ('out of' as in the labelled sample)"}
+{"answer_id": "fixed-1/C1/grounded", "start": 573, "end": 802, "label": "false", "wrong_words": "68 overdue inbound units out of 67 on order", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": "corrected from 'true' (see label-corrections.jsonl)"}
 {"answer_id": "fixed-1/U12/grounded", "start": 450, "end": 475, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "gemma4-1/C8/ungrounded", "start": 428, "end": 575, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/A2/grounded", "start": 309, "end": 333, "label": "false", "wrong_words": "10 units", "what_the_evidence_says": "safety_stock 299", "note": ""}
@@ -359,12 +359,12 @@
 {"answer_id": "fixed-3/U12/grounded", "start": 548, "end": 581, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/C9/grounded", "start": 564, "end": 782, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/A2/grounded", "start": 0, "end": 111, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
-{"answer_id": "extended-1/C1/ungrounded", "start": 679, "end": 823, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "figures match the tool ('out of' as in the labelled sample)"}
+{"answer_id": "extended-1/C1/ungrounded", "start": 679, "end": 823, "label": "false", "wrong_words": "68 overdue inbound units out of 67 inbound units", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": "corrected from 'true' (see label-corrections.jsonl)"}
 {"answer_id": "extended-1/C12/grounded", "start": 143, "end": 207, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-3/U12/grounded", "start": 722, "end": 757, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-3/U12/grounded", "start": 1154, "end": 1189, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/C6/grounded", "start": 925, "end": 1029, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
-{"answer_id": "extended-1/C1/grounded", "start": 705, "end": 938, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "figures match the tool ('out of' as in the labelled sample)"}
+{"answer_id": "extended-1/C1/grounded", "start": 705, "end": 938, "label": "false", "wrong_words": "68 overdue inbound units out of 67 units on order", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": "corrected from 'true' (see label-corrections.jsonl)"}
 {"answer_id": "fixed-1/U12/grounded", "start": 632, "end": 657, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/G3/ungrounded", "start": 286, "end": 317, "label": "false", "wrong_words": "30 days", "what_the_evidence_says": "rule review_period_days = 14", "note": ""}
 {"answer_id": "fixed-2/G7/ungrounded", "start": 140, "end": 220, "label": "false", "wrong_words": "26 weeks", "what_the_evidence_says": "each method is tested on the last 8 weeks (26 weeks is the history used)", "note": ""}
@@ -433,3 +433,217 @@
 {"answer_id": "fixed-2/C3/ungrounded", "start": 294, "end": 336, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "fixed-1/U12/grounded", "start": 684, "end": 711, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
 {"answer_id": "extended-1/A2/grounded", "start": 334, "end": 359, "label": "false", "wrong_words": "20 units", "what_the_evidence_says": "reorder_point 1051", "note": ""}
+{"answer_id": "extended-1/C14/grounded", "start": 532, "end": 644, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C11/grounded", "start": 523, "end": 546, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C2/grounded", "start": 0, "end": 149, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C11/grounded", "start": 114, "end": 254, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U11/grounded", "start": 98, "end": 252, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/ungrounded", "start": 430, "end": 574, "label": "false", "wrong_words": "67 overdue inbound units out of 79 inbound units", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": ""}
+{"answer_id": "extended-1/C13/grounded", "start": 141, "end": 223, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C5/grounded", "start": 584, "end": 722, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 1043, "end": 1084, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C10/grounded", "start": 132, "end": 199, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C2/grounded", "start": 240, "end": 403, "label": "false", "wrong_words": "73 units total, of which 63 units are overdue across 7 open orders", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units); the 7 overdue orders are the supplier's, across several products", "note": ""}
+{"answer_id": "fixed-3/C9/grounded", "start": 0, "end": 171, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C14/ungrounded", "start": 905, "end": 1169, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 586, "end": 612, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 506, "end": 531, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C1/ungrounded", "start": 83, "end": 301, "label": "false", "wrong_words": "63 overdue inbound units out of 73 total inbound units", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 775, "end": 801, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/A5/grounded", "start": 152, "end": 369, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C14/grounded", "start": 0, "end": 123, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C6/grounded", "start": 0, "end": 62, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 917, "end": 958, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C14/ungrounded", "start": 830, "end": 1035, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 833, "end": 874, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G21/ungrounded", "start": 87, "end": 188, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C11/grounded", "start": 708, "end": 867, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C14/grounded", "start": 134, "end": 242, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C11/grounded", "start": 637, "end": 848, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C5/grounded", "start": 729, "end": 815, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C14/ungrounded", "start": 535, "end": 658, "label": "false", "wrong_words": "82 overdue units across 7 open purchase orders", "what_the_evidence_says": "the 7 overdue orders are the supplier's, across several products", "note": ""}
+{"answer_id": "fixed-2/G14/ungrounded", "start": 0, "end": 331, "label": "false", "wrong_words": "but there are inbound units on order expected to arrive before a stockout occurs", "what_the_evidence_says": "Medium: below safety stock; or cover < lead time + 7 days and no delivery due in time; or cover < lead time with a high-risk supplier. Stock covered by a delivery in time is Low (rule.stockout-risk)", "note": ""}
+{"answer_id": "extended-1/U8/grounded", "start": 0, "end": 133, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C14/ungrounded", "start": 681, "end": 828, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 1211, "end": 1252, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C3/ungrounded", "start": 495, "end": 652, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C7/grounded", "start": 238, "end": 490, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 559, "end": 585, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A1/grounded", "start": 0, "end": 188, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/ungrounded", "start": 0, "end": 81, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C8/ungrounded", "start": 165, "end": 207, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A4/grounded", "start": 332, "end": 562, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U11/grounded", "start": 0, "end": 96, "label": "unsure", "wrong_words": "", "what_the_evidence_says": "", "note": "no stock history in the evidence; same as the earlier label for this sentence in fixed-2/U11"}
+{"answer_id": "fixed-1/C3/grounded", "start": 404, "end": 618, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 1295, "end": 1336, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 883, "end": 909, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 391, "end": 430, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C15/grounded", "start": 666, "end": 982, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C14/grounded", "start": 645, "end": 739, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C1/grounded", "start": 119, "end": 351, "label": "false", "wrong_words": "63 overdue inbound units out of 73 on order", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 667, "end": 693, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A13/grounded", "start": 221, "end": 331, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C2/ungrounded", "start": 266, "end": 309, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U9/grounded", "start": 44, "end": 308, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A1/grounded", "start": 106, "end": 121, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C5/grounded", "start": 0, "end": 94, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C17/grounded", "start": 148, "end": 178, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C3/grounded", "start": 148, "end": 187, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/grounded", "start": 243, "end": 479, "label": "false", "wrong_words": "63 overdue inbound units out of 73 units on order", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": ""}
+{"answer_id": "gemma4-1/C8/ungrounded", "start": 267, "end": 427, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A1/grounded", "start": 156, "end": 178, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C14/grounded", "start": 112, "end": 158, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C1/grounded", "start": 352, "end": 572, "label": "false", "wrong_words": "67 overdue inbound units out of 79 on order", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": ""}
+{"answer_id": "extended-1/C11/grounded", "start": 0, "end": 108, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A15/grounded", "start": 464, "end": 608, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 802, "end": 828, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C6/grounded", "start": 56, "end": 162, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C5/grounded", "start": 431, "end": 537, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A1/grounded", "start": 246, "end": 353, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 613, "end": 639, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C5/grounded", "start": 387, "end": 517, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C5/grounded", "start": 95, "end": 161, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C8/ungrounded", "start": 0, "end": 163, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A15/grounded", "start": 77, "end": 173, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C8/grounded", "start": 689, "end": 814, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 122, "end": 314, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C2/ungrounded", "start": 430, "end": 574, "label": "false", "wrong_words": "73 units on order ... of which 63 units are overdue across 7 purchase orders", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units); the 7 overdue orders are the supplier's, across several products", "note": ""}
+{"answer_id": "fixed-2/C11/grounded", "start": 547, "end": 707, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/A4/grounded", "start": 226, "end": 422, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 1379, "end": 1420, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C5/grounded", "start": 0, "end": 94, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/ungrounded", "start": 190, "end": 334, "label": "false", "wrong_words": "63 overdue inbound units out of 73 inbound units", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": ""}
+{"answer_id": "fixed-2/C9/ungrounded", "start": 0, "end": 119, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 324, "end": 349, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/G4/ungrounded", "start": 334, "end": 511, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C16/grounded", "start": 0, "end": 130, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A13/grounded", "start": 0, "end": 122, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A15/grounded", "start": 278, "end": 368, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C7/grounded", "start": 272, "end": 458, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 856, "end": 882, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C16/ungrounded", "start": 0, "end": 125, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/A5/grounded", "start": 385, "end": 414, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C10/grounded", "start": 348, "end": 701, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A15/grounded", "start": 610, "end": 750, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G4/ungrounded", "start": 519, "end": 654, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/F6/grounded", "start": 153, "end": 172, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C8/grounded", "start": 816, "end": 1031, "label": "false", "wrong_words": "and a delivery were due in time", "what_the_evidence_says": "Medium (cover < lead time + 7 days) applies when NO delivery is due in time (rule.stockout-risk)", "note": ""}
+{"answer_id": "extended-1/C11/grounded", "start": 849, "end": 995, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C9/grounded", "start": 429, "end": 563, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 480, "end": 505, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C7/grounded", "start": 241, "end": 431, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C14/ungrounded", "start": 1027, "end": 1149, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C14/ungrounded", "start": 521, "end": 680, "label": "false", "wrong_words": "82 units overdue across 7 open purchase orders", "what_the_evidence_says": "the 7 overdue orders are the supplier's, across several products", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 694, "end": 720, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 532, "end": 558, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C9/grounded", "start": 415, "end": 563, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C16/grounded", "start": 0, "end": 112, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 471, "end": 510, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/ungrounded", "start": 824, "end": 913, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C7/grounded", "start": 211, "end": 364, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C5/grounded", "start": 0, "end": 94, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C6/grounded", "start": 466, "end": 550, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C1/grounded", "start": 803, "end": 1013, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C6/grounded", "start": 466, "end": 550, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 748, "end": 774, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C8/grounded", "start": 0, "end": 165, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C8/grounded", "start": 694, "end": 927, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/A6/grounded", "start": 200, "end": 282, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C7/grounded", "start": 83, "end": 209, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C11/grounded", "start": 868, "end": 1057, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C5/grounded", "start": 348, "end": 386, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A15/grounded", "start": 324, "end": 463, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C5/grounded", "start": 538, "end": 621, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/A1/grounded", "start": 189, "end": 336, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A1/grounded", "start": 0, "end": 104, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 454, "end": 479, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G4/ungrounded", "start": 104, "end": 275, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C14/grounded", "start": 836, "end": 918, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C9/grounded", "start": 108, "end": 253, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C6/grounded", "start": 163, "end": 240, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C14/ungrounded", "start": 0, "end": 133, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 1001, "end": 1042, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G6/ungrounded", "start": 138, "end": 319, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A15/grounded", "start": 175, "end": 323, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C14/grounded", "start": 0, "end": 133, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/F6/grounded", "start": 88, "end": 110, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/A5/grounded", "start": 0, "end": 144, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/A1/grounded", "start": 476, "end": 505, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C11/grounded", "start": 996, "end": 1175, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/U12/grounded", "start": 333, "end": 397, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C6/grounded", "start": 466, "end": 550, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C1/ungrounded", "start": 0, "end": 81, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C6/grounded", "start": 56, "end": 162, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C10/grounded", "start": 0, "end": 64, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C16/grounded", "start": 0, "end": 130, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C14/grounded", "start": 697, "end": 834, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 1169, "end": 1210, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C13/grounded", "start": 141, "end": 219, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C14/ungrounded", "start": 356, "end": 520, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C11/grounded", "start": 1176, "end": 1321, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 791, "end": 832, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A15/grounded", "start": 599, "end": 663, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 428, "end": 453, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C3/grounded", "start": 188, "end": 290, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A15/grounded", "start": 369, "end": 464, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C14/ungrounded", "start": 248, "end": 355, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C17/grounded", "start": 179, "end": 293, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C3/ungrounded", "start": 0, "end": 77, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C11/grounded", "start": 314, "end": 464, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 640, "end": 666, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/A6/grounded", "start": 283, "end": 390, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C9/grounded", "start": 0, "end": 65, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C5/grounded", "start": 219, "end": 327, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C11/grounded", "start": 125, "end": 313, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C7/grounded", "start": 276, "end": 517, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A15/grounded", "start": 665, "end": 694, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C3/grounded", "start": 148, "end": 209, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A15/grounded", "start": 0, "end": 76, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C6/grounded", "start": 163, "end": 240, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C14/ungrounded", "start": 765, "end": 897, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 402, "end": 427, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 1085, "end": 1126, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C9/grounded", "start": 98, "end": 345, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/A13/grounded", "start": 278, "end": 468, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": "'which has 0 units' grammatically attaches to the supplier; read as the product's stock"}
+{"answer_id": "fixed-2/U12/grounded", "start": 1253, "end": 1294, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C14/ungrounded", "start": 0, "end": 344, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A5/grounded", "start": 255, "end": 304, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 910, "end": 936, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/grounded", "start": 480, "end": 704, "label": "false", "wrong_words": "67 overdue inbound units out of 79 units on order", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": ""}
+{"answer_id": "gemma4-1/A13/grounded", "start": 0, "end": 141, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/C1/grounded", "start": 0, "end": 146, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C6/grounded", "start": 163, "end": 240, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/G4/ungrounded", "start": 512, "end": 701, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G4/grounded", "start": 159, "end": 347, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/A5/grounded", "start": 0, "end": 149, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 711, "end": 750, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/G6/grounded", "start": 67, "end": 425, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C14/grounded", "start": 124, "end": 198, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 351, "end": 390, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A13/grounded", "start": 282, "end": 422, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/grounded", "start": 939, "end": 1147, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C9/grounded", "start": 312, "end": 498, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 246, "end": 271, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/U12/grounded", "start": 115, "end": 332, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C1/ungrounded", "start": 914, "end": 1087, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/G4/ungrounded", "start": 383, "end": 518, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C8/grounded", "start": 928, "end": 1025, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C11/grounded", "start": 0, "end": 84, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C2/grounded", "start": 287, "end": 411, "label": "false", "wrong_words": "63 units of the on-order stock are currently overdue across 7 orders", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units); the 7 overdue orders are the supplier's, across several products", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 959, "end": 1000, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-3/C10/grounded", "start": 0, "end": 64, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C11/grounded", "start": 86, "end": 113, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/A15/grounded", "start": 0, "end": 39, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C14/ungrounded", "start": 660, "end": 757, "label": "no-claim", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C7/grounded", "start": 459, "end": 544, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 431, "end": 470, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/U12/grounded", "start": 751, "end": 790, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C1/grounded", "start": 0, "end": 117, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C17/grounded", "start": 265, "end": 419, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/C2/grounded", "start": 0, "end": 147, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-2/F6/grounded", "start": 111, "end": 130, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 298, "end": 323, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "fixed-1/C2/ungrounded", "start": 335, "end": 470, "label": "false", "wrong_words": "73 units total, of which 63 units are overdue", "what_the_evidence_says": "the overdue units are not part of the units on order: on-order counts open orders that are not overdue (stock_risk.inbound_units)", "note": ""}
+{"answer_id": "gemma4-1/U12/grounded", "start": 721, "end": 747, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/A15/grounded", "start": 803, "end": 828, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
+{"answer_id": "extended-1/C9/grounded", "start": 0, "end": 106, "label": "true", "wrong_words": "", "what_the_evidence_says": "", "note": ""}
