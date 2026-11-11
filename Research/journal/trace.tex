@@ -12,12 +12,14 @@
 \usetikzlibrary{arrows.meta,positioning}
 \setlist{nosep}
 \newcommand{\pending}[1]{\textcolor{red}{[#1]}}
-% Results still running (MiniCheck, Gemma judge, Gemma false-premise with TRACE); replaced when complete.
+% Results still running (MiniCheck, Gemma judge); replaced when complete.
 \newcommand{\ABSMINI}{\pending{MiniCheck result.}}
 \newcommand{\HELDOUTBASELINES}{\multicolumn{5}{l}{\pending{Gemma judge and MiniCheck rows}} \\}
 \newcommand{\HELDOUTMINIGEMMA}{\pending{Gemma judge and MiniCheck paragraph.}}
 \newcommand{\NATURALBASELINES}{\multicolumn{3}{l}{\pending{Gemma judge and MiniCheck rows}} \\}
-\newcommand{\FPQGEMMA}{\multicolumn{7}{l}{\pending{gemma-4-31b-it rows}} \\}
+\newcommand{\FPQGEMMA}{gemma-4-31b-it & off & 41/44 (93\%; 82--98) & 16/19 & 12/12 & 13/13 & -- \\
+ & patterns & 41/44 (93\%; 82--98) & 16/19 & 12/12 & 13/13 & 4 \\
+ & TRACE & 41/44 (93\%; 82--98) & 16/19 & 12/12 & 13/13 & 8 \\}
 \newcommand{\GEMMASCOPE}{\pending{scope}}
 \newcommand{\attr}[1]{\texttt{#1}}
 
@@ -48,13 +50,15 @@ procurement. On three development sets of model-written errors, TRACE detected 6
 errors and 103 meaning-preserving paraphrases by two writer models), it again detected 69\% (patterns:
 15\%; McNemar $p<10^{-15}$) with false alarms on 4\% of paraphrases. An LLM judge given the same evidence
 detected 78\%, not significantly more, but raised false alarms on 17\% of paraphrases and gave different
-verdicts when asked twice; TRACE's verdicts were identical across runs. \ABSMINI Every miss and false alarm
+verdicts when asked twice; given an extraction, TRACE's verdicts were identical across runs, but two
+extractions of the same text led to the same flag decision for only 47 of 50 texts. \ABSMINI Every miss and false alarm
 was traced by hand: none came from a verification function; they came from the extractor and from
 statements outside the language. On the assistant's own answers (a random sample of 300 sentences, 5.4\%
 of checkable sentences false), TRACE found only 4 of 14 errors against the judge's 10, because most natural
 errors misstate definitions the language does not cover; with the knowledge base the natural error rate
 fell from 20\% to 1.4\%. On 44 false-premise questions, verification did not measurably change how often
-answers rebut the premise. The results show where deterministic verification is strong (figures, derived
+answers rebut the premise; on the 86 ordinary evaluation questions it did not change the pass rate, but
+two of its false alarms led the model to make a correct answer wrong. The results show where deterministic verification is strong (figures, derived
 results, rule values) and what it still needs (a more faithful extractor and coverage of definitions).
 \end{abstract}
 
@@ -640,9 +644,40 @@ passed; FS16 failed). Because each setting asks the model again, these differenc
 correction with the model's own variation, and the experiment cannot separate the two. It shows that adding
 TRACE did not lower the share of correct rebuttals. It does not show that TRACE raised it. Two corrected
 answers still carried a flagged statement after correction (FS16 and FS17, both about overdue orders), and
-one flag was a false alarm (``demand is not falling'' recorded as contradicting ``rising''). The 86 ordinary
-evaluation questions were not re-run with TRACE on, so a possible harm to ordinary answers has not been
-measured.
+one flag was a false alarm (``demand is not falling'' recorded as contradicting ``rising''). Gemma sent 8
+answers back with TRACE and 4 with the patterns, and passed the same 41 questions in all three settings.
+
+\paragraph{Harm check.} Can verification make ordinary answers worse? The 86 evaluation questions of
+IntelliERP were asked again with TRACE as the verifier (gemini-3.5-flash-lite) and compared with three
+earlier runs of the unchanged system with the pattern verifier (Table~\ref{tab:harm}). The pass rate did not
+differ significantly (McNemar $p=1$, $0.5$ and $0.5$). TRACE sent 10 answers back for correction; nine of
+those ten questions had passed in all three earlier runs, so most of the corrections were probably answers
+to false alarms (the first drafts were not stored, so this cannot be confirmed). Two corrections made a
+correct answer wrong. In F16 the answer gave a supplier's \emph{stated} reliability (74.67\%) correctly; the
+extractor recorded it as the \emph{observed} on-time rate, and the corrected answer gave 60\%. In U12 a false
+alarm on a 26-week forecast list led the model to replace the computed weekly figures with 12 figures not
+found in the data, which the keyword scoring passed but the figure check caught (14 untraced figures, against
+1 to 3 in the earlier runs). One further failure (C11) ran out of tool rounds and was not caused by TRACE.
+Answers took a median of 15.9\,s against about 3\,s. A false alarm is therefore not harmless: told that it is
+wrong, a model may make a correct answer wrong. Showing the warning instead of correcting automatically, when
+a flag rests on a single extracted assertion, would avoid this.
+
+\begin{table}[t]
+\centering\small
+\caption{Harm check: the 86 evaluation questions with TRACE (trace-1) and with the pattern verifier (runs
+F1--F3), all on gemini-3.5-flash-lite. McNemar's exact test compares trace-1 with each earlier run.}
+\label{tab:harm}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Run & Passed & Untraced figures & Median s & $p$ \\
+\midrule
+trace-1 (TRACE) & 84/86 & 14 of 320 & 15.9 & -- \\
+F1 (patterns) & 84/86 & 1 of 310 & 3.2 & 1 \\
+F2 (patterns) & 86/86 & 3 of 342 & 3.1 & 0.5 \\
+F3 (patterns) & 86/86 & 2 of 332 & 3.0 & 0.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{table}[t]
 \centering\small
@@ -679,9 +714,12 @@ Given an extraction, TRACE's verdicts are reproducible: verifying the same 50 he
 processes gave identical verdicts for all 420 assertions. The LLM judge, run twice at temperature 0 on the
 same 50 texts with the same evidence, made the same flag/no-flag decision for 47 texts but returned the same
 set of contradicted statements for only 34; of the 28 texts flagged in either run, only 12 received
-identical lists. Whether the extraction itself is stable across repeated calls was not measured: the
-evaluation caches one extraction per text, so the figures above measure the verifier and the judge, not the
-extractor.
+identical lists. The extraction itself is less stable. Extracting the same 50 texts a second time (same
+prompt, temperature 0) returned identical assertion lists for only 6 texts; after verification, the two
+extractions led to the same flag decision for 47 texts and the same set of contradicted statements for 41,
+and of the 18 texts flagged in either run, 9 received identical lists. End to end, TRACE is therefore about
+as stable as the judge in its flag decisions and somewhat more stable in what it flags; its determinism
+holds for the verifier, not for the pipeline.
 
 % =====================================================================================================
 \section{Discussion and threats to validity}
@@ -732,7 +770,7 @@ therefore not been measured, and every label is released with the words
 it marks as wrong and the evidence it rests on, so that each can be checked. Both evaluated models come from
 one provider family's API, one of them open-weight. The free API limited the study in three ways: the
 methods were run on the 211 answers that hold a sampled sentence instead of all 590; the Gemma judge \GEMMASCOPE;
-and the 86 ordinary questions were not re-run with TRACE on. The false-premise experiment re-asks the model
+and the harm check was run once with TRACE, against three earlier runs with the patterns. The false-premise experiment re-asks the model
 in each setting, so it cannot separate the effect of correction from the model's own variation.
 
 % =====================================================================================================
@@ -744,11 +782,12 @@ clearly more model-written errors than a pattern-based verifier, at a cost in fa
 decomposition makes explainable. On a held-out test written after the system was frozen, by a writer it
 had never seen, it kept the same detection rate (69\%) with fewer false alarms (4\%), detected 55 errors the
 pattern-based verifier missed and none that it found, and matched an LLM judge given the same evidence
-while raising a quarter of the judge's false alarms. Unlike the judge, its verdicts were identical when
+while raising a quarter of the judge's false alarms. Given an extraction, its verdicts were identical when
 repeated, and every miss and false alarm could be traced to a specific extraction or coverage gap; no error
 came from a verification function. On the assistant's own errors, however, it found only 4 of 14, because
 most natural errors misstate definitions that its language does not cover, and on false-premise questions
-it did not measurably change how often answers rebut the premise. The results locate the remaining work
+it did not measurably change how often answers rebut the premise. Its false alarms also have a cost: on
+ordinary questions, two of them led the model to correct a true answer into a false one. The results locate the remaining work
 precisely: a more faithful extractor, and a language that also covers the definitions and assumptions of
 the system. Both can be measured with the protocol and data released here.
 
