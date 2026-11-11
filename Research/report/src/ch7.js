@@ -10,7 +10,7 @@ module.exports = [
   { p: 'IntelliERP shows that an LLM assistant can be placed inside an ERP system without trusting the model with the facts. The work matters in four ways.' },
   { bullets: [
     '**A complete, working system.** Unlike most AI-ERP research, which proposes frameworks without building or testing them [@hurbean2026erp], IntelliERP is a full ERP system with role-based access control, deterministic analytics, an AI assistant, proactive insights and controlled AI actions, running on a realistic dataset.',
-    '**Evidence that grounding prevents most errors.** With the knowledge base, 1.4% of checkable statements were false; without it, 20.4% were. Paired questions rose from 8–9 to 32 of 32. For a business, this means the company\'s own rules must be given to the model, not left for it to guess.',
+    '**Evidence that grounding prevents most errors.** With the knowledge base, 2.4% of checkable statements were false; without it, 25.9% were. Paired questions rose from 8–9 to 32 of 32. For a business, this means the company\'s own rules must be given to the model, not left for it to guess.',
     '**A verifier whose decisions can be explained.** TRACE moves the decision of truth from the model to code. On held-out errors it detected as many as an LLM judge (no significant difference) with a quarter of the false alarms, and every miss and false alarm could be traced to its cause. An auditor can therefore see *why* a statement was accepted or flagged.',
     '**Honest measurement of the limits.** The project measured not only where verification works but where it does not: natural errors that are definitions, false alarms that can make a correct answer wrong, and run-to-run variation of the extraction step. These results are useful to anyone designing verification for business AI.',
   ] },
@@ -21,9 +21,9 @@ module.exports = [
     '**No user study.** No user acceptance test was carried out, so the usefulness of the assistant to real managers, and whether the check results shown under each answer reduce over-reliance, were not measured.',
     '**One dataset, simulated supply.** All experiments use one company\'s data. The sales are real, but purchase orders, deliveries and stock levels were simulated from them.',
     '**Free API only.** Only free-tier models were used. Daily limits and overload errors limited the size of the experiments (for example, 211 answers in the natural-error detection study instead of all 590) and made latency figures noisy.',
-    '**Limited language.** TRACE can only check what its assertion language can express. Definitions, reasons and statements about what the system can do are outside it, which is why it found only 4 of 14 natural errors.',
+    '**Limited language.** TRACE can only check what its assertion language can express. Definitions, reasons and statements about what the system can do are outside it, and so are relations between figures, which is why it found only 4 of 19 natural errors.',
     '**Extraction varies.** The extraction step is an LLM call. Given an extraction, verdicts are fully reproducible, but two extractions of the same text agreed on the flag decision in 47 of 50 cases and on the full assertion list in only 6 of 50.',
-    '**Single annotator.** The natural-error labels were made by one annotator, a language model that is not one of the evaluated models. Each label records its evidence so it can be checked, but no agreement between annotators was measured.',
+    '**Single annotator.** The natural-error labels were made by one annotator, a language model that is not one of the evaluated models. Each label records its evidence so it can be checked, but no agreement between annotators was measured, and nine labels had to be corrected after a consistency check.',
     '**Model-written test errors.** The held-out errors were written by language models and may be easier or harder to detect than errors that occur naturally, as the natural-error results suggest.',
   ] },
 
@@ -43,10 +43,10 @@ module.exports = [
     rows: [
       ['RQ1', 'Build a complete ERP system with role-based access control on a realistic dataset', 'Achieved: eight modules, four roles, Wide World Importers data; 269 automated tests pass (Chapters 4–6)'],
       ['RQ1', 'Design a grounded assistant: rules decide, the LLM explains through permission-checked tools', 'Achieved: 15 tools, knowledge base generated partly from code; 84, 86 and 86 of 86 questions passed; Gemma 86 of 86'],
-      ['RQ1', 'Measure the effect of grounding', 'Achieved: 32 of 32 paired questions with grounding against 8–9 without (p < 0.0001); false statements 1.4% against 20.4%'],
+      ['RQ1', 'Measure the effect of grounding', 'Achieved: 32 of 32 paired questions with grounding against 8–9 without (p < 0.0001); false statements 2.4% against 25.9%'],
       ['RQ2', 'Design a typed assertion language for enterprise statements', 'Achieved: 64 attributes, 24 rule keys and 21 actions in three families'],
       ['RQ2', 'Implement TRACE with deterministic verification', 'Achieved: frozen before the held-out test; no miss or false alarm caused by a verification function'],
-      ['RQ2', 'Evaluate TRACE against baselines on held-out and natural errors', 'Achieved for patterns and the Gemini judge: 70 of 102 detected with 4% false alarms, against 15 (patterns) and 80 with 17% false alarms (judge); natural errors 4 of 14. MiniCheck and Gemma-judge results pending'],
+      ['RQ2', 'Evaluate TRACE against baselines on held-out and natural errors', 'Achieved: 70 of 102 detected with 4% false alarms, against 15 (patterns), 80 with 17% false alarms (Gemini judge) and 38 with 21% (MiniCheck); natural errors 4 of 19. Gemma-judge results pending'],
       ['RQ3', 'Measure the effect on false premises and on ordinary answers', 'Achieved: no significant change in rebuttals (89–93%); harm check showed false alarms can make correct answers wrong'],
       ['RQ3', 'Measure time, tokens and repeatability', 'Achieved: one extraction call per answer (median 6,028 input tokens, 2.0 s); verdicts reproducible given an extraction; end-to-end flag decision 47 of 50'],
       ['RQ3', 'Keep the AI\'s only action behind validation, permissions, separation of duties and audit', 'Achieved: AI can only draft; tested by TC-03, TC-09 and TC-10'],

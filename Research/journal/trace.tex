@@ -68,10 +68,10 @@ detected 78\%, not significantly more, but raised false alarms on 17\% of paraph
 verdicts when asked twice; given an extraction, TRACE's verdicts were identical across runs, but two
 extractions of the same text led to the same flag decision for only 47 of 50 texts. \ABSMINI Every miss and false alarm
 was traced by hand: none came from a verification function; they came from the extractor and from
-statements outside the language. On the assistant's own answers (a random sample of 300 sentences, 5.4\%
-of checkable sentences false), TRACE found only 4 of 14 errors against the judge's 10, because most natural
-errors misstate definitions the language does not cover; with the knowledge base the natural error rate
-fell from 20\% to 1.4\%. On 44 false-premise questions, verification did not measurably change how often
+statements outside the language. On the assistant's own answers (a random sample of 300 sentences, 7.3\%
+of checkable sentences false), TRACE found only 4 of 19 errors against the judge's 10, because most natural
+errors misstate definitions, or relations between figures, that the language does not cover; with the
+knowledge base the natural error rate fell from 26\% to 2.4\%. On 44 false-premise questions, verification did not measurably change how often
 answers rebut the premise; on the 86 ordinary evaluation questions it did not change the pass rate, but
 two of its false alarms led the model to make a correct answer wrong. The results show where deterministic verification is strong (figures, derived
 results, rule values) and what it still needs (a more faithful extractor and coverage of definitions).
@@ -571,15 +571,25 @@ Defect in a verification function & 0 & --- \\
 
 \subsection{Natural errors}
 Table~\ref{tab:natural} gives the labels of the random sample. Of the 261 sentences with a checkable claim,
-14 (5.4\%; Wilson 95\% interval 3.2--8.8\%) are false. The knowledge base makes the largest difference:
-with it, 3 of 207 checkable sentences are false (1.4\%; 0.5--4.2\%); without it, 11 of 54 (20.4\%;
-11.8--32.9\%). All eleven state a company rule or definition wrongly: the threshold for rising demand (20\%
+19 (7.3\%; Wilson 95\% interval 4.7--11.1\%) are false. The knowledge base makes the largest difference:
+with it, 5 of 207 checkable sentences are false (2.4\%; 1.0--5.5\%); without it, 14 of 54 (25.9\%;
+16.1--38.9\%). Five of the nineteen, two with the knowledge base and three without, describe overdue units
+as part of the units on order (``720 overdue inbound units out of 1,830 inbound units''); in the system the
+two are separate amounts, and the product has 2,550 units ordered and not delivered. Eleven of the fourteen
+without the knowledge base state a company rule or definition wrongly: the threshold for rising demand (20\%
 instead of 15\%), the number of drafts per message (one instead of three), what a sales order status means,
 whether reorder level and reorder point are the same figure, whether unserved demand is back-ordered, which
 purchase order statuses count as incoming stock, whether the data are simulated, and whether a product can
-be at Critical risk while units are on order. The three false sentences with the
+be at Critical risk while units are on order. The other three false sentences with the
 knowledge base are figures: a suggested quantity of 40 units (the rule gives 1,400) and, twice, a stock
-status explained as ``below the reorder level of 92'' for 125 units on hand. Policy statements are exactly
+status explained as ``below the reorder level of 92'' for 125 units on hand.
+
+The five sentences about overdue units were first labelled true. While labelling the sentences MiniCheck
+flagged, after all methods had run, we found the same pattern labelled false elsewhere and checked every
+label against one rule taken from the code (\texttt{inbound\_units}: ordered, not delivered, not overdue):
+nine labels changed from true to false, five of them in the sample, and none in the other direction. The
+correction log is released with the labels; with the original labels the sample has 14 false sentences
+(5.4\%; 1.4\% with and 20.4\% without the knowledge base), TRACE found 4 of them and the judge 10. Policy statements are exactly
 the family that output-checking methods without access to the rules cannot verify.
 
 \begin{table}[t]
@@ -590,20 +600,22 @@ the family that output-checking methods without access to the rules cannot verif
 \toprule
 Answers & Sentences & True & False & No claim & Unsure & False among checkable \\
 \midrule
-All & 300 & 247 & 14 & 34 & 5 & 14/261 (5.4\%) \\
-With knowledge base & 222 & 204 & 3 & 13 & 2 & 3/207 (1.4\%) \\
-Without knowledge base & 78 & 43 & 11 & 21 & 3 & 11/54 (20.4\%) \\
-Gemini runs & 245 & 204 & 14 & 23 & 4 & 14/218 (6.4\%) \\
+All & 300 & 242 & 19 & 34 & 5 & 19/261 (7.3\%) \\
+With knowledge base & 222 & 202 & 5 & 13 & 2 & 5/207 (2.4\%) \\
+Without knowledge base & 78 & 40 & 14 & 21 & 3 & 14/54 (25.9\%) \\
+Gemini runs & 245 & 199 & 19 & 23 & 4 & 19/218 (8.7\%) \\
 Gemma run & 55 & 43 & 0 & 11 & 1 & 0/43 (0\%) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \paragraph{Detection of natural errors.} Table~\ref{tab:naturalmethods} gives each method's recall on the
-14 false sentences of the random sample, and the precision of its flags in the 211 answers. All 435 pooled
+19 false sentences of the random sample, and the precision of its flags in the 211 answers. All 649 pooled
 sentences (the sample and every flagged sentence) were labelled. Natural errors turned out to be a
-different problem from the injected ones. TRACE-hybrid found 4 of the 14 (29\%), against 10 (71\%) for the
-Gemini judge. Of TRACE's ten misses, eight are statements its language cannot express: what a sales order
+different problem from the injected ones. TRACE-hybrid found 4 of the 19 (21\%), against 10 (53\%) for the
+Gemini judge. Of TRACE's fifteen misses, five are the overdue-unit sentences: the extractor recorded both
+figures, each of which is true, and the language has no way to say that one amount is part of another.
+Neither the judge nor TRACE flagged any of the five. Eight more are statements its language cannot express: what a sales order
 status means, whether reorder level and reorder point are the same figure, whether unserved demand is
 back-ordered in a projection, whether the data are simulated, which statuses count as incoming stock, and
 whether stock on order prevents Critical risk. The other two state the number of drafts per message wrongly,
@@ -612,32 +624,32 @@ passages as evidence and could compare such definitions with them directly. The 
 a figure (a suggested quantity of 40 units for 1,400), a rule threshold (20\% for 15\%) and the two stock
 status explanations described above.
 
-Precision was low for both. Of the 78 sentences TRACE-hybrid flagged, 12 are false (15\%), against 24 of
-117 for the judge (21\%). Every wrong TRACE flag is an extraction error, and one kind dominates: 50 of the 66
+Precision was low for both. Of the 78 sentences TRACE-hybrid flagged, 12 are false (15\%), against 28 of
+117 for the judge (24\%). Every wrong TRACE flag is an extraction error, and one kind dominates: 50 of the 66
 are the weekly figures of two 26-week forecast lists, each of which the extractor recorded as the
 \emph{average} weekly forecast. The others are of the kinds seen on the held-out test: a supplier's stated
 reliability recorded as its observed on-time rate, the next delivery date recorded as the stockout date,
 ``demand is up 23\%'' extracted as 237, and a statement about one user's permission recorded as one about
 the role. Leaving out the three forecast-list answers, which hurt both methods (the judge also flagged 27
-correct weekly figures in one of them), precision is 12 of 28 for TRACE (43\%) and 24 of 89 for the judge
-(27\%). Flags were spread very differently. TRACE flagged sentences in 25 of the 211 answers, the judge in
+correct weekly figures in one of them), precision is 12 of 28 for TRACE (43\%) and 28 of 89 for the judge
+(31\%). Flags were spread very differently. TRACE flagged sentences in 25 of the 211 answers, the judge in
 72. On the Gemma run, which TRACE never saw during development, the sample contains no false sentence; both
 methods' flags there (6 for TRACE, 12 for the judge) were all wrong.
 
 \begin{table}[t]
 \centering\small
-\caption{Natural errors: recall on the 14 false sentences of the random sample, and precision of the
+\caption{Natural errors: recall on the 19 false sentences of the random sample, and precision of the
 flags in the 211 answers that hold a sampled sentence (Wilson 95\% intervals).}
 \label{tab:naturalmethods}
 \begin{tabular}{@{}lrr@{}}
 \toprule
 Method & Recall (sample) & Precision of flags \\
 \midrule
-Patterns (first version) & 2/14 (14\%; 4--40) & 2/2 \\
-TRACE-rule & 2/14 (14\%; 4--40) & 2/2 \\
-TRACE-model & 4/14 (29\%; 12--55) & 12/78 (15\%; 9--25) \\
-TRACE-hybrid & 4/14 (29\%; 12--55) & 12/78 (15\%; 9--25) \\
-LLM judge (gemini-3.5-flash-lite) & 10/14 (71\%; 45--88) & 24/117 (21\%; 14--29) \\
+Patterns (first version) & 2/19 (11\%; 3--31) & 2/2 \\
+TRACE-rule & 2/19 (11\%; 3--31) & 2/2 \\
+TRACE-model & 4/19 (21\%; 9--43) & 12/78 (15\%; 9--25) \\
+TRACE-hybrid & 4/19 (21\%; 9--43) & 12/78 (15\%; 9--25) \\
+LLM judge (gemini-3.5-flash-lite) & 10/19 (53\%; 32--73) & 28/117 (24\%; 17--32) \\
 \NATURALBASELINES
 \bottomrule
 \end{tabular}
@@ -748,18 +760,19 @@ appear only as unexplained disagreements.
 
 \paragraph{Injected and natural errors differ.} On model-written injections TRACE matched the LLM judge
 (69\% against 78\% detection, not significantly different) with a quarter of its false alarms. On the
-assistant's own errors it found 4 of 14 against the judge's 10. The reason is the error mix, not the
-verifier. Eleven of the fourteen natural errors were made without the knowledge base. All eleven state a
-company rule or definition wrongly, and eight of them a definition that the language does not cover: what a
-status means, whether two figures are the same, how a projection treats unserved demand. The injected errors
+assistant's own errors it found 4 of 19 against the judge's 10. The reason is the error mix, not the
+verifier. Fourteen of the nineteen natural errors were made without the knowledge base; eleven of them state a
+company rule or definition wrongly, and eight of those a definition that the language does not cover: what a
+status means, whether two figures are the same, how a projection treats unserved demand. Five more relate two
+correct figures wrongly (overdue units as part of the units on order), which no single assertion captures. The injected errors
 were mostly figures, derived results and rule values, which the language was designed for. A deployment would therefore pair TRACE with grounding: with the knowledge base, the
-natural error rate fell from 20\% to 1.4\% of checkable sentences, and the residual errors with it were
-figures, the kind TRACE checks well.
+natural error rate fell from 26\% to 2.4\% of checkable sentences, and three of the five residual errors
+with it were figures, the kind TRACE checks well.
 
 \paragraph{Coverage.} Statements about what the system can do (``the system does not track customer
 returns''), definitions of terms and statuses, assumptions of the simulation, and reasons and causal
-explanations are outside the language. They account for five of the 32 held-out misses and eight of the
-ten natural-error misses. Each could be added as a typed policy attribute with an executable source (the
+explanations are outside the language, and so are relations between two figures (one amount being part of
+another). They account for five of the 32 held-out misses and thirteen of the fifteen natural-error misses. Each could be added as a typed policy attribute with an executable source (the
 status lifecycle and the projection's assumptions are already code), but every addition must be built and
 tested by hand, which is the price of deterministic verdicts.
 
@@ -779,8 +792,10 @@ are real); the language is tied to the schema, not to the data. Paraphrase false
 statement, and a paraphrase that splits a sentence can change counts for any method. The author wrote the
 questions. The natural-error sentences were labelled by a single annotator, a language model (Claude Opus 5.5)
 that is not one of the evaluated models or methods. It labelled the random sample before any method had been
-run on it. It labelled the 135 flagged sentences outside the sample afterwards, without being told which
-method had flagged them, and kept the conventions of the sample labels. Inter-annotator agreement has
+run on it. It labelled the 349 flagged sentences outside the sample afterwards, without being told which
+method had flagged them, and kept the conventions of the sample labels. Nine labels, five of them in the
+sample, were corrected afterwards by one rule taken from the code; the correction was prompted by MiniCheck's
+flags and favours MiniCheck's recall, so both versions are reported. Inter-annotator agreement has
 therefore not been measured, and every label is released with the words
 it marks as wrong and the evidence it rests on, so that each can be checked. Both evaluated models come from
 one provider family's API, one of them open-weight. The free API limited the study in three ways: the
@@ -799,8 +814,8 @@ had never seen, it kept the same detection rate (69\%) with fewer false alarms (
 pattern-based verifier missed and none that it found, and matched an LLM judge given the same evidence
 while raising a quarter of the judge's false alarms. Given an extraction, its verdicts were identical when
 repeated, and every miss and false alarm could be traced to a specific extraction or coverage gap; no error
-came from a verification function. On the assistant's own errors, however, it found only 4 of 14, because
-most natural errors misstate definitions that its language does not cover, and on false-premise questions
+came from a verification function. On the assistant's own errors, however, it found only 4 of 19, because
+most natural errors misstate definitions, or relations between figures, that its language does not cover, and on false-premise questions
 it did not measurably change how often answers rebut the premise. Its false alarms also have a cost: on
 ordinary questions, two of them led the model to correct a true answer into a false one. The results locate the remaining work
 precisely: a more faithful extractor, and a language that also covers the definitions and assumptions of

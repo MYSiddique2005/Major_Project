@@ -335,8 +335,8 @@ chartPage('chart-errortype', { type: 'bar', data: { labels: ['Derived (15)', 'Ex
 
 // LLM/evaluation/results/trace/natural/report.md
 chartPage('chart-natural', { type: 'bar', data: { labels: ['Patterns (v3)', 'TRACE-hybrid', 'LLM judge (Gemini)'],
-  datasets: [{ label: 'Recall on the 14 false sentences of the sample', data: [14, 29, 71], backgroundColor: BLUE },
-             { label: 'Precision of flags', data: [100, 15, 21], backgroundColor: ORANGE }] },
+  datasets: [{ label: 'Recall on the 19 false sentences of the sample', data: [11, 21, 53], backgroundColor: BLUE },
+             { label: 'Precision of flags', data: [100, 15, 24], backgroundColor: ORANGE }] },
   options: { plugins: { title: { display: true, text: "The assistant's own errors (%)" } }, scales: { y: { min: 0, max: 110 } } } }, 900, 420);
 
 // LLM/evaluation/results/fpq-report.md (both models complete)

@@ -6,7 +6,7 @@
 <script src="../node_modules/mermaid/dist/mermaid.min.js"></script>
 <script src="../node_modules/chart.js/dist/chart.umd.js"></script></head>
 <body><div id="fig"><div style="width:900px;height:420px"><canvas id="c"></canvas></div></div><script>Chart.defaults.font.family='Arial'; Chart.defaults.font.size=14; Chart.defaults.color='#111';
-     const cfg={"type":"bar","data":{"labels":["Patterns (v3)","TRACE-hybrid","LLM judge (Gemini)"],"datasets":[{"label":"Recall on the 14 false sentences of the sample","data":[14,29,71],"backgroundColor":"#2f5597"},{"label":"Precision of flags","data":[100,15,21],"backgroundColor":"#c55a11"}]},"options":{"plugins":{"title":{"display":true,"text":"The assistant's own errors (%)"}},"scales":{"y":{"min":0,"max":110}}}};
+     const cfg={"type":"bar","data":{"labels":["Patterns (v3)","TRACE-hybrid","LLM judge (Gemini)"],"datasets":[{"label":"Recall on the 19 false sentences of the sample","data":[11,21,53],"backgroundColor":"#2f5597"},{"label":"Precision of flags","data":[100,15,24],"backgroundColor":"#c55a11"}]},"options":{"plugins":{"title":{"display":true,"text":"The assistant's own errors (%)"}},"scales":{"y":{"min":0,"max":110}}}};
      cfg.options=Object.assign({animation:false,responsive:true,maintainAspectRatio:false},cfg.options||{});
      cfg.plugins=[{id:'labels',afterDatasetsDraw(chart){const {ctx}=chart;ctx.save();ctx.font='12px Arial';ctx.fillStyle='#111';
        chart.data.datasets.forEach((ds,i)=>{chart.getDatasetMeta(i).data.forEach((bar,j)=>{const v=ds.data[j];if(v==null)return;
