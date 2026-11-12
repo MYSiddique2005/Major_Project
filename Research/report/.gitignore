@@ -2,3 +2,4 @@ node_modules/
 *.docx
 *.pdf
 render/
+src/meta.local.js
