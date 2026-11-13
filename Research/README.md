@@ -23,7 +23,7 @@ This rebuilds both papers, the report (.docx and .pdf) and the poster, and copie
 ```
 ~/Documents/IntelliERP/
 ├── 1-Final-Submission/   IntelliERP-FYP-Report.docx / .pdf, IntelliERP-FYP-Poster.pdf / .png
-├── 2-Publication/        IntelliERP-Journal-Paper.pdf, IntelliERP-Conference-Paper.pdf
+├── 2-Publication/        IntelliERP-Journal-Paper.pdf / .docx, IntelliERP-Conference-Paper.pdf / .docx
 └── 3-Notes/              earlier notes and plans (not built from here)
 ```
 
@@ -34,6 +34,7 @@ Each part can also be built on its own:
 | Journal or conference paper | in `journal/` or `paper/`: `pdflatex`, `bibtex`, then `pdflatex` twice (or upload the folder to Overleaf) |
 | Report | in `report/`: `npm install` (once), `node make-figures.js`, `node render.js`, `node build.js` |
 | Poster | in `poster/`: `node build.js` (uses `report/node_modules`) |
+| Word versions of the papers | `node Research/word/build-docx.js` (compiles the LaTeX first, so numbers and references match the PDFs) |
 
 Personal cover details (student ID, passport number) are read from `report/src/meta.local.js`, which is
 not committed. The INTI logo for the poster (`poster/inti-mark.png`) is not committed either.
