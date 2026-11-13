@@ -3,7 +3,8 @@
 //   node build.js
 // Every number is taken from the final evaluation (LLM/evaluation/results); see Research/report/src/ch6.js.
 // Cover details come from ../report/src/meta.js, which reads the uncommitted meta.local.js for personal numbers.
-// Put the university logo at Research/poster/inti-logo.png (not committed) to show it in the header.
+// Header: the full university logo at inti-logo.png if present, otherwise the mark inti-mark.png with the name.
+// The QR code (qr-github.svg) links to the public repository.
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -17,7 +18,9 @@ fs.mkdirSync(OUT, { recursive: true });
 const NAME = 'Mohammad Yasin Naeemuddin Siddique';  // as on the presentation list
 const logo = fs.existsSync(path.join(__dirname, 'inti-logo.png'))
   ? `<img class="logo" src="file://${path.join(__dirname, 'inti-logo.png')}" alt="INTI International University">`
-  : `<div class="uni"><b>INTI</b><span>International<br>University</span></div>`;
+  : `<div class="uni">${fs.existsSync(path.join(__dirname, 'inti-mark.png')) ? `<img class="mark" src="file://${path.join(__dirname, 'inti-mark.png')}" alt="">` : ''}<b>INTI</b><span>International<br>University</span></div>`;
+const REPO = 'github.com/MYSiddique2005/Major_Project';
+const qr = fs.existsSync(path.join(__dirname, 'qr-github.svg')) ? fs.readFileSync(path.join(__dirname, 'qr-github.svg'), 'utf8') : '';
 const img = name => `file://${path.join(ASSETS, name)}`;
 // A screenshot cropped to the region (x, y, w, h) of its 1440 x 900 image, scaled to the column width.
 const crop = (name, x, y, w, h) => `<div class="shot" style="aspect-ratio:${w}/${h}"><img src="${img(name)}" alt="" style="width:${(1440 / w) * 100}%;margin-left:${(-x / w) * 100}%;margin-top:${(-y / w) * 100}%"></div>`;
@@ -63,8 +66,8 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 3179px; height: 2245px; }
   body { background: var(--bg); color: var(--ink); font-family: 'Noto Sans', 'DejaVu Sans', sans-serif; font-size: 29px; line-height: 1.38; overflow: hidden; }
-  header { height: 300px; display: grid; grid-template-columns: 560px 1fr 720px; align-items: center; padding: 0 60px; background: #fff; border-bottom: 14px solid var(--red); }
-  .uni { display: flex; align-items: center; gap: 20px; }
+  header { height: 300px; display: grid; grid-template-columns: 560px 1fr 860px; align-items: center; padding: 0 60px; background: #fff; border-bottom: 14px solid var(--red); }
+  .uni { display: flex; align-items: center; gap: 18px; } .uni .mark { height: 170px; margin: 0 -14px 0 -20px; }
   .uni b { font-size: 120px; color: var(--red); letter-spacing: 4px; line-height: 1; }
   .uni span { font-size: 38px; font-weight: 600; color: #333; line-height: 1.15; }
   .logo { max-height: 200px; max-width: 520px; }
@@ -72,7 +75,7 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>
   .title h1 { font-size: 104px; color: var(--navy); letter-spacing: 1px; line-height: 1.05; }
   .title p { font-size: 44px; font-weight: 600; color: var(--ink); margin-top: 14px; line-height: 1.2; }
   .fac { text-align: right; font-size: 34px; font-weight: 700; color: var(--ink); line-height: 1.3; }
-  .fac small { display: block; font-size: 28px; font-weight: 500; color: var(--muted); margin-top: 10px; }
+  .fac small { display: block; white-space: nowrap; font-size: 26px; font-weight: 500; color: var(--muted); margin-top: 10px; }
   main { display: grid; grid-template-columns: 640px 760px 860px 1fr; gap: 36px; padding: 36px 44px 0; height: 1945px; }
   .col { display: flex; flex-direction: column; gap: 30px; min-height: 0; }
   section { background: var(--card); border-radius: 22px; box-shadow: 0 3px 10px rgba(20,40,80,.08); overflow: hidden; }
@@ -123,12 +126,15 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>
   .cap { font-size: 23px; color: var(--muted); margin: 8px 0 18px; line-height: 1.3; }
   .me { display: grid; grid-template-columns: 190px 1fr; gap: 4px 12px; font-size: 24px; }
   .me span { color: var(--muted); }
+  .right { display: flex; align-items: center; justify-content: flex-end; gap: 28px; }
+  .repo { text-align: center; } .repo svg { width: 210px; height: 210px; display: block; }
+  .repo span { font-size: 22px; font-weight: 700; color: var(--ink); }
   .ack { font-size: 24px; line-height: 1.34; }
 </style></head><body>
 <header>
   <div>${logo}</div>
   <div class="title"><h1>IntelliERP</h1><p>Evidence-Grounded Hallucination Detection and Verification<br>for LLM-Based ERP Decision Support</p></div>
-  <div class="fac">Faculty of Data Science and<br>Information Technology (FDSIT)<small>Final Year Project · ${META.session}<br>Project ID ${META.projectId}</small></div>
+  <div class="right"><div class="fac">Faculty of Data Science and<br>Information Technology (FDSIT)<small>Final Year Project · ${META.session}<br>Project ID ${META.projectId}</small></div>${qr ? `<div class="repo">${qr}<span>Code on GitHub</span></div>` : ''}</div>
 </header>
 <main>
   <div class="col">
@@ -214,7 +220,7 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>
       <p style="font-size:24px"><b>Next:</b> a user study, a wider assertion language for definitions, and warnings instead of automatic correction.</p>
     </div></section>
     <section class="grow"><h2>Acknowledgement</h2><div class="body ack">
-      I sincerely thank my supervisor <b>Dr. Zeyad Ahmed</b> for continuous guidance throughout this project, <b>INTI International University</b> for the resources and environment to complete it, and <b>Prof. Ashish K. Soni</b> of G H Raisoni College of Engineering, Nagpur, for support during my mobility semester.
+      I sincerely thank my supervisor <b>Dr. Zeyad Ahmed</b> for continuous guidance, <b>INTI International University</b> for the resources to complete this project, and <b>Prof. Ashish K. Soni</b> (G H Raisoni College of Engineering, Nagpur) for support during my mobility semester.
       <div class="me" style="margin-top:18px">
         <span>Name</span><b>${NAME}</b>
         <span>Student ID</span><b>${META.studentId}</b>

@@ -1,4 +1,111 @@
-# IntelliERP
+<div align="center">
+
+# 🧠 IntelliERP
+
+### Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision Support
+
+*An ERP system with an AI assistant whose facts are decided by the system, not by the model.*
+
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-backend-009688?logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React_19-TypeScript-61DAFB?logo=react&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-database-4169E1?logo=postgresql&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini_%26_Gemma-free_API-8E75B2?logo=googlegemini&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-269_passed-2E7D32)
+![Phases](https://img.shields.io/badge/phases-9_of_9_done-2E7D32)
+
+[**Results**](#-results-at-a-glance) · [**How it works**](#-how-it-works) · [**Screenshots**](#-screenshots) · [**Run it**](#running-it) · [**TRACE**](#typed-run-time-verification-trace-phase-9) · [**Papers**](#research-documents)
+
+<img src="Research/report/assets/ui-ai-assistant.png" alt="The IntelliERP AI assistant: an answer with the data used, the company rules consulted and its check results" width="88%">
+
+<sub>The AI assistant: every answer shows the data it used, the company rules it consulted and whether its statements match the system's data.</sub>
+
+</div>
+
+---
+
+## 💡 The idea in one minute
+
+> **Problem.** LLM assistants inside ERP systems can state false facts with confidence: a wrong stock level, an
+> invented company rule, a permission the user does not have. A wrong figure can lead to a wrong purchase order.
+>
+> **Answer.** Two defences, both based on the system's own evidence:
+> 1. 🛡️ **Prevent** — ground the model: rule-based analytics decide what is wrong, the model reads data only
+>    through 15 permission-checked tools, and it gets the company's rules from a knowledge base of 41 passages.
+> 2. 🔍 **Detect** — verify with **TRACE**: the model only turns each statement into a typed assertion;
+>    the system's own tested code decides whether it is true, *before the user sees the answer*.
+>
+> The only action the AI can take is a **draft** purchase order, which a different person must approve.
+
+## 📊 Results at a glance
+
+| | Result | What it means |
+|---|---|---|
+| 🛡️ Grounding | **25.9% → 2.4%** false statements | in the assistant's own answers, without → with the knowledge base |
+| ✅ Paired questions | **8–9 → 32 of 32** correct | without → with grounding (p < 0.0001), on every repeated run |
+| 🔍 TRACE, unseen errors | **69%** detected, **4%** false alarms | held-out test of 102 errors and 103 correct paraphrases, written after TRACE was frozen |
+| ⚖️ Against LLM judges | not significantly different in detection | Gemini judge 78% with **17%** false alarms (p = 0.036); Gemma judge 75% with 7% |
+| 🧾 Explainability | **0** failures from a verification function | every miss and false alarm was traced to extraction or to the language's coverage |
+| ⚠️ Honest limit | **4 of 19** natural errors found | most of the assistant's own errors were wrong definitions, outside TRACE's language |
+
+<details>
+<summary><b>📈 Show the held-out comparison chart</b></summary>
+<br>
+
+![Held-out test: errors detected and false alarms for seven methods](Research/report/assets/chart-heldout.png)
+
+TRACE-hybrid found 55 errors the pattern verifier missed and none the other way (p < 1e-15). Full numbers,
+confidence intervals and tests are under [TRACE results](#results).
+
+</details>
+
+## ⚙️ How it works
+
+```mermaid
+flowchart TB
+    U([👤 User question]) --> A
+
+    subgraph PREVENT [" 🛡️ Prevent: grounding "]
+        direction LR
+        KB[(Knowledge base<br/>41 passages)] --> A[🤖 AI assistant<br/>Gemini / Gemma]
+        A <--> T[15 permission-checked<br/>tools]
+        T <--> DB[(PostgreSQL ERP data<br/>+ rule-based analytics)]
+    end
+
+    subgraph DETECT [" 🔍 Detect: TRACE "]
+        direction LR
+        D[Draft answer] --> X[LLM extracts<br/>typed assertions] --> V{Deterministic verifier:<br/>system's own code}
+    end
+
+    A --> D
+    V -- ✅ supported --> OK([Answer shown with check results])
+    V -- ❌ contradicted --> C[Sent back once to correct] --> OK
+    A -. only action .-> PO[📝 Draft purchase order] --> AP([👥 Review and approval by another person])
+```
+
+**Example.** The draft says *"P082 has 120 units in stock"*. The extractor records
+`P082 · stock_on_hand · = 120`; the verifier reads the true value from the database (`0`) and marks the
+statement **contradicted**, so the answer is corrected before the user sees it.
+
+## 🖼️ Screenshots
+
+<details open>
+<summary><b>Click to hide or show</b></summary>
+<br>
+
+| Dashboard | AI insights |
+|---|---|
+| <img src="Research/report/assets/ui-dashboard.png" alt="Dashboard" width="100%"> | <img src="Research/report/assets/ui-ai-insights.png" alt="AI insights" width="100%"> |
+| **AI-drafted purchase order** | **Approval center** |
+| <img src="Research/report/assets/ui-po-ai-draft.png" alt="AI-drafted purchase order" width="100%"> | <img src="Research/report/assets/ui-approvals.png" alt="Approval center" width="100%"> |
+| **Stock-risk analytics** | **Audit log** |
+| <img src="Research/report/assets/ui-analytics.png" alt="Analytics" width="100%"> | <img src="Research/report/assets/ui-audit.png" alt="Audit log" width="100%"> |
+
+</details>
+
+## 📚 About the project
+
+University major / research project (final-year project, INTI International University, August 2026 session).
 
 **IntelliERP: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision
 Support** — university major/research project.
@@ -80,6 +187,9 @@ persistent data; without it, set `DATA_BACKEND=memory`.
 
 ## Project structure
 
+<details>
+<summary><b>📁 Show the folder structure</b></summary>
+
 ```
 Major_Project/
 ├── Backend/
@@ -112,6 +222,8 @@ Major_Project/
 ```
 
 Request flow: `React page → service (Axios) → FastAPI route → service → repository interface → PostgreSQL`.
+
+</details>
 
 ## Running it
 
@@ -225,6 +337,9 @@ The role → permission map lives in `Backend/app/security/permissions.py`.
 
 ## API
 
+<details>
+<summary><b>🔌 Show all API routes</b></summary>
+
 All routes are under `/api/v1` and, except login, require `Authorization: Bearer <token>`.
 
 | Area | Routes |
@@ -245,6 +360,8 @@ All routes are under `/api/v1` and, except login, require `Authorization: Bearer
 | Health | `GET /health` (no prefix) |
 
 List endpoints accept `search` and module-specific filters (`status`, `product_id`, ...).
+
+</details>
 
 ## Demo data
 
@@ -582,6 +699,9 @@ verdict and label is in `LLM/evaluation/results/trace/`.
 
 ### Running the TRACE evaluation
 
+<details>
+<summary><b>🧪 Show the commands that repeat every TRACE experiment</b></summary>
+
 ```bash
 cd LLM
 PY=../Backend/.venv/bin/python
@@ -605,6 +725,8 @@ $PY -m evaluation.judge_repeat && $PY -m evaluation.judge_repeat compare
 
 All model calls are cached and resumable, because the free API tier limits and interrupts them.
 `run_remaining.sh`, `run_gemma_shards.sh` and `run_gemma_repeat.sh` run the long jobs in loops.
+
+</details>
 
 ## Research documents
 
@@ -671,12 +793,12 @@ products), `inventory`, `sales_orders`, `purchase_orders`, `approvals`, `audit_l
 
 | Phase | Content |
 |---|---|
-| 1 (done) | Frontend, FastAPI backend, mock ERP data, REST APIs, authentication, RBAC, ERP workflows, approval workflow, audit logs |
-| 2 (done) | PostgreSQL, SQLAlchemy, Alembic, persistent ERP data |
-| 3 (done) | Analytics, risk detection, forecasting, what-if analysis |
-| 4 (done) | LLM integration, natural-language interface, tool/function calling |
-| 5 (done) | Enterprise grounding: RAG, schema metadata, business rules, enterprise knowledge |
-| 6 (done) | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
-| 7 (done) | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
-| 8 (done) | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |
-| 9 (done) | TRACE: typed run-time verification of the assistant's statements; held-out, natural-error, false-premise and harm experiments |
+| 1 ✅ | Frontend, FastAPI backend, mock ERP data, REST APIs, authentication, RBAC, ERP workflows, approval workflow, audit logs |
+| 2 ✅ | PostgreSQL, SQLAlchemy, Alembic, persistent ERP data |
+| 3 ✅ | Analytics, risk detection, forecasting, what-if analysis |
+| 4 ✅ | LLM integration, natural-language interface, tool/function calling |
+| 5 ✅ | Enterprise grounding: RAG, schema metadata, business rules, enterprise knowledge |
+| 6 ✅ | Cross-module LLM reasoning, proactive intelligence, explainable recommendations |
+| 7 ✅ | Controlled ERP actions, human approval, LLM-generated purchase-order drafts |
+| 8 ✅ | Evaluation: research experiments, reliability testing, hallucination analysis, cross-module reasoning evaluation |
+| 9 ✅ | TRACE: typed run-time verification of the assistant's statements; held-out, natural-error, false-premise and harm experiments |
