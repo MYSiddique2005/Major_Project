@@ -46,7 +46,7 @@ def main() -> None:
     lines = ["# Natural errors: the random sample", "",
              "300 sentences drawn with seed 2026 from the 590 stored answers (evaluation/trace_natural.py, step sample), "
              "labelled before any method's output on them existed, by Claude Opus 5.5 following "
-             "Research/trace/annotation-guide.md, with the system's rules and permissions (Backend/app/knowledge/content.py, "
+             "Research/notes/annotation-guide.md, with the system's rules and permissions (Backend/app/knowledge/content.py, "
              "Backend/app/security/permissions.py) as the reference for policy statements. Every label, with the wrong "
              "words and the evidence it rests on, is in labels-annotator-1.jsonl. A human second annotation has not been done.",
              "", *table(rows, labels), ""]

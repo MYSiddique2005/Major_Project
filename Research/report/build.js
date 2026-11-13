@@ -1,5 +1,5 @@
 // Builds the final-year project report (Word) from the chapter files in src/.
-//   node build.js            -> ~/Documents/IntelliERP-FYP-Report.docx
+//   node build.js            -> ~/Documents/IntelliERP/1-Final-Submission/IntelliERP-FYP-Report.docx
 // Chapter files export an array of blocks: {h1|h2|h3: text}, {p: text}, {bullets: [...]}, {numbered: [...]},
 // {table: {caption, head, rows, widths}}, {fig: {file, caption, width}}, {code: {caption, text}}, {pagebreak: true}.
 // In text: **bold**, *italic*, `code`, [@key] or [@a; @b] for (Author, Year), @key for Author (Year).
@@ -11,7 +11,7 @@ const { Document, Packer, Paragraph, TextRun, ImageRun, Table, TableRow, TableCe
   HeadingLevel, ShadingType, BorderStyle, PageBreak, Header, Footer, PageNumber, TableOfContents, StyleLevel,
   LevelFormat, TabStopType, VerticalAlign } = D;
 
-const OUT = path.join(os.homedir(), 'Documents', 'IntelliERP-FYP-Report.docx');
+const OUT = path.join(os.homedir(), 'Documents', 'IntelliERP', '1-Final-Submission', 'IntelliERP-FYP-Report.docx');
 const ASSETS = path.join(__dirname, 'assets');
 const META = require('./src/meta');
 const TEXT_WIDTH = 9026; // A4 width 11906 minus 1-inch margins, in DXA

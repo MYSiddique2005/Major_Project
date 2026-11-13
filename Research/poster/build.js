@@ -1,5 +1,5 @@
 // The FYP poster (A1 landscape). Writes out/poster.html, out/poster.pdf (print, 841 x 594 mm) and
-// out/poster.png (preview), and copies the PDF and PNG to ~/Documents.
+// out/poster.png (preview), and copies the PDF and PNG to ~/Documents/IntelliERP/1-Final-Submission.
 //   node build.js
 // Every number is taken from the final evaluation (LLM/evaluation/results); see Research/report/src/ch6.js.
 // Cover details come from ../report/src/meta.js, which reads the uncommitted meta.local.js for personal numbers.
@@ -247,8 +247,8 @@ fs.writeFileSync(path.join(OUT, 'poster.html'), html);
   await page.pdf({ path: path.join(OUT, 'poster.pdf'), width: '841mm', height: '594mm', printBackground: true, pageRanges: '1' });
   await page.screenshot({ path: path.join(OUT, 'poster.png') });
   await browser.close();
-  const docs = path.join(os.homedir(), 'Documents');
+  const docs = path.join(os.homedir(), 'Documents', 'IntelliERP', '1-Final-Submission');
   fs.copyFileSync(path.join(OUT, 'poster.pdf'), path.join(docs, 'IntelliERP-FYP-Poster.pdf'));
   fs.copyFileSync(path.join(OUT, 'poster.png'), path.join(docs, 'IntelliERP-FYP-Poster.png'));
-  console.log('written ~/Documents/IntelliERP-FYP-Poster.pdf and .png');
+  console.log('written ~/Documents/IntelliERP/1-Final-Submission/IntelliERP-FYP-Poster.pdf and .png');
 })();

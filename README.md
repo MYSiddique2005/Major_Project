@@ -730,14 +730,16 @@ All model calls are cached and resumable, because the free API tier limits and i
 
 ## Research documents
 
-| Document | Source | Build |
-|---|---|---|
-| Conference paper (IEEE conference format): the system, grounding and the pattern-based verifier | `Research/paper/intellierp.tex` | `pdflatex`, `bibtex`, `pdflatex` twice (or Overleaf) |
-| Journal article (IEEE journal format): TRACE and its evaluation | `Research/journal/trace.tex` | the same |
-| Final-year project report (Word) | `Research/report/` (`src/*.js` chapters, `build.js`) | `npm install`, `node make-figures.js`, `node render.js`, `node build.js` |
+All papers, the report and the poster are in [`Research/`](Research/), which has its own
+[guide](Research/README.md). `bash Research/build-all.sh` rebuilds them all.
 
-`Research/literature-review.md` and `Research/trace/annotation-guide.md` hold the literature notes and the
-guide the natural-error labels follow.
+| Document | Folder |
+|---|---|
+| Journal article (IEEE journal format): TRACE and its full evaluation | [`Research/journal/`](Research/journal/) |
+| Conference paper (IEEE conference format): the system, grounding and the pattern-based verifier | [`Research/paper/`](Research/paper/) |
+| Final-year project report (Word) | [`Research/report/`](Research/report/) |
+| A1 poster for the project presentation | [`Research/poster/`](Research/poster/) |
+| Literature review, research plan, annotation guide, reviewer questions, demo script | [`Research/notes/`](Research/notes/) |
 
 ## Data model
 

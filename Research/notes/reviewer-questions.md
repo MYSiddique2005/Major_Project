@@ -1,6 +1,6 @@
 # Pre-review of the IntelliERP paper
 
-A critical reading of `intellierp.tex` as a conference reviewer would make it, done before showing it to the
+A critical reading of `../paper/intellierp.tex` as a conference reviewer would make it, done before showing it to the
 guide. Each point gives the likely objection, where the paper already answers it, and what to say or change.
 The last section lists questions to expect in a viva.
 
