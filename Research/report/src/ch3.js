@@ -8,7 +8,7 @@ module.exports = [
   { h3: '3.1.1 Design science' },
   { p: 'The project follows the design-science paradigm of information systems research [@hevner2004design]. A practical problem is identified (false statements by ERP assistants), an artefact is designed and built to address it (IntelliERP and its verifier, TRACE), and the artefact is evaluated rigorously. The contribution is both the artefact and the knowledge gained from evaluating it, including where it fails.' },
   { h3: '3.1.2 Iterative development' },
-  { p: 'Development proceeded in eight phases. Each phase delivered working, tested functionality and was reviewed before the next began, in the spirit of agile development:' },
+  { p: 'Development proceeded in nine phases. Each phase delivered working, tested functionality and was reviewed before the next began, in the spirit of agile development:' },
   { table: { caption: 'Development phases', widths: [0.7, 3, 4],
     head: ['Phase', 'Content', 'Main deliverables'],
     rows: [
@@ -19,7 +19,8 @@ module.exports = [
       ['5', 'Enterprise grounding', '41-passage knowledge base, BM25 retrieval, schema passages generated from the models'],
       ['6', 'Cross-module reasoning', 'Product overview tool, checked recommendations, proactive AI insights'],
       ['7', 'Controlled actions', 'AI-drafted purchase orders with validation, review and separation of duties'],
-      ['8', 'Evaluation and verification', '86-question evaluation, pattern-based claim verifier, TRACE, held-out and natural-error studies'],
+      ['8', 'Evaluation', '86-question evaluation repeated three times, pattern-based claim verifier with frozen held-out tests'],
+      ['9', 'Typed run-time verification', 'TRACE; development and held-out tests, LLM-judge and MiniCheck baselines, natural-error, false-premise, harm and repeatability studies'],
     ] } },
   { h3: '3.1.3 Experimental evaluation' },
   { p: 'Three principles guided the experiments. **First, no model as the judge of the main evaluation:** answer keys are computed from the application\'s own services at run time, and answers are scored by matching numbers, phrases and patterns. **Second, frozen before tested:** each version of the verifier was frozen (the hash of its source files recorded) before the test it was scored on was generated, so the test could not influence the design. **Third, honest statistics:** proportions are reported with Wilson 95% confidence intervals [@wilson1927], paired comparisons use the exact sign test or McNemar\'s exact test [@mcnemar1947], and multiple comparisons are corrected with Holm\'s method [@holm1979].' },
