@@ -6,7 +6,7 @@ const fields = {
   student: 'Mohammad Yasin Siddique',
   studentId: '[Student ID]',
   passport: '[Passport No]',
-  projectId: '[Project ID]',
+  projectId: 'FDSIT-INTI-IU-BCSIM-AUG-2026-0003',
   home: 'G H Raisoni College of Engineering, Nagpur, India (mobility student)',
   supervisor: 'Dr. Zeyad Ahmed',
   programme: 'BCSI',
