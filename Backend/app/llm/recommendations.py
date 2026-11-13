@@ -15,7 +15,7 @@ import json
 import re
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from app.core.exceptions import DomainError
 from app.knowledge.base import KnowledgeBase
@@ -51,6 +51,12 @@ class RecommendationInput(BaseModel):
     supplier_id: str | None = Field(default=None, description="Supplier the action concerns")
     quantity: int | None = Field(default=None, ge=1, le=MAX_ORDER_QUANTITY, description="Units to order (reorder only)")
     evidence: list[EvidenceItem] = Field(min_length=1, max_length=8)
+
+    @field_validator("headline", "explanation")
+    @classmethod
+    def _unescape_quotes(cls, text: str) -> str:
+        """Models sometimes write a JSON escape (\\") inside the text itself; show it as a plain quote."""
+        return text.replace('\\"', '"')
 
 
 class RecommendationChecks(BaseModel):

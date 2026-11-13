@@ -41,7 +41,7 @@ module.exports = [
   { table: { caption: 'Research questions, objectives and outcomes', widths: [1.2, 3.6, 4.2],
     head: ['RQ', 'Objective', 'Outcome'],
     rows: [
-      ['RQ1', 'Build a complete ERP system with role-based access control on a realistic dataset', 'Achieved: eight modules, four roles, Wide World Importers data; 269 automated tests pass (Chapters 4–6)'],
+      ['RQ1', 'Build a complete ERP system with role-based access control on a realistic dataset', 'Achieved: eight modules, four roles, Wide World Importers data; 272 automated tests pass (Chapters 4–6)'],
       ['RQ1', 'Design a grounded assistant: rules decide, the LLM explains through permission-checked tools', 'Achieved: 15 tools, knowledge base generated partly from code; 84, 86 and 86 of 86 questions passed; Gemma 86 of 86'],
       ['RQ1', 'Measure the effect of grounding', 'Achieved: 32 of 32 paired questions with grounding against 8–9 without (p < 0.0001); false statements 2.4% against 25.9%'],
       ['RQ2', 'Design a typed assertion language for enterprise statements', 'Achieved: 64 attributes, 24 rule keys and 21 actions in three families'],

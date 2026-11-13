@@ -17,7 +17,7 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
         </button>
         {system.data && (
           <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
-            Phase {system.data.phase} ·{' '}
+            v{system.data.version} ·{' '}
             {system.data.persistent ? 'PostgreSQL, data is saved' : 'in-memory demo data, resets on server restart'}
             {' · '}data as of {formatDate(system.data.business_date)}
           </span>

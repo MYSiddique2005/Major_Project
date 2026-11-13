@@ -110,6 +110,20 @@ class InsightService:
     def last_scan(self) -> AiScan | None:
         return next(iter(self.list_scans(1)), None)
 
+    def close_interrupted_scans(self, now: datetime) -> int:
+        """Marks as failed the scans still "Running" long after they started: the server stopped during them
+        (the development reloader restarts it on every file change). Without this they would show as running
+        for ever, and the next scheduled scan would wait a whole interval."""
+        interrupted = [scan for scan in self._scans.list()
+                       if scan.status == ScanStatus.RUNNING and now - scan.started_at >= STALE_RUNNING_SCAN]
+        for scan in interrupted:
+            scan.status, scan.finished_at = ScanStatus.FAILED, now
+            scan.message = "Interrupted: the server stopped before the scan finished."
+            self._scans.update(scan)
+        if interrupted:
+            self._uow.commit()
+        return len(interrupted)
+
     def is_due(self, now: datetime) -> bool:
         """Whether the scheduler should scan now."""
         interval = self._settings.insight_scan_interval_minutes

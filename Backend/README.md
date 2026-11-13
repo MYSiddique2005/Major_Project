@@ -1,7 +1,9 @@
 # IntelliERP backend
 
-FastAPI service for IntelliERP (Phase 7: PostgreSQL persistence, rule-based analytics and a grounded LLM assistant
-that makes checked recommendations, raises insights on a schedule and can draft purchase orders for approval). See the [project README](../README.md) for scope, credentials,
+FastAPI service for IntelliERP, version 1.0 (all nine phases complete): PostgreSQL persistence, rule-based
+analytics, and a grounded LLM assistant whose statements are checked against the data (claim patterns or TRACE,
+set by `LLM_VERIFIER`), which makes checked recommendations, raises insights on a schedule and can draft purchase
+orders for approval. See the [project README](../README.md) for scope, credentials,
 the route list and the roadmap.
 
 ```bash
@@ -92,7 +94,7 @@ columns on `purchase_orders`).
 Use `user: User = Depends(require_permission(...))` instead when the handler needs the current user.
 Add new permissions to `app/security/permissions.py`.
 
-## Business rules in this phase
+## Business rules
 
 - Stock status (`app/utils/stock.py`): 0 → Out of Stock; ≤ 50% of safety stock → Critical;
   ≤ reorder level → Low Stock; otherwise In Stock.

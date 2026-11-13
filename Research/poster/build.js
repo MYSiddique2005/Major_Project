@@ -157,7 +157,7 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>
       <div class="data">
         <div><b>72,696</b>sales lines</div><div><b>5,443</b>purchase orders</div>
         <div><b>227</b>products</div><div><b>7</b>suppliers</div>
-        <div><b>15</b>AI tools</div><div><b>269</b>tests pass</div>
+        <div><b>15</b>AI tools</div><div><b>272</b>tests pass</div>
       </div>
       <p class="note" style="font-size:24px;margin-top:14px"><b>Built with</b> React 19 + TypeScript · Python FastAPI · PostgreSQL · Gemini 3.5 Flash-Lite and Gemma 4 31B (free API)</p>
     </div></section>
@@ -210,7 +210,7 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>
 
   <div class="col">
     <section><h2>The System in Use</h2><div class="body">
-      ${crop('ui-ai-assistant.png', 290, 236, 880, 520)}
+      ${crop('ui-ai-assistant.png', 290, 268, 880, 488)}
       <p class="cap">The AI assistant: every answer shows the data used, the company rules consulted and the check results.</p>
       ${crop('ui-po-ai-draft.png', 286, 566, 1110, 300)}
       <p class="cap" style="margin-bottom:0">The AI can only <b>draft</b> a purchase order. A different person must review and approve it, and every step is in the audit log.</p>

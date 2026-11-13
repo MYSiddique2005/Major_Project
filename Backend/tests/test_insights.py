@@ -304,3 +304,33 @@ def test_scheduler_does_nothing_without_a_model_or_when_switched_off(client):
     with insight_service_outside_a_request(lambda: ScriptedProvider(reply("x"))) as service:
         service._settings = service._settings.model_copy(update={"insight_scan_interval_minutes": 0})
         assert service.is_due(datetime.now()) is False
+
+
+def test_a_scan_interrupted_by_a_restart_is_closed_and_retried(client, auth, llm):
+    from app.api.deps import insight_service_outside_a_request
+    from app.models.entities import AiScan
+    from app.models.enums import ScanStatus
+
+    scripted = llm(reply("", *[insight_for(kind, subject) for kind, subject, _ in findings(client, auth)]))
+    now = datetime.now()
+    with insight_service_outside_a_request(lambda: scripted) as service:  # a scan the server never finished
+        service._scans.add(AiScan(id=service._scans.next_id(), started_at=now - timedelta(minutes=20),
+                                  trigger="schedule", status=ScanStatus.RUNNING))
+        service._uow.commit()
+
+    assert run_if_due(now, lambda: scripted) is False  # closed as failed; retried after the usual hour
+    closed = client.get(f"{API}/ai/insights/scans", headers=auth("admin")).json()[0]
+    assert closed["status"] == "Failed" and closed["message"].startswith("Interrupted")
+    assert run_if_due(now + timedelta(minutes=61), lambda: scripted) is True
+
+
+def test_escaped_quotes_written_by_the_model_are_shown_as_plain_quotes():
+    from app.llm.recommendations import RecommendationInput
+
+    proposal = RecommendationInput(
+        subject_type="product", subject_id="P082", headline='Critical risk for \\"The Gu\\" t-shirt',
+        explanation='Stock of \\"The Gu\\" t-shirt is 0 units while it keeps selling.', action="monitor",
+        evidence=[{"module": "inventory", "statement": "Stock is 0 units"}],
+    )
+    assert proposal.headline == 'Critical risk for "The Gu" t-shirt'
+    assert '\\' not in proposal.explanation

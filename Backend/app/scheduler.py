@@ -38,8 +38,10 @@ class ScanScheduler:
 
 def run_if_due(now: datetime | None = None, provider_factory=get_llm_provider) -> bool:
     """Runs a scan when one is due. Returns whether it ran."""
+    now = now or datetime.now()
     with insight_service_outside_a_request(provider_factory) as service:
-        if not service.is_due(now or datetime.now()):
+        service.close_interrupted_scans(now)
+        if not service.is_due(now):
             return False
         scan = service.run_scan(trigger="schedule")
         logger.info("Scheduled AI scan %s: %s, %d insights. %s", scan.id, scan.status, scan.insights, scan.message)

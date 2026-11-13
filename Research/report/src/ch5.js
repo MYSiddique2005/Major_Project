@@ -12,7 +12,7 @@ module.exports = [
       ['Backend', 'Python 3, FastAPI, Pydantic v2, PyJWT, bcrypt, Uvicorn', 'REST API, validation, authentication, business logic'],
       ['Database', 'PostgreSQL, SQLAlchemy 2, Alembic, psycopg 3', 'Persistent ERP data, migrations, constraints'],
       ['LLM', 'Google Gemini API (`google-genai`); Anthropic Claude supported', 'Assistant, insights, TRACE extraction'],
-      ['Testing', 'pytest (269 tests)', 'Automated tests of services, analytics, permissions, AI plumbing, TRACE'],
+      ['Testing', 'pytest (272 tests)', 'Automated tests of services, analytics, permissions, AI plumbing, TRACE'],
       ['Evaluation', 'Python scripts in `LLM/evaluation`; MiniCheck (PyTorch, Transformers) on the CPU', 'Experiments of Chapter 6'],
     ] } },
   { h3: '5.2.2 Hardware and environment' },

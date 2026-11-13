@@ -11,7 +11,7 @@
 ![React](https://img.shields.io/badge/React_19-TypeScript-61DAFB?logo=react&logoColor=black)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-database-4169E1?logo=postgresql&logoColor=white)
 ![Gemini](https://img.shields.io/badge/Gemini_%26_Gemma-free_API-8E75B2?logo=googlegemini&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-269_passed-2E7D32)
+![Tests](https://img.shields.io/badge/tests-272_passed-2E7D32)
 ![Phases](https://img.shields.io/badge/phases-9_of_9_done-2E7D32)
 
 [**Results**](#-results-at-a-glance) · [**How it works**](#-how-it-works) · [**Screenshots**](#-screenshots) · [**Run it**](#running-it) · [**TRACE**](#typed-run-time-verification-trace-phase-9) · [**Papers**](#research-documents)

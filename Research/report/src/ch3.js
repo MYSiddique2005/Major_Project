@@ -82,7 +82,7 @@ module.exports = [
       ['NFR4', 'Privacy: the LLM never receives the database', 'Only the question, tool results and passages are sent'],
       ['NFR5', 'Maintainability: the knowledge base cannot drift from the code', 'Thresholds filled from code constants; a test fails if a column lacks a description'],
       ['NFR6', 'Reliability: failures of the external LLM must not break the application', 'Retries, fallback models, and pages that work without the assistant'],
-      ['NFR7', 'Testability: business logic covered by automated tests', '269 automated tests (pytest)'],
+      ['NFR7', 'Testability: business logic covered by automated tests', '272 automated tests (pytest)'],
       ['NFR8', 'Performance: verification adds seconds, not minutes', 'Measured in Chapter 6'],
     ] } },
 

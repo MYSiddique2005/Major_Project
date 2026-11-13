@@ -8,7 +8,7 @@ module.exports = [
 
   { h2: '6.2 Testing and Evaluation of the System' },
   { h3: '6.2.1 Automated testing' },
-  { p: 'The back end has 182 test functions in 13 files, run as 280 test cases with pytest. In the final run, 269 passed and 11 were skipped; the skipped cases test persistence and database constraints and run only when a separate PostgreSQL test database is configured. The tests use the in-memory repositories and a scripted stand-in for the language model, so they check the plumbing deterministically; answer quality is measured separately in Sections 6.3 to 6.5.' },
+  { p: 'The back end has 185 test functions in 13 files, run as 283 test cases with pytest. In the final run, 272 passed and 11 were skipped; the skipped cases test persistence and database constraints and run only when a separate PostgreSQL test database is configured. The tests use the in-memory repositories and a scripted stand-in for the language model, so they check the plumbing deterministically; answer quality is measured separately in Sections 6.3 to 6.5.' },
   { table: { caption: 'Automated test suite', widths: [2.6, 0.9, 5.5],
     head: ['Test file', 'Tests', 'What it covers'],
     rows: [
@@ -17,11 +17,11 @@ module.exports = [
       ['test_procurement_workflow.py', '8', 'Draft, edit, submit, approve, reject, validation, separation of duties, audit'],
       ['test_persistence.py', '7', 'Workflows stored in PostgreSQL, constraints, transactions'],
       ['test_analytics.py', '20', 'Demand, trend, forecasts, back-test, stockout risk, reorder, supplier performance, what-if'],
-      ['test_clock.py', '5', 'Business date that follows the data'],
+      ['test_clock.py', '6', 'Business date that follows the data; version and AI settings reported'],
       ['test_knowledge.py', '12', 'Every column described, numbers taken from the code, retrieval accuracy'],
       ['test_ai.py', '19', 'Tools follow the role, refused tools, audit, figures without a source sent back'],
       ['test_providers.py', '15', 'Gemini and Claude tool round trips, errors, fallback models, daily limits'],
-      ['test_insights.py', '18', 'Figure checks, recommendation checks, scans, insight lifecycle'],
+      ['test_insights.py', '20', 'Figure checks, recommendation checks, scans (including interrupted ones), insight lifecycle'],
       ['test_ai_actions.py', '15', 'AI drafts: origin, validation, permissions, limits, no tool beyond a draft'],
       ['test_claims.py', '11', 'Pattern claim checking, correction rounds, contradicted insights not stored'],
       ['test_trace.py', '35', 'TRACE: comparisons, subjects, deliveries, rules, permissions, separation of duties'],
@@ -207,5 +207,5 @@ module.exports = [
   { p: '**False alarms have a cost.** The harm check showed that a false alarm can lead the model to "correct" a true statement into a false one. A deployment should therefore prefer showing a warning to the user over automatic correction when the extractor\'s confidence is low.' },
 
   { h2: '6.7 Summary' },
-  { p: 'All 269 automated tests passed, and the controls on permissions, verification and approval behave as specified. Grounding was the largest single factor in correctness (RQ1). TRACE detected 69% of held-out errors with 4% false alarms, far above the pattern-based checker and MiniCheck and not significantly behind two LLM judges, one of which raised four times as many false alarms, but it found only 4 of 19 natural errors because most were definitions or relations between figures outside its language (RQ2). Verification did not measurably change false-premise rebuttals, can harm correct answers through false alarms, and adds seconds and one model call per answer (RQ3).' },
+  { p: 'All 272 automated tests passed, and the controls on permissions, verification and approval behave as specified. Grounding was the largest single factor in correctness (RQ1). TRACE detected 69% of held-out errors with 4% false alarms, far above the pattern-based checker and MiniCheck and not significantly behind two LLM judges, one of which raised four times as many false alarms, but it found only 4 of 19 natural errors because most were definitions or relations between figures outside its language (RQ2). Verification did not measurably change false-premise rebuttals, can harm correct answers through false alarms, and adds seconds and one model call per answer (RQ3).' },
 ];

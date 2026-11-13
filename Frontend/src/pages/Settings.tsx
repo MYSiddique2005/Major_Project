@@ -5,7 +5,17 @@ import { QueryBoundary } from '../components/common/QueryBoundary'
 import { useAuth } from '../context/AuthContext'
 import { useApi } from '../hooks/useApi'
 import { systemService } from '../services/systemService'
-import { formatRole } from '../utils/format'
+import type { SystemInfo } from '../types/system'
+import { formatDate, formatRole } from '../utils/format'
+
+const PROVIDERS: Record<SystemInfo['ai_provider'], string> = { gemini: 'Google Gemini', anthropic: 'Anthropic Claude' }
+
+const VERIFIERS: Record<SystemInfo['verifier'], string> = {
+  patterns: 'Claim patterns: figures, risk levels and rules checked against the data',
+  'trace-rule': 'TRACE, rules only: typed assertions checked by the system\'s own code',
+  trace: 'TRACE: typed assertions extracted by the model and checked by the system\'s own code',
+  off: 'Off (for experiments only)',
+}
 
 export default function Settings() {
   const { user } = useAuth()
@@ -36,16 +46,38 @@ export default function Settings() {
             ))}
           </ul>
         </Card>
-        <Card title="About this build">
+        <Card title="About this build" subtitle="The settings the server is running with.">
           <QueryBoundary state={system} resource="system information">
             {(info) => (
-              <p className="text-sm text-slate-600">
-                IntelliERP Phase {info.phase}.{' '}
-                {info.persistent
-                  ? 'ERP data is stored in PostgreSQL and survives restarts.'
-                  : 'Running on the in-memory backend: changes are lost when the server restarts.'}{' '}
-                No AI model is connected yet. Editing profiles and managing users are planned for a later phase.
-              </p>
+              <>
+                <DetailList
+                  items={[
+                    { label: 'Version', value: `IntelliERP ${info.version} (all ${info.phase} phases complete)` },
+                    {
+                      label: 'Data',
+                      value: info.persistent
+                        ? 'PostgreSQL: data is saved and survives restarts'
+                        : 'In-memory demo data: changes are lost when the server restarts',
+                    },
+                    { label: 'Data as of', value: formatDate(info.business_date) },
+                    {
+                      label: 'AI assistant',
+                      value: info.ai_configured
+                        ? `Connected: ${info.ai_model} (${PROVIDERS[info.ai_provider]})`
+                        : `Not connected: set the ${info.ai_provider === 'gemini' ? 'GEMINI_API_KEY' : 'ANTHROPIC_API_KEY'} in Backend/.env`,
+                    },
+                    {
+                      label: 'Grounding',
+                      value: info.grounding ? 'On: answers use the knowledge base of company rules' : 'Off (for experiments only)',
+                    },
+                    { label: 'Statement check', value: VERIFIERS[info.verifier] },
+                  ]}
+                />
+                <p className="mt-4 text-xs text-slate-500">
+                  Accounts and roles are defined in the seed data; this page shows them but does not edit them. The
+                  statement check is set with <code>LLM_VERIFIER</code> in <code>Backend/.env</code>.
+                </p>
+              </>
             )}
           </QueryBoundary>
         </Card>

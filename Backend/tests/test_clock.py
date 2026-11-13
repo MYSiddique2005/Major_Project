@@ -52,3 +52,11 @@ def test_analytics_are_measured_from_the_business_date(client, auth):
     business_date = client.get(f"{API}/system/info", headers=auth("admin")).json()["business_date"]
     forecast = client.get(f"{API}/analytics/forecast/P001", headers=auth("admin")).json()
     assert forecast["forecast"][0]["week_start"] == business_date
+
+
+def test_system_info_reports_the_finished_build_and_its_ai_settings(client, auth):
+    info = client.get(f"{API}/system/info", headers=auth("employee")).json()
+    assert info["version"] == "1.0.0" and info["phase"] == 9
+    assert info["verifier"] in ("patterns", "trace-rule", "trace", "off")
+    assert info["ai_provider"] in ("gemini", "anthropic") and info["ai_model"]
+    assert isinstance(info["ai_configured"], bool) and isinstance(info["grounding"], bool)

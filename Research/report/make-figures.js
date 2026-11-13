@@ -45,7 +45,7 @@ page('fig-methodology', `<div style="width:1000px">
  ${[['1. Problem and evidence', 'Literature review (61 papers)<br>Wide World Importers data analysis<br>Role and permission analysis'],
     ['2. Requirements and design', 'Functional and non-functional requirements<br>UML: context, use case, activity, class, sequence'],
     ['3. Iterative development', '8 phases, each built, tested and reviewed<br>ERP core → analytics → AI assistant →<br>grounding → verification → controlled actions'],
-    ['4. Evaluation', '269 automated tests<br>86-question evaluation, 3 repeats<br>Held-out hallucination test<br>Natural errors, harm check']]
+    ['4. Evaluation', '272 automated tests<br>86-question evaluation, 3 repeats<br>Held-out hallucination test<br>Natural errors, harm check']]
    .map(([t, s], i) => `<div class="box" style="flex:1"><div class="title">${t}</div><div class="small">${s}</div></div>${i < 3 ? '<div style="align-self:center;font-size:26px;color:#1f3b73">➜</div>' : ''}`).join('')}
 </div>
 <div style="margin-top:12px;text-align:center;font-size:12.5px;color:#333">Results of step 4 fed back into steps 2 and 3 (e.g. five failures in the first evaluation run led to five design changes; TRACE replaced the pattern verifier)</div>

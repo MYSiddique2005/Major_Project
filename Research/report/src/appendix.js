@@ -41,7 +41,7 @@ module.exports = [
     '**Audit Log** (admin only): see logins, purchase-order actions and every AI question with the model and tools used.',
   ] },
   { h2: 'A.5 Running the Tests and the Evaluation' },
-  { code: { caption: 'Running the automated tests and repeating an evaluation run', text: 'cd Backend && source .venv/bin/activate\npytest                                   # 280 test cases, no database needed\n\ncd ../LLM\n../Backend/.venv/bin/python -m evaluation.run --dry-run   # every question with its computed key\n../Backend/.venv/bin/python -m evaluation.run             # ask all 86 questions and score them' } },
+  { code: { caption: 'Running the automated tests and repeating an evaluation run', text: 'cd Backend && source .venv/bin/activate\npytest                                   # 283 test cases, no database needed\n\ncd ../LLM\n../Backend/.venv/bin/python -m evaluation.run --dry-run   # every question with its computed key\n../Backend/.venv/bin/python -m evaluation.run             # ask all 86 questions and score them' } },
 
   // ---------------------------------------------------------------------------------------------------------
   { h1: 'Appendix B: Evaluation Questions', chapter: 'B' },

@@ -7,7 +7,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
 
 from app.api.router import api_router
-from app.core.config import get_settings
+from app.core.config import APP_VERSION, get_settings
 from app.core.exceptions import DomainError
 from app.db.session import get_engine
 from app.scheduler import ScanScheduler
@@ -28,12 +28,15 @@ async def lifespan(_: FastAPI):
 app = FastAPI(
     lifespan=lifespan,
     title=f"{settings.app_name} API",
-    version="0.1.0",
+    version=APP_VERSION,
     description=(
-        "ERP foundation for IntelliERP: Sales, Inventory, Procurement, Suppliers and Products with JWT "
-        "authentication, role-based access control, a purchase-order approval workflow and audit logging. "
+        "IntelliERP: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision "
+        "Support. Sales, Inventory, Procurement, Suppliers and Products with JWT authentication, role-based "
+        "access control, a purchase-order approval workflow and audit logging; rule-based analytics; a grounded "
+        "AI assistant whose statements are checked against the data before they are shown; proactive AI "
+        "insights; and AI-drafted purchase orders that a person must approve. "
         "Data is stored in PostgreSQL (or in memory when `DATA_BACKEND=memory`).\n\n"
-        "The AI assistant (`POST /api/v1/ai/chat`) answers from read-only ERP tools and needs "
+        "The AI assistant (`POST /api/v1/ai/chat`) answers from permission-checked ERP tools and needs "
         "`GEMINI_API_KEY` (or `ANTHROPIC_API_KEY` with `LLM_PROVIDER=anthropic`).\n\n"
         "To try protected endpoints: call `POST /api/v1/auth/login`, then click **Authorize** and paste "
         "the `access_token`."
