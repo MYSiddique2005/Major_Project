@@ -172,11 +172,20 @@ function cover() {
   const c = (text, size, opts = {}) => new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: opts.after ?? 160, before: opts.before ?? 0 },
     children: [new TextRun({ text, font: FONT, size, bold: opts.bold, italics: opts.italics })] });
   const box = border => ({ top: border, bottom: border, left: border, right: border });
+  // The logo and the photograph live in private/ (not committed); without them the cover shows a placeholder.
+  const picture = (file, widthInches, placeholder, after) => {
+    const full = path.join(__dirname, 'private', file);
+    if (!fs.existsSync(full)) return c(placeholder, 20, { italics: true, after });
+    const data = fs.readFileSync(full), w = data.readUInt32BE(16), h = data.readUInt32BE(20);
+    const width = Math.round(widthInches * 96);
+    return new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after }, children: [new ImageRun({ type: 'png', data,
+      transformation: { width, height: Math.round(width * h / w) } })] });
+  };
   const b = { style: BorderStyle.SINGLE, size: 6, color: '000000' };
   const field = (label, value) => new Paragraph({ spacing: { after: 120 }, tabStops: [{ type: TabStopType.LEFT, position: 3000 }],
     children: [new TextRun({ text: label, font: FONT, size: 24 }), new TextRun({ text: '\t: ' + value, font: FONT, size: 24 })] });
   return [
-    c('[INTI International University logo]', 22, { italics: true, after: 300 }),
+    picture('inti-logo.png', 3.6, '[INTI International University logo]', 300),
     c('FINAL YEAR PROJECT REPORT', 26, { after: 240 }),
     new Table({ width: { size: TEXT_WIDTH, type: WidthType.DXA }, columnWidths: [TEXT_WIDTH], rows: [new TableRow({ children: [new TableCell({
       width: { size: TEXT_WIDTH, type: WidthType.DXA }, borders: box(b), margins: { top: 120, bottom: 120, left: 200, right: 200 },
@@ -187,9 +196,12 @@ function cover() {
     new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { after: 300, line: 340 }, children: [new TextRun({ font: FONT, size: 24, italics: true,
       text: `I declare that this project is my own work, it has not been copied in part or in whole from any source except where duly acknowledged. As such, all uses of previously published works (from books, journals, internet, etc.) have been properly acknowledged within the report to an item in the references or bibliographies. I hereby submit my dissertation, dated ${META.submissionDate} for review and assessment.` })] }),
     c('by', 24, { after: 200 }),
-    c('[Student photograph]', 20, { italics: true, after: 300 }),
+    picture('student-photo.png', 1.05, '[Student photograph]', 200),
     field('Student Name', META.student), field('Student ID', META.studentId), field('IC No / Passport No', META.passport),
-    field('Project ID', META.projectId), field('Home Institution', META.home), field('Supervisor', META.supervisor),
+    field('Project ID', META.projectId), field('Supervisor (INTI)', META.supervisor),
+    field('Home Institution', META.home), field('Home Department', META.homeDepartment),
+    field('Home Supervisor', META.homeSupervisor), field('Head of Department', META.homeHod),
+    field('Programme', META.mobility),
   ];
 }
 function tocBlock(title, opts) {

@@ -3,3 +3,4 @@ node_modules/
 *.pdf
 render/
 src/meta.local.js
+private/

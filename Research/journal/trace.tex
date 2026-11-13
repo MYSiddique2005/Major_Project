@@ -38,10 +38,15 @@ MiniCheck & 14/19 (74\%; 51--88) & 41/503 (8\%; 6--11) \\}
 
 \title{IntelliERP: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision
 Support}
-\author{Mohammad Yasin Siddique%
+\author{Mohammad Yasin Siddique, Zeyad Ahmed, and Ashish K. Soni%
 \thanks{M. Y. Siddique is with the Department of Computer Science and Engineering, G H Raisoni College of
-Engineering, Nagpur, India (e-mail: my.siddique2005@gmail.com).}}
-\markboth{}{Siddique: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision Support}
+Engineering, Nagpur, India, and carried out this work as a mobility research intern at the Faculty of Data Science
+and Information Technology, INTI International University, Nilai, Malaysia (e-mail: my.siddique2005@gmail.com).}%
+\thanks{Z. Ahmed is with the Faculty of Data Science and Information Technology, INTI International University,
+Nilai, Malaysia.}%
+\thanks{A. K. Soni is with the Department of Computer Science and Engineering, G H Raisoni College of Engineering,
+Nagpur, India.}}
+\markboth{}{Siddique \MakeLowercase{\textit{et al.}}: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision Support}
 
 \maketitle
 
@@ -813,7 +818,7 @@ work.
 from natural ones; the natural-error study addresses this. The development sets were also used to tune
 TRACE, so only the held-out and natural results measure generalisation. Supply data are simulated (sales
 are real); the language is tied to the schema, not to the data. Paraphrase false alarms are counted per
-statement, and a paraphrase that splits a sentence can change counts for any method. The author wrote the
+statement, and a paraphrase that splits a sentence can change counts for any method. The authors wrote the
 questions. The natural-error sentences were labelled by a single annotator, a language model (Claude Opus 5.5)
 that is not one of the evaluated models or methods. It labelled the random sample before any method had been
 run on it. It labelled the 386 flagged sentences outside the sample afterwards, without being told which
@@ -846,13 +851,17 @@ precisely: a more faithful extractor, and a language that also covers the defini
 the system. Both can be measured with the protocol and data released here.
 
 \section*{Acknowledgment}
-AI tools were used to assist with programming and with editing the text, and a language model labelled the
-natural-error sample as described in Section~\ref{sec:discussion}; the author reviewed all content and takes
+This work was carried out by the first author as a research internship under the mobility programme between G H Raisoni
+College of Engineering, Nagpur, and INTI International University, Malaysia. The authors thank Dr.\ Mangala Madankar,
+Head of the Department of Computer Science and Engineering, G H Raisoni College of Engineering, for supporting the
+mobility programme, and the Faculty of Data Science and Information Technology, INTI International University, for
+hosting the work. AI tools were used to assist with programming and with editing the text, and a language model labelled
+the natural-error sample as described in Section~\ref{sec:discussion}; the authors reviewed all content and take
 responsibility for it.
 
 \section*{Data availability}
 The code of IntelliERP and TRACE, the evaluation scripts, the frozen hashes, the test items, every model
-output and all labels are available from the author on request.
+output and all labels are available from the first author on request.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}

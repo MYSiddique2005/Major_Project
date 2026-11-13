@@ -2,7 +2,7 @@ module.exports = [
   { front: 'Acknowledgement' },
   { p: 'I would like to express my sincere gratitude to everyone who supported me during this final year project.' },
   { p: 'My deepest thanks go to my supervisor, **Dr. Zeyad Ahmed**, for the guidance, the feedback on the direction of the work and the patience throughout the semester. That advice shaped both the system and the way it was evaluated.' },
-  { p: 'I am grateful to INTI International University and the Faculty of Data Science and Information Technology for hosting me as a mobility student, and to my home institution, G H Raisoni College of Engineering, Nagpur, and **Prof. Ashish K. Soni**, for making this exchange semester possible.' },
+  { p: 'I am grateful to INTI International University and the Faculty of Data Science and Information Technology for hosting me as a mobility student, and to my home institution, G H Raisoni College of Engineering, Nagpur. I thank my home supervisor, **Prof. Ashish K. Soni**, for the guidance during this research internship under the mobility programme, and **Dr. Mangala Madankar**, Head of the Department of Computer Science and Engineering, for supporting my participation in the programme.' },
   { p: 'I also thank the authors and maintainers of the open-source software and the Wide World Importers sample database on which this project is built.' },
   { p: 'AI tools were used to assist with programming and with editing the text of this report. All design decisions, experiments and results were reviewed by me, and I take full responsibility for the content.' },
 

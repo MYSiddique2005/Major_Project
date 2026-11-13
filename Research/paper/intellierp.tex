@@ -22,13 +22,22 @@
 
 \title{IntelliERP: Evidence-Grounded Hallucination Detection and Verification for LLM-Based ERP Decision Support}
 
-% Co-authors (guide, internship supervisor) are added only with their agreement: copy the block below
-% after "\and", e.g. \IEEEauthorblockN{Ashish K. Soni} or \IEEEauthorblockN{Zeyad Ahmed}.
+% Co-authors added at the first author's request; each must approve the final text before submission.
 \author{\IEEEauthorblockN{Mohammad Yasin Siddique}
 \IEEEauthorblockA{\textit{Department of Computer Science and Engineering} \\
 \textit{G H Raisoni College of Engineering}\\
 Nagpur, India \\
 my.siddique2005@gmail.com}
+\and
+\IEEEauthorblockN{Zeyad Ahmed}
+\IEEEauthorblockA{\textit{Faculty of Data Science and Information Technology} \\
+\textit{INTI International University}\\
+Nilai, Malaysia}
+\and
+\IEEEauthorblockN{Ashish K. Soni}
+\IEEEauthorblockA{\textit{Department of Computer Science and Engineering} \\
+\textit{G H Raisoni College of Engineering}\\
+Nagpur, India}
 }
 
 \maketitle
@@ -457,12 +466,12 @@ the model to explanation removed the run-to-run variation that autonomous orderi
 and lookup based and needs no model call. It complements keyword scoring: it found errors that answers
 containing the expected facts still made.
 
-The results have clear limits. The questions were written by the system's author and favor what the
+The results have clear limits. The questions were written by the authors and favor what the
 system covers. Scoring by keyword needed corrections after reading answers. Answers came from two models of one provider (a small closed one and an open-weight one), and the open-weight
 model was run once. Supply-side data is simulated. The figure check cannot tell a correct derived figure from an
 invented one. The claim verifier checks only the 12 kinds of statement it recognises, by pattern, in
 English; its tests used errors injected by a model, whose style may differ from errors a model makes on its
-own, and even 62 in-scope errors leave an interval of 66--86\%. Scope was defined by the author.
+own, and even 62 in-scope errors leave an interval of 66--86\%. Scope was defined by the authors.
 No study was conducted with real users; hence, the usefulness of IntelliERP for managers is not measured.
 
 % =====================================================================================================
@@ -480,9 +489,12 @@ from other providers, natural (not injected) errors, a study with real users, an
 injection through ERP text fields.
 
 \section*{Acknowledgment}
-The author thanks Prof.\ Ashish K.\ Soni (G H Raisoni College of Engineering, Nagpur) and Dr.\ Zeyad Ahmed
-(INTI International University, Malaysia) for their guidance. AI tools were used to assist with programming
-and with editing the text; the author reviewed all content and takes responsibility for it.
+This work was carried out by the first author as a research internship under the mobility programme between G H Raisoni
+College of Engineering, Nagpur, and INTI International University, Malaysia. The authors thank Dr.\ Mangala Madankar,
+Head of the Department of Computer Science and Engineering, G H Raisoni College of Engineering, for supporting the
+mobility programme, and the Faculty of Data Science and Information Technology, INTI International University, for hosting
+the work. AI tools were used to assist with programming and with editing the text; the authors reviewed all content and
+take responsibility for it.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
