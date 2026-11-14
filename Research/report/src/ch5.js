@@ -154,7 +154,7 @@ module.exports = [
 
   { h2: '5.7 Uniqueness of System 5: TRACE, Typed Run-time Assertion Checking' },
   { h3: '5.7.1 Development Approach' },
-  { p: 'TRACE applies the idea of run-time assertion checking from software engineering [@meyer1992contract; @clarke2006rac] to the statements in an answer. Each factual statement is turned into a **typed assertion** in a language of 64 attributes, 24 rule keys and 21 actions, grouped in three families according to their source of truth (Table 5.5). An LLM is used only to extract the assertions, as JSON validated against a schema; **whether an assertion is true is decided by deterministic code** that reads the same services the application uses. A rule-based extractor (the twelve patterns of Section 5.6) runs alongside, and the two are combined in "hybrid" mode. Figure 5.2 shows the pipeline.' },
+  { p: 'TRACE applies the idea of run-time assertion checking from software engineering [@meyer1992contract; @clarke2006rac] to the statements in an answer. Each factual statement is turned into a **typed assertion** in a language of 64 attributes, 24 rule keys and 21 actions, grouped in three families according to their source of truth (Table 5.5). An LLM is used only to extract the assertions, as JSON validated against a schema; **whether an assertion is true is decided by deterministic code** that reads the same services the application uses. A rule-based extractor (the twelve patterns of Section 5.6) runs alongside, and the two are combined in "hybrid" mode. Figure 5.5 shows the pipeline.' },
   { table: { caption: 'The three families of the assertion language', widths: [1.6, 3, 4.4],
     head: ['Family', 'Source of truth', 'Example statements'],
     rows: [

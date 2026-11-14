@@ -145,7 +145,7 @@ module.exports = [
   { p: 'Of the four held-out false alarms, three were extraction errors (twice the stated forecast horizon of 26 weeks recorded as the 12-week trend window; once a count recorded as the wrong attribute) and one came from a reused pattern. **No miss and no false alarm came from a defect in a verification function**: the extractor is the weak point, and because verdicts are deterministic, its errors are visible.' },
   { h3: '6.4.6 Natural errors: the assistant\'s own mistakes' },
   { p: 'Injected errors may differ from the errors an assistant makes on its own. A seeded random sample of 300 sentences was drawn from the 590 answers stored by five evaluation runs and labelled before any method was run on them, as *false* (anything checkable contradicted), *true*, *no claim* (advice, offers, lead-ins) or *unsure*. The labels were made by a single annotator, a language model (Claude Opus 5.5) that is not one of the evaluated models; each label records the words it marks as wrong and the evidence it rests on, so it can be checked.' },
-  { table: { caption: 'Random sample of 300 sentences from the stored answers', widths: [2.6, 1, 0.8, 0.8, 1, 0.9, 1.9],
+  { table: { caption: 'Random sample of 300 sentences from the stored answers', widths: [2.4, 1.2, 0.8, 0.8, 1, 0.9, 1.9],
     head: ['Answers', 'Sentences', 'True', 'False', 'No claim', 'Unsure', 'False among checkable'],
     rows: [
       ['All', '300', '242', '19', '34', '5', '19/261 (7.3%)'],

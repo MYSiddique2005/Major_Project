@@ -32,7 +32,8 @@ function parseBib(file) {
   }
   return entries;
 }
-const clean = s => (s || '').replace(/\\'\{?(\w)\}?/g, (_, c) => ({ a: 'á', e: 'é', i: 'í', o: 'ó', u: 'ú', E: 'É' }[c] || c))
+const clean = s => (s || '').replace(/``/g, '“').replace(/''/g, '”').replace(/\$\\tau\$/g, 'τ')
+  .replace(/\\`\{?(\w)\}?/g, (_, c) => ({ a: 'à', e: 'è', i: 'ì', o: 'ò', u: 'ù' }[c] || c)).replace(/\\'\{?(\w)\}?/g, (_, c) => ({ a: 'á', e: 'é', i: 'í', o: 'ó', u: 'ú', E: 'É', c: 'ć', n: 'ń', s: 'ś' }[c] || c))
   .replace(/\\"\{?(\w)\}?/g, (_, c) => ({ a: 'ä', o: 'ö', u: 'ü' }[c] || c)).replace(/\\c\{?c\}?/g, 'ç')
   .replace(/\\v\{?(\w)\}?/g, (_, c) => ({ c: 'č', s: 'š', z: 'ž' }[c] || c)).replace(/\\&/g, '&').replace(/--/g, '–')
   .replace(/[{}]/g, '').replace(/\\[a-z]+\s?/g, '').replace(/\s+/g, ' ').trim();
@@ -136,12 +137,14 @@ let numberedInstance = 0;
 function render(block) {
   if (block.h1) {
     chapter = block.chapter ?? chapter + 1; figNo = 0; tabNo = 0;
-    return [new Paragraph({ children: [new PageBreak()] }), new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: block.h1, font: FONT })] })];
+    return [new Paragraph({ heading: HeadingLevel.HEADING_1, pageBreakBefore: true, children: [new TextRun({ text: block.h1, font: FONT })] })];
   }
-  if (block.front) return [new Paragraph({ children: [new PageBreak()] }), new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: block.front, font: FONT })] })];
+  // the first front-matter page already starts a new section, so it needs no page break of its own
+  if (block.front) { const first = !render.frontSeen; render.frontSeen = true;
+    return [new Paragraph({ heading: HeadingLevel.HEADING_1, pageBreakBefore: !first, children: [new TextRun({ text: block.front, font: FONT })] })]; }
   if (block.h2) return [new Paragraph({ heading: HeadingLevel.HEADING_2, children: runs(block.h2) })];
   if (block.h3) return [new Paragraph({ heading: HeadingLevel.HEADING_3, children: runs(block.h3) })];
-  if (block.p) return [para(block.p)];
+  if (block.p) return [para(block.p, block.line ? { spacing: { line: block.line } } : {})];  // `line`: tighter spacing (the abstract, to keep its keywords on its page)
   if (block.center) return [para(block.center, { align: AlignmentType.CENTER })];
   if (block.bullets) return block.bullets.map(b => new Paragraph({ numbering: { reference: BULLET, level: 0 }, alignment: AlignmentType.JUSTIFIED,
     spacing: { after: 80, line: 340 }, children: runs(b) }));
@@ -205,7 +208,7 @@ function cover() {
   ];
 }
 function tocBlock(title, opts) {
-  return [new Paragraph({ children: [new PageBreak()] }), new Paragraph({ style: 'FrontTitle', children: [new TextRun({ text: title, font: FONT })] }),
+  return [new Paragraph({ style: 'FrontTitle', pageBreakBefore: true, children: [new TextRun({ text: title, font: FONT })] }),
     new TableOfContents(title, opts)];
 }
 
@@ -226,7 +229,7 @@ for (const name of order) {
 }
 // references, sorted, Harvard style (only references cited in the text)
 const refs = [...used].sort((a, b) => harvard(a).text.localeCompare(harvard(b).text));
-const refBlocks = [new Paragraph({ children: [new PageBreak()] }), new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun({ text: 'References', font: FONT })] }),
+const refBlocks = [new Paragraph({ heading: HeadingLevel.HEADING_1, pageBreakBefore: true, children: [new TextRun({ text: 'References', font: FONT })] }),
   ...refs.map(k => { const h = harvard(k); return new Paragraph({ alignment: AlignmentType.LEFT, indent: { left: 567, hanging: 567 }, spacing: { after: 140, line: 300 },
     children: [new TextRun({ text: h.text + ' ', font: FONT, size: 22 }), ...(h.venue ? [new TextRun({ text: h.venue, italics: true, font: FONT, size: 22 })] : []),
       new TextRun({ text: h.tail, font: FONT, size: 22 })] }); })];
